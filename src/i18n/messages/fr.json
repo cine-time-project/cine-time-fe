@@ -1,0 +1,314 @@
+{
+  "app": {
+    "name": "CineTime",
+    "tagline": "Système de cinéma et de billets"
+  },
+
+  "nav": {
+    "home": "Accueil",
+    "movies": "Films",
+    "cinemas": "Cinémas",
+    "cinemaTickets": "Cinéma & Billets",
+    "buy": "Acheter un billet",
+    "myTickets": "Mes billets",
+    "favorites": "Favoris",
+    "account": "Mon compte",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion",
+    "search": "Rechercher"
+  },
+
+  "footer": {
+    "rights": "Tous droits réservés.",
+    "privacy": "Confidentialité",
+    "terms": "Conditions d’utilisation",
+    "contact": "Contact",
+    "language": "Langue"
+  },
+
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "update": "Mettre à jour",
+    "continue": "Continuer",
+    "back": "Retour",
+    "next": "Suivant",
+    "apply": "Appliquer",
+    "clear": "Effacer",
+    "yes": "Oui",
+    "no": "Non",
+    "ok": "OK",
+    "copy": "Copier",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "empty": "Aucun enregistrement trouvé",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
+  },
+
+  "status": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "upcoming": "Bientôt",
+    "nowShowing": "À l’affiche",
+    "ended": "Terminé",
+    "paid": "Payé",
+    "unpaid": "Non payé",
+    "refunded": "Remboursé",
+    "canceled": "Annulé"
+  },
+
+  "forms": {
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "passwordRepeat": "Mot de passe (Répétition)",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "name": "Prénom",
+    "surname": "Nom",
+    "phone": "Téléphone",
+    "city": "Ville",
+    "date": "Date",
+    "time": "Heure",
+    "language": "Langue",
+    "rememberMe": "Se souvenir de moi",
+    "searchPlaceholder": "Rechercher un film, un cinéma ou une ville...",
+    "optional": "Optionnel"
+  },
+
+  "validation": {
+    "required": "Ce champ est obligatoire",
+    "email": "Saisissez une adresse e-mail valide",
+    "minLength": "Au moins {min} caractères",
+    "maxLength": "Au maximum {max} caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "invalidPhone": "Saisissez un numéro de téléphone valide"
+  },
+
+  "pagination": {
+    "prev": "Précédent",
+    "next": "Suivant",
+    "page": "Page",
+    "of": "sur"
+  },
+
+  "search": {
+    "title": "Recherche",
+    "results": "Résultats de recherche",
+    "noResults": "Aucun résultat trouvé.",
+    "filters": "Filtres",
+    "sort": "Trier"
+  },
+
+  "filters": {
+    "genre": "Genre",
+    "rating": "Note",
+    "year": "Année",
+    "language": "Langue",
+    "city": "Ville",
+    "cinema": "Cinéma",
+    "date": "Date",
+    "time": "Plage horaire",
+    "clearAll": "Tout effacer",
+    "apply": "Filtrer"
+  },
+
+  "auth": {
+    "titleLogin": "Connexion",
+    "titleRegister": "Créer un compte",
+    "titleReset": "Réinitialiser le mot de passe",
+    "login": "Connexion",
+    "register": "Inscription",
+    "reset": "Réinitialiser",
+    "logout": "Déconnexion",
+    "forgotPassword": "Mot de passe oublié",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "noAccount": "Vous n’avez pas de compte ?",
+    "or": "ou",
+    "withGoogle": "Continuer avec Google",
+    "successLogin": "Connexion réussie.",
+    "successRegister": "Inscription réussie.",
+    "emailSent": "E-mail envoyé.",
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "locked": "Compte verrouillé. Veuillez réessayer plus tard."
+  },
+
+  "account": {
+    "title": "Mon compte",
+    "profile": "Profil",
+    "security": "Sécurité",
+    "orders": "Mes commandes",
+    "favorites": "Favoris",
+    "updateProfile": "Mettre à jour le profil",
+    "changePassword": "Changer le mot de passe",
+    "deleteAccount": "Supprimer le compte",
+    "saved": "Profil mis à jour."
+  },
+
+  "movies": {
+    "listTitle": "Films",
+    "detailsTitle": "Détails du film",
+    "cast": "Distribution",
+    "director": "Réalisateur",
+    "duration": "Durée",
+    "minutes": "min",
+    "language": "Langue",
+    "subtitles": "Sous-titres",
+    "ageRating": "Classification",
+    "genres": "Genres",
+    "releaseDate": "Date de sortie",
+    "showtimes": "Séances",
+    "seeShowtimes": "Voir les séances",
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris",
+    "noMovies": "Aucun film trouvé."
+  },
+
+  "cinemas": {
+    "listTitle": "Cinémas",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "features": "Caractéristiques",
+    "halls": "Salles",
+    "selectCinema": "Choisir un cinéma",
+    "noCinemas": "Aucun cinéma trouvé."
+  },
+
+  "showtimes": {
+    "date": "Date",
+    "time": "Heure",
+    "hall": "Salle",
+    "language": "Langue",
+    "format": "Format",
+    "price": "Prix",
+    "select": "Sélectionner",
+    "noShowtimes": "Aucune séance trouvée."
+  },
+
+  "seats": {
+    "title": "Choix des sièges",
+    "screen": "Écran",
+    "selected": "Sélectionné",
+    "available": "Disponible",
+    "unavailable": "Occupé",
+    "yourSeats": "Vos choix",
+    "row": "Rangée",
+    "seat": "Siège",
+    "reset": "Réinitialiser la sélection",
+    "continue": "Procéder au paiement",
+    "maxSeats": "Nombre maximum de sièges atteint."
+  },
+
+  "tickets": {
+    "title": "Mes billets",
+    "ticket": "Billet",
+    "code": "Code billet",
+    "movie": "Film",
+    "cinema": "Cinéma",
+    "date": "Date",
+    "time": "Heure",
+    "seats": "Sièges",
+    "status": "Statut",
+    "price": "Montant",
+    "download": "Télécharger le PDF",
+    "showQr": "Afficher le QR",
+    "refund": "Annuler/Rembourser",
+    "noTickets": "Vous n’avez pas encore de billet.",
+    "details": "Détails"
+  },
+
+  "favorites": {
+    "title": "Favoris",
+    "moviesTab": "Films",
+    "cinemasTab": "Cinémas",
+    "empty": "Aucun favori ajouté.",
+    "added": "Ajouté aux favoris.",
+    "removed": "Retiré des favoris."
+  },
+
+  "checkout": {
+    "title": "Paiement",
+    "summary": "Récapitulatif",
+    "items": "Sélections",
+    "total": "Total",
+    "payNow": "Payer maintenant",
+    "promoCode": "Code promo",
+    "apply": "Appliquer",
+    "success": "Paiement réussi.",
+    "failed": "Échec du paiement. Veuillez réessayer."
+  },
+
+  "payment": {
+    "cardName": "Nom sur la carte",
+    "cardNumber": "Numéro de carte",
+    "expiry": "Date d’expiration",
+    "cvc": "CVC",
+    "billingAddress": "Adresse de facturation",
+    "method": "Moyen de paiement",
+    "mockPay": "Paiement test",
+    "processing": "Paiement en cours..."
+  },
+
+  "order": {
+    "title": "Confirmation de commande",
+    "thanks": "Merci ! Votre billet est prêt.",
+    "download": "Télécharger le billet",
+    "share": "Partager",
+    "backToHome": "Retour à l’accueil"
+  },
+
+  "qr": {
+    "title": "Code QR",
+    "instruction": "Présentez ce code QR à l’entrée."
+  },
+
+  "empty": {
+    "favorites": "Votre liste de favoris est vide.",
+    "tickets": "Aucun enregistrement de billet.",
+    "search": "Aucun résultat de recherche.",
+    "cinemas": "Aucun cinéma disponible.",
+    "movies": "Aucun film listé."
+  },
+
+  "errors": {
+    "403": "Vous n’avez pas l’autorisation.",
+    "404": "Page non trouvée.",
+    "500": "Une erreur inattendue est survenue.",
+    "network": "Erreur réseau. Veuillez vérifier votre connexion.",
+    "timeout": "La requête a expiré.",
+    "unknown": "Erreur inconnue."
+  },
+
+  "notifications": {
+    "addedToCart": "Sélection ajoutée au panier.",
+    "removedFromCart": "Sélection retirée du panier.",
+    "profileSaved": "Profil enregistré.",
+    "passwordChanged": "Mot de passe modifié."
+  },
+
+  "tooltips": {
+    "favorite": "Ajouter aux favoris",
+    "unfavorite": "Retirer des favoris",
+    "selectSeats": "Commencer la sélection des sièges",
+    "showDetails": "Afficher les détails"
+  },
+
+  "placeholders": {
+    "enterEmail": "Saisissez votre adresse e-mail",
+    "enterPassword": "Saisissez votre mot de passe",
+    "enterName": "Saisissez votre prénom",
+    "enterSurname": "Saisissez votre nom",
+    "enterPromo": "Saisissez votre code"
+  },
+
+  "a11y": {
+    "skipToContent": "Aller au contenu",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  }
+}

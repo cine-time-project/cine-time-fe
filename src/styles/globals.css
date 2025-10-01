@@ -1,0 +1,33 @@
+/* ---- Reset & base ---- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #f8f9fa;
+  color: #212529;
+}
+
+/* ---- Theme vars (Bootstrap turuncuna uyum) ---- */
+:root{
+  --brand: #f26522;
+  --brand-dark: #d95516;
+}
+
+/* ---- Links ---- */
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- Layout helpers ---- */
+.page { padding: 24px; }
+.section-title { font-size: 1.25rem; font-weight: 600; margin: 1rem 0; }
+.spacer-sm { height: .5rem; }
+.spacer    { height: 1rem;  }
+.spacer-lg { height: 2rem;  }
+
+/* ---- Cards ---- */
+.card-hover { transition: transform .15s ease, box-shadow .15s ease; }
+.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+
+/* ---- Utilities ---- */
+.text-muted-2 { color: #6c757d; }

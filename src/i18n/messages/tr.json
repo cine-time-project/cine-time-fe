@@ -1,0 +1,314 @@
+{
+  "app": {
+    "name": "CineTime",
+    "tagline": "Sinema & Bilet Sistemi"
+  },
+
+  "nav": {
+    "home": "Ana Sayfa",
+    "movies": "Filmler",
+    "cinemas": "Sinemalar",
+    "cinemaTickets": "Cinema & Ticket",
+    "buy": "Bilet Al",
+    "myTickets": "Biletlerim",
+    "favorites": "Favorilerim",
+    "account": "Hesabım",
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "logout": "Çıkış",
+    "search": "Ara"
+  },
+
+  "footer": {
+    "rights": "Tüm hakları saklıdır.",
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "contact": "İletişim",
+    "language": "Dil"
+  },
+
+  "common": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "close": "Kapat",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "update": "Güncelle",
+    "continue": "Devam",
+    "back": "Geri",
+    "next": "İleri",
+    "apply": "Uygula",
+    "clear": "Temizle",
+    "yes": "Evet",
+    "no": "Hayır",
+    "ok": "Tamam",
+    "copy": "Kopyala",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "empty": "Kayıt bulunamadı",
+    "showMore": "Daha Fazla Göster",
+    "showLess": "Daha Az Göster"
+  },
+
+  "status": {
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "upcoming": "Yakında",
+    "nowShowing": "Vizyonda",
+    "ended": "Sona Erdi",
+    "paid": "Ödendi",
+    "unpaid": "Ödenmedi",
+    "refunded": "İade Edildi",
+    "canceled": "İptal Edildi"
+  },
+
+  "forms": {
+    "email": "E-posta",
+    "password": "Şifre",
+    "passwordRepeat": "Şifre (Tekrar)",
+    "currentPassword": "Mevcut Şifre",
+    "newPassword": "Yeni Şifre",
+    "name": "Ad",
+    "surname": "Soyad",
+    "phone": "Telefon",
+    "city": "Şehir",
+    "date": "Tarih",
+    "time": "Saat",
+    "language": "Dil",
+    "rememberMe": "Beni hatırla",
+    "searchPlaceholder": "Film, sinema veya şehir ara...",
+    "optional": "Opsiyonel"
+  },
+
+  "validation": {
+    "required": "Bu alan zorunludur",
+    "email": "Geçerli bir e-posta girin",
+    "minLength": "En az {min} karakter",
+    "maxLength": "En fazla {max} karakter",
+    "passwordMismatch": "Şifreler eşleşmiyor",
+    "invalidPhone": "Geçerli bir telefon girin"
+  },
+
+  "pagination": {
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "page": "Sayfa",
+    "of": "/"
+  },
+
+  "search": {
+    "title": "Arama",
+    "results": "Arama Sonuçları",
+    "noResults": "Aramanıza uygun sonuç bulunamadı.",
+    "filters": "Filtreler",
+    "sort": "Sırala"
+  },
+
+  "filters": {
+    "genre": "Tür",
+    "rating": "Puan",
+    "year": "Yıl",
+    "language": "Dil",
+    "city": "Şehir",
+    "cinema": "Sinema",
+    "date": "Tarih",
+    "time": "Saat Aralığı",
+    "clearAll": "Tümünü Temizle",
+    "apply": "Filtrele"
+  },
+
+  "auth": {
+    "titleLogin": "Giriş Yap",
+    "titleRegister": "Hesap Oluştur",
+    "titleReset": "Şifre Sıfırla",
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "reset": "Sıfırla",
+    "logout": "Çıkış Yap",
+    "forgotPassword": "Şifremi unuttum",
+    "haveAccount": "Hesabın var mı?",
+    "noAccount": "Hesabın yok mu?",
+    "or": "veya",
+    "withGoogle": "Google ile devam et",
+    "successLogin": "Giriş başarılı.",
+    "successRegister": "Kayıt tamamlandı.",
+    "emailSent": "E-posta gönderildi.",
+    "invalidCredentials": "E-posta veya şifre hatalı.",
+    "locked": "Hesap kilitli. Lütfen daha sonra deneyin."
+  },
+
+  "account": {
+    "title": "Hesabım",
+    "profile": "Profil",
+    "security": "Güvenlik",
+    "orders": "Siparişlerim",
+    "favorites": "Favorilerim",
+    "updateProfile": "Profili Güncelle",
+    "changePassword": "Şifre Değiştir",
+    "deleteAccount": "Hesabı Sil",
+    "saved": "Profil güncellendi."
+  },
+
+  "movies": {
+    "listTitle": "Filmler",
+    "detailsTitle": "Film Detayı",
+    "cast": "Oyuncular",
+    "director": "Yönetmen",
+    "duration": "Süre",
+    "minutes": "dk",
+    "language": "Dil",
+    "subtitles": "Altyazı",
+    "ageRating": "Yaş Sınırı",
+    "genres": "Türler",
+    "releaseDate": "Vizyon Tarihi",
+    "showtimes": "Seanslar",
+    "seeShowtimes": "Seansları Gör",
+    "addToFavorites": "Favorilere Ekle",
+    "removeFromFavorites": "Favoriden Çıkar",
+    "noMovies": "Gösterilecek film bulunamadı."
+  },
+
+  "cinemas": {
+    "listTitle": "Sinemalar",
+    "address": "Adres",
+    "phone": "Telefon",
+    "features": "Özellikler",
+    "halls": "Salonlar",
+    "selectCinema": "Sinema Seç",
+    "noCinemas": "Listelenecek sinema bulunamadı."
+  },
+
+  "showtimes": {
+    "date": "Tarih",
+    "time": "Saat",
+    "hall": "Salon",
+    "language": "Dil",
+    "format": "Format",
+    "price": "Fiyat",
+    "select": "Seç",
+    "noShowtimes": "Seans bulunamadı."
+  },
+
+  "seats": {
+    "title": "Koltuk Seçimi",
+    "screen": "Perde",
+    "selected": "Seçilen",
+    "available": "Uygun",
+    "unavailable": "Dolu",
+    "yourSeats": "Seçtiklerin",
+    "row": "Sıra",
+    "seat": "Koltuk",
+    "reset": "Seçimi Temizle",
+    "continue": "Ödemeye Geç",
+    "maxSeats": "Maksimum koltuk sayısına ulaştınız."
+  },
+
+  "tickets": {
+    "title": "Biletlerim",
+    "ticket": "Bilet",
+    "code": "Bilet Kodu",
+    "movie": "Film",
+    "cinema": "Sinema",
+    "date": "Tarih",
+    "time": "Saat",
+    "seats": "Koltuklar",
+    "status": "Durum",
+    "price": "Tutar",
+    "download": "PDF İndir",
+    "showQr": "QR Göster",
+    "refund": "İptal/İade",
+    "noTickets": "Henüz biletin yok.",
+    "details": "Detay"
+  },
+
+  "favorites": {
+    "title": "Favorilerim",
+    "moviesTab": "Filmler",
+    "cinemasTab": "Sinemalar",
+    "empty": "Favori eklenmemiş.",
+    "added": "Favorilere eklendi.",
+    "removed": "Favorilerden çıkarıldı."
+  },
+
+  "checkout": {
+    "title": "Ödeme",
+    "summary": "Özet",
+    "items": "Seçimler",
+    "total": "Toplam",
+    "payNow": "Şimdi Öde",
+    "promoCode": "Promosyon Kodu",
+    "apply": "Uygula",
+    "success": "Ödeme başarılı.",
+    "failed": "Ödeme başarısız. Lütfen tekrar deneyin."
+  },
+
+  "payment": {
+    "cardName": "Kart Üzerindeki İsim",
+    "cardNumber": "Kart Numarası",
+    "expiry": "Son Kullanma",
+    "cvc": "CVC",
+    "billingAddress": "Fatura Adresi",
+    "method": "Ödeme Yöntemi",
+    "mockPay": "Deneme Ödemesi",
+    "processing": "Ödeme işleniyor..."
+  },
+
+  "order": {
+    "title": "Sipariş Onayı",
+    "thanks": "Teşekkürler! Biletin hazır.",
+    "download": "Bileti İndir",
+    "share": "Paylaş",
+    "backToHome": "Ana Sayfaya Dön"
+  },
+
+  "qr": {
+    "title": "QR Kod",
+    "instruction": "Girişte bu QR kodu gösterin."
+  },
+
+  "empty": {
+    "favorites": "Favori listen boş.",
+    "tickets": "Bilet kayıtların görünmüyor.",
+    "search": "Arama sonucu bulunamadı.",
+    "cinemas": "Kayıtlı sinema yok.",
+    "movies": "Hiç film listelenemedi."
+  },
+
+  "errors": {
+    "403": "Yetkiniz bulunmuyor.",
+    "404": "Sayfa bulunamadı.",
+    "500": "Beklenmeyen bir hata oluştu.",
+    "network": "Ağ hatası. Lütfen bağlantınızı kontrol edin.",
+    "timeout": "İstek zaman aşımına uğradı.",
+    "unknown": "Bilinmeyen bir hata oluştu."
+  },
+
+  "notifications": {
+    "addedToCart": "Seçim sepete eklendi.",
+    "removedFromCart": "Seçim sepetten çıkarıldı.",
+    "profileSaved": "Profil kaydedildi.",
+    "passwordChanged": "Şifre güncellendi."
+  },
+
+  "tooltips": {
+    "favorite": "Favorilere ekle",
+    "unfavorite": "Favoriden çıkar",
+    "selectSeats": "Koltuk seçimini başlat",
+    "showDetails": "Detayları görüntüle"
+  },
+
+  "placeholders": {
+    "enterEmail": "E-posta adresinizi girin",
+    "enterPassword": "Şifrenizi girin",
+    "enterName": "Adınızı girin",
+    "enterSurname": "Soyadınızı girin",
+    "enterPromo": "Kodunuzu girin"
+  },
+
+  "a11y": {
+    "skipToContent": "İçeriğe geç",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat"
+  }
+}

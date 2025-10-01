@@ -1,0 +1,314 @@
+{
+  "app": {
+    "name": "CineTime",
+    "tagline": "Cinema & Ticket System"
+  },
+
+  "nav": {
+    "home": "Home",
+    "movies": "Movies",
+    "cinemas": "Cinemas",
+    "cinemaTickets": "Cinema & Ticket",
+    "buy": "Buy Ticket",
+    "myTickets": "My Tickets",
+    "favorites": "Favorites",
+    "account": "My Account",
+    "login": "Login",
+    "register": "Sign Up",
+    "logout": "Logout",
+    "search": "Search"
+  },
+
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms of Use",
+    "contact": "Contact",
+    "language": "Language"
+  },
+
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "update": "Update",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "apply": "Apply",
+    "clear": "Clear",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "copy": "Copy",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "empty": "No records found",
+    "showMore": "Show more",
+    "showLess": "Show less"
+  },
+
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "upcoming": "Coming Soon",
+    "nowShowing": "Now Showing",
+    "ended": "Ended",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "refunded": "Refunded",
+    "canceled": "Canceled"
+  },
+
+  "forms": {
+    "email": "Email",
+    "password": "Password",
+    "passwordRepeat": "Password (Repeat)",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "name": "Name",
+    "surname": "Surname",
+    "phone": "Phone",
+    "city": "City",
+    "date": "Date",
+    "time": "Time",
+    "language": "Language",
+    "rememberMe": "Remember me",
+    "searchPlaceholder": "Search movie, cinema or city...",
+    "optional": "Optional"
+  },
+
+  "validation": {
+    "required": "This field is required",
+    "email": "Enter a valid email",
+    "minLength": "At least {min} characters",
+    "maxLength": "At most {max} characters",
+    "passwordMismatch": "Passwords do not match",
+    "invalidPhone": "Enter a valid phone number"
+  },
+
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+
+  "search": {
+    "title": "Search",
+    "results": "Search Results",
+    "noResults": "No results match your search.",
+    "filters": "Filters",
+    "sort": "Sort"
+  },
+
+  "filters": {
+    "genre": "Genre",
+    "rating": "Rating",
+    "year": "Year",
+    "language": "Language",
+    "city": "City",
+    "cinema": "Cinema",
+    "date": "Date",
+    "time": "Time Range",
+    "clearAll": "Clear All",
+    "apply": "Filter"
+  },
+
+  "auth": {
+    "titleLogin": "Login",
+    "titleRegister": "Create Account",
+    "titleReset": "Reset Password",
+    "login": "Login",
+    "register": "Sign Up",
+    "reset": "Reset",
+    "logout": "Logout",
+    "forgotPassword": "Forgot password",
+    "haveAccount": "Already have an account?",
+    "noAccount": "Don’t have an account?",
+    "or": "or",
+    "withGoogle": "Continue with Google",
+    "successLogin": "Login successful.",
+    "successRegister": "Registration completed.",
+    "emailSent": "Email sent.",
+    "invalidCredentials": "Email or password is incorrect.",
+    "locked": "Account locked. Please try again later."
+  },
+
+  "account": {
+    "title": "My Account",
+    "profile": "Profile",
+    "security": "Security",
+    "orders": "My Orders",
+    "favorites": "Favorites",
+    "updateProfile": "Update Profile",
+    "changePassword": "Change Password",
+    "deleteAccount": "Delete Account",
+    "saved": "Profile updated."
+  },
+
+  "movies": {
+    "listTitle": "Movies",
+    "detailsTitle": "Movie Details",
+    "cast": "Cast",
+    "director": "Director",
+    "duration": "Duration",
+    "minutes": "min",
+    "language": "Language",
+    "subtitles": "Subtitles",
+    "ageRating": "Age Rating",
+    "genres": "Genres",
+    "releaseDate": "Release Date",
+    "showtimes": "Showtimes",
+    "seeShowtimes": "See Showtimes",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "noMovies": "No movies to display."
+  },
+
+  "cinemas": {
+    "listTitle": "Cinemas",
+    "address": "Address",
+    "phone": "Phone",
+    "features": "Features",
+    "halls": "Halls",
+    "selectCinema": "Select Cinema",
+    "noCinemas": "No cinemas found."
+  },
+
+  "showtimes": {
+    "date": "Date",
+    "time": "Time",
+    "hall": "Hall",
+    "language": "Language",
+    "format": "Format",
+    "price": "Price",
+    "select": "Select",
+    "noShowtimes": "No showtimes found."
+  },
+
+  "seats": {
+    "title": "Seat Selection",
+    "screen": "Screen",
+    "selected": "Selected",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "yourSeats": "Your selection",
+    "row": "Row",
+    "seat": "Seat",
+    "reset": "Clear Selection",
+    "continue": "Proceed to Payment",
+    "maxSeats": "You have reached the maximum number of seats."
+  },
+
+  "tickets": {
+    "title": "My Tickets",
+    "ticket": "Ticket",
+    "code": "Ticket Code",
+    "movie": "Movie",
+    "cinema": "Cinema",
+    "date": "Date",
+    "time": "Time",
+    "seats": "Seats",
+    "status": "Status",
+    "price": "Amount",
+    "download": "Download PDF",
+    "showQr": "Show QR",
+    "refund": "Cancel/Refund",
+    "noTickets": "You don’t have any tickets yet.",
+    "details": "Details"
+  },
+
+  "favorites": {
+    "title": "Favorites",
+    "moviesTab": "Movies",
+    "cinemasTab": "Cinemas",
+    "empty": "No favorites added.",
+    "added": "Added to favorites.",
+    "removed": "Removed from favorites."
+  },
+
+  "checkout": {
+    "title": "Payment",
+    "summary": "Summary",
+    "items": "Selections",
+    "total": "Total",
+    "payNow": "Pay Now",
+    "promoCode": "Promo Code",
+    "apply": "Apply",
+    "success": "Payment successful.",
+    "failed": "Payment failed. Please try again."
+  },
+
+  "payment": {
+    "cardName": "Name on Card",
+    "cardNumber": "Card Number",
+    "expiry": "Expiry Date",
+    "cvc": "CVC",
+    "billingAddress": "Billing Address",
+    "method": "Payment Method",
+    "mockPay": "Test Payment",
+    "processing": "Processing payment..."
+  },
+
+  "order": {
+    "title": "Order Confirmation",
+    "thanks": "Thank you! Your ticket is ready.",
+    "download": "Download Ticket",
+    "share": "Share",
+    "backToHome": "Back to Home"
+  },
+
+  "qr": {
+    "title": "QR Code",
+    "instruction": "Show this QR code at the entrance."
+  },
+
+  "empty": {
+    "favorites": "Your favorites list is empty.",
+    "tickets": "No ticket records yet.",
+    "search": "No search results found.",
+    "cinemas": "No cinemas available.",
+    "movies": "No movies listed."
+  },
+
+  "errors": {
+    "403": "You don’t have permission.",
+    "404": "Page not found.",
+    "500": "An unexpected error occurred.",
+    "network": "Network error. Please check your connection.",
+    "timeout": "The request timed out.",
+    "unknown": "An unknown error occurred."
+  },
+
+  "notifications": {
+    "addedToCart": "Selection added to cart.",
+    "removedFromCart": "Selection removed from cart.",
+    "profileSaved": "Profile saved.",
+    "passwordChanged": "Password changed."
+  },
+
+  "tooltips": {
+    "favorite": "Add to favorites",
+    "unfavorite": "Remove from favorites",
+    "selectSeats": "Start seat selection",
+    "showDetails": "Show details"
+  },
+
+  "placeholders": {
+    "enterEmail": "Enter your email address",
+    "enterPassword": "Enter your password",
+    "enterName": "Enter your name",
+    "enterSurname": "Enter your surname",
+    "enterPromo": "Enter your code"
+  },
+
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  }
+}
