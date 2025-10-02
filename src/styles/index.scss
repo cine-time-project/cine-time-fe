@@ -1,7 +1,7 @@
-@import "./variables";
+@use "./variables" as *;
 
-@import "bootstrap/scss/bootstrap";
+@use "bootstrap/scss/bootstrap" as *;
+@use 'sweetalert2/src/sweetalert2.scss' as *;
+
 @import "primeicons/primeicons.css";
-@import 'sweetalert2/src/sweetalert2.scss';
-
-@import "primereact/resources/themes/saga-orange/theme.css"
+@import "primereact/resources/themes/saga-orange/theme.css";
