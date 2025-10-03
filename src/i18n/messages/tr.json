@@ -281,7 +281,11 @@
     "500": "Beklenmeyen bir hata oluştu.",
     "network": "Ağ hatası. Lütfen bağlantınızı kontrol edin.",
     "timeout": "İstek zaman aşımına uğradı.",
-    "unknown": "Bilinmeyen bir hata oluştu."
+    "unknown": "Bilinmeyen bir hata oluştu.",
+    "required": "Bu alan zorunludur.",
+    "min": "En az {min} karakter girin.",
+    "max": "En fazla {max} karakter girin.",
+    "invalidEmail": "Geçerli bir e-posta adresi girin."
   },
 
   "notifications": {
