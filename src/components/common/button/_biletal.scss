@@ -1,0 +1,25 @@
+
+.btn-bilet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $color1;
+  color: $color3;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-weight: 800;
+  padding: .6rem 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease, transform .08s ease;
+
+  &:hover {
+    background-color: $color3;
+    color: $color1;
+  }
+  &:active { transform: translateY(1px); }
+  &:disabled,
+  &[aria-disabled="true"] { opacity: .6; pointer-events: none; }
+}
