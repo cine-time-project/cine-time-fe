@@ -281,7 +281,11 @@
     "500": "Une erreur inattendue est survenue.",
     "network": "Erreur réseau. Veuillez vérifier votre connexion.",
     "timeout": "La requête a expiré.",
-    "unknown": "Erreur inconnue."
+    "unknown": "Erreur inconnue.",
+     "required": "Ce champ est obligatoire.",
+    "min": "Saisissez au moins {min} caractères.",
+    "max": "Saisissez au maximum {max} caractères.",
+    "invalidEmail": "Veuillez saisir une adresse e-mail valide."
   },
 
   "notifications": {

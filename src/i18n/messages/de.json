@@ -281,7 +281,11 @@
     "500": "Unerwarteter Fehler.",
     "network": "Netzwerkfehler. Bitte Verbindung prüfen.",
     "timeout": "Zeitüberschreitung.",
-    "unknown": "Unbekannter Fehler."
+    "unknown": "Unbekannter Fehler.",
+    "required": "Dieses Feld ist erforderlich.",
+    "min": "Bitte mindestens {min} Zeichen eingeben.",
+    "max": "Bitte höchstens {max} Zeichen eingeben.",
+    "invalidEmail": "Bitte eine gültige E-Mail-Adresse eingeben."
   },
 
   "notifications": {
