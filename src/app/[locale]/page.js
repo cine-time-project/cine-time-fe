@@ -14,6 +14,8 @@ export default function HomePage({ query = "" }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
+  //PR Test
   useEffect(() => {
     async function fetchMovies() {
       setLoading(true);
