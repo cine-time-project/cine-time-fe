@@ -1,14 +1,8 @@
 @use "./variables" as *;
 
 @use "bootstrap/scss/bootstrap" as *;
-@use 'sweetalert2/src/sweetalert2.scss' as *;
+@use "sweetalert2/src/sweetalert2.scss" as *;
 
 @import "primeicons/primeicons.css";
-<<<<<<< HEAD
-@import 'sweetalert2/src/sweetalert2.scss';
-
 @import "primereact/resources/themes/saga-orange/theme.css";
-@import '../components/common/button/_biletal.scss';
-=======
-@import "primereact/resources/themes/saga-orange/theme.css";
->>>>>>> 0895faa926a9aeda7e4800801736822b25455966
+@import "../components/common/button/_biletal.scss";
