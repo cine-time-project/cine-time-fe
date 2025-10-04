@@ -2,6 +2,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
+import { useRouter, usePathname } from "next/navigation";
+
+// ==== TEMP AUTH TOKEN FOR LOCAL TESTING ====
+// Set USE_HARDCODED_TOKEN=false after login is implemented.
+const USE_HARDCODED_TOKEN = true;
+const HARDCODED_TOKEN =
+  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZW1iZXJAY2luZXRpbWUubG9jYWwiLCJpYXQiOjE3NTk1MzUyMjIsImV4cCI6MTc1OTYyMTYyMn0.zPqtyaZjiJiOkyOQjlzVWSDuvkVLXqPFlQPlu-XvRNIsFOGAT1iB0jEuDi8RB4Z9wWn52tVrSdg1jwVIrYjKDg";
+// ===========================================
 
 const TicketSelector = ({ onFindTickets }) => {
   const [cities, setCities] = useState([]);
@@ -13,6 +21,13 @@ const TicketSelector = ({ onFindTickets }) => {
   const [selectedCinema, setSelectedCinema] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedMovie, setSelectedMovie] = useState("");
+
+  const router = useRouter();
+  const pathname = usePathname();
+  // derive locale segment if the app is under /[locale]/...
+  const localeSegment = pathname?.split("/")?.[1] || "";
+  const basePath = localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
+
   console.log("API_BASE", process.env.NEXT_PUBLIC_API_BASE_URL); // should log http://localhost:8090/api
   // Load cities on mount
   useEffect(() => {
@@ -125,12 +140,25 @@ const TicketSelector = ({ onFindTickets }) => {
 
   const handleFindTickets = () => {
     if (selectedCity && selectedCinema && selectedDate && selectedMovie) {
-      onFindTickets({
-        cityId: selectedCity,
-        cinemaId: selectedCinema,
+      const q = new URLSearchParams({
+        cityId: String(selectedCity),
+        cinemaId: String(selectedCinema),
         date: selectedDate,
-        movieId: selectedMovie,
-      });
+        movieId: String(selectedMovie),
+      }).toString();
+
+      // Navigate to Buy Ticket page, preserving locale segment if present
+      router.push(`${basePath}/buy-ticket?${q}`);
+
+      // still call parent callback if provided
+      if (typeof onFindTickets === "function") {
+        onFindTickets({
+          cityId: selectedCity,
+          cinemaId: selectedCinema,
+          date: selectedDate,
+          movieId: selectedMovie,
+        });
+      }
     }
   };
 
