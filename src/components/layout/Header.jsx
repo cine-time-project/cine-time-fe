@@ -224,6 +224,15 @@ export default function Header() {
             >
               Etkinlikler
             </Nav.Link>
+
+           <Nav.Link
+              as={Link}
+              href="/contact"
+              className={isActive("/contact") ? "active" : ""}
+            >
+              Contact
+            </Nav.Link>
+
             <Nav.Link
               as={Link}
               href="/favorilerim"
