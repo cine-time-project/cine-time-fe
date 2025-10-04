@@ -14,7 +14,7 @@ import "swiper/css/navigation";
  * MovieSlider Component
  * ---------------------
  * Fetches and displays a list of movies inside a Swiper slider.
- * 
+ *
  * Props:
  *   - query (string): The search query used to fetch movies from the API.
  *
@@ -66,10 +66,12 @@ export const MovieSlider = ({ query }) => {
       {error && <p className="text-danger">{error}</p>}
 
       <Swiper
-        navigation={true}               // Enable next/prev navigation buttons
-        modules={[Navigation]}          // Import navigation module
-        spaceBetween={10}               // Space between slides (in px)
-        slidesPerView={5}               // Show 5 slides at a time
+        navigation={true} // Enable next/prev navigation buttons
+        modules={[Navigation]} // Import navigation module
+        spaceBetween={10} // Space between slides (in px)
+        slidesPerView={5} // Show 5 slides at a time
+        slidesPerGroup={5} // Every time move 4 slides.
+        loop={true}
         onSlideChange={() => console.log("Slide changed")}
         onSwiper={(swiper) => console.log("Swiper instance:", swiper)}
       >
