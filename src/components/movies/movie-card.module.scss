@@ -1,67 +1,68 @@
 .movie-card {
-  width: 18rem;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin: 20px auto; // Adds vertical spacing and centers the card
+  position: relative; // Enables absolute positioning for child elements
+  border: none; // Removes Bootstrap’s default card border
+  overflow: hidden; // Hides image overflow when zoomed in
+  color: #fff; // Sets default text color to white
+  border-radius: 1rem; // Rounds card corners
+  min-height: 400px; // Ensures consistent minimum height
+  transition: transform 0.3s ease, box-shadow 0.3s ease; // Smooth hover animation
+
+  // 🎯 Hover effect: slightly scale up the entire card
+  &:hover {
+    transform: scale(1.05);
+  }
 
   &__image-wrapper {
-    position: relative;
-    overflow: hidden;
-
-    &:hover .movie-card__overlay {
-      opacity: 1;
-    }
+    position: absolute; // Fills the entire card area
+    inset: 0; // Equivalent to top: 0; right: 0; bottom: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; // Keeps it behind other layers
   }
 
   &__image {
     width: 100%;
-    height: 280px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-
-  &__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    object-fit: cover; // Makes the image cover the whole card proportionally
+    filter: brightness(0.7); // Darkens the image slightly for better text contrast
+    transition: transform 0.4s ease; // Smooth zoom effect on hover
   }
 
-  &__button {
-    background-color: #ff3e00;
-    border: none;
-    padding: 0.5rem 1rem;
-    font-weight: bold;
+  // 🔹 When the card is hovered, zoom the image for depth effect
+  &:hover .movie-card__image {
+    transform: scale(1.08);
   }
 
   &__body {
+    position: absolute; // Sticks the content to the bottom of the card
+    bottom: 0;
+    width: 100%;
     padding: 1rem;
+
+    // 🔥 Dark gradient background that fades from opaque black to transparent
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,   // Almost solid black at the bottom
+      rgba(0, 0, 0, 0.7) 25%,  // Slightly transparent
+      rgba(0, 0, 0, 0.5) 50%,  // Mid transparency
+      rgba(0, 0, 0, 0.2) 75%,  // Fades near the top
+      rgba(0, 0, 0, 0) 100%    // Fully transparent at the top
+    );
+
+    color: #fff; // Text remains white
+    z-index: 2; // Ensures it appears above the image
+    border-bottom-left-radius: 1rem; // Rounds the bottom left corner
+    border-bottom-right-radius: 1rem; // Rounds the bottom right corner
   }
 
   &__title {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.25rem; // Slightly larger text for the title
+    font-weight: 600; // Semi-bold title
   }
 
   &__summary {
-    font-size: 0.9rem;
-    color: #555;
-  }
-
-  &__no-image {
-    width: 100%;
-    height: 280px;
-    background: #eee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 0.9rem; // Smaller font for summary
+    color: rgba(255, 255, 255, 0.9); // Soft white tone for readability
   }
 }

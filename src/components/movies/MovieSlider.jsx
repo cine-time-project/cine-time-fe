@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import MovieCard from "@/components/movies/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { Skeleton } from "primereact/skeleton";
 import "swiper/css";
 import "swiper/css/navigation";
 
-// TODO: While loading, a skeleton should be displayed.
 //       Also, translations should be implemented for UI text.
 
 /**
@@ -66,26 +66,60 @@ export const MovieSlider = ({ query }) => {
       {error && <p className="text-danger">{error}</p>}
 
       <Swiper
-        navigation={true} // Enable next/prev navigation buttons
-        modules={[Navigation]} // Import navigation module
-        spaceBetween={10} // Space between slides (in px)
-        slidesPerView={5} // Show 5 slides at a time
-        slidesPerGroup={5} // Every time move 4 slides.
-        loop={true}
-        onSlideChange={() => console.log("Slide changed")}
-        onSwiper={(swiper) => console.log("Swiper instance:", swiper)}
+         navigation={true}
+  modules={[Navigation]}
+  slidesPerGroup={1} // gruplama küçük ekranlarda 1 slide olabilir
+  spaceBetween={10}  // default spacing
+  breakpoints={{
+    320: { // ≥320px (mobile)
+      slidesPerView: 1,
+      spaceBetween: 10,
+      slidesPerGroup: 1,
+    },
+    640: { // ≥640px (tablet)
+      slidesPerView: 2,
+      spaceBetween: 15,
+      slidesPerGroup: 2,
+    },
+    768: { // ≥768px (small desktop)
+      slidesPerView: 3,
+      spaceBetween: 20,
+      slidesPerGroup: 3,
+    },
+    1024: { // ≥1024px (desktop)
+      slidesPerView: 4,
+      spaceBetween: 25,
+      slidesPerGroup: 4,
+    },
+    1280: { // ≥1280px (large desktop)
+      slidesPerView: 6,
+      spaceBetween: 30,
+      slidesPerGroup: 5,
+    },
+  }}
+  onSlideChange={() => console.log("Slide changed")}
+  onSwiper={(swiper) => console.log("Swiper instance:", swiper)}
       >
-        {movies.length > 0 ? (
-          movies.map((movie) => (
-            <SwiperSlide key={movie.id}>
-              {/* Each movie is displayed using a MovieCard */}
-              <MovieCard movie={movie} />
-            </SwiperSlide>
-          ))
-        ) : (
-          // Shown if no movies match the query
-          <p className="text-muted">No movies found.</p>
-        )}
+        {loading
+    ? // 🔹 Show skeleton placeholders while loading
+      Array.from({ length: 5 }).map((_, index) => (
+        <SwiperSlide key={index}>
+          <div style={{ padding: "0.5rem" }}>
+            <Skeleton className="w-full h-56" />
+            <Skeleton className="w-3/4 mt-2" />
+            <Skeleton className="w-1/2 mt-1" />
+          </div>
+        </SwiperSlide>
+      ))
+    : movies.length > 0
+    ? // 🔹 Show MovieCards when data is loaded
+      movies.map((movie) => (
+        <SwiperSlide key={movie.id}>
+          <MovieCard movie={movie} />
+        </SwiperSlide>
+      ))
+    : // 🔹 No movies found
+      <p className="text-muted">No movies found.</p>}
       </Swiper>
     </>
   );
