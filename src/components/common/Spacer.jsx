@@ -1,11 +1,24 @@
-"use client";
 import React from "react";
+import PropTypes from "prop-types";
 
-/**
- * Aralarda boşluk bırakmak için Spacer componenti
- * Props:
- * - size: boşluk yüksekliği (default 50px)
- */
-export default function Spacer({ size = 50 }) {
-  return <div style={{ height: `${size}px` }} />;
-}
+const Spacer = ({ size = "md", direction = "vertical" }) => {
+  const sizeMap = {
+    sm: 8,
+    md: 16,
+    lg: 32,
+  };
+
+  const style =
+    direction === "vertical"
+      ? { height: sizeMap[size] }
+      : { width: sizeMap[size] };
+
+  return <div style={style} />;
+};
+
+Spacer.propTypes = {
+  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  direction: PropTypes.oneOf(["vertical", "horizontal"]),
+};
+
+export default Spacer;

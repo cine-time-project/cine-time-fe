@@ -1,18 +1,28 @@
-"use client";
 import React from "react";
+import PropTypes from "prop-types";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-/**
- * Section başlıkları için ortak component
- * Props:
- * - title: Başlık metni
- * - subtitle: Alt başlık (opsiyonel)
- */
-export default function SectionTitle({ title, subtitle }) {
+const SectionTitle = ({ children, level = 2, align = "start" }) => {
+  const Heading = `h${level}`; // dynamic heading tag
+
+  const alignClass = {
+    start: "text-start",
+    center: "text-center",
+    end: "text-end",
+  }[align];
+
   return (
-    <div className="text-center my-5">
-      <h2 className="fw-bold">{title}</h2>
-      {subtitle && <p className="text-muted">{subtitle}</p>}
-      <hr className="w-25 mx-auto text-primary" />
+    <div className={`my-4 ${alignClass}`}>
+      <Heading className="fw-bold text-dark">{children}</Heading>
     </div>
   );
-}
+};
+
+SectionTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  level: PropTypes.oneOf([2, 3]), // only H2 & H3
+  align: PropTypes.oneOf(["start", "center", "end"]),
+};
+
+export default SectionTitle;
+
