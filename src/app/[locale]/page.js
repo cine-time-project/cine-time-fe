@@ -1,6 +1,6 @@
 "use client"; // Next.js 13+ client component
 
-import { MovieSlider } from "@/components/movies/MovieSlider";
+import { MovieStripe } from "@/components/movies/MovieStripe";
 import { useTranslations, useLocale } from "next-intl";
 
 
@@ -13,7 +13,7 @@ export default function HomePage() {
       <h2>
         {t("login")} – {locale}
       </h2>
-      <MovieSlider />
+      <MovieStripe />
     </div>
   );
 }
