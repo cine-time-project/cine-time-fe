@@ -166,7 +166,10 @@
     "seeShowtimes": "See Showtimes",
     "addToFavorites": "Add to Favorites",
     "removeFromFavorites": "Remove from Favorites",
-    "noMovies": "No movies to display."
+    "noMovies": "No movies to display.",
+    "comingSoon": "Coming Soon",
+    "inTheaters": "In Theaters",
+    "preSale": "Presale"
   },
 
   "cinemas": {
