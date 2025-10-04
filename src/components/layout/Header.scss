@@ -1,0 +1,304 @@
+// 🎨 Renk paleti
+$highlight-color: #ffc107; // Sarı
+$dark-bg: #1a1a1a;
+$text-light: #f8f9fa;
+
+@mixin smooth-transition {
+  transition: all 0.3s ease;
+}
+
+/* ===========================
+   TOPBAR
+   =========================== */
+.header-dark {
+  background-color: $dark-bg !important;
+  padding: 0.4rem 0;
+
+  .logo-img {
+    height: 80px;  // desktop
+    width: auto;
+    max-width: 100%;
+
+    @media (max-width: 1199px) {
+      height: 60px;
+    }
+
+    @media (max-width: 767px) {
+      height: 45px;
+    }
+  }
+
+  /* Arama kutusu */
+  .search-form {
+    width: 40%;
+    min-width: 250px;
+
+    input[type="search"] {
+      border-radius: 20px 0 0 20px;
+      border: 1px solid $highlight-color;
+      background-color: #2a2a2a;
+      color: $text-light;
+      padding-left: 1rem;
+
+      &::placeholder {
+        color: #aaa;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px $highlight-color;
+      }
+    }
+
+    .search-icon {
+      border-radius: 0 20px 20px 0;
+      background-color: $highlight-color;
+      color: black;
+      cursor: pointer;
+    }
+  }
+
+  /* Sağ kısım */
+  .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .dropdown-toggle {
+      color: $text-light !important;
+      font-weight: 500;
+      @include smooth-transition;
+
+      &:hover {
+        color: $highlight-color !important;
+      }
+    }
+  }
+}
+
+/* ===========================
+   MENUBAR
+   =========================== */
+.menu-dark {
+  background-color: #111 !important;
+  padding: 0.4rem 0;
+
+  /* Lokasyon sade */
+  .location-simple {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    @include smooth-transition;
+
+    &:hover {
+      color: $highlight-color;
+    }
+
+    .location-icon {
+      font-size: 1rem;
+    }
+
+    .location-text {
+      font-weight: 500;
+      color: $text-light;
+    }
+
+    .location-link {
+      margin-left: 0.5rem;
+      color: #0dcaf0;
+      font-weight: 500;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* Menü linkleri */
+  .nav-link {
+    color: $text-light !important;
+    margin: 0 0.8rem;
+    font-weight: 500;
+    @include smooth-transition;
+
+    &:hover {
+      color: $highlight-color !important;
+      text-decoration: none;
+    }
+
+    &.active {
+      color: $highlight-color !important;
+      font-weight: 600;
+      border-bottom: 2px solid $highlight-color;
+    }
+  }
+}
+
+/* ===========================
+   MODAL: Yakın Sinemalar
+   =========================== */
+.modal-content {
+  background-color: #1e1e1e;
+  color: $text-light;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #333;
+  background-color: #111;
+
+  .modal-title {
+    color: $highlight-color;
+    font-weight: 600;
+  }
+
+  .btn-close {
+    filter: invert(1);
+  }
+}
+
+.modal-body {
+  .cinema-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #333;
+      color: $text-light;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .distance {
+        color: #999;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+.modal-footer {
+  border-top: 1px solid #333;
+  background-color: #111;
+
+  .btn-secondary {
+    background-color: #333;
+    border: none;
+
+    &:hover {
+      background-color: $highlight-color;
+      color: #000;
+    }
+  }
+}
+
+/* ===========================
+   MOBİL UYUM
+   =========================== */
+@media (max-width: 992px) {
+  .search-form {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .right-actions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .menu-dark {
+    flex-direction: column;
+
+    .location-simple {
+      margin-bottom: 0.8rem;
+    }
+
+    .nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+/* ===========================
+   SINEMA BUL MODAL
+   =========================== */
+.modal-content {
+  background-color: #111;
+  color: #fff;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.modal-header {
+  background-color: #000;
+  border-bottom: 1px solid #333;
+
+  .modal-title {
+    font-weight: 600;
+    color: $highlight-color;
+  }
+
+  .btn-close {
+    filter: invert(1);
+  }
+}
+
+.modal-body {
+  background-color: #111;
+
+  input[type="text"] {
+    background-color: #222;
+    border: 1px solid #333;
+    color: #fff;
+
+    &::placeholder {
+      color: #888;
+    }
+
+    &:focus {
+      border-color: $highlight-color;
+      box-shadow: 0 0 5px $highlight-color;
+    }
+  }
+
+  .use-location-btn {
+    display: block;
+    margin-top: 1rem;
+    color: #0dcaf0;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .cinema-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #333;
+      color: #ddd;
+
+      .distance {
+        color: #999;
+      }
+    }
+  }
+}
+

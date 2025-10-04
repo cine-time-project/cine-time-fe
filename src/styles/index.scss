@@ -1,8 +1,21 @@
-@use "./variables" as *;
-
-@use "bootstrap/scss/bootstrap" as *;
-@use "sweetalert2/src/sweetalert2.scss" as *;
-
+@import "./variables";
+@import "bootstrap/scss/bootstrap";
 @import "primeicons/primeicons.css";
+@import 'sweetalert2/src/sweetalert2.scss';
 @import "primereact/resources/themes/saga-orange/theme.css";
-@import "../components/common/button/_biletal.scss";
+
+html, body {
+  height: 100%; // sayfanın yüksekliği tam olsun
+  margin: 0;
+  padding: 0;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // ekran boyunu doldursun
+}
+
+.content {
+  flex: 1; // içerik alanı büyüyüp footer'ı alta iter
+}
