@@ -5,7 +5,7 @@ import styles from "./movie-card.module.scss"; // Custom SCSS module for styling
 export default function MovieCard({ movie }) {
   // 🎬 Select the poster image for the movie
   // Prefer the one marked as poster, otherwise use the first image available
-  const poster = movie.images?.find(img => img.poster) || movie.images?.[0];
+  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : null;
 
   // 🖱️ Handle click event on the entire card
@@ -20,7 +20,6 @@ export default function MovieCard({ movie }) {
     // role="button" improves accessibility by signaling it's clickable
     // onClick makes the entire card interactive
     <Card className={styles["movie-card"]} onClick={handleClick} role="button">
-      
       {/* 🎞️ Image section */}
       {imageUrl ? (
         <div className={styles["movie-card__image-wrapper"]}>
@@ -29,18 +28,6 @@ export default function MovieCard({ movie }) {
             alt={poster.name}
             className={styles["movie-card__image"]}
           />
-
-          {/* 🔹 Overlay that appears on hover, containing the Details button */}
-          <div className={styles["movie-card__overlay"]}>
-            <Button
-              variant="primary"
-              className={styles["movie-card__button"]}
-              // Optional: prevent button click from triggering the card click
-              // onClick={(e) => e.stopPropagation()}
-            >
-              Details
-            </Button>
-          </div>
         </div>
       ) : (
         // 🚫 Fallback if no image is available

@@ -1,19 +1,38 @@
 "use client"; // Next.js 13+ client component
 
-import { MovieSlider } from "@/components/movies/MovieSlider";
+import SectionTitle from "@/components/common/SectionTitle";
+import Spacer from "@/components/common/Spacer";
+import { MovieStripe } from "@/components/movies/MovieStripe";
 import { useTranslations, useLocale } from "next-intl";
 
-
 export default function HomePage() {
-  const t = useTranslations("auth");
+  const t = useTranslations("movies");
   const locale = useLocale();
 
   return (
     <div style={{ padding: 24 }}>
-      <h2>
-        {t("login")} – {locale}
-      </h2>
-      <MovieSlider />
+
+      <SectionTitle>
+        {t("inTheaters")} – {locale}
+      </SectionTitle>
+
+      <MovieStripe query={"in_theaters"} />
+
+      <Spacer />
+
+      <SectionTitle>
+        {t("comingSoon")} – {locale}
+      </SectionTitle>
+
+      <MovieStripe query={"coming_soon"}/>
+
+      <Spacer />
+
+      <SectionTitle>
+        {t("preSale")} – {locale}
+      </SectionTitle>
+
+      <MovieStripe query={"presale"}/>
     </div>
   );
 }
