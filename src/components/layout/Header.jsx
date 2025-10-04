@@ -129,7 +129,7 @@ export default function Header() {
             <InputGroup>
               <Form.Control
                 type="search"
-                placeholder="Film veya oyuncu ara..."
+                placeholder="Film ara..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
