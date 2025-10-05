@@ -19,7 +19,8 @@
     "logout": "Abmelden",
     "myTickets": "Meine Tickets",
     "buy": "Ticket kaufen",
-    "search": "Suchen"
+    "search": "Suchen",
+     "about": "Über uns"  
   },
 
   "footer": {

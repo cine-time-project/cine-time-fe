@@ -19,7 +19,8 @@
     "logout": "Logout",
     "myTickets": "My Tickets",
     "buy": "Buy Ticket",
-    "search": "Search"
+    "search": "Search",
+     "about": "About" 
   },
 
   "footer": {
@@ -289,7 +290,7 @@
     "network": "Network error. Please check your connection.",
     "timeout": "The request timed out.",
     "unknown": "An unknown error occurred.",
-     "required": "This field is required.",
+    "required": "This field is required.",
     "min": "Enter at least {min} characters.",
     "max": "Enter at most {max} characters.",
     "invalidEmail": "Please enter a valid email address."
@@ -321,6 +322,75 @@
     "skipToContent": "Skip to content",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
+  },
+
+  "about": {
+    "title": "About CineTime",
+    "heroLead": "CineTime elevates moviegoing with cutting-edge projection, plush seating and curated concessions.",
+    "heroAlt": "Deluxe auditorium – lounge seats and ambient lighting",
+
+    "missionTitle": "Our Mission",
+    "missionBody": "We make cinema accessible, comfortable and delightful. We unify theaters in your city, offer fast ticketing and personalized picks.",
+
+    "grid1": {
+      "title": "Advanced Auditoriums",
+      "body": "4K projection, HDR and tuned acoustics for crystal-clear scenes. Seating angles and sightlines are optimized.",
+      "alt": "Auditorium with wide screen and acoustic panels"
+    },
+    "grid2": {
+      "title": "Curated Concessions",
+      "body": "Fresh popcorn, gourmet drinks and snacks. Order online and pick up fast.",
+      "alt": "Popcorn & concession area"
+    },
+    "grid3": {
+      "title": "Relaxing Lounge",
+      "body": "A modern lounge for meetups before the show: comfy seating, charging points and fast Wi-Fi.",
+      "alt": "Comfortable lounge waiting area"
+    },
+
+    "timelineTitle": "Our Timeline",
+    "timelineAria": "CineTime history",
+
+    "m1995": {
+      "title": "Foundation & First Screen",
+      "desc": "Amid the analog-to-digital shift of the 90s, CineTime laid its roots.",
+      "p1": "Opened the first auditorium with 180 seats.",
+      "p2": "Started with 35mm projectors; heavy focus on screen, acoustics and seating ergonomics.",
+      "p3": "Local box office and phone reservations.",
+      "p4": "Family-run culture: outstanding guest care and cleanliness."
+    },
+    "m2005": {
+      "title": "Digital Transformation",
+      "desc": "Scaling began with digital projection and multi-screen complexes.",
+      "p1": "First 2K digital projector and infrastructure upgrades.",
+      "p2": "Migrated to multi-screen scheduling systems.",
+      "p3": "Launched our first loyalty program and promotions."
+    },
+    "m2015": {
+      "title": "Online Ticketing & Mobile",
+      "desc": "We put online and mobile at the center; queues shrank, occupancy improved.",
+      "p1": "Seat selection and contactless e-tickets on the web.",
+      "p2": "iOS/Android apps with QR entry codes.",
+      "p3": "Real-time session/occupancy visibility.",
+      "p4": "Ops console for reporting and dynamic pricing."
+    },
+    "m2020": {
+      "title": "Data & Personalization",
+      "desc": "ML-powered recommendations and targeted campaigns went live.",
+      "p1": "Preference/history-based movie suggestions.",
+      "p3": "Advanced fraud/chargeback mitigation."
+    },
+    "m2025": {
+      "title": "Ecosystem & Premium Experience",
+      "desc": "Today we deliver end-to-end experiences with premium seating, curated concessions and partner networks.",
+      "p1": "60+ screens, 4K projection and Dolby-enabled auditoriums.",
+      "p2": "Partner integrations for transport, food and event bundles.",
+      "p4": "Sustainability: energy efficiency and waste reduction."
+    },
+
+    "ctaTitle": "Ready to go?",
+    "ctaBody": "Find a theater near you and grab your tickets.",
+    "ctaBtn": "Buy Tickets"
   },
 
   "swal": {

@@ -85,6 +85,7 @@ export default function Header() {
     { key: "comingsoon", path: "comingsoon" },
     { key: "events",     path: "events" },
     { key: "campaigns",  path: "campaigns" },
+     { key: "about",  path: "about" },
     { key: "contact",    path: "contact" },
     { key: "favorites",  path: "myfavorites" }, // rota klasör adı İngilizce, label i18n
   ];
