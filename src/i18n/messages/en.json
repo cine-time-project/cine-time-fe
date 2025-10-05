@@ -4,19 +4,23 @@
     "tagline": "Cinema & Ticket System"
   },
 
-  "nav": {
+   "nav": {
     "home": "Home",
     "movies": "Movies",
     "cinemas": "Cinemas",
-    "cinemaTickets": "Cinema & Ticket",
-    "buy": "Buy Ticket",
-    "myTickets": "My Tickets",
-    "favorites": "Favorites",
-    "account": "My Account",
+    "comingsoon": "Coming Soon",
+    "events": "Events",
+    "campaigns": "Campaigns",
+    "contact": "Contact",
+    "favorites": "My Favorites",
+    "account": "Account",
     "login": "Login",
-    "register": "Sign Up",
+    "register": "Register",
     "logout": "Logout",
-    "search": "Search"
+    "myTickets": "My Tickets",
+    "buy": "Buy Ticket",
+    "search": "Search",
+     "about": "About" 
   },
 
   "footer": {
@@ -87,7 +91,8 @@
     "minLength": "At least {min} characters",
     "maxLength": "At most {max} characters",
     "passwordMismatch": "Passwords do not match",
-    "invalidPhone": "Enter a valid phone number"
+    "invalidPhone": "Enter a valid phone number",
+     "phoneFormat": "Phone format must be '{format}'"
   },
 
   "pagination": {
@@ -386,5 +391,55 @@
     "ctaTitle": "Ready to go?",
     "ctaBody": "Find a theater near you and grab your tickets.",
     "ctaBtn": "Buy Tickets"
+  },
+
+  "swal": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "deny": "Deny",
+    "successTitle": "Success",
+    "errorTitle": "Error"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "We're here to help! Whether you have a question, need support, or want to learn more about what we do, feel free to reach out. Fill out the form below or use the contact details—we'll get back to you as soon as possible.",
+    "info": { "address": "Address", "email": "Email", "phone": "Phone", "hours": "Working Hours" },
+    "form": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "subject": "Subject",
+      "message": "Message",
+      "placeholders": {
+        "fullName": "Enter your full name",
+        "email": "john.doe@example.com",
+        "phoneNumber": "(555) 123-4567",
+        "subject": "Write a subject",
+        "message": "Write your message"
+      },
+      "helper": {
+        "phoneMask": "Format: (XXX) XXX-XXXX"
+      },
+      "submit": "Send",
+      "sending": "Sending..."
+    },
+    "alerts": {
+      "sentTitle": "Message sent",
+      "sentText": "We'll get back to you as soon as possible.",
+      "failTitle": "Not sent",
+      "failNetwork": "Network error. Please check your connection.",
+      "failTimeout": "Request timed out. Please try again.",
+      "failGeneric": "An unexpected error occurred. Please try again."
+    },
+    "errors": {
+      "fullNameRequired": "Full name is required.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email.",
+      "phoneRequired": "Phone number is required.",
+      "phoneInvalid": "Enter a valid phone number.",
+      "phoneMask": "Phone format must be '(XXX) XXX-XXXX'.",
+      "subjectRequired": "Subject is required.",
+      "messageRequired": "Message is required."
+    }
   }
 }

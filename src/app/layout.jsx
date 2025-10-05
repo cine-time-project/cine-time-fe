@@ -1,15 +1,16 @@
-import Header from "@/components/layout/Header";
+// src/app/layout.jsx
 import "../styles/index.scss";
-import Footer from "@/components/layout/Footer";
 
-export default function PublicLayout({ children }) {
+export const metadata = {
+  title: "CineTime",
+  description: "CineTime – En yeni filmleri keşfedin ve sinema biletinizi kolayca alın.",
+  keywords: ["sinema", "bilet", "film", "vizyondakiler", "CineTime"],
+};
+
+export default function RootLayout({ children }) {
   return (
-    <html>
-      <body>
-        <Header />
-        {children}
-        <Footer />
-      </body>
+    <html lang="tr">
+      <body>{children}</body>
     </html>
   );
 }
