@@ -1,28 +1,32 @@
-import { notFound } from 'next/navigation';
-import { NextIntlClientProvider } from 'next-intl';
+// src/app/[locale]/layout.jsx
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider } from "next-intl";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
-const SUPPORTED = ['tr','en','de','fr'];
+const SUPPORTED = ["tr", "en", "de", "fr"];
 
-const dictionaries = {
-  tr: () => import('../../i18n/messages/tr.json').then(m => m.default),
-  en: () => import('../../i18n/messages/en.json').then(m => m.default),
-  de: () => import('../../i18n/messages/de.json').then(m => m.default),
-  fr: () => import('../../i18n/messages/fr.json').then(m => m.default)
+const dict = {
+  tr: () => import("../../i18n/messages/tr.json").then(m => m.default),
+  en: () => import("../../i18n/messages/en.json").then(m => m.default),
+  de: () => import("../../i18n/messages/de.json").then(m => m.default),
+  fr: () => import("../../i18n/messages/fr.json").then(m => m.default),
 };
 
 export default async function LocaleLayout({ children, params }) {
-  // Önce params'i await ile alıyoruz
-  const { locale } = await params;
+  const raw = params?.locale || "tr";
+  const locale = raw.toLowerCase().split("-")[0];
+  if (!SUPPORTED.includes(locale)) notFound();
 
-  const key = (locale || 'tr').toLowerCase().split('-')[0];
-
-  if (!SUPPORTED.includes(key)) notFound();
-
-  const messages = await (dictionaries[key] ?? dictionaries.tr)();
+  const messages = await (dict[locale] || dict.tr)();
 
   return (
-    <NextIntlClientProvider locale={key} messages={messages}>
-      {children}
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <div className="page-wrapper">
+        <Header />
+        <main className="content">{children}</main>
+        <Footer />
+      </div>
     </NextIntlClientProvider>
   );
 }

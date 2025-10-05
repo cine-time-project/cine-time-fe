@@ -1,13 +1,13 @@
 export const metadata = {
-  title: "Movies",
+  title: "Comingsoon",
   description: ".........",
 };
 
 export default function EventsPage() {
   return (
     <div className="container py-4">
-      <h1>Movies</h1>
-      <p>Moviler burada listelenece</p>
+      <h1>Comingsoon</h1>
+      <p>Comingsoon burada listelenecek.</p>
     </div>
   );
 }

@@ -3,20 +3,23 @@
     "name": "CineTime",
     "tagline": "Sinema & Bilet Sistemi"
   },
-
-  "nav": {
+"nav": {
     "home": "Ana Sayfa",
     "movies": "Filmler",
     "cinemas": "Sinemalar",
-    "cinemaTickets": "Cinema & Ticket",
-    "buy": "Bilet Al",
-    "myTickets": "Biletlerim",
+    "comingsoon": "Yakında",
+    "events": "Etkinlikler",
+    "campaigns": "Kampanyalar",
+    "contact": "İletişim",
     "favorites": "Favorilerim",
     "account": "Hesabım",
     "login": "Giriş",
     "register": "Kayıt Ol",
     "logout": "Çıkış",
-    "search": "Ara"
+    "myTickets": "Biletlerim",
+    "buy": "Bilet Al",
+    "search": "Ara",
+     "about": "Hakkımızda" 
   },
 
   "footer": {
@@ -87,7 +90,8 @@
     "minLength": "En az {min} karakter",
     "maxLength": "En fazla {max} karakter",
     "passwordMismatch": "Şifreler eşleşmiyor",
-    "invalidPhone": "Geçerli bir telefon girin"
+    "invalidPhone": "Geçerli bir telefon girin",
+     "phoneFormat": "Telefon biçimi '{format}' olmalı"
   },
 
   "pagination": {
@@ -317,6 +321,55 @@
     "skipToContent": "İçeriğe geç",
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat"
+  },
+"swal": {
+    "confirm": "Onayla",
+    "cancel": "İptal",
+    "deny": "Reddet",
+    "successTitle": "Başarılı",
+    "errorTitle": "Hata"
+  },
+  "contact": {
+    "title": "BİZİMLE İLETİŞİME GEÇİN",
+    "subtitle": "Size yardımcı olmak için buradayız! Sorunuz, desteğe ihtiyacınız ya da yaptıklarımız hakkında daha fazla bilgi almak isterseniz bizimle iletişime geçin. Aşağıdaki formu doldurun veya yan taraftaki iletişim bilgilerinden bize ulaşın; en kısa sürede dönüş yapacağız.",
+    "info": { "address": "Adres", "email": "E-posta", "phone": "Telefon", "hours": "Çalışma Saatleri" },
+    "form": {
+      "fullName": "Ad Soyad",
+      "email": "E-posta",
+      "phoneNumber": "Telefon",
+      "subject": "Konu",
+      "message": "Mesaj",
+      "placeholders": {
+        "fullName": "Adınızı ve soyadınızı yazın",
+        "email": "ornek@eposta.com",
+        "phoneNumber": "(555) 123-4567",
+        "subject": "Konu başlığı",
+        "message": "Mesajınızı yazın"
+      },
+      "helper": {
+        "phoneMask": "Biçim: (XXX) XXX-XXXX"
+      },
+      "submit": "Gönder",
+      "sending": "Gönderiliyor..."
+    },
+    "alerts": {
+      "sentTitle": "Mesaj gönderildi",
+      "sentText": "En kısa sürede sizinle iletişime geçeceğiz.",
+      "failTitle": "Gönderilemedi",
+      "failNetwork": "Ağ hatası. Lütfen bağlantınızı kontrol edin.",
+      "failTimeout": "İstek zaman aşımına uğradı. Lütfen tekrar deneyin.",
+      "failGeneric": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+    },
+    "errors": {
+      "fullNameRequired": "Ad Soyad zorunludur.",
+      "emailRequired": "E-posta zorunludur.",
+      "emailInvalid": "Geçerli bir e-posta adresi girin.",
+      "phoneRequired": "Telefon zorunludur.",
+      "phoneInvalid": "Geçerli bir telefon girin.",
+      "phoneMask": "Telefon biçimi '(XXX) XXX-XXXX' olmalı.",
+      "subjectRequired": "Konu zorunludur.",
+      "messageRequired": "Mesaj zorunludur."
+    }
   },
 
   "about": {
