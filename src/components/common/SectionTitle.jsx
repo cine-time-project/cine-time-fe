@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SectionTitle = ({ children, level = 2, align = "center" }) => {
+const SectionTitle = ({ children, level = 2, align = "start" }) => {
   const Heading = `h${level}`; // dynamic heading tag
 
   const alignClass = {

@@ -324,7 +324,7 @@
     "errorTitle": "Hata"
   },
   "contact": {
-    "title": "İletişim",
+    "title": "BİZİMLE İLETİŞİME GEÇİN",
     "subtitle": "Size yardımcı olmak için buradayız! Sorunuz, desteğe ihtiyacınız ya da yaptıklarımız hakkında daha fazla bilgi almak isterseniz bizimle iletişime geçin. Aşağıdaki formu doldurun veya yan taraftaki iletişim bilgilerinden bize ulaşın; en kısa sürede dönüş yapacağız.",
     "info": { "address": "Adres", "email": "E-posta", "phone": "Telefon", "hours": "Çalışma Saatleri" },
     "form": {
