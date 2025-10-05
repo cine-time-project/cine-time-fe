@@ -4,18 +4,21 @@
     "tagline": "Cinema & Ticket System"
   },
 
-  "nav": {
+   "nav": {
     "home": "Home",
     "movies": "Movies",
     "cinemas": "Cinemas",
-    "cinemaTickets": "Cinema & Ticket",
-    "buy": "Buy Ticket",
-    "myTickets": "My Tickets",
-    "favorites": "Favorites",
+    "comingsoon": "Coming Soon",
+    "events": "Events",
+    "campaigns": "Campaigns",
+    "contact": "Contact",
+    "favorites": "My Favorites",
     "account": "Account",
     "login": "Login",
     "register": "Register",
     "logout": "Logout",
+    "myTickets": "My Tickets",
+    "buy": "Buy Ticket",
     "search": "Search"
   },
 

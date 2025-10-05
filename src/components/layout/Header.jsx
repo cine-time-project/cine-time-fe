@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   Navbar, Nav, Container, Form, InputGroup, NavDropdown, Modal, Button
 } from "react-bootstrap";
@@ -11,14 +12,15 @@ import "./Header.scss";
 
 export default function Header() {
   const pathname = usePathname() || "/";
-  const locale = pathname.split("/")[1] || "tr"; // "tr" | "en" | ...
+  const locale = pathname.split("/")[1] || "tr"; // "tr" | "en" | "de" | "fr"...
+  const tNav = useTranslations("nav");           // nav.* etiketleri (menü, hesap, arama vs.)
 
   // /{locale}/{rest}
   const L = (rest = "") =>
     rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`;
 
-  // Aktiflik: locale sonrası segmentleri karşılaştır
-  const relPath = pathname.split("/").slice(2).join("/"); // locale’den sonrası
+  // Aktiflik: locale’den sonraki segmenti karşılaştır
+  const relPath = pathname.split("/").slice(2).join("/"); // locale sonrası
   const isActive = (rest = "") => {
     if (!rest) return relPath === ""; // home
     const seg = rest.replace(/^\/+/, ""); // "/contact" -> "contact"
@@ -75,6 +77,18 @@ export default function Header() {
     loadDummyCinemas(searchCity);
   };
 
+  // Menü tanımı: label i18n'den, path klasör ile birebir
+  const MENU = [
+    { key: "home",       path: "" },
+    { key: "movies",     path: "movies" },
+    { key: "cinemas",    path: "cinemas" },
+    { key: "comingsoon", path: "comingsoon" },
+    { key: "events",     path: "events" },
+    { key: "campaigns",  path: "campaigns" },
+    { key: "contact",    path: "contact" },
+    { key: "favorites",  path: "myfavorites" }, // rota klasör adı İngilizce, label i18n
+  ];
+
   return (
     <>
       {/* TOP BAR */}
@@ -89,7 +103,7 @@ export default function Header() {
             <InputGroup>
               <Form.Control
                 type="search"
-                placeholder="Film ara..."
+                placeholder={tNav("search")}  // i18n: "Ara" / "Search" ...
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -98,19 +112,25 @@ export default function Header() {
           </Form>
 
           <Nav className="right-actions">
-            <NavDropdown title="👤 Hesabım" id="user-dropdown" align="end">
+            <NavDropdown title={`👤 ${tNav("account")}`} id="user-dropdown" align="end">
               {/* Hepsi locale’lı mutlak link */}
-              <NavDropdown.Item as={Link} href={L("login")}>Giriş Yap</NavDropdown.Item>
-              <NavDropdown.Item as={Link} href={L("register")}>Kayıt Ol</NavDropdown.Item>
-              <NavDropdown.Item as={Link} href={L("mytickets")}>Biletlerim</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href={L("login")}>{tNav("login")}</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href={L("register")}>{tNav("register")}</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href={L("mytickets")}>{tNav("myTickets")}</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} href={L("logout")}>Çıkış Yap</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href={L("logout")}>{tNav("logout")}</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title="🌐 Dil" id="locale-dropdown" align="end">
+            <NavDropdown title="🌐" id="locale-dropdown" align="end">
               <NavDropdown.Item as={Link} href="/tr">TR</NavDropdown.Item>
               <NavDropdown.Item as={Link} href="/en">EN</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href="/de">DE</NavDropdown.Item>
+              <NavDropdown.Item as={Link} href="/fr">FR</NavDropdown.Item>
             </NavDropdown>
+
+            <Button as={Link} href={L("buy-ticket")} variant="warning" size="sm">
+              {tNav("buy")}  {/* i18n: "Bilet Al" / "Buy Ticket" */}
+            </Button>
           </Nav>
         </Container>
       </Navbar>
@@ -121,23 +141,25 @@ export default function Header() {
           <div className="location-simple" onClick={() => setShowModal(true)}>
             <span className="location-icon">📍</span>
             <span className="location-text">{city}</span>
-            <Link href="#" className="location-link">Bilet Al</Link>
+            <Link href="#" className="location-link">{tNav("buy")}</Link>
           </div>
 
           <Nav className="mx-auto">
-            <Nav.Link as={Link} href={L()}             className={isActive("") ? "active" : ""}>Anasayfa</Nav.Link>
-            <Nav.Link as={Link} href={L("movies")}      className={isActive("movies") ? "active" : ""}>Filmler</Nav.Link>
-            <Nav.Link as={Link} href={L("comingsoon")}  className={isActive("comingsoon") ? "active" : ""}>Vizyondakiler</Nav.Link>
-            <Nav.Link as={Link} href={L("cinemas")}     className={isActive("cinemas") ? "active" : ""}>Sinemalar</Nav.Link>
-            <Nav.Link as={Link} href={L("campaigns")}   className={isActive("campaigns") ? "active" : ""}>Kampanyalar</Nav.Link>
-            <Nav.Link as={Link} href={L("events")}      className={isActive("events") ? "active" : ""}>Etkinlikler</Nav.Link>
-            <Nav.Link as={Link} href={L("contact")}     className={isActive("contact") ? "active" : ""}>Contact</Nav.Link>
-            <Nav.Link as={Link} href={L("myfavorites")} className={isActive("myfavorites") ? "active" : ""}>⭐ Favorilerim</Nav.Link>
+            {MENU.map((item) => (
+              <Nav.Link
+                as={Link}
+                key={item.key}
+                href={L(item.path)}
+                className={isActive(item.path) ? "active" : ""}
+              >
+                {tNav(item.key)}
+              </Nav.Link>
+            ))}
           </Nav>
         </Container>
       </Navbar>
 
-      {/* Sinema Bul Modal */}
+      {/* Sinema Bul Modal (şimdilik TR metinler bırakıldı; istersen bunları da i18n'e taşıyalım) */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton><Modal.Title>Sinema Bul</Modal.Title></Modal.Header>
         <Modal.Body>

@@ -4,18 +4,21 @@
     "tagline": "Système de cinéma et de billets"
   },
 
- "nav": {
+   "nav": {
     "home": "Accueil",
     "movies": "Films",
     "cinemas": "Cinémas",
-    "cinemaTickets": "Cinéma & Billet",
-    "buy": "Acheter un billet",
-    "myTickets": "Mes billets",
-    "favorites": "Favoris",
-    "account": "Mon compte",
+    "comingsoon": "Bientôt",
+    "events": "Événements",
+    "campaigns": "Campagnes",
+    "contact": "Contact",
+    "favorites": "Mes Favoris",
+    "account": "Compte",
     "login": "Connexion",
     "register": "Inscription",
     "logout": "Déconnexion",
+    "myTickets": "Mes Billets",
+    "buy": "Acheter un billet",
     "search": "Rechercher"
   },
 

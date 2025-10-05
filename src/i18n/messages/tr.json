@@ -3,19 +3,21 @@
     "name": "CineTime",
     "tagline": "Sinema & Bilet Sistemi"
   },
-
-  "nav": {
+"nav": {
     "home": "Ana Sayfa",
     "movies": "Filmler",
     "cinemas": "Sinemalar",
-    "cinemaTickets": "Cinema & Ticket",
-    "buy": "Bilet Al",
-    "myTickets": "Biletlerim",
+    "comingsoon": "Yakında",
+    "events": "Etkinlikler",
+    "campaigns": "Kampanyalar",
+    "contact": "İletişim",
     "favorites": "Favorilerim",
     "account": "Hesabım",
     "login": "Giriş",
     "register": "Kayıt Ol",
     "logout": "Çıkış",
+    "myTickets": "Biletlerim",
+    "buy": "Bilet Al",
     "search": "Ara"
   },
 
