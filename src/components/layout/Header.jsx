@@ -24,6 +24,11 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const SUPPORTED = ["tr", "en"];
+  const lang = pathname?.split("/")[1];
+  const hasLocale = SUPPORTED.includes(lang);
+  const loc = (p) => (hasLocale ? `/${lang}${p}` : p);
+
   const isActive = (path) => pathname === path;
 
   // Sayfa yüklenince mevcut konumu al
@@ -229,7 +234,14 @@ export default function Header() {
               href="/favorilerim"
               className={isActive("/favorilerim") ? "active" : ""}
             >
-              ⭐ Favorilerim
+              ⭐Favorilerim
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              href={loc("/about")}
+              className={isActive("/about") ? "active" : ""}
+            >
+              Hakkımızda
             </Nav.Link>
           </Nav>
         </Container>
