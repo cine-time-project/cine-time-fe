@@ -1,0 +1,146 @@
+/* ============================================
+   HeroCarousel Styles
+   ============================================ */
+
+/* Swiper container */
+.movie-hero-carousel {
+  width: 100%;
+  height: 600px; /* default desktop height */
+  position: relative;
+
+  /* Responsive height */
+  @media (max-width: 768px) {
+    height: 400px; /* smaller on mobile */
+  }
+}
+
+/* Each Swiper slide (background image card) */
+.hero-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+/* Overlay with left-to-right gradient */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 50%; /* gradient covers left half */
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.8) 0%,   /* dark on left */
+    rgba(0, 0, 0, 0.0) 100%  /* transparent halfway */
+  );
+  z-index: 1;
+}
+
+/* Text and buttons content */
+.hero-content {
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+  max-width: 45%;
+  color: #fff;
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    left: 20px;
+    bottom: 20px;
+    max-width: 80%;
+  }
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
+}
+
+.hero-summary {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: #ddd;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
+}
+
+/* Button container */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &.primary {
+    background-color: #e50914;
+    color: #fff;
+  }
+
+  &.secondary {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Fade effect for Swiper */
+.swiper-fade .swiper-slide {
+  transition-property: opacity, transform !important;
+}
+
+/* ============================================
+   Autoplay Progress Bar
+   ============================================ */
+.autoplay-progress {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  border-radius: 2px;
+  z-index: 5;
+
+  span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #e50914;
+    transform: scaleX(1);
+    transform-origin: right; /* progress drains from right to left */
+    transition: transform 0.1s linear;
+  }
+}
