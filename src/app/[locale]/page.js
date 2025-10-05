@@ -2,7 +2,7 @@
 
 import SectionTitle from "@/components/common/SectionTitle";
 import Spacer from "@/components/common/Spacer";
-import { MovieStripe } from "@/components/movies/MovieStripe";
+import { MovieStripe } from "@/components/movies/movie/movie-stripe/MovieStripe";
 import { useTranslations, useLocale } from "next-intl";
 
 export default function HomePage() {
@@ -11,7 +11,6 @@ export default function HomePage() {
 
   return (
     <div style={{ padding: 24 }}>
-
       <SectionTitle>
         {t("inTheaters")} – {locale}
       </SectionTitle>
@@ -24,7 +23,7 @@ export default function HomePage() {
         {t("comingSoon")} – {locale}
       </SectionTitle>
 
-      <MovieStripe query={"coming_soon"}/>
+      <MovieStripe query={"coming_soon"} />
 
       <Spacer />
 
@@ -32,7 +31,7 @@ export default function HomePage() {
         {t("preSale")} – {locale}
       </SectionTitle>
 
-      <MovieStripe query={"presale"}/>
+      <MovieStripe query={"presale"} />
     </div>
   );
 }
