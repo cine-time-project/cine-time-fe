@@ -1,0 +1,254 @@
+.about {
+  color: #eaeaea;
+  margin-block: 2rem;
+
+  .lead { color: #cfcfcf; }
+
+  /* ========================
+     Intro + Hero (tek bölüm)
+     ======================== */
+  &__introHero {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr; /* sol metin, sağ görsel */
+    gap: 1.25rem;
+    background: #0f0f0f;
+    border: 1px solid #1f1f1f;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+    }
+
+    .introHero__copy {
+      padding: .5rem .75rem;
+
+      .introHero__brand {
+        display: flex;
+        flex-direction: column;  /* logo üstte, başlık altta */
+        align-items: center;     /* yatayda ortala */
+        justify-content: center;
+        gap: .6rem;
+        margin-bottom: .5rem;
+        text-align: center;      /* metni de ortala */
+
+        .brand__logo { border-radius: 10px; }
+        .brand__title {
+          margin: 0;
+          font-size: 2.2rem;
+          font-weight: 800;
+          letter-spacing: .5px;
+          color: #ffc107;
+        }
+      }
+
+      p {
+        color: #ccc;
+        line-height: 1.65;
+        margin: .5rem 0;
+        strong { color: #fff; }
+      }
+
+      .introHero__stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: .6rem;
+        margin-top: .8rem;
+
+        @media (max-width: 640px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stat {
+          background: #141414;
+          border: 1px solid #232323;
+          border-radius: 12px;
+          padding: .6rem .75rem;
+          text-align: center;
+          .v { display: block; font-size: 1.25rem; font-weight: 800; color: #ffc107; line-height: 1; }
+          .l { display: block; color: #bdbdbd; font-size: .9rem; }
+        }
+      }
+    }
+
+    .introHero__media {
+      position: relative;       /* next/image fill için gerekli */
+      min-height: 320px;
+      border-radius: 12px;
+      overflow: hidden;
+
+      .introHero__img {
+        object-fit: cover;
+        filter: drop-shadow(0 12px 28px rgba(0,0,0,.35));
+      }
+    }
+  }
+
+  /* ==============
+     Genel görseller
+     ============== */
+  &__img { width: 100%; height: auto; display: block; border-radius: 12px; }
+  .cover { object-fit: cover; }
+
+  /* =========
+     İçerik blok
+     ========= */
+  &__block {
+    background: #0f0f0f;
+    border: 1px solid #1f1f1f;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.25rem;
+
+    h2 { color: #fff; font-weight: 700; margin-bottom: .5rem; }
+  }
+
+  /* ========================
+     Üçlü kart grid + lightbox
+     ======================== */
+  &__grid {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 1200px) { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 768px)  { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: #0f0f0f;
+    border: 1px solid #1f1f1f;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 420px;
+
+    &__media {
+      position: relative;
+      aspect-ratio: 16/9;   /* tüm görseller aynı yükseklik */
+      width: 100%;
+      border: 0;
+      padding: 0;
+      background: #111;
+      cursor: zoom-in;
+    }
+
+    &__body  {
+      flex: 1;
+      padding: 1rem 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+
+      h3 { color: #fff; margin: 0; }
+      p  { color: #c9c9c9; margin: 0; }
+    }
+  }
+
+  /* Lightbox */
+  &__lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.85);
+    display: grid;
+    place-items: center;
+    z-index: 9999;
+    cursor: zoom-out;
+
+    &-inner { max-width: min(92vw, 1400px); max-height: 90vh; padding: .5rem; }
+    &-img   { width: 100%; height: auto; display: block; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,.5); }
+  }
+
+  /* ========
+     Timeline
+     ======== */
+  &__timeline {
+    margin-top: 1.25rem;
+    background: #0f0f0f;
+    border: 1px solid #1f1f1f;
+    border-radius: 16px;
+    padding: 1.25rem 1.25rem 1.5rem;
+
+    h2 { color: #fff; font-weight: 700; margin-bottom: .75rem; }
+
+    .timeline {
+      position: relative;
+      list-style: none;
+      margin: 0;
+      padding-left: 1.5rem;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: .6rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #242424;
+      }
+    }
+
+    .timeline__item {
+      position: relative;
+      margin: 1rem 0;
+
+      .timeline__dot {
+        position: absolute;
+        left: -.05rem;
+        top: .35rem;
+        width: .9rem;
+        height: .9rem;
+        border-radius: 50%;
+        background: #ffc107;
+        box-shadow: 0 0 0 4px #181818;
+      }
+
+      .timeline__content {
+        background: #131313;
+        border: 1px solid #222;
+        border-radius: 12px;
+        padding: .85rem .95rem;
+      }
+
+      .timeline__year  { display: inline-block; font-weight: 800; color: #ffc107; margin-bottom: .1rem; }
+      .timeline__title { color: #fff; margin: 0 0 .25rem; }
+      .timeline__desc  { color: #c9c9c9; margin: 0; }
+      .timeline__list  { margin: .5rem 0 0; padding-left: 1.1rem; color: #c9c9c9; }
+      .timeline__list li { margin: .2rem 0; }
+    }
+
+    @media (max-width: 640px) {
+      .timeline { padding-left: 1.2rem; }
+      .timeline__content { padding: .8rem .85rem; }
+    }
+  }
+
+  /* ===
+     CTA
+     === */
+  &__cta {
+    margin-top: 1.25rem;
+    background: linear-gradient(180deg, #161616, #0e0e0e);
+    border: 1px solid #232323;
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+
+    h3 { color: #fff; margin-bottom: .25rem; }
+    p  { color: #c9c9c9; margin-bottom: .8rem; }
+
+    .btn-cta {
+      display: inline-block;
+      padding: .7rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 700;
+      background: #ffc107;
+      color: #222;
+      text-decoration: none;
+      transition: transform .15s ease-in-out;
+      &:hover { transform: translateY(-2px); }
+    }
+  }
+}
