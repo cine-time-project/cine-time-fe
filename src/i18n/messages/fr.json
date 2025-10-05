@@ -87,7 +87,9 @@
     "minLength": "Au moins {min} caractères",
     "maxLength": "Au maximum {max} caractères",
     "passwordMismatch": "Les mots de passe ne correspondent pas",
-    "invalidPhone": "Saisissez un numéro de téléphone valide"
+    "invalidPhone": "Saisissez un numéro de téléphone valide",
+    "phoneFormat": "Le format du téléphone doit être « {format} »"
+
   },
 
   "pagination": {
@@ -314,5 +316,55 @@
     "skipToContent": "Aller au contenu",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu"
+  },
+
+  "swal": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "deny": "Refuser",
+    "successTitle": "Succès",
+    "errorTitle": "Erreur"
+  },
+   "contact": {
+    "title": "Contact",
+    "subtitle": "Nous sommes là pour vous aider ! Une question, besoin d’assistance ou envie d’en savoir plus ? Écrivez-nous. Remplissez le formulaire ou utilisez les coordonnées indiquées — nous vous répondrons au plus vite.",
+    "info": { "address": "Adresse", "email": "E-mail", "phone": "Téléphone", "hours": "Horaires" },
+    "form": {
+      "fullName": "Nom et prénom",
+      "email": "E-mail",
+      "phoneNumber": "Numéro de téléphone",
+      "subject": "Objet",
+      "message": "Message",
+      "placeholders": {
+        "fullName": "Entrez votre nom et prénom",
+        "email": "jean.dupont@exemple.com",
+        "phoneNumber": "(555) 123-4567",
+        "subject": "Saisissez l’objet",
+        "message": "Écrivez votre message"
+      },
+      "helper": {
+        "phoneMask": "Format : (XXX) XXX-XXXX"
+      },
+      "submit": "Envoyer",
+      "sending": "Envoi…"
+    },
+    "alerts": {
+      "sentTitle": "Message envoyé",
+      "sentText": "Nous vous répondrons dès que possible.",
+      "failTitle": "Échec de l’envoi",
+      "failNetwork": "Erreur réseau. Veuillez vérifier votre connexion.",
+      "failTimeout": "Délai dépassé. Veuillez réessayer.",
+      "failGeneric": "Une erreur inattendue s’est produite. Veuillez réessayer."
+    },
+    "errors": {
+      "fullNameRequired": "Le nom et prénom sont obligatoires.",
+      "emailRequired": "L’e-mail est obligatoire.",
+      "emailInvalid": "Entrez un e-mail valide.",
+      "phoneRequired": "Le téléphone est obligatoire.",
+      "phoneInvalid": "Entrez un numéro de téléphone valide.",
+      "phoneMask": "Le format du téléphone doit être « (XXX) XXX-XXXX ».",
+      "subjectRequired": "L’objet est obligatoire.",
+      "messageRequired": "Le message est obligatoire."
+    }
   }
 }

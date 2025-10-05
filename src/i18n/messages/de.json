@@ -87,7 +87,8 @@
     "minLength": "Mindestens {min} Zeichen",
     "maxLength": "Höchstens {max} Zeichen",
     "passwordMismatch": "Passwörter stimmen nicht überein",
-    "invalidPhone": "Bitte eine gültige Telefonnummer eingeben"
+    "invalidPhone": "Bitte eine gültige Telefonnummer eingeben",
+     "phoneFormat": "Telefonformat muss „{format}“ sein"
   },
 
   "pagination": {
@@ -314,5 +315,54 @@
     "skipToContent": "Zum Inhalt springen",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen"
+  },
+  "swal": {
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "deny": "Ablehnen",
+    "successTitle": "Erfolg",
+    "errorTitle": "Fehler"
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir helfen gern! Haben Sie Fragen, benötigen Unterstützung oder möchten mehr erfahren? Schreiben Sie uns einfach. Füllen Sie das Formular aus oder nutzen Sie die angegebenen Kontaktinformationen – wir melden uns schnellstmöglich.",
+    "info": { "address": "Adresse", "email": "E-Mail", "phone": "Telefon", "hours": "Öffnungszeiten" },
+    "form": {
+      "fullName": "Vor- und Nachname",
+      "email": "E-Mail",
+      "phoneNumber": "Telefonnummer",
+      "subject": "Betreff",
+      "message": "Nachricht",
+      "placeholders": {
+        "fullName": "Geben Sie Ihren Vor- und Nachnamen ein",
+        "email": "max.mustermann@example.com",
+        "phoneNumber": "(555) 123-4567",
+        "subject": "Betreff eingeben",
+        "message": "Ihre Nachricht"
+      },
+      "helper": {
+        "phoneMask": "Format: (XXX) XXX-XXXX"
+      },
+      "submit": "Senden",
+      "sending": "Wird gesendet..."
+    },
+    "alerts": {
+      "sentTitle": "Nachricht gesendet",
+      "sentText": "Wir melden uns so schnell wie möglich.",
+      "failTitle": "Senden fehlgeschlagen",
+      "failNetwork": "Netzwerkfehler. Bitte Verbindung prüfen.",
+      "failTimeout": "Zeitüberschreitung. Bitte erneut versuchen.",
+      "failGeneric": "Unerwarteter Fehler. Bitte erneut versuchen."
+    },
+    "errors": {
+      "fullNameRequired": "Vor- und Nachname ist erforderlich.",
+      "emailRequired": "E-Mail ist erforderlich.",
+      "emailInvalid": "Bitte geben Sie eine gültige E-Mail ein.",
+      "phoneRequired": "Telefonnummer ist erforderlich.",
+      "phoneInvalid": "Bitte geben Sie eine gültige Telefonnummer ein.",
+      "phoneMask": "Telefonformat muss „(XXX) XXX-XXXX“ sein.",
+      "subjectRequired": "Betreff ist erforderlich.",
+      "messageRequired": "Nachricht ist erforderlich."
+    }
   }
 }

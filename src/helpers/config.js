@@ -41,7 +41,7 @@ export const config = {
   },
 
   // API kökü: env varsa onu kullan, yoksa placeholder
- apiURL: "http://localhost:8100/api",
+  apiURL:  "http://localhost:8100/api",
 
   // Desteklenen diller (i18n anahtarlarınızla eşleşecek şekilde)
   locales: ["tr", "en", "de", "fr"],
