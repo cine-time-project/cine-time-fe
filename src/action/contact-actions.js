@@ -4,28 +4,22 @@ import { response, transformFormDataToJSON, transformYupErrors, YupValidationErr
 import { ContactSchema } from "@/helpers/schemas/contact-schema";
 import { createContactMessage } from "@/services/contact-service";
 
-export const createContactMessageAction = async (prevState, formData) => {
+export async function createContactMessageAction(prev, formData) {
+  try {
+    const fields = Object.fromEntries(formData);
+    ContactSchema.validateSync(fields, { abortEarly: false });
 
-    const fields = transformFormDataToJSON(formData);
+    const res  = await createContactMessage(fields);   // <— burası patlıyor
+    // fetch döndüyse res.ok/parse et
+    const data = await res.json();
 
-    try {
-        ContactSchema.validateSync(fields, {abortEarly: false} );
-
-        const res = await createContactMessage(fields);
-        const data = await res.json();
-
-        if(!res.ok){
-            return response(false, "", data?.validations);
-        }
-
-        return response(true, "Your message was sent successfully", null);
-
-    } catch (error) {
-        if(error instanceof YupValidationError){
-            return transformYupErrors(error.inner);
-        }
-
-        throw error;
+    if (!res.ok) {
+      return { ok: false, message: data?.message || "Request failed", errors: data?.validations };
     }
-
+    return { ok: true, message: "Mesajınız alındı.", errors: null };
+  } catch (err) {
+    // URL ya da ağ problemi olursa buraya düşer
+    console.error("contact action error:", err);
+    return { ok: false, message: err?.message || "Network error", errors: null };
+  }
 }
