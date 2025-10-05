@@ -4,11 +4,11 @@
     "tagline": "Système de cinéma et de billets"
   },
 
-  "nav": {
+ "nav": {
     "home": "Accueil",
     "movies": "Films",
     "cinemas": "Cinémas",
-    "cinemaTickets": "Cinéma & Billets",
+    "cinemaTickets": "Cinéma & Billet",
     "buy": "Acheter un billet",
     "myTickets": "Mes billets",
     "favorites": "Favoris",

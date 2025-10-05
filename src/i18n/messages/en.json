@@ -12,9 +12,9 @@
     "buy": "Buy Ticket",
     "myTickets": "My Tickets",
     "favorites": "Favorites",
-    "account": "My Account",
+    "account": "Account",
     "login": "Login",
-    "register": "Sign Up",
+    "register": "Register",
     "logout": "Logout",
     "search": "Search"
   },

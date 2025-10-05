@@ -4,7 +4,7 @@
     "tagline": "Kino- & Ticket-System"
   },
 
-  "nav": {
+ "nav": {
     "home": "Startseite",
     "movies": "Filme",
     "cinemas": "Kinos",
@@ -12,7 +12,7 @@
     "buy": "Ticket kaufen",
     "myTickets": "Meine Tickets",
     "favorites": "Favoriten",
-    "account": "Mein Konto",
+    "account": "Konto",
     "login": "Anmelden",
     "register": "Registrieren",
     "logout": "Abmelden",
