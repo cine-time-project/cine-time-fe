@@ -167,7 +167,10 @@
     "seeShowtimes": "Seansları Gör",
     "addToFavorites": "Favorilere Ekle",
     "removeFromFavorites": "Favoriden Çıkar",
-    "noMovies": "Gösterilecek film bulunamadı."
+    "noMovies": "Gösterilecek film bulunamadı.",
+    "comingSoon": "Pek Yakında",
+    "inTheaters": "Gösterimde",
+    "preSale": "Ön Satış"
   },
 
   "cinemas": {
