@@ -14,7 +14,8 @@ const dict = {
 };
 
 export default async function LocaleLayout({ children, params }) {
-  const raw = params?.locale || "tr";
+  const resolvedParams = await params;
+  const raw = resolvedParams?.locale || "tr";
   const locale = raw.toLowerCase().split("-")[0];
   if (!SUPPORTED.includes(locale)) notFound();
 
