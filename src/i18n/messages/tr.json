@@ -317,5 +317,75 @@
     "skipToContent": "İçeriğe geç",
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat"
+  },
+
+  "about": {
+    "title": "Hakkımızda",
+    "heroLead": "CineTime; son teknoloji projeksiyonlar, konforlu koltuklar ve seçkin büfe seçenekleriyle sinema keyfini bir üst seviyeye taşır.",
+    "heroAlt": "Deluxe salon – geniş koltuklar ve ambiyans aydınlatma",
+
+    "missionTitle": "Misyonumuz",
+    "missionBody": "Sinemayı herkes için erişilebilir, konforlu ve keyifli kılıyoruz. Şehrinizdeki salonları tek bir platformda topluyor, hızlı biletleme ve kişiselleştirilmiş öneriler sunuyoruz.",
+
+    "grid1": {
+      "title": "İleri Teknoloji Salonlar",
+      "body": "4K projeksiyon, HDR ve dengeli akustik ile her sahnede netlik. Koltuk eğimi ve görüş açısı optimum.",
+      "alt": "Geniş perde ve akustik panele sahip salon"
+    },
+    "grid2": {
+      "title": "Zengin Büfe",
+      "body": "Taptaze patlamış mısır, gurme içecekler ve atıştırmalıklar. Online sipariş ver, hızlıca teslim al.",
+      "alt": "Popcorn & büfe alanı"
+    },
+    "grid3": {
+      "title": "Konforlu Bekleme Alanı",
+      "body": "Seans öncesi buluşmalar için modern lounge: rahat koltuklar, şarj üniteleri ve hızlı Wi-Fi.",
+      "alt": "Konforlu lounge bekleme alanı"
+    },
+
+    "timelineTitle": "Tarihçemiz",
+    "timelineAria": "CineTime tarihçesi",
+
+    "m1995": {
+      "title": "Kuruluş ve İlk Salon",
+      "desc": "CineTime’ın temelleri 90’ların ortasında, film projeksiyonunun analogdan dijitale evrildiği dönemde atıldı.",
+      "p1": "İlk salonumuz 180 koltuk kapasitesiyle kapılarını açtı.",
+      "p2": "35mm projektörlerle başlangıç; perde, akustik ve oturma ergonomisine yatırım.",
+      "p3": "Yerel bilet gişesi ve telefon rezervasyonu.",
+      "p4": "Aile işletmesi kültürü: misafir ilişkileri ve temizlikte yüksek standart."
+    },
+    "m2005": {
+      "title": "Dijital Dönüşüm",
+      "desc": "Dijital projeksiyon ve çoklu salon komplekslerine geçişle ölçek büyümeye başladı.",
+      "p1": "İlk 2K dijital projektör ve altyapı güçlendirmesi.",
+      "p2": "Çok salonlu planlama yazılımlarına geçiş.",
+      "p3": "İlk sadakat programı ve kampanya entegrasyonları."
+    },
+    "m2015": {
+      "title": "Online Bilet & Mobil",
+      "desc": "Çevrimiçi ve mobil deneyim merkeze alındı; kuyruklar azaldı, doluluk yönetimi iyileşti.",
+      "p1": "Web üzerinden koltuk seçimi ve temassız e-bilet.",
+      "p2": "iOS/Android uygulamalar, QR giriş kodu.",
+      "p3": "Gerçek zamanlı seans/doluluk görünürlüğü.",
+      "p4": "Operasyon paneli: raporlama ve dinamik fiyatlama."
+    },
+    "m2020": {
+      "title": "Veri ve Kişiselleştirme",
+      "desc": "ML tabanlı öneriler ve hedefli kampanyalar devreye alındı.",
+      "p1": "Tercih/geçmişe dayalı film önerileri.",
+      "p3": "Gelişmiş fraud/chargeback önleme."
+    },
+    "m2025": {
+      "title": "Ekosistem & Premium Deneyim",
+      "desc": "Bugün; premium koltuklar, seçkin büfe ve partner ağlarıyla uçtan uca deneyim sunuyoruz.",
+      "p1": "60+ salon, 4K projeksiyon ve Dolby destekli salonlar.",
+      "p2": "Ulaşım, yemek, etkinlik paketleriyle partner entegrasyonları.",
+      "p4": "Sürdürülebilirlik: enerji verimliliği ve atık azaltımı."
+    },
+
+    "ctaTitle": "Hazır mısın?",
+    "ctaBody": "Yakınındaki salonları keşfet ve biletini hemen al.",
+    "ctaBtn": "Bilet Al"
   }
 }
+
