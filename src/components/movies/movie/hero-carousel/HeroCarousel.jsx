@@ -24,6 +24,7 @@ export const HeroCarousel = ({ movies }) => {
         }
       }}
     >
+{/*       
       {movies.map((movie) => (
         <SwiperSlide key={movie.id}>
           <div
@@ -42,7 +43,7 @@ export const HeroCarousel = ({ movies }) => {
             </div>
           </div>
         </SwiperSlide>
-      ))}
+      ))} */}
 
       {/* 🔹 Autoplay progress bar */}
       <div className="autoplay-progress">
