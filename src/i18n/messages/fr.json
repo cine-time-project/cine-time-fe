@@ -4,7 +4,7 @@
     "tagline": "Système de cinéma et de billets"
   },
 
-   "nav": {
+  "nav": {
     "home": "Accueil",
     "movies": "Films",
     "cinemas": "Cinémas",
@@ -20,17 +20,56 @@
     "myTickets": "Mes Billets",
     "buy": "Acheter un billet",
     "search": "Rechercher",
-     "about": "À propos"
+    "about": "À propos"
   },
 
   "footer": {
-    "rights": "Tous droits réservés.",
-    "privacy": "Confidentialité",
-    "terms": "Conditions d’utilisation",
-    "contact": "Contact",
-    "language": "Langue"
+    "sections": {
+      "quickLinks": {
+        "title": "Liens rapides"
+      },
+      "premiumCinemas": {
+        "title": "Salles premium"
+      },
+      "contact": {
+        "title": "Contact"
+      },
+      "newsletter": {
+        "title": "Actualités cinéma",
+        "description": "Recevez en avant-première les dernières sorties et nos offres exclusives."
+      },
+      "social": {
+        "title": "Suivez-nous"
+      }
+    },
+    "links": {
+      "home": "Accueil",
+      "movies": "Films",
+      "cinemas": "Cinémas",
+      "campaigns": "Campagnes",
+      "events": "Événements",
+      "about": "À propos"
+    },
+    "premium": {
+      "vip": "🎬 CineTime VIP",
+      "imax": "🌌 Expérience IMAX",
+      "fourdx": "💨 Salle 4DX dynamique",
+      "dolby": "🔊 Dolby Atmos",
+      "family": "👨‍👩‍👧‍👦 Salon famille"
+    },
+    "contact": {
+      "address": "Istanbul, Turquie",
+      "phone": "+90 212 123 45 67",
+      "email": "info@cinetime.com"
+    },
+    "newsletter": {
+      "placeholder": "Entrez votre adresse e-mail",
+      "button": "S’abonner"
+    },
+    "legal": {
+      "rights": "CineTime. Tous droits réservés."
+    }
   },
-
   "common": {
     "save": "Enregistrer",
     "cancel": "Annuler",
@@ -93,7 +132,6 @@
     "passwordMismatch": "Les mots de passe ne correspondent pas",
     "invalidPhone": "Saisissez un numéro de téléphone valide",
     "phoneFormat": "Le format du téléphone doit être « {format} »"
-
   },
 
   "pagination": {
@@ -288,7 +326,7 @@
     "network": "Erreur réseau. Veuillez vérifier votre connexion.",
     "timeout": "La requête a expiré.",
     "unknown": "Erreur inconnue.",
-     "required": "Ce champ est obligatoire.",
+    "required": "Ce champ est obligatoire.",
     "min": "Saisissez au moins {min} caractères.",
     "max": "Saisissez au maximum {max} caractères.",
     "invalidEmail": "Veuillez saisir une adresse e-mail valide."
@@ -329,10 +367,15 @@
     "successTitle": "Succès",
     "errorTitle": "Erreur"
   },
-   "contact": {
+  "contact": {
     "title": "Contact",
     "subtitle": "Nous sommes là pour vous aider ! Une question, besoin d’assistance ou envie d’en savoir plus ? Écrivez-nous. Remplissez le formulaire ou utilisez les coordonnées indiquées — nous vous répondrons au plus vite.",
-    "info": { "address": "Adresse", "email": "E-mail", "phone": "Téléphone", "hours": "Horaires" },
+    "info": {
+      "address": "Adresse",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "hours": "Horaires"
+    },
     "form": {
       "fullName": "Nom et prénom",
       "email": "E-mail",
