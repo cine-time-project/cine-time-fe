@@ -4,7 +4,7 @@
     "tagline": "Kino- & Ticket-System"
   },
 
- "nav": {
+  "nav": {
     "home": "Startseite",
     "movies": "Filme",
     "cinemas": "Kinos",
@@ -20,15 +20,55 @@
     "myTickets": "Meine Tickets",
     "buy": "Ticket kaufen",
     "search": "Suchen",
-     "about": "Über uns"  
+    "about": "Über uns"
   },
 
   "footer": {
-    "rights": "Alle Rechte vorbehalten.",
-    "privacy": "Datenschutz",
-    "terms": "Nutzungsbedingungen",
-    "contact": "Kontakt",
-    "language": "Sprache"
+    "sections": {
+      "quickLinks": {
+        "title": "Schnellzugriffe"
+      },
+      "premiumCinemas": {
+        "title": "Premium-Säle"
+      },
+      "contact": {
+        "title": "Kontakt"
+      },
+      "newsletter": {
+        "title": "Filmnews",
+        "description": "Erfahren Sie als Erste*r von den neuesten Filmstarts und exklusiven Angeboten."
+      },
+      "social": {
+        "title": "Folgen Sie uns"
+      }
+    },
+    "links": {
+      "home": "Startseite",
+      "movies": "Filme",
+      "cinemas": "Kinos",
+      "campaigns": "Kampagnen",
+      "events": "Events",
+      "about": "Über uns"
+    },
+    "premium": {
+      "vip": "🎬 CineTime VIP",
+      "imax": "🌌 IMAX Erlebnis",
+      "fourdx": "💨 4DX Motion-Kino",
+      "dolby": "🔊 Dolby Atmos",
+      "family": "👨‍👩‍👧‍👦 Familiensalon"
+    },
+    "contact": {
+      "address": "Istanbul, Türkei",
+      "phone": "+90 212 123 45 67",
+      "email": "info@cinetime.com"
+    },
+    "newsletter": {
+      "placeholder": "E-Mail-Adresse eingeben",
+      "button": "Abonnieren"
+    },
+    "legal": {
+      "rights": "CineTime. Alle Rechte vorbehalten."
+    }
   },
 
   "common": {
@@ -92,7 +132,7 @@
     "maxLength": "Höchstens {max} Zeichen",
     "passwordMismatch": "Passwörter stimmen nicht überein",
     "invalidPhone": "Bitte eine gültige Telefonnummer eingeben",
-     "phoneFormat": "Telefonformat muss „{format}“ sein"
+    "phoneFormat": "Telefonformat muss „{format}“ sein"
   },
 
   "pagination": {
@@ -330,7 +370,12 @@
   "contact": {
     "title": "Kontakt",
     "subtitle": "Wir helfen gern! Haben Sie Fragen, benötigen Unterstützung oder möchten mehr erfahren? Schreiben Sie uns einfach. Füllen Sie das Formular aus oder nutzen Sie die angegebenen Kontaktinformationen – wir melden uns schnellstmöglich.",
-    "info": { "address": "Adresse", "email": "E-Mail", "phone": "Telefon", "hours": "Öffnungszeiten" },
+    "info": {
+      "address": "Adresse",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "hours": "Öffnungszeiten"
+    },
     "form": {
       "fullName": "Vor- und Nachname",
       "email": "E-Mail",

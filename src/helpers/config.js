@@ -7,6 +7,12 @@ export const config = {
       "CineTime; vizyondaki filmler, seanslar ve bilet satın alma deneyimini hızlı ve güvenli şekilde sunar.",
   },
 
+  // ---- Özellik bayrakları (eğitim modunda servisleri kapatmak için) ----
+  features: {
+    whatsapp: true,   // eğitim: kapalı (true yapınca buton/bağlantı görünür)
+    liveChat: false,   // Crisp/Tidio gibi script’leri eğitimde kapatalım
+  },
+
   contact: {
     info: {
       phone: {
@@ -38,12 +44,21 @@ export const config = {
       youtube:  { url: "https://youtube.com/@cinetime", icon: "pi pi-youtube"   },
       linkedin: { url: "https://linkedin.com/company/cinetime", icon: "pi pi-linkedin" },
     },
+
+    // ---- WhatsApp ayarları (tek numara, Business’a geçince hazır) ----
+    whatsapp: {
+      number: "+905555555555",                 // E.164 format; gerçek numaran yoksa boş bırak
+      defaultText: "Merhaba, destek için yazıyorum.",
+      showHoursNote: true,                     // saat notu göstermek istersen
+      hoursTextKey: "contact.hours"            // i18n anahtarı
+    },
   },
 
-  // API kökü: env varsa onu kullan, yoksa placeholder
-  apiURL:  "http://localhost:8090/api",
+  // ---- API kökü: env > config fallback (tek yerden kontrol) ----
+  // Not: api-routes.js bu değeri import edip tüm endpoint’leri oradan kurmalı.
+  apiURL: (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8090/api").replace(/\/$/, ""),
 
-  // Desteklenen diller (i18n anahtarlarınızla eşleşecek şekilde)
+  // Desteklenen diller
   locales: ["tr", "en", "de", "fr"],
   defaultLocale: "tr",
 

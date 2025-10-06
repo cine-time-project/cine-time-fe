@@ -4,7 +4,7 @@
     "tagline": "Cinema & Ticket System"
   },
 
-   "nav": {
+  "nav": {
     "home": "Home",
     "movies": "Movies",
     "cinemas": "Cinemas",
@@ -20,15 +20,54 @@
     "myTickets": "My Tickets",
     "buy": "Buy Ticket",
     "search": "Search",
-     "about": "About" 
+    "about": "About"
   },
-
   "footer": {
-    "rights": "All rights reserved.",
-    "privacy": "Privacy",
-    "terms": "Terms of Use",
-    "contact": "Contact",
-    "language": "Language"
+    "sections": {
+      "quickLinks": {
+        "title": "Quick Links"
+      },
+      "premiumCinemas": {
+        "title": "Premium Auditoriums"
+      },
+      "contact": {
+        "title": "Contact"
+      },
+      "newsletter": {
+        "title": "Movie News",
+        "description": "Be the first to hear about the latest releases and exclusive offers."
+      },
+      "social": {
+        "title": "Follow Us"
+      }
+    },
+    "links": {
+      "home": "Home",
+      "movies": "Movies",
+      "cinemas": "Cinemas",
+      "campaigns": "Campaigns",
+      "events": "Events",
+      "about": "About Us"
+    },
+    "premium": {
+      "vip": "🎬 CineTime VIP",
+      "imax": "🌌 IMAX Experience",
+      "fourdx": "💨 4DX Motion Theater",
+      "dolby": "🔊 Dolby Atmos",
+      "family": "👨‍👩‍👧‍👦 Family Lounge"
+    },
+    "contact": {
+      "address": "Istanbul, Turkey",
+      "phone": "+90 212 123 45 67",
+      "email": "info@cinetime.com"
+    },
+    "newsletter": {
+      "placeholder": "Enter your email address",
+      "button": "Subscribe"
+    },
+    "legal": {
+      "rights": "CineTime. All rights reserved."
+    }
   },
 
   "common": {
@@ -92,7 +131,7 @@
     "maxLength": "At most {max} characters",
     "passwordMismatch": "Passwords do not match",
     "invalidPhone": "Enter a valid phone number",
-     "phoneFormat": "Phone format must be '{format}'"
+    "phoneFormat": "Phone format must be '{format}'"
   },
 
   "pagination": {
@@ -401,9 +440,20 @@
     "errorTitle": "Error"
   },
   "contact": {
+    "reasons": {
+      "title": "Quick choose :",
+      "refund": "Ticket refund",
+      "payment": "Payment issue",
+      "general": "General question"
+    },
     "title": "Get In Touch",
     "subtitle": "We're here to help! Whether you have a question, need support, or want to learn more about what we do, feel free to reach out. Fill out the form below or use the contact details—we'll get back to you as soon as possible.",
-    "info": { "address": "Address", "email": "Email", "phone": "Phone", "hours": "Working Hours" },
+    "info": {
+      "address": "Address",
+      "email": "Email",
+      "phone": "Phone",
+      "hours": "Working Hours"
+    },
     "form": {
       "fullName": "Full Name",
       "email": "Email",
@@ -440,6 +490,8 @@
       "phoneMask": "Phone format must be '(XXX) XXX-XXXX'.",
       "subjectRequired": "Subject is required.",
       "messageRequired": "Message is required."
-    }
+    },
+    "ctaWhatsAppShort": "Contact via WhatsApp",
+    "defaultText": "Hi, I need support."
   }
 }
