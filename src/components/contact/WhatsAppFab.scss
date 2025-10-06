@@ -1,0 +1,83 @@
+.wa-fab {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1040;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  height: 56px;
+  width: 56px;                 /* başlangıçta yuvarlak */
+  padding: 0 16px;             /* genişleyince metne yer */
+  border-radius: 999px;
+
+  background-color: #25D366;   /* WhatsApp yeşili */
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1;
+
+  box-shadow: 0 10px 26px rgba(0,0,0,.22);
+  transition:
+    width .25s cubic-bezier(.4,0,.2,1),
+    background-color .2s ease,
+    box-shadow .2s ease;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wa-fab:hover,
+.wa-fab:focus-visible {
+  width: 248px;                /* sola doğru açılır */
+  background-color: #21c45c;
+  box-shadow: 0 12px 30px rgba(0,0,0,.26);
+}
+
+.wa-fab:focus-visible {
+  outline: 3px solid rgba(255,255,255,.55);
+  outline-offset: 2px;
+}
+
+.wa-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.wa-icon-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.wa-icon-fallback {
+  display: none; /* Image yüklenemezse JS ile açıyoruz */
+  width: 24px;
+  height: 24px;
+  fill: #fff;   /* ikon rengi */
+  color: #fff;
+}
+
+.wa-label {
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+.wa-fab:hover .wa-label,
+.wa-fab:focus-visible .wa-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (hover: none) {
+  .wa-fab { width: 56px !important; }
+  .wa-label { display: none; }
+}

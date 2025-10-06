@@ -1,6 +1,7 @@
 @use "../../styles/mixins" as *;
 
 .contact {
+  background-color: $color2;
   h3 {
     color: $color2;
   }
@@ -45,4 +46,55 @@
   .contact-form{
     flex: 5;
   }
+
+
+
+.wa-float{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1040;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #25D366;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,.2);
+}
+.wa-float:hover{ filter: brightness(.95); }
+.wa-icon{ font-size: 0; } 
+
+.quick-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .btn {
+    --bs-btn-padding-y: .25rem;
+    --bs-btn-padding-x: .6rem;
+    --bs-btn-font-size: .875rem;
+  }
+
+  .btn.is-active {
+    color: #0ea5e9;                     /* marka rengi → dilediğinle değiştir */
+    border-color: #0ea5e9;
+    background: #f0f9ff;                /* çok açık bir arka plan */
+  }
+}
+
+.contactHero {
+  min-height: 320px;
+  border-radius: 16px;
+  background-image: url('/images/contact/contact-hero.jpg'); /* public/ */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
 }

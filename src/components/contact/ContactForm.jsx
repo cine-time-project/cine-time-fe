@@ -1,23 +1,22 @@
 "use client";
 
-import { Col, Row } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Col, Row, Button } from "react-bootstrap";
+import { useActionState } from "react";
+import { useTranslations } from "next-intl";
+
 import { TextInput } from "../common/FormControls/TextInput";
 import { SubmitButton } from "../common/FormControls/SubmitButton";
 import { createContactMessageAction } from "@/action/contact-actions";
-import { useActionState, useRef } from "react";
 import { swAlert } from "@/helpers/sweetalert";
-import { useTranslations } from "next-intl";
 
 export const ContactForm = () => {
   const t = useTranslations("contact");
   const tswal = useTranslations("swal");
-
-  const [state, formAction, isPending] = useActionState(
-    createContactMessageAction,
-    null
-  );
-
+  const [state, formAction, isPending] = useActionState(createContactMessageAction, null);
   const refForm = useRef(null);
+
+  const [activeReason, setActiveReason] = useState(null);
 
   if (state?.message) {
     if (state.ok) {
@@ -27,6 +26,7 @@ export const ContactForm = () => {
         cancelButtonText: tswal("cancel"),
       });
       refForm.current?.reset();
+      setActiveReason(null);
     } else {
       swAlert(state.message || t("alerts.failGeneric"), "error", {
         title: t("alerts.failTitle"),
@@ -36,8 +36,52 @@ export const ContactForm = () => {
     }
   }
 
+  const reasons = [
+    { key: "refund",  label: t("reasons.refund") },
+    { key: "payment", label: t("reasons.payment") },
+    { key: "general", label: t("reasons.general") },
+  ];
+
+  const pickReason = (key, label) => {
+    const form = refForm.current;
+    if (!form) return;
+
+    const subj = form.querySelector('input[name="subject"], textarea[name="subject"]');
+    const msg  = form.querySelector('textarea[name="message"]');
+
+    if (subj) {
+      subj.value = label;
+      subj.dispatchEvent(new Event("input", { bubbles: true }));
+      subj.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    msg?.focus();
+    setActiveReason(key);
+  };
+
   return (
     <form className="contact-form" action={formAction} ref={refForm} noValidate>
+      {/* --- Hızlı Konu Seçimi (Grid içinde) --- */}
+      <Row className="align-items-center g-3 mb-2">
+        <Col xs={12} md="auto">
+          <small className="text-muted">{t("reasons.title")}</small>
+        </Col>
+        <Col xs={12} md>
+          <div className="d-flex flex-wrap gap-2 justify-content-md-end">
+            {reasons.map((r) => (
+              <Button
+                key={r.key}
+                size="sm"
+                type="button"
+                variant={activeReason === r.key ? "warning" : "outline-secondary"}
+                onClick={() => pickReason(r.key, r.label)}
+              >
+                {r.label}
+              </Button>
+            ))}
+          </div>
+        </Col>
+      </Row>
+
       <Row>
         <Col md={6}>
           <TextInput
@@ -47,9 +91,7 @@ export const ContactForm = () => {
             iconBefore="user"
             required
             placeholder={t("form.placeholders.fullName")}
-            helperText={undefined}
             errorMessage={state?.errors?.fullName}
-           
           />
         </Col>
 
@@ -64,7 +106,6 @@ export const ContactForm = () => {
             required
             placeholder={t("form.placeholders.email")}
             errorMessage={state?.errors?.email}
-          
           />
         </Col>
 
@@ -79,11 +120,10 @@ export const ContactForm = () => {
             placeholder={t("form.placeholders.phoneNumber")}
             helperText={t("form.helper.phoneMask")}
             errorMessage={state?.errors?.phoneNumber}
-           
           />
         </Col>
 
-        <Col xs={6}>
+        <Col md={6}>
           <TextInput
             className="mb-3"
             name="subject"
@@ -92,7 +132,6 @@ export const ContactForm = () => {
             required
             placeholder={t("form.placeholders.subject")}
             errorMessage={state?.errors?.subject}
-           
           />
         </Col>
 
@@ -107,7 +146,6 @@ export const ContactForm = () => {
             required
             placeholder={t("form.placeholders.message")}
             errorMessage={state?.errors?.message}
-           
           />
         </Col>
       </Row>

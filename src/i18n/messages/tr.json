@@ -330,6 +330,12 @@
     "errorTitle": "Hata"
   },
   "contact": {
+    "reasons": {
+      "title": "Hızlı seçim :",
+      "refund": "Bilet iadesi",
+      "payment": "Ödeme sorunu",
+      "general": "Genel soru"
+    },
     "title": "BİZİMLE İLETİŞİME GEÇİN",
     "subtitle": "Size yardımcı olmak için buradayız! Sorunuz, desteğe ihtiyacınız ya da yaptıklarımız hakkında daha fazla bilgi almak isterseniz bizimle iletişime geçin. Aşağıdaki formu doldurun veya yan taraftaki iletişim bilgilerinden bize ulaşın; en kısa sürede dönüş yapacağız.",
     "info": { "address": "Adres", "email": "E-posta", "phone": "Telefon", "hours": "Çalışma Saatleri" },
@@ -369,7 +375,9 @@
       "phoneMask": "Telefon biçimi '(XXX) XXX-XXXX' olmalı.",
       "subjectRequired": "Konu zorunludur.",
       "messageRequired": "Mesaj zorunludur."
-    }
+    },
+     "ctaWhatsAppShort": "WhatsApp’tan ulaşın",
+    "defaultText": "Merhaba, destek için yazıyorum."
   },
 
   "about": {
