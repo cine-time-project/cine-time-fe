@@ -3,7 +3,7 @@
     "name": "CineTime",
     "tagline": "Sinema & Bilet Sistemi"
   },
-"nav": {
+  "nav": {
     "home": "Ana Sayfa",
     "movies": "Filmler",
     "cinemas": "Sinemalar",
@@ -19,15 +19,55 @@
     "myTickets": "Biletlerim",
     "buy": "Bilet Al",
     "search": "Ara",
-     "about": "Hakkımızda" 
+    "about": "Hakkımızda"
   },
 
   "footer": {
-    "rights": "Tüm hakları saklıdır.",
-    "privacy": "Gizlilik",
-    "terms": "Kullanım Şartları",
-    "contact": "İletişim",
-    "language": "Dil"
+    "sections": {
+      "quickLinks": {
+        "title": "Hızlı Linkler"
+      },
+      "premiumCinemas": {
+        "title": "Ayrıcalıklı Salonlar"
+      },
+      "contact": {
+        "title": "İletişim"
+      },
+      "newsletter": {
+        "title": "Film Haberleri",
+        "description": "En yeni vizyon filmlerinden ve özel kampanyalardan ilk siz haberdar olun."
+      },
+      "social": {
+        "title": "Bizi Takip Edin"
+      }
+    },
+    "links": {
+      "home": "Ana Sayfa",
+      "movies": "Filmler",
+      "cinemas": "Sinemalar",
+      "campaigns": "Kampanyalar",
+      "events": "Etkinlikler",
+      "about": "Hakkımızda"
+    },
+    "premium": {
+      "vip": "🎬 CineTime VIP",
+      "imax": "🌌 IMAX Deneyimi",
+      "fourdx": "💨 4DX Hareketli Salon",
+      "dolby": "🔊 Dolby Atmos",
+      "family": "👨‍👩‍👧‍👦 Aile Salonu"
+    },
+    "contact": {
+      "address": "İstanbul, Türkiye",
+      "phone": "+90 212 123 45 67",
+      "email": "info@cinetime.com"
+    },
+    "newsletter": {
+      "placeholder": "E-posta adresinizi girin",
+      "button": "Abone Ol"
+    },
+    "legal": {
+      "rights": "CineTime. Tüm hakları saklıdır."
+    }
   },
 
   "common": {
@@ -91,7 +131,7 @@
     "maxLength": "En fazla {max} karakter",
     "passwordMismatch": "Şifreler eşleşmiyor",
     "invalidPhone": "Geçerli bir telefon girin",
-     "phoneFormat": "Telefon biçimi '{format}' olmalı"
+    "phoneFormat": "Telefon biçimi '{format}' olmalı"
   },
 
   "pagination": {
@@ -322,7 +362,7 @@
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat"
   },
-"swal": {
+  "swal": {
     "confirm": "Onayla",
     "cancel": "İptal",
     "deny": "Reddet",
@@ -338,7 +378,12 @@
     },
     "title": "BİZİMLE İLETİŞİME GEÇİN",
     "subtitle": "Size yardımcı olmak için buradayız! Sorunuz, desteğe ihtiyacınız ya da yaptıklarımız hakkında daha fazla bilgi almak isterseniz bizimle iletişime geçin. Aşağıdaki formu doldurun veya yan taraftaki iletişim bilgilerinden bize ulaşın; en kısa sürede dönüş yapacağız.",
-    "info": { "address": "Adres", "email": "E-posta", "phone": "Telefon", "hours": "Çalışma Saatleri" },
+    "info": {
+      "address": "Adres",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "hours": "Çalışma Saatleri"
+    },
     "form": {
       "fullName": "Ad Soyad",
       "email": "E-posta",
@@ -376,7 +421,7 @@
       "subjectRequired": "Konu zorunludur.",
       "messageRequired": "Mesaj zorunludur."
     },
-     "ctaWhatsAppShort": "WhatsApp’tan ulaşın",
+    "ctaWhatsAppShort": "WhatsApp’tan ulaşın",
     "defaultText": "Merhaba, destek için yazıyorum."
   },
 
