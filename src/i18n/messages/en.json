@@ -401,6 +401,12 @@
     "errorTitle": "Error"
   },
   "contact": {
+    "reasons": {
+      "title": "Quick choose :",
+      "refund": "Ticket refund",
+      "payment": "Payment issue",
+      "general": "General question"
+    },
     "title": "Get In Touch",
     "subtitle": "We're here to help! Whether you have a question, need support, or want to learn more about what we do, feel free to reach out. Fill out the form below or use the contact details—we'll get back to you as soon as possible.",
     "info": { "address": "Address", "email": "Email", "phone": "Phone", "hours": "Working Hours" },
@@ -440,6 +446,9 @@
       "phoneMask": "Phone format must be '(XXX) XXX-XXXX'.",
       "subjectRequired": "Subject is required.",
       "messageRequired": "Message is required."
-    }
+    },
+      "ctaWhatsAppShort": "Contact via WhatsApp",
+    "defaultText": "Hi, I need support."
+
   }
 }

@@ -6,6 +6,10 @@ import "./contact.scss";
 import { ContactForm } from "./ContactForm";
 import { ContactMenu } from "../layout/ContactMenu";
 import { useTranslations } from "next-intl";
+import WhatsAppFab from "./WhatsAppFab";
+import SectionTitle from "../common/SectionTitle";
+import ContactHero from "./_ContactHero";
+
 
 export const Contact = () => {
   const t = useTranslations("contact");
@@ -13,8 +17,9 @@ export const Contact = () => {
   return (
     <div className="contact">
       <Card>
-        <Card.Body>
-          <h3>{t("title")}</h3>
+        <Card.Body>  <ContactHero/>
+          <SectionTitle level={2}>{t("title")}</SectionTitle>
+        
           <p>{t("subtitle")}</p>
           <div className="contact-row">
             <ContactForm />
@@ -24,6 +29,7 @@ export const Contact = () => {
       </Card>
 
       <Map />
+      <WhatsAppFab/>
     </div>
   );
 };
