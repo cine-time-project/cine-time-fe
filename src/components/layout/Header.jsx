@@ -129,7 +129,7 @@ export default function Header() {
               <NavDropdown.Item as={Link} href="/fr">FR</NavDropdown.Item>
             </NavDropdown>
 
-            <Button as={Link} href={L("buy-ticket")} variant="warning" size="sm">
+            <Button as={Link} href={L("find-showtime")} variant="warning" size="sm">
               {tNav("buy")}  {/* i18n: "Bilet Al" / "Buy Ticket" */}
             </Button>
           </Nav>

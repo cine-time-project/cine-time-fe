@@ -3,16 +3,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
-import SeatMap from "@/components/tickets/SeatMap";  
-
-const API = process.env.NEXT_PUBLIC_API_BASE_URL; // must include /api
-
-// ==== TEMP AUTH TOKEN FOR LOCAL TESTING ====
-// Set USE_HARDCODED_TOKEN=false after login is implemented.
-const USE_HARDCODED_TOKEN = true;
-const HARDCODED_TOKEN =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZW1iZXJAY2luZXRpbWUubG9jYWwiLCJpYXQiOjE3NTk1MzUyMjIsImV4cCI6MTc1OTYyMTYyMn0.zPqtyaZjiJiOkyOQjlzVWSDuvkVLXqPFlQPlu-XvRNIsFOGAT1iB0jEuDi8RB4Z9wWn52tVrSdg1jwVIrYjKDg";
-// ===========================================
+import SeatMap from "@/components/tickets/SeatMap";
+import { API_BASE as API, authHeaders } from "@/lib/utils/http";
 
 export default function BuyTicketPage() {
   const params = useSearchParams();
@@ -46,23 +38,37 @@ export default function BuyTicketPage() {
 
   // --- fetch basics ---
   useEffect(() => {
+    if (!cinemaId || !movieId || !date) {
+      setError(
+        "Gerekli parametreler eksik. Lütfen seçim sayfasına geri dönün."
+      );
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       try {
         setLoading(true);
         setError(null);
 
         // cinema name (C03)
-        const cRes = await axios.get(`${API}/cinemas/${cinemaId}`);
+        const cRes = await axios.get(`${API}/cinemas/${cinemaId}`, {
+          headers: authHeaders(),
+        });
         const cBody = cRes.data?.returnBody ?? cRes.data;
         setCinema({ id: cinemaId, name: cBody?.name });
 
         // movie title (M09)
-        const mRes = await axios.get(`${API}/movies/id/${movieId}`);
+        const mRes = await axios.get(`${API}/movies/id/${movieId}`, {
+          headers: authHeaders(),
+        });
         const mBody = mRes.data?.returnBody ?? mRes.data;
         setMovie({ id: movieId, title: mBody?.title });
 
         // halls + showtimes (S01)
-        const sRes = await axios.get(`${API}/show-times/cinema/${cinemaId}`);
+        const sRes = await axios.get(`${API}/show-times/cinema/${cinemaId}`, {
+          headers: authHeaders(),
+        });
         const sBody = sRes.data?.returnBody ?? sRes.data;
         setHalls(Array.isArray(sBody) ? sBody : []);
       } catch (e) {
@@ -72,7 +78,7 @@ export default function BuyTicketPage() {
         setLoading(false);
       }
     })();
-  }, [cinemaId, movieId]);
+  }, [cinemaId, movieId, date]);
 
   // --- sessions available for this date + movie (group by hall) ---
   const sessions = useMemo(() => {
@@ -122,7 +128,7 @@ export default function BuyTicketPage() {
     return { seatLetter, seatNumber };
   };
 
-  // call /tickets/buy-ticket with your payload (requires Bearer token)
+  // call /tickets/buy-ticket with your payload (uses authHeaders from lib)
   const buy = async () => {
     try {
       setError(null);
@@ -140,16 +146,6 @@ export default function BuyTicketPage() {
         return;
       }
 
-      // Use hardcoded token while testing, or fall back to locally stored token.
-      const token = USE_HARDCODED_TOKEN
-        ? HARDCODED_TOKEN
-        : (localStorage.getItem("authToken") ||
-           localStorage.getItem("access_token") ||
-           localStorage.getItem("token") ||
-           "");
-      const bearer = token ? `Bearer ${String(token).trim()}` : "";
-      console.log("[BUY] Using token length:", token ? String(token).length : 0);
-
       const idempotencyKey = `BUY-${cinemaId}-${movieId}-${selectedHall}-${date}-${selectedTime}-${selectedSeats
         .sort()
         .join("_")}`;
@@ -163,19 +159,17 @@ export default function BuyTicketPage() {
         seatInformation: selectedSeats.map(toSeatInfo),
       };
 
-      const headers = {
+      const headers = authHeaders({
         Accept: "application/json",
         "Content-Type": "application/json",
         "Idempotency-Key": idempotencyKey,
-        Authorization: bearer,
-      };
-      console.log("[BUY] POST", `${API}/tickets/buy-ticket`, headers, payload);
+      });
 
       const res = await axios.post(`${API}/tickets/buy-ticket`, payload, {
         headers,
         validateStatus: () => true,
       });
-      console.log("[BUY] Response", res.status, res.data);
+
       if (res.status === 401) {
         setError("Unauthorized (401). Check CORS / token / roles.");
         return;
@@ -185,11 +179,7 @@ export default function BuyTicketPage() {
         return;
       }
 
-      // success UX
       alert("Bilet satın alındı! ✅");
-      console.log("Purchase response:", res.data);
-
-      // optionally navigate to confirmation page with some id from response
       // const tid = res.data?.returnBody?.id;
       // if (tid) router.push(`/tickets/confirmation?id=${tid}`);
     } catch (e) {
