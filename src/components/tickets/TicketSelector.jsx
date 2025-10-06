@@ -4,12 +4,7 @@ import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { useRouter, usePathname } from "next/navigation";
 
-// ==== TEMP AUTH TOKEN FOR LOCAL TESTING ====
-// Set USE_HARDCODED_TOKEN=false after login is implemented.
-const USE_HARDCODED_TOKEN = true;
-const HARDCODED_TOKEN =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZW1iZXJAY2luZXRpbWUubG9jYWwiLCJpYXQiOjE3NTk1MzUyMjIsImV4cCI6MTc1OTYyMTYyMn0.zPqtyaZjiJiOkyOQjlzVWSDuvkVLXqPFlQPlu-XvRNIsFOGAT1iB0jEuDi8RB4Z9wWn52tVrSdg1jwVIrYjKDg";
-// ===========================================
+ 
 
 const TicketSelector = ({ onFindTickets }) => {
   const [cities, setCities] = useState([]);
