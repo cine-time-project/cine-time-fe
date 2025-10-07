@@ -8,7 +8,7 @@ const USE_HARDCODED_TOKEN = true;
 
 // Keep your current dev token here so it's controlled in one place.
 const HARDCODED_TOKEN =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZW1iZXJAY2luZXRpbWUubG9jYWwiLCJpYXQiOjE3NTk3MjkyNTgsImV4cCI6MTc1OTgxNTY1OH0.57nugKeynCpmW9mheudedTvsCE1r2CKqQjxE2nic1yseF1U6OYH6Z5pMvgpOaljVP5T9Nnfk8feWCtrFJVsGcQ";
+  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZW1iZXJAY2luZXRpbWUubG9jYWwiLCJpYXQiOjE3NTk3Nzc4NjQsImV4cCI6MTc1OTg2NDI2NH0.cxkEQC16jlnOjJqM3xj-8r-TbZ5aG28aUmf_QmFgrNmzeHe3yUqbk4-142QSiGkPrSB99V9YbaI3FQrUiRMq_w";
 // ===========================================
 
 export function getToken() {

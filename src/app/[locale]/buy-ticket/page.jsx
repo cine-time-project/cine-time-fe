@@ -1,14 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import axios from "axios";
-import { Form, Button, Spinner, Alert } from "react-bootstrap";
+import { Form, Button, Spinner, Alert, Badge } from "react-bootstrap";
 import SeatMap from "@/components/tickets/SeatMap";
 import { API_BASE as API, authHeaders } from "@/lib/utils/http";
+import { savePendingOrder } from "@/lib/utils/checkout"; // <-- handoff to payment
 
 export default function BuyTicketPage() {
   const params = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
+  const localeSegment = pathname?.split("/")?.[1] || "tr";
+  const basePath = `/${localeSegment}`;
 
   // --- query params from TicketSelector ---
   const cityId = params.get("cityId");
@@ -28,13 +33,33 @@ export default function BuyTicketPage() {
   const [halls, setHalls] = useState([]); // [{ name, movies:[{movie:{id,title}, times:[ISO...]}], ... }]
 
   // user selections
-  const [selectedHall, setSelectedHall] = useState(""); // hall name string, e.g. "Hall 2"
+  const [selectedHall, setSelectedHall] = useState(""); // "Hall 2"
   const [selectedTime, setSelectedTime] = useState(""); // "HH:mm:ss"
   const [selectedSeats, setSelectedSeats] = useState([]); // ["A1","A2",...]
 
   // SeatMap grid config (change to match your halls if needed)
   const ROWS = 8; // A..H
   const COLS = 12; // 1..12
+
+  // --- PRICING (simple flat price for now) -------------------------------
+  const getUnitPrice = () => 9.99; // USD
+  const unitPrice = getUnitPrice();
+
+  const formatUSD = (n) => {
+    try {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(n);
+    } catch {
+      return `$${Number(n).toFixed(2)}`;
+    }
+  };
+
+  const seatCount = selectedSeats.length;
+  const totalPrice = seatCount * unitPrice;
 
   // --- fetch basics ---
   useEffect(() => {
@@ -98,12 +123,10 @@ export default function BuyTicketPage() {
 
   // keep selections valid if data changes
   useEffect(() => {
-    // reset if hall no longer exists
     if (!sessions.some((s) => s.hallName === selectedHall)) {
       setSelectedHall("");
       setSelectedTime("");
     } else if (selectedHall) {
-      // reset time if it disappeared
       const hall = sessions.find((s) => s.hallName === selectedHall);
       if (hall && !hall.times.includes(selectedTime)) {
         setSelectedTime("");
@@ -121,73 +144,42 @@ export default function BuyTicketPage() {
     );
   };
 
-  // convert "A1" → { seatLetter:"A", seatNumber:1 }
-  const toSeatInfo = (id) => {
-    const seatLetter = id[0];
-    const seatNumber = Number(id.slice(1));
-    return { seatLetter, seatNumber };
-  };
+  // ---- CONTINUE TO PAYMENT (save order -> navigate) ----------------------
+  const continueToPayment = () => {
+    setError(null);
 
-  // call /tickets/buy-ticket with your payload (uses authHeaders from lib)
-  const buy = async () => {
-    try {
-      setError(null);
-
-      // minimal validation
-      if (
-        !movie?.title ||
-        !cinema?.name ||
-        !selectedHall ||
-        !date ||
-        !selectedTime ||
-        selectedSeats.length === 0
-      ) {
-        setError("Lütfen salon, seans ve koltuk seçin.");
-        return;
-      }
-
-      const idempotencyKey = `BUY-${cinemaId}-${movieId}-${selectedHall}-${date}-${selectedTime}-${selectedSeats
-        .sort()
-        .join("_")}`;
-
-      const payload = {
-        movieName: movie.title,
-        cinema: cinema.name,
-        hall: selectedHall,
-        date, // 'YYYY-MM-DD'
-        showtime: selectedTime, // 'HH:mm:ss'
-        seatInformation: selectedSeats.map(toSeatInfo),
-      };
-
-      const headers = authHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Idempotency-Key": idempotencyKey,
-      });
-
-      const res = await axios.post(`${API}/tickets/buy-ticket`, payload, {
-        headers,
-        validateStatus: () => true,
-      });
-
-      if (res.status === 401) {
-        setError("Unauthorized (401). Check CORS / token / roles.");
-        return;
-      }
-      if (res.status >= 400) {
-        setError(`Request failed: ${res.status}`);
-        return;
-      }
-
-      alert("Bilet satın alındı! ✅");
-      // const tid = res.data?.returnBody?.id;
-      // if (tid) router.push(`/tickets/confirmation?id=${tid}`);
-    } catch (e) {
-      console.error(e);
-      setError(
-        "Satın alma başarısız. Lütfen seçimlerinizi kontrol edin veya tekrar deneyin."
-      );
+    if (
+      !movie?.title ||
+      !cinema?.name ||
+      !selectedHall ||
+      !date ||
+      !selectedTime ||
+      selectedSeats.length === 0
+    ) {
+      setError("Lütfen salon, seans ve koltuk seçin.");
+      return;
     }
+
+    // Build order snapshot for the payment page
+    const order = {
+      cinemaId,
+      movieId,
+      cinemaName: cinema.name,
+      movieTitle: movie.title,
+      date,
+      time: selectedTime,
+      hall: selectedHall,
+      seats: [...selectedSeats],
+      pricing: {
+        unitPrice,
+        currency: "USD",
+        total: totalPrice,
+        seats: selectedSeats.length,
+      },
+    };
+
+    savePendingOrder(order);
+    router.push(`${basePath}/payment`);
   };
 
   if (loading)
@@ -256,14 +248,56 @@ export default function BuyTicketPage() {
           </Form.Select>
         </Form.Group>
 
+        {/* price summary */}
+        <div className="mb-3">
+          <div
+            className="p-3 rounded"
+            style={{ background: "#22252b", border: "1px solid #333" }}
+          >
+            <div className="d-flex flex-wrap align-items-center gap-3">
+              <div>
+                <div className="text-muted small">Bilet Sayısı</div>
+                <div className="fs-4 fw-bold text-warning">{seatCount}</div>
+              </div>
+              <div className="vr" />
+              <div>
+                <div className="text-muted small">Birim Fiyat</div>
+                <div className="fs-5">{formatUSD(unitPrice)}</div>
+              </div>
+              <div className="vr" />
+              <div className="flex-grow-1">
+                <div className="text-muted small">Seçilen Koltuklar</div>
+                <div className="d-flex flex-wrap gap-2">
+                  {selectedSeats.length === 0 ? (
+                    <span className="text-secondary">Koltuk seçilmedi</span>
+                  ) : (
+                    selectedSeats
+                      .sort((a, b) => a.localeCompare(b))
+                      .map((s) => (
+                        <Badge key={s} bg="secondary" className="px-2 py-1">
+                          {s}
+                        </Badge>
+                      ))
+                  )}
+                </div>
+              </div>
+              <div className="vr" />
+              <div>
+                <div className="text-muted small">Toplam</div>
+                <div className="fs-4 fw-bold">{formatUSD(totalPrice)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* seat map */}
         <div className="mb-3">
           <Form.Label className="text-muted">Koltuk Seçimi</Form.Label>
           <SeatMap
             rows={ROWS}
             cols={COLS}
-            selectedSeats={selectedSeats} // array of "A1" etc.
-            onToggleSeat={toggleSeat} // (letter, number) => void
+            selectedSeats={selectedSeats}
+            onToggleSeat={toggleSeat}
           />
         </div>
 
@@ -273,9 +307,9 @@ export default function BuyTicketPage() {
           disabled={
             !selectedHall || !selectedTime || selectedSeats.length === 0
           }
-          onClick={buy}
+          onClick={continueToPayment}
         >
-          Satın Al
+          {seatCount > 0 ? `Devam Et — ${formatUSD(totalPrice)}` : "Devam Et"}
         </Button>
       </div>
     </div>
