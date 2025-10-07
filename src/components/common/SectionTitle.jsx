@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SectionTitle = ({ children, level = 2, align = "start" }) => {
+const SectionTitle = ({ children, level = 2, align = "start", padding = "", textColor="text-dark"}) => {
   const Heading = `h${level}`; // dynamic heading tag
 
   const alignClass = {
@@ -12,8 +12,8 @@ const SectionTitle = ({ children, level = 2, align = "start" }) => {
   }[align];
 
   return (
-    <div className={`my-4 ${alignClass}`}>
-      <Heading className="fw-bold text-dark">{children}</Heading>
+    <div className={`my-4 ${alignClass} ${padding}`}>
+      <Heading className={`fw-bold ${textColor}`}>{children}</Heading>
     </div>
   );
 };

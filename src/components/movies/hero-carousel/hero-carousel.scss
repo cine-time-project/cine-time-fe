@@ -5,7 +5,7 @@
 /* Swiper container */
 .movie-hero-carousel {
   width: 100%;
-  height: 600px; /* default desktop height */
+  height: 80vh; /* default desktop height */
   position: relative;
 
   .swiper-pagination-bullet {
@@ -41,6 +41,7 @@
   align-items: flex-end;
   justify-content: flex-start;
   overflow: hidden;
+  filter: brightness(1.2) contrast(1.1) saturate(1.3);
 }
 
 .hero-overlay {
@@ -52,35 +53,29 @@
 
   /* Three layered linear gradients */
   background: 
-    /* left to right gradient */
-    linear-gradient(
+    /* left to right gradient */ linear-gradient(
       to right,
-      rgba(0, 0, 0, 1) 0%,      /* dark on the left */
-      rgba(0, 0, 0, 0.8) 25%,      /* dark on the left */
-      rgba(0, 0, 0, 0.5) 40%,      /* dark on the left */
-      rgba(0, 0, 0, 0.0) 50%     /* transparent on the right */
+      rgba(0, 5, 13, 1) 0%,
+      /* dark on the left */ rgba(0, 5, 13, 0.8) 25%,
+      /* dark on the left */ rgba(0, 5, 13, 0.5) 40%,
+      /* dark on the left */ rgba(0, 0, 0, 0) 50%,
+      /* dark on the left */
     ),
     /* bottom to top gradient */
-    linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.9) 0%,      /* dark at the bottom */
-      rgba(0, 0, 0, 0.7) 10%,      /* dark at the bottom */
-      rgba(0, 0, 0, 0.5) 20%,      /* dark at the bottom */
-      rgba(0, 0, 0, 0.0) 100%     /* transparent at the top */
-    ),
-    /* top to bottom gradient */
-    linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.4) 0%,      /* dark at the top */
-      rgba(0, 0, 0, 0.0) 100%     /* transparent at the bottom */
-    );
+      linear-gradient(
+        to top,
+        rgba(0, 5, 13, 1) 0%,
+        /* dark on the left */ rgba(0, 5, 13, 0.7) 20%,
+        /* dark on the left */ rgba(0, 5, 13, 0.5) 30%,
+        /* dark on the left */ rgba(0, 5, 13, 0.2) 40%,
+        /* dark on the left */ rgba(0, 5, 13, 0) 50%,
+        /* dark on the left */
+      );
 
   /* Blend all layers smoothly */
   background-blend-mode: multiply;
-
   z-index: 1;
 }
-
 
 /* Text and buttons content */
 .hero-content {
@@ -152,9 +147,4 @@
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
   }
-}
-
-/* Fade effect for Swiper */
-.swiper-fade .swiper-slide {
-  transition-property: opacity, transform !important;
 }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { useRouter, usePathname } from "next/navigation";
+import { config } from "@/helpers/config.js"
 
  
 
@@ -23,11 +24,11 @@ const TicketSelector = ({ onFindTickets }) => {
   const localeSegment = pathname?.split("/")?.[1] || "";
   const basePath = localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
 
-  console.log("API_BASE", process.env.NEXT_PUBLIC_API_BASE_URL); // should log http://localhost:8090/api
+  console.log("API_BASE", config.apiURL); // should log http://localhost:8090/api
   // Load cities on mount
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cities`)
+      .get(`${config.apiURL}/cities`)
       .then((res) => setCities(res.data));
   }, []);
 
@@ -36,7 +37,7 @@ const TicketSelector = ({ onFindTickets }) => {
     if (selectedCity) {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/cinemas?cityId=${selectedCity}`
+          `${config.apiURL}/cinemas?cityId=${selectedCity}`
         )
         .then((res) => {
           const page = res.data?.returnBody; // ResponseMessage<Page<...>>
@@ -58,7 +59,7 @@ const TicketSelector = ({ onFindTickets }) => {
 
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/show-times/cinema/${selectedCinema}`
+        `${config.apiURL}/show-times/cinema/${selectedCinema}`
       )
       .then((res) => {
         // unwrap ResponseMessage<List<HallWithShowtimesResponse>>
@@ -97,7 +98,7 @@ const TicketSelector = ({ onFindTickets }) => {
 
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/show-times/cinema/${selectedCinema}`
+        `${config.apiURL}/show-times/cinema/${selectedCinema}`
       )
       .then((res) => {
         const body = res.data?.returnBody ?? res.data;

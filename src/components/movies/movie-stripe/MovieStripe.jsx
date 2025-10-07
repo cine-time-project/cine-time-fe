@@ -1,7 +1,7 @@
 "use client";
 import { getMoviesByStatus } from "@/services/movie-service";
 import { useState, useEffect } from "react";
-import MovieCard from "@/components/movies/movie/movie-card/MovieCard";
+import MovieCard from "@/components/movies/movie-card/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { Skeleton } from "primereact/skeleton";
@@ -129,12 +129,13 @@ export const MovieStripe = ({ query }) => {
         modules={[Navigation]}
         spaceBetween={10}
         slidesPerGroup={1}
+        slidesOffsetBefore={50}
         slidesOffsetAfter={50} // sağ boşluk
         breakpoints={{
           320: { slidesPerView: 1, spaceBetween: 10, slidesPerGroup: 1 },
           640: { slidesPerView: 2, spaceBetween: 15, slidesPerGroup: 2 },
           768: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 3 },
-          1024: { slidesPerView: 5, spaceBetween: 25, slidesPerGroup: 4 },
+          1024: { slidesPerView: 4, spaceBetween: 25, slidesPerGroup: 4 },
           1280: { slidesPerView: 6, spaceBetween: 25, slidesPerGroup: 5 },
         }}
         onReachEnd={handleReachEnd}
