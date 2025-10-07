@@ -1,0 +1,130 @@
+/* === Sticky Ticket Bar Styles === */
+
+body.has-sticky-buybar {
+  padding-bottom: 116px;
+}
+
+.sticky-buybar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1100;
+  background: #191a1f;
+  border-top: 2px solid #f1b90b;
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.sticky-buybar__inner {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.sticky-buybar__title {
+  color: #f1b90b;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Compact version of TicketSelector inside sticky bar */
+.sticky-buybar__selector .p-3.bg-dark.text-light.rounded {
+  background: transparent !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.sticky-buybar__selector h4 {
+  display: none;
+}
+
+/* ---------- CORE SELECT FIXES (apply on all breakpoints) ---------- */
+
+.sticky-buybar__selector .form-select {
+  background-color: #1b1c22 !important; /* dark bg */
+  color: #e7e7ea !important;            /* light text */
+  border: 1px solid #35363d !important;
+  height: 44px;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none;
+
+  /* Make the dropdown chevron white (overrides Bootstrap's data-URL) */
+  --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23ffffff' d='M3.2 5.5a1 1 0 0 1 1.4 0L8 8l3.4-2.5a1 1 0 1 1 1.2 1.6l-4 3a1 1 0 0 1-1.2 0l-4-3a1 1 0 0 1 0-1.6z'/%3e%3c/svg%3e");
+  background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
+  background-color: #1b1c22 !important; /* duplicate for certainty */
+}
+
+.sticky-buybar__selector .form-select:focus {
+  border-color: #565869 !important;
+  box-shadow: 0 0 0 0.2rem rgba(241, 185, 11, 0.15) !important; /* subtle brand glow */
+  background-color: #1b1c22 !important;
+  color: #ffffff !important;
+}
+
+/* Disabled state (Bootstrap makes it light by default) */
+.sticky-buybar__selector .form-select:disabled,
+.sticky-buybar__selector .form-select[disabled] {
+  background-color: #23242b !important;
+  color: #9aa0a6 !important;
+  opacity: 1 !important; /* keep readable */
+  cursor: not-allowed;
+}
+
+/* Options list */
+.sticky-buybar__selector .form-select option {
+  background-color: #1b1c22;
+  color: #e7e7ea;
+}
+
+/* Old Edge/IE arrow */
+.sticky-buybar__selector .form-select::-ms-expand {
+  display: none;
+}
+
+/* Placeholder-looking first option */
+.sticky-buybar__selector .form-select option[value=""] {
+  color: #9aa0a6;
+}
+
+/* Button in the bar */
+.sticky-buybar__selector .btn.btn-warning {
+  height: 44px;
+  font-weight: 700;
+  background-color: #f1b90b;
+  border: none;
+  color: #111;
+}
+
+/* Layout of selects + button */
+.sticky-buybar__selector > div {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+  .sticky-buybar__inner {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .sticky-buybar__selector > div {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sticky-buybar__selector .btn.btn-warning {
+    grid-column: 1 / -1;
+  }
+
+  body.has-sticky-buybar {
+    padding-bottom: 156px;
+  }
+}
