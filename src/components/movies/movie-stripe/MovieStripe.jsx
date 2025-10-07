@@ -136,7 +136,8 @@ export const MovieStripe = ({ query }) => {
           640: { slidesPerView: 2, spaceBetween: 15, slidesPerGroup: 2 },
           768: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 3 },
           1024: { slidesPerView: 4, spaceBetween: 25, slidesPerGroup: 4 },
-          1280: { slidesPerView: 6, spaceBetween: 25, slidesPerGroup: 5 },
+          1300: { slidesPerView: 5, spaceBetween: 25, slidesPerGroup: 5 },
+          1600: { slidesPerView: 6, spaceBetween: 25, slidesPerGroup: 5 },
         }}
         onReachEnd={handleReachEnd}
         allowTouchMove={false} // 🔹 Swipe/drag devre dışı
