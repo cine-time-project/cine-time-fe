@@ -1,25 +1,23 @@
 "use server";
-
 import { response, transformFormDataToJSON, transformYupErrors, YupValidationError } from "@/helpers/data/form-validation";
-import { ContactSchema } from "@/helpers/schemas/contact-schema";
+import { makeContactSchema } from "@/helpers/schemas/contact-schema";   
 import { createContactMessage } from "@/services/contact-service";
+import { getTranslations } from "next-intl/server";                     
 
 export async function createContactMessageAction(prev, formData) {
   try {
-    const fields = Object.fromEntries(formData);
-    ContactSchema.validateSync(fields, { abortEarly: false });
+    const t = await getTranslations("contact");         // server-side t
+    const schema = makeContactSchema(t);                // şemayı üret
 
-    const res  = await createContactMessage(fields);   // <— burası patlıyor
-    // fetch döndüyse res.ok/parse et
-    const data = await res.json();
+    const data = transformFormDataToJSON(formData);
+    await schema.validate(data, { abortEarly: false }); // server doğrulaması
 
-    if (!res.ok) {
-      return { ok: false, message: data?.message || "Request failed", errors: data?.validations };
-    }
-    return { ok: true, message: "Mesajınız alındı.", errors: null };
+    await createContactMessage(data);
+    return response(true, "OK");
   } catch (err) {
-    // URL ya da ağ problemi olursa buraya düşer
-    console.error("contact action error:", err);
-    return { ok: false, message: err?.message || "Network error", errors: null };
+    if (err?.name === "ValidationError") {
+      return response(false, "Validation failed", transformYupErrors(err));
+    }
+    return response(false, "Unexpected error");
   }
 }

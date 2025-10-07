@@ -18,14 +18,13 @@
     @include transform(translateY(50px));
     @include shadow(box, 0 10px 20px -10px $color2-op-50);
 
+@media (min-width: 992px) {
+  .contact .card { width: 70%; }  // (60%’tan biraz geniş)
+}
 
-    @media (min-width: 992px) {
-      width: 60%;
-    }
-
-    @media (min-width: 1200px) {
-      width: 70%;
-    }
+@media (min-width: 1200px) {
+  .contact .card { width: 66%; }  // (70%’tan biraz daraltılmış)
+}
   }
 
   .contact-row{
@@ -71,7 +70,7 @@
 .quick-reasons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 
   .btn {
     --bs-btn-padding-y: .25rem;
@@ -80,9 +79,9 @@
   }
 
   .btn.is-active {
-    color: #0ea5e9;                     /* marka rengi → dilediğinle değiştir */
+    color: #0ea5e9;                     /* marka rengi*/
     border-color: #0ea5e9;
-    background: #f0f9ff;                /* çok açık bir arka plan */
+    background: #f0f9ff;                
   }
 }
 

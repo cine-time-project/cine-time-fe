@@ -60,6 +60,9 @@ export default function Footer() {
                 <li>
                   <Link href={L("about")}>{tFooter("links.about")}</Link>
                 </li>
+                <li>
+                  <Link href={L("contact")}>{tFooter("links.contact")}</Link>
+                </li>
               </ul>
             </Col>
 
@@ -95,7 +98,11 @@ export default function Footer() {
 
             {/* İletişim */}
             <Col md={3} className="footer-col">
-              <h5>{tFooter("sections.contact.title")}</h5>
+             <h5 className="mb-3">
+  <Link href={L("contact")} className="text-reset text-decoration-none">
+    {tFooter("sections.contact.title")}
+  </Link>
+</h5>
               <ul>
                 <li>📍 {tFooter("contact.address")}</li>
                 <li>📞 {tFooter("contact.phone")}</li>
