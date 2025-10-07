@@ -59,13 +59,16 @@
   font-weight: 700;
 }
 
-.seat.disabled,
+/* Disabled / Occupied seats */
+.seat.is-disabled,
 .seat[disabled] {
-  background: #3a3c45;
-  border-color: #3a3c45;
-  color: #8b8f99;
+  background: #3a3c45 !important;
+  border-color: #3a3c45 !important;
+  color: #8b8f99 !important;
+  cursor: not-allowed;
   pointer-events: none;
-  opacity: 0.75;
+  opacity: 0.7;
+  text-decoration: line-through;
 }
 
 /* Screen / Perde */

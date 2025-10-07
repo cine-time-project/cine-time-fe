@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -28,7 +29,7 @@ export default function BuyTicketPage() {
   const [halls, setHalls] = useState([]); // [{ name, movies:[{movie:{id,title}, times:[ISO...]}], ... }]
 
   // user selections
-  const [selectedHall, setSelectedHall] = useState(""); // hall name string, e.g. "Hall 2"
+  const [selectedHall, setSelectedHall] = useState(""); // "Hall 2"
   const [selectedTime, setSelectedTime] = useState(""); // "HH:mm:ss"
   const [selectedSeats, setSelectedSeats] = useState([]); // ["A1","A2",...]
 
@@ -98,12 +99,10 @@ export default function BuyTicketPage() {
 
   // keep selections valid if data changes
   useEffect(() => {
-    // reset if hall no longer exists
     if (!sessions.some((s) => s.hallName === selectedHall)) {
       setSelectedHall("");
       setSelectedTime("");
     } else if (selectedHall) {
-      // reset time if it disappeared
       const hall = sessions.find((s) => s.hallName === selectedHall);
       if (hall && !hall.times.includes(selectedTime)) {
         setSelectedTime("");
@@ -165,6 +164,7 @@ export default function BuyTicketPage() {
         "Idempotency-Key": idempotencyKey,
       });
 
+      // NOTE: Right now we only create the order; payment UI will be on a separate page.
       const res = await axios.post(`${API}/tickets/buy-ticket`, payload, {
         headers,
         validateStatus: () => true,
@@ -175,13 +175,14 @@ export default function BuyTicketPage() {
         return;
       }
       if (res.status >= 400) {
-        setError(`Request failed: ${res.status}`);
+        setError(res.data?.message ? res.data.message : `Request failed: ${res.status}`);
         return;
       }
 
-      alert("Bilet satın alındı! ✅");
-      // const tid = res.data?.returnBody?.id;
-      // if (tid) router.push(`/tickets/confirmation?id=${tid}`);
+      // Redirect to a dedicated payment page with reference info (to be implemented)
+      // Example: router.push(`/payment?paymentId=${res.data?.returnBody?.paymentId}`);
+      alert("Sipariş oluşturuldu. Ödeme sayfasına yönlendirme eklenecek.");
+      setSelectedSeats([]);
     } catch (e) {
       console.error(e);
       setError(
@@ -262,8 +263,8 @@ export default function BuyTicketPage() {
           <SeatMap
             rows={ROWS}
             cols={COLS}
-            selectedSeats={selectedSeats} // array of "A1" etc.
-            onToggleSeat={toggleSeat} // (letter, number) => void
+            selectedSeats={selectedSeats}
+            onToggleSeat={toggleSeat}
           />
         </div>
 
