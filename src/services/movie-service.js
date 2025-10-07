@@ -1,4 +1,5 @@
 import axios from "axios";
+import { MOVIE_SEARCH_API, MOVIE_BY_STATUS_API} from "@/helpers/api-routes.js";
 
 /**
  * searchMovies
@@ -12,7 +13,7 @@ import axios from "axios";
  */
 export async function searchMovies(query = "", page = 0, size = 10) {
   try {
-    const res = await axios.get("http://localhost:8100/api/movies/search", {
+    const res = await axios.get(`${MOVIE_SEARCH_API}`, {
       params: { 
         q: query,
         page,  // backend page parameter
@@ -30,7 +31,7 @@ export async function searchMovies(query = "", page = 0, size = 10) {
 
 export async function getMoviesByStatus(status = "IN_THEATERS", page = 0, size = 12) {
   try {
-    const res = await axios.get("http://localhost:8100/api/movies/status", {
+    const res = await axios.get(`${MOVIE_BY_STATUS_API}`, {
       params: { 
         status,
         page,  // backend page parameter
