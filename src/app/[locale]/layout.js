@@ -14,10 +14,14 @@ const dict = {
 };
 
 export default async function LocaleLayout({ children, params }) {
-  const resolvedParams = await params;
-  const raw = resolvedParams?.locale || "tr";
-  const locale = raw.toLowerCase().split("-")[0];
+  // Next 15: params bir Promise → await et
+  const { locale: raw } = await params;
+
+  // tek satırda normalize + fallback
+  const locale = (raw ?? "tr").toLowerCase().split("-")[0];
+
   if (!SUPPORTED.includes(locale)) notFound();
+
 
   const messages = await (dict[locale] || dict.tr)();
 

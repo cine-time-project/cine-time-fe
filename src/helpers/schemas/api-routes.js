@@ -1,6 +1,6 @@
 // src/helpers/api-routes.js
 // Env'den oku, yoksa güvenli bir fallback ver. Sondaki "/" varsa at.
-const PUBLIC = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8100/api").replace(/\/$/, "");
+const PUBLIC = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8090/api").replace(/\/$/, "");
 
 export const API_BASE = PUBLIC; // örn: http://localhost:8100/api
 
