@@ -12,8 +12,8 @@ export default function HomePage() {
 
   return (
     <div>
-      <HeroCarousel />
-      <div style={{ padding: 24 }}>
+      <HeroCarousel query={"presale"}/>
+      <div style={{ paddingLeft: 50, paddingRight: 50  }}>
         <SectionTitle>
           {t("inTheaters")} – {locale}
         </SectionTitle>

@@ -8,6 +8,22 @@
   height: 600px; /* default desktop height */
   position: relative;
 
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    opacity: 0.5;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 1);
+  }
+
   /* Responsive height */
   @media (max-width: 768px) {
     height: 400px; /* smaller on mobile */
@@ -27,20 +43,44 @@
   overflow: hidden;
 }
 
-/* Overlay with left-to-right gradient */
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  width: 50%; /* gradient covers left half */
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.8) 0%,   /* dark on left */
-    rgba(0, 0, 0, 0.0) 100%  /* transparent halfway */
-  );
+  width: 100%;
+
+  /* Three layered linear gradients */
+  background: 
+    /* left to right gradient */
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1) 0%,      /* dark on the left */
+      rgba(0, 0, 0, 0.8) 25%,      /* dark on the left */
+      rgba(0, 0, 0, 0.5) 40%,      /* dark on the left */
+      rgba(0, 0, 0, 0.0) 50%     /* transparent on the right */
+    ),
+    /* bottom to top gradient */
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,      /* dark at the bottom */
+      rgba(0, 0, 0, 0.7) 10%,      /* dark at the bottom */
+      rgba(0, 0, 0, 0.5) 20%,      /* dark at the bottom */
+      rgba(0, 0, 0, 0.0) 100%     /* transparent at the top */
+    ),
+    /* top to bottom gradient */
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4) 0%,      /* dark at the top */
+      rgba(0, 0, 0, 0.0) 100%     /* transparent at the bottom */
+    );
+
+  /* Blend all layers smoothly */
+  background-blend-mode: multiply;
+
   z-index: 1;
 }
+
 
 /* Text and buttons content */
 .hero-content {
@@ -117,30 +157,4 @@
 /* Fade effect for Swiper */
 .swiper-fade .swiper-slide {
   transition-property: opacity, transform !important;
-}
-
-/* ============================================
-   Autoplay Progress Bar
-   ============================================ */
-.autoplay-progress {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-  border-radius: 2px;
-  z-index: 5;
-
-  span {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: #e50914;
-    transform: scaleX(1);
-    transform-origin: right; /* progress drains from right to left */
-    transition: transform 0.1s linear;
-  }
 }

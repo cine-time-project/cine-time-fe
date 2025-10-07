@@ -6,49 +6,51 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./hero-carousel.scss";
+import { HeroCard } from "./HeroCard";
+import { useEffect, useState } from "react";
+import { getMoviesByStatus } from "@/services/movie-service";
 
-export const HeroCarousel = ({ movies }) => {
+export const HeroCarousel = ({ query }) => {
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+
+  // 🔹 Fetch movies from backend
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await getMoviesByStatus(query, 0);
+        const content = response?.content || [];
+        setMovies(content);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load movies.");
+      }
+    };
+
+    fetchMovies();
+  }, [query]);
+
+  if (error) {
+    return <div className="hero-carousel__error">{error}</div>;
+  }
+
   return (
     <Swiper
       modules={[Navigation, Pagination, Autoplay, EffectFade]}
       navigation
       pagination={{ clickable: true }}
-      effect="fade" // 🔹 Smooth fade transition
+      effect="fade"
       autoplay={{ delay: 5000, disableOnInteraction: false }}
       loop
+      allowTouchMove={false} // 🔹 Swipe/drag devre dışı
+      simulateTouch={false} // 🔹 Mouse drag devre dışı
       className="movie-hero-carousel"
-      onAutoplayTimeLeft={(s, time, progress) => {
-        const progressBar = document.querySelector(".autoplay-progress span");
-        if (progressBar) {
-          progressBar.style.transform = `scaleX(${1 - progress})`;
-        }
-      }}
     >
-{/*       
       {movies.map((movie) => (
         <SwiperSlide key={movie.id}>
-          <div
-            className="hero-card"
-            style={{ backgroundImage: `url(${movie.imageUrl})` }}
-          >
-            <div className="hero-overlay" />
-
-            <div className="hero-content">
-              <h2 className="hero-title">{movie.title}</h2>
-              <p className="hero-summary">{movie.summary}</p>
-              <div className="hero-buttons">
-                <button className="btn primary">🎟️ Buy Ticket</button>
-                <button className="btn secondary">▶️ Watch Trailer</button>
-              </div>
-            </div>
-          </div>
+          <HeroCard movie={movie} />
         </SwiperSlide>
-      ))} */}
-
-      {/* 🔹 Autoplay progress bar */}
-      <div className="autoplay-progress">
-        <span></span>
-      </div>
+      ))}
     </Swiper>
   );
 };

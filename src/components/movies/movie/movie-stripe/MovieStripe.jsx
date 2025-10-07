@@ -8,6 +8,7 @@ import { Skeleton } from "primereact/skeleton";
 import "swiper/css";
 import "swiper/css/navigation";
 import "./movie-stripe.scss";
+import { HeroCard } from "../hero-carousel/HeroCard";
 
 /**
  * MovieStripe Component
@@ -128,16 +129,17 @@ export const MovieStripe = ({ query }) => {
         modules={[Navigation]}
         spaceBetween={10}
         slidesPerGroup={1}
-        slidesOffsetBefore={50} // sol boşluk
         slidesOffsetAfter={50} // sağ boşluk
         breakpoints={{
           320: { slidesPerView: 1, spaceBetween: 10, slidesPerGroup: 1 },
-          640: { slidesPerView: 3, spaceBetween: 15, slidesPerGroup: 2 },
-          768: { slidesPerView: 4, spaceBetween: 20, slidesPerGroup: 3 },
+          640: { slidesPerView: 2, spaceBetween: 15, slidesPerGroup: 2 },
+          768: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 3 },
           1024: { slidesPerView: 5, spaceBetween: 25, slidesPerGroup: 4 },
           1280: { slidesPerView: 6, spaceBetween: 25, slidesPerGroup: 5 },
         }}
         onReachEnd={handleReachEnd}
+        allowTouchMove={false} // 🔹 Swipe/drag devre dışı
+        simulateTouch={false} // 🔹 Mouse drag devre dışı
       >
         {/* Show skeletons during initial load */}
         {initialLoading

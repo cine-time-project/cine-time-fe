@@ -28,11 +28,11 @@ export async function searchMovies(query = "", page = 0, size = 10) {
   }
 }
 
-export async function getMoviesByStatus(status = "IN_THEATERS", page = 0, size = 10) {
+export async function getMoviesByStatus(status = "IN_THEATERS", page = 0, size = 12) {
   try {
     const res = await axios.get("http://localhost:8090/api/movies/status", {
       params: { 
-        status: status,
+        status,
         page,  // backend page parameter
         size,  // backend page size parameter
       },
