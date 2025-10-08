@@ -1,12 +1,13 @@
 "use client";
 import { getMoviesByStatus } from "@/services/movie-service";
 import { useState, useEffect } from "react";
-import MovieCard from "@/components/movies/MovieCard";
+import MovieCard from "@/components/movies/movie-card/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { Skeleton } from "primereact/skeleton";
 import "swiper/css";
 import "swiper/css/navigation";
+import "./movie-stripe.scss";
 
 /**
  * MovieStripe Component
@@ -16,16 +17,16 @@ import "swiper/css/navigation";
  */
 export const MovieStripe = ({ query }) => {
   const [movies, setMovies] = useState([]);
-  const [initialLoading, setInitialLoading] = useState(true); // 👈 first load only
-  const [fetchingMore, setFetchingMore] = useState(false); // 👈 pagination loading
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [fetchingMore, setFetchingMore] = useState(false);
   const [error, setError] = useState(null);
 
-  const [page, setPage] = useState(0); // current page index
-  const [hasMore, setHasMore] = useState(true); // pagination flag
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
-  // Track slides per view dynamically for skeletons and layout consistency
   const [slidesPerView, setSlidesPerView] = useState(5);
 
+  // Responsive slides per view
   useEffect(() => {
     const updateSlides = () => {
       const width = window.innerWidth;
@@ -35,7 +36,6 @@ export const MovieStripe = ({ query }) => {
       else if (width >= 640) setSlidesPerView(2);
       else setSlidesPerView(1);
     };
-
     updateSlides();
     window.addEventListener("resize", updateSlides);
     return () => window.removeEventListener("resize", updateSlides);
@@ -51,7 +51,12 @@ export const MovieStripe = ({ query }) => {
     try {
       const moviesPage = await getMoviesByStatus(query, pageNum);
 
-      // Append or replace depending on pagination
+      // If backend returns unexpected response, stop further requests
+      if (!moviesPage?.content || moviesPage.content.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
       setMovies((prev) =>
         pageNum === 0
           ? moviesPage.content || []
@@ -63,13 +68,14 @@ export const MovieStripe = ({ query }) => {
     } catch (err) {
       console.error(err);
       setError("Failed to load movies.");
+      setHasMore(false); // Prevent infinite fetch loop on error
     } finally {
       setInitialLoading(false);
       setFetchingMore(false);
     }
   };
 
-  // 🔹 When query changes, reset everything
+  // 🔹 Reset state when query changes
   useEffect(() => {
     setMovies([]);
     setPage(0);
@@ -84,7 +90,7 @@ export const MovieStripe = ({ query }) => {
     }
   };
 
-  // 🔹 Render skeleton slides (shared between initial & incremental loads)
+  // 🔹 Render skeleton slides
   const renderSkeletonSlides = () =>
     Array.from({ length: slidesPerView }).map((_, index) => (
       <SwiperSlide key={`skeleton-${index}`} style={{ height: "100%" }}>
@@ -98,7 +104,6 @@ export const MovieStripe = ({ query }) => {
       </SwiperSlide>
     ));
 
-  // --- JSX ---
   return (
     <>
       {/* Empty State */}
@@ -108,12 +113,12 @@ export const MovieStripe = ({ query }) => {
         </p>
       )}
 
-      {/* Error State */}
+      {/* Error State with Retry */}
       {error && (
         <div className="text-center text-danger py-4">
           {error}
           <button
-            onClick={() => fetchMovies(0)}
+            onClick={() => fetchMovies(page + 1, true)}
             className="btn btn-sm btn-outline-light ms-2"
           >
             Retry
@@ -123,20 +128,25 @@ export const MovieStripe = ({ query }) => {
 
       {/* Main Swiper */}
       <Swiper
+        style={{ overflow: "visible" }}
         navigation
         modules={[Navigation]}
         spaceBetween={10}
         slidesPerGroup={1}
+        slidesOffsetBefore={50}
+        slidesOffsetAfter={50}
         breakpoints={{
           320: { slidesPerView: 1, spaceBetween: 10, slidesPerGroup: 1 },
           640: { slidesPerView: 2, spaceBetween: 15, slidesPerGroup: 2 },
           768: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 3 },
           1024: { slidesPerView: 4, spaceBetween: 25, slidesPerGroup: 4 },
-          1280: { slidesPerView: 6, spaceBetween: 30, slidesPerGroup: 5 },
+          1300: { slidesPerView: 5, spaceBetween: 25, slidesPerGroup: 5 },
+          1600: { slidesPerView: 6, spaceBetween: 25, slidesPerGroup: 5 },
         }}
         onReachEnd={handleReachEnd}
+        allowTouchMove={false}
+        simulateTouch={false}
       >
-        {/* Show skeletons during initial load */}
         {initialLoading
           ? renderSkeletonSlides()
           : movies.map((movie) => (
@@ -145,7 +155,6 @@ export const MovieStripe = ({ query }) => {
               </SwiperSlide>
             ))}
 
-        {/* Skeletons for fetching more pages */}
         {fetchingMore && renderSkeletonSlides()}
       </Swiper>
     </>

@@ -1,0 +1,46 @@
+/* ===============================
+   Swiper Navigation Buttons Styling
+   =============================== */
+
+/* Base styles for both navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;               /* Position relative to the Swiper container */
+  top: 50%;                         /* Vertically center the button */
+  transform: translateY(-50%);      /* Offset to perfectly center vertically */
+  width: 40px;                       /* Clickable area width */
+  height: 200px;                     /* Clickable area height */
+  padding-left: 10px;                /* Optional internal padding */
+  padding-right: 10px;               /* Optional internal padding */
+  background-color: rgba(0, 0, 0, 0.1); /* Semi-transparent black background */
+  color: white;                      /* Arrow color */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover/active transitions */
+  display: block;                    /* Ensure the button is displayed */
+}
+
+/* Specific styles for the "Next" button */
+.swiper-button-next {
+  border-radius: 10px 0 0 10px;     /* Rounded corners on left side */
+  right: 0 !important;              /* Stick to the right edge of the container */
+}
+
+/* Specific styles for the "Prev" button */
+.swiper-button-prev {
+  border-radius: 0 10px 10px 0;     /* Rounded corners on right side */
+  left: 0 !important;               /* Stick to the left edge of the container */
+}
+
+/* Hover state */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.5);        /* Darker semi-transparent background on hover */
+  transform: translateY(-50%) scale(1.05);     /* Slightly enlarge the button while keeping vertical centering */
+}
+
+/* Active/pressed state */
+.swiper-button-next:active,
+.swiper-button-prev:active {
+  background-color: rgba(0, 0, 0, 0.7);        /* Even darker background when clicked */
+  transform: translateY(-50%) scale(1.1);      /* Enlarge the button more while keeping vertical centering */
+}
+

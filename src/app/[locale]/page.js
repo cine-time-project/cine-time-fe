@@ -2,7 +2,8 @@
 
 import SectionTitle from "@/components/common/SectionTitle";
 import Spacer from "@/components/common/Spacer";
-import { MovieStripe } from "@/components/movies/MovieStripe";
+import { HeroCarousel } from "@/components/movies/hero-carousel/HeroCarousel";
+import { MovieStripe } from "@/components/movies/movie-stripe/MovieStripe";
 import { useTranslations, useLocale } from "next-intl";
 
 export default function HomePage() {
@@ -10,29 +11,24 @@ export default function HomePage() {
   const locale = useLocale();
 
   return (
-    <div style={{ padding: 24 }}>
+    <div>
+      <HeroCarousel query={"presale"} />
 
-      <SectionTitle>
+      <SectionTitle padding="px-5" >
         {t("inTheaters")} – {locale}
       </SectionTitle>
-
       <MovieStripe query={"in_theaters"} />
-
       <Spacer />
-
-      <SectionTitle>
+      <SectionTitle  padding="px-5">
         {t("comingSoon")} – {locale}
       </SectionTitle>
-
-      <MovieStripe query={"coming_soon"}/>
-
+      <MovieStripe query={"coming_soon"} />
       <Spacer />
-
-      <SectionTitle>
+      <SectionTitle  padding="px-5">
         {t("preSale")} – {locale}
       </SectionTitle>
-
-      <MovieStripe query={"presale"}/>
+      <MovieStripe query={"presale"} />
+      <Spacer />
     </div>
   );
 }
