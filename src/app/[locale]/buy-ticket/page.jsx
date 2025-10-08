@@ -182,6 +182,9 @@ export default function BuyTicketPage() {
     router.push(`${basePath}/payment`);
   };
 
+  // ✅ compute once per render, NOT inside JSX
+  const canPickSeats = Boolean(selectedHall && selectedTime);
+
   if (loading)
     return (
       <div className="container py-4">
@@ -298,6 +301,8 @@ export default function BuyTicketPage() {
             cols={COLS}
             selectedSeats={selectedSeats}
             onToggleSeat={toggleSeat}
+            lockSelection={!canPickSeats}
+            lockMessage="Önce salon ve saat seçiniz"
           />
         </div>
 

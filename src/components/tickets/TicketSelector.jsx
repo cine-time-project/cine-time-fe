@@ -21,14 +21,22 @@ const TicketSelector = ({ onFindTickets }) => {
   const pathname = usePathname();
   // derive locale segment if the app is under /[locale]/...
   const localeSegment = pathname?.split("/")?.[1] || "";
-  const basePath = localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
+  const basePath =
+    localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
 
   console.log("API_BASE", process.env.NEXT_PUBLIC_API_BASE_URL); // should log http://localhost:8090/api
-  // Load cities on mount
+  // Load cities (only those that have showtimes)
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cities`)
-      .then((res) => setCities(res.data));
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/show-times/cities-with-showtimes`)
+      .then((res) => {
+        const arr = Array.isArray(res.data?.returnBody) ? res.data.returnBody : [];
+        setCities(arr);
+      })
+      .catch((err) => {
+        console.error("[cities-with-showtimes] failed:", err);
+        setCities([]);
+      });
   }, []);
 
   // When city changes → fetch cinemas
@@ -169,7 +177,7 @@ const TicketSelector = ({ onFindTickets }) => {
       >
         <option value="">Şehir Seçiniz</option>
         {cities.map((city) => (
-          <option key={city.id} value={city.id}>
+          <option key={city.id} value={String(city.id)}>
             {city.name}
           </option>
         ))}

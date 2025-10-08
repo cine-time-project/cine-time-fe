@@ -92,6 +92,14 @@
   letter-spacing: 0.5px;
 }
 
+.seatmap.is-locked {
+  pointer-events: none; /* blocks any clicks inside */
+  opacity: .75;
+}
+.seatmap.is-locked .seatmap-lock {
+  pointer-events: auto; /* keep the message clickable/selectable if you add links */
+}
+
 /* Legend */
 .legend {
   display: flex;
