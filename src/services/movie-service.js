@@ -12,7 +12,7 @@ import axios from "axios";
  */
 export async function searchMovies(query = "", page = 0, size = 10) {
   try {
-    const res = await axios.get("http://localhost:8090/api/movies/search", {
+    const res = await axios.get("http://localhost:8100/api/movies/search", {
       params: { 
         q: query,
         page,  // backend page parameter
@@ -30,7 +30,7 @@ export async function searchMovies(query = "", page = 0, size = 10) {
 
 export async function getMoviesByStatus(status = "IN_THEATERS", page = 0, size = 10) {
   try {
-    const res = await axios.get("http://localhost:8090/api/movies/status", {
+    const res = await axios.get("http://localhost:8100/api/movies/status", {
       params: { 
         status: status,
         page,  // backend page parameter
