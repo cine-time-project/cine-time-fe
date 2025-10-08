@@ -20,30 +20,27 @@ export default function MovieCard({ movie }) {
     // role="button" improves accessibility by signaling it's clickable
     // onClick makes the entire card interactive
     <Card className={styles["movie-card"]} onClick={handleClick} role="button">
-      {/* 🎞️ Image section */}
       {imageUrl ? (
         <div className={styles["movie-card__image-wrapper"]}>
           <Card.Img
             src={imageUrl}
-            alt={poster.name}
+            alt={poster?.name || "Movie Poster"}
             className={styles["movie-card__image"]}
           />
         </div>
       ) : (
-        // 🚫 Fallback if no image is available
         <div className={styles["movie-card__no-image"]}>
           <span className="text-muted">No Image</span>
         </div>
       )}
 
-      {/* 🧾 Card body section with title and summary */}
+      <div className={styles["movie-card__overlay"]}></div>
+
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
           {movie.title}
         </Card.Title>
-
         <Card.Text className={styles["movie-card__summary"]}>
-          {/* Truncate long summaries to 100 characters */}
           {movie.summary?.length > 100
             ? movie.summary.substring(0, 100) + "..."
             : movie.summary}
