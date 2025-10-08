@@ -1,75 +1,77 @@
 .movie-card {
-  
-  position: relative; // Enables absolute positioning for child elements
-  border: none; // Removes Bootstrap’s default card border
-  overflow: hidden; // Hides image overflow when zoomed in
-  color: #fff; // Sets default text color to white
-  border-radius: 1rem; // Rounds card corners
-  min-height: 400px; // Ensures consistent minimum height
-  transition: transform 0.3s ease, box-shadow 0.3s ease; // Smooth hover animation
-  background-color: rgb(0, 5, 13); 
+  position: relative;
+  border: none;
+  overflow: hidden;
+  color: #fff;
+  border-radius: 1rem;
+  min-height: 400px;
+  background-color: rgb(0, 5, 13);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  // 🎯 Hover effect: slightly scale up the entire card
+  // 🎯 Hover efekti
   &:hover {
-    transform: scale(1.05);
-     border-radius: inherit;
+    transform: scale(1.05); // bir tık daha az scale (radius bozulmasın)
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); // hoş bir gölge
+  }
+
+  // 💡 Bu pseudo-element radius'u korur
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 3;
   }
 
   &__image-wrapper {
-    position: absolute; // Fills the entire card area
-    inset: 0; // Equivalent to top: 0; right: 0; bottom: 0; left: 0;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; // Keeps it behind other layers
+    z-index: 0;
+    overflow: hidden; // radius'u korumak için burada da olmalı
+    border-radius: inherit; // child element radius'u devralsın
   }
 
   &__image {
     width: 100%;
     height: 100%;
-    object-fit: cover; // Makes the image cover the whole card proportionally
-    
-    transition: transform 0.4s ease; // Smooth zoom effect on hover
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    border-radius: inherit;
   }
 
-  // 🔹 When the card is hovered, zoom the image for depth effect
   &:hover .movie-card__image {
     transform: scale(1.08);
-     border-radius: inherit;
   }
 
   &__body {
-    position: absolute; // Sticks the content to the bottom of the card
+    position: absolute;
     bottom: 0;
     width: 100%;
     padding: 1rem;
-
-    // 🔥 Dark gradient background that fades from opaque black to transparent
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, 0.9) 0%,
-      // Almost solid black at the bottom
       rgba(0, 0, 0, 0.7) 25%,
-      // Slightly transparent
       rgba(0, 0, 0, 0.5) 50%,
-      // Mid transparency
       rgba(0, 0, 0, 0.2) 75%,
-      // Fades near the top
-      rgba(0, 0, 0, 0) 100% // Fully transparent at the top
+      rgba(0, 0, 0, 0) 100%
     );
-
-    color: #fff; // Text remains white
-    z-index: 2; // Ensures it appears above the image
-    border-bottom-left-radius: 1rem; // Rounds the bottom left corner
-    border-bottom-right-radius: 1rem; // Rounds the bottom right corner
+    color: #fff;
+    z-index: 2;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
   }
 
   &__title {
-    font-size: 1.25rem; // Slightly larger text for the title
-    font-weight: 600; // Semi-bold title
+    font-size: 1.25rem;
+    font-weight: 600;
   }
 
   &__summary {
-    font-size: 0.9rem; // Smaller font for summary
-    color: rgba(255, 255, 255, 0.9); // Soft white tone for readability
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
   }
 }
