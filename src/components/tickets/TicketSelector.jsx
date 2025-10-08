@@ -25,11 +25,11 @@ const TicketSelector = ({ onFindTickets }) => {
   const basePath =
     localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
 
-  console.log("API_BASE", process.env.NEXT_PUBLIC_API_BASE_URL); // should log http://localhost:8090/api
+  console.log("API_BASE", config.apiURL); // should log http://localhost:8090/api
   // Load cities (only those that have showtimes)
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/show-times/cities-with-showtimes`)
+      .get(`${config.apiURL}/show-times/cities-with-showtimes`)
       .then((res) => {
         const arr = Array.isArray(res.data?.returnBody) ? res.data.returnBody : [];
         setCities(arr);
