@@ -10,48 +10,16 @@
   background-color: rgb(0, 5, 13);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  // Hover effect
+  // 🔹 Hover effect
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
-
-    // Hover'da Buy Ticket butonu görünür
-    & .movie-card__buy-button {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 3;
-  }
-
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    border-radius: inherit;
-    pointer-events: none;
-
-    background: radial-gradient(
-      ellipse 80% 60% at center,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.25) 50%,
-      rgba(0, 0, 0, 0.6) 80%,
-      rgba(0, 0, 0, 0.85) 100%
-    );
-  }
-
+  // 🩶 Image & Overlay
   &__image-wrapper {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     z-index: 0;
     overflow: hidden;
     border-radius: inherit;
@@ -62,29 +30,42 @@
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    border-radius: inherit;
-    filter: brightness(0.8); // 🔹 Slightly darken the image
+    filter: brightness(0.8);
   }
 
   &:hover .movie-card__image {
     transform: scale(1.08);
-    filter: brightness(1.1); // 🔹 Restore brightness on hover
+    filter: brightness(1.1);
   }
 
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 80% 60% at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0.6) 80%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+  }
+
+  // 🎬 Card content area
   &__body {
     position: absolute;
     bottom: 0;
     width: 100%;
     padding: 1rem;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
     z-index: 4;
     background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0.7) 50%,
-        rgba(0, 0, 0, 0) 100%
-      );
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.7) 50%,
+      rgba(0, 0, 0, 0) 100%
+    );
   }
 
   &__title {
@@ -114,6 +95,61 @@
     &__rating {
       font-size: 0.9rem;
       color: $color1;
+    }
+  }
+
+  // ❤️ Common style for top icon buttons
+  &__icon-button {
+    position: absolute;
+    top: 10px;
+    z-index: 5;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    i {
+      font-size: 1.2rem;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.1);
+    }
+  }
+
+  // ❤️ Favorite button (top-left corner)
+  &__favorite-button {
+    left: 10px;
+
+    i {
+      color: #ff4b5c;
+    }
+  }
+
+  // 🎟️ Buy ticket button (top-right corner, small and always visible)
+  &__buy-button {
+    right: 10px;
+    background: rgba(255, 208, 0, 0.8);
+    color: #000;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+
+    i {
+      font-size: 1.2rem;
+    }
+
+    &:hover {
+      background: rgba(255, 230, 80, 1);
+      transform: scale(1.1);
     }
   }
 }

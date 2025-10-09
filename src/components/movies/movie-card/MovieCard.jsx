@@ -1,24 +1,32 @@
 import Card from "react-bootstrap/Card";
-import styles from "./movie-card.module.scss"; // Custom SCSS module for styling
+import styles from "./movie-card.module.scss";
 
 export default function MovieCard({ movie }) {
   // 🎬 Select the poster image for the movie
-  // Prefer the one marked as poster, otherwise use the first image available
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : null;
 
   // 🖱️ Handle click event on the entire card
-  // Currently logs the movie ID, but can later navigate to a detail page
   const handleClick = () => {
     console.log(`Clicked on: ${movie.id}`);
-    // Future use: navigate(`/movies/${movie.id}`);
+    // Future: navigate(`/movies/${movie.id}`);
+  };
+
+  // ❤️ Handle favorite button click
+  const handleFavorite = (e) => {
+    e.stopPropagation(); // Prevent triggering card click
+    console.log(`Favorited: ${movie.title}`);
+  };
+
+  // 🎟️ Handle buy ticket button click
+  const handleBuyTicket = (e) => {
+    e.stopPropagation(); // Prevent triggering card click
+    console.log(`Buy ticket for: ${movie.title}`);
   };
 
   return (
-    // 📦 Main card container
-    // role="button" improves accessibility by signaling it's clickable
-    // onClick makes the entire card interactive
     <Card className={styles["movie-card"]} onClick={handleClick} role="button">
+      {/* 🖼️ Movie poster */}
       {imageUrl ? (
         <div className={styles["movie-card__image-wrapper"]}>
           <Card.Img
@@ -33,8 +41,28 @@ export default function MovieCard({ movie }) {
         </div>
       )}
 
+      {/* 🌫️ Overlay effect */}
       <div className={styles["movie-card__overlay"]}></div>
 
+      {/* ❤️ Favorite Button (Top-left corner) */}
+      <button
+        className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
+        onClick={handleFavorite}
+        aria-label="Add to favorites"
+      >
+        <i className="pi pi-heart"></i>
+      </button>
+
+      {/* 🎟️ Buy Ticket Button (Top-right corner, always visible and small) */}
+      <button
+        className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
+        onClick={handleBuyTicket}
+        aria-label="Buy ticket"
+      >
+        <i className="pi pi-ticket"></i>
+      </button>
+
+      {/* 📝 Card content */}
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
           <div className={styles["movie-card__details"]}>
@@ -48,6 +76,7 @@ export default function MovieCard({ movie }) {
           </div>
           {movie.title}
         </Card.Title>
+
         <Card.Text className={styles["movie-card__summary"]}>
           {movie.summary?.length > 70
             ? movie.summary.substring(0, 70) + "..."
