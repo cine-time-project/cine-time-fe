@@ -4,15 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {Navbar,Nav,Container,Form,InputGroup,NavDropdown,Modal,Button,Offcanvas,
 } from "react-bootstrap";
 import "./Header.scss";
 
 export default function Header() {
   const pathname = usePathname() || "/";
-  const locale = pathname.split("/")[1] || "tr"; // "tr" | "en" | "de" | "fr"...
+  //const locale = pathname.split("/")[1] || "tr"; // "tr" | "en" | "de" | "fr"...
   const tNav = useTranslations("nav"); // nav.* etiketleri (menü, hesap, arama vs.)
+  const locale = useLocale().toUpperCase();
 
   // /{locale}/{rest}
   const L = (rest = "") =>
@@ -178,7 +179,7 @@ export default function Header() {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title="🌐" id="locale-dropdown" align="end">
+            <NavDropdown title={`${locale} 🌐`} id="locale-dropdown" align="end">
               <NavDropdown.Item as={Link} href="/tr">
                 TR
               </NavDropdown.Item>

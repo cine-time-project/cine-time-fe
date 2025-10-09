@@ -48,7 +48,7 @@
       "campaigns": "Campaigns",
       "events": "Events",
       "about": "About Us",
-      "contact":"Contact"
+      "contact": "Contact"
     },
     "premium": {
       "vip": "🎬 CineTime VIP",
@@ -221,7 +221,10 @@
     "noMovies": "No movies to display.",
     "comingSoon": "Coming Soon",
     "inTheaters": "In Theaters",
-    "preSale": "Presale"
+    "preSale": "Presale",
+    "posterAlt": "Movie Poster",
+    "summaryEllipsis": "...",
+    "buyTicket": "Buy Ticket"
   },
 
   "cinemas": {
@@ -504,7 +507,7 @@
     "defaultText": "Hi, I need support."
   },
 
- "events": {
+  "events": {
     "heroTitle": "CineTime Events",
     "heroSubtitle": "Celebrate cinema through exclusive gatherings and festivals.",
     "heroAlt": "CineTime Events Hero",
@@ -537,4 +540,3 @@
     "ctaBtn": "Buy Ticket"
   }
 }
-  

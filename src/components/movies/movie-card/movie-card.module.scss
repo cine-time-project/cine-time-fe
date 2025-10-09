@@ -10,13 +10,11 @@
   background-color: rgb(0, 5, 13);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  // 🔹 Hover effect
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
   }
 
-  // 🩶 Image & Overlay
   &__image-wrapper {
     position: absolute;
     inset: 0;
@@ -30,7 +28,7 @@
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    filter: brightness(0.8);
+    filter: brightness(0.9);
   }
 
   &:hover .movie-card__image {
@@ -53,7 +51,6 @@
     );
   }
 
-  // 🎬 Card content area
   &__body {
     position: absolute;
     bottom: 0;
@@ -81,7 +78,6 @@
   &__details {
     margin-bottom: 10px;
     display: flex;
-    justify-content: start;
     gap: 20px;
 
     &__releaseDate {
@@ -95,17 +91,18 @@
     &__rating {
       font-size: 0.9rem;
       color: $color1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
   }
 
-  // ❤️ Common style for top icon buttons
+  // Top buttons (absolute)
   &__icon-button {
     position: absolute;
     top: 10px;
     z-index: 5;
     border: none;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
     border-radius: 50%;
     width: 38px;
     height: 38px;
@@ -115,41 +112,25 @@
     justify-content: center;
     transition: all 0.3s ease;
 
-    i {
-      font-size: 1.2rem;
-    }
-
     &:hover {
-      background: rgba(255, 255, 255, 0.15);
       transform: scale(1.1);
     }
-  }
 
-  // ❤️ Favorite button (top-left corner)
-  &__favorite-button {
-    left: 10px;
-
-    i {
-      color: #ff4b5c;
+    svg {
+      width: 20px;
+      height: 20px;
     }
   }
 
-  // 🎟️ Buy ticket button (top-right corner, small and always visible)
+  &__favorite-button {
+    left: 10px;
+    background: rgba(255, 75, 92, 0.8);
+    color: white;
+  }
+
   &__buy-button {
     right: 10px;
     background: rgba(255, 208, 0, 0.8);
     color: #000;
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-
-    i {
-      font-size: 1.2rem;
-    }
-
-    &:hover {
-      background: rgba(255, 230, 80, 1);
-      transform: scale(1.1);
-    }
   }
 }

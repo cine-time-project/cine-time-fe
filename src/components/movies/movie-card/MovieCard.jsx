@@ -1,88 +1,95 @@
 import Card from "react-bootstrap/Card";
 import styles from "./movie-card.module.scss";
+import { Button } from "react-bootstrap";
+import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 export default function MovieCard({ movie }) {
-  // 🎬 Select the poster image for the movie
-  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
-  const imageUrl = poster ? poster.url : null;
+  const  t  = useTranslations();
 
-  // 🖱️ Handle click event on the entire card
+  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
+  const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
+  const [favorite, setFavorite] = useState(false);
+
   const handleClick = () => {
     console.log(`Clicked on: ${movie.id}`);
-    // Future: navigate(`/movies/${movie.id}`);
   };
 
-  // ❤️ Handle favorite button click
-  const handleFavorite = (e) => {
-    e.stopPropagation(); // Prevent triggering card click
-    console.log(`Favorited: ${movie.title}`);
-  };
+  const handleFavorite = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setFavorite((prev) => !prev);
+      console.log(
+        `${movie.title} ${!favorite ? "added to" : "removed from"} favorites`
+      );
+    },
+    [favorite, movie.title]
+  );
 
-  // 🎟️ Handle buy ticket button click
-  const handleBuyTicket = (e) => {
-    e.stopPropagation(); // Prevent triggering card click
-    console.log(`Buy ticket for: ${movie.title}`);
-  };
+  const handleBuyTicket = useCallback(
+    (e) => {
+      e.stopPropagation();
+      console.log(`Buy ticket for: ${movie.title}`);
+    },
+    [movie.title]
+  );
 
   return (
     <Card className={styles["movie-card"]} onClick={handleClick} role="button">
-      {/* 🖼️ Movie poster */}
-      {imageUrl ? (
-        <div className={styles["movie-card__image-wrapper"]}>
-          <Card.Img
-            src={imageUrl}
-            alt={poster?.name || "Movie Poster"}
-            className={styles["movie-card__image"]}
-          />
-        </div>
-      ) : (
-        <div className={styles["movie-card__no-image"]}>
-          <span className="text-muted">No Image</span>
-        </div>
-      )}
+      <div className={styles["movie-card__image-wrapper"]}>
+        <Card.Img
+          loading="lazy"
+          src={imageUrl}
+          alt={poster?.name || t("movies.addToFavorites")}
+          className={styles["movie-card__image"]}
+        />
+      </div>
 
-      {/* 🌫️ Overlay effect */}
       <div className={styles["movie-card__overlay"]}></div>
 
-      {/* ❤️ Favorite Button (Top-left corner) */}
-      <button
+      {/* Favorite Button (Top-left) */}
+      <Button
+        type="button"
         className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
         onClick={handleFavorite}
-        aria-label="Add to favorites"
+        aria-label={t("movies.addToFavorites")}
       >
-        <i className="pi pi-heart"></i>
-      </button>
+        {favorite ? <i className="pi pi-heart-fill"></i> : <i className="pi pi-heart"></i>}
+      </Button>
 
-      {/* 🎟️ Buy Ticket Button (Top-right corner, always visible and small) */}
-      <button
+      {/* Buy Ticket Button (Top-right) */}
+      <Button
+        type="button"
         className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
         onClick={handleBuyTicket}
-        aria-label="Buy ticket"
+        aria-label={t("movies.buyTicket")}
       >
-        <i className="pi pi-ticket"></i>
-      </button>
+          <i className="pi pi-ticket"></i>
+      </Button>
 
-      {/* 📝 Card content */}
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
           <div className={styles["movie-card__details"]}>
-            <div className={styles["movie-card__details__releaseDate"]}>
-              {movie.releaseDate?.substring(0, 4)}
-            </div>
-            <div className={styles["movie-card__details__rating"]}>
-              {movie.rating != null ? String(movie.rating).substring(0, 3) : ""}{" "}
-              <i className="pi pi-star-fill"></i>
-            </div>
+            {movie.releaseDate && (
+              <div className={styles["movie-card__details__releaseDate"]}>
+                {movie.releaseDate.substring(0, 4)}
+              </div>
+            )}
+            {movie.rating != null && movie.rating !== 0 && (
+              <div className={styles["movie-card__details__rating"]}>
+                {String(movie.rating).substring(0, 3)}<i className="pi pi-star-fill"></i>
+              </div>
+            )}
           </div>
           {movie.title}
         </Card.Title>
-
         <Card.Text className={styles["movie-card__summary"]}>
           {movie.summary?.length > 70
-            ? movie.summary.substring(0, 70) + "..."
+            ? movie.summary.substring(0, 70) + t("movies.summaryEllipsis")
             : movie.summary}
         </Card.Text>
       </Card.Body>
     </Card>
   );
 }
+

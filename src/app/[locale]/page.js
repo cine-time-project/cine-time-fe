@@ -4,7 +4,7 @@ import SectionTitle from "@/components/common/SectionTitle";
 import Spacer from "@/components/common/Spacer";
 import { HeroCarousel } from "@/components/movies/hero-carousel/HeroCarousel";
 import { MovieStripe } from "@/components/movies/movie-stripe/MovieStripe";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 export default function HomePage() {
   const t = useTranslations("movies");
