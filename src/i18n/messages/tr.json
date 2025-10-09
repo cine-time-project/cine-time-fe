@@ -109,6 +109,7 @@
 
   "forms": {
     "email": "E-posta",
+    "emailOrPhone": "Cep Telefonu / E-posta",
     "password": "Şifre",
     "passwordRepeat": "Şifre (Tekrar)",
     "currentPassword": "Mevcut Şifre",
@@ -164,10 +165,14 @@
   },
 
   "auth": {
+    "loginEyebrow": "CineTime",
+    "loginWelcome": "CineTime'a Hoş Geldiniz",
     "titleLogin": "Giriş Yap",
     "titleRegister": "Hesap Oluştur",
     "titleReset": "Şifre Sıfırla",
+    "loginDescription": "CineTime deneyimine katılmak ve ayrıcalıkları keşfetmek için hesabınıza giriş yapın.",
     "login": "Giriş",
+    "loggingIn": "Giriş yapılıyor...",
     "register": "Kayıt Ol",
     "reset": "Sıfırla",
     "logout": "Çıkış Yap",
@@ -180,7 +185,9 @@
     "successRegister": "Kayıt tamamlandı.",
     "emailSent": "E-posta gönderildi.",
     "invalidCredentials": "E-posta veya şifre hatalı.",
-    "locked": "Hesap kilitli. Lütfen daha sonra deneyin."
+    "locked": "Hesap kilitli. Lütfen daha sonra deneyin.",
+    "notRobot": "Ben robot değilim",
+    "captchaNote": "Bu oturum Google reCAPTCHA teknolojisiyle korunur."
   },
 
   "account": {
@@ -355,7 +362,8 @@
     "enterPassword": "Şifrenizi girin",
     "enterName": "Adınızı girin",
     "enterSurname": "Soyadınızı girin",
-    "enterPromo": "Kodunuzu girin"
+    "enterPromo": "Kodunuzu girin",
+    "enterEmailOrPhone": "Cep telefonu veya e-posta adresinizi girin"
   },
 
   "a11y": {
