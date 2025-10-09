@@ -108,6 +108,7 @@
 
   "forms": {
     "email": "E-mail",
+    "emailOrPhone": "Téléphone portable / E-mail",
     "password": "Mot de passe",
     "passwordRepeat": "Mot de passe (Répétition)",
     "currentPassword": "Mot de passe actuel",
@@ -163,10 +164,14 @@
   },
 
   "auth": {
+    "loginEyebrow": "CineTime",
+    "loginWelcome": "Bienvenue sur CineTime",
     "titleLogin": "Connexion",
     "titleRegister": "Créer un compte",
     "titleReset": "Réinitialiser le mot de passe",
+    "loginDescription": "Connectez-vous à votre compte CineTime pour profiter d'expériences cinéma exclusives.",
     "login": "Connexion",
+    "loggingIn": "Connexion en cours...",
     "register": "Inscription",
     "reset": "Réinitialiser",
     "logout": "Déconnexion",
@@ -179,7 +184,9 @@
     "successRegister": "Inscription réussie.",
     "emailSent": "E-mail envoyé.",
     "invalidCredentials": "E-mail ou mot de passe incorrect.",
-    "locked": "Compte verrouillé. Veuillez réessayer plus tard."
+    "locked": "Compte verrouillé. Veuillez réessayer plus tard.",
+    "notRobot": "Je ne suis pas un robot",
+    "captchaNote": "Cette connexion est protégée par la technologie Google reCAPTCHA."
   },
 
   "account": {
@@ -351,7 +358,8 @@
     "enterPassword": "Saisissez votre mot de passe",
     "enterName": "Saisissez votre prénom",
     "enterSurname": "Saisissez votre nom",
-    "enterPromo": "Saisissez votre code"
+    "enterPromo": "Saisissez votre code",
+    "enterEmailOrPhone": "Saisissez votre numéro de mobile ou votre adresse e-mail"
   },
 
   "a11y": {
@@ -413,5 +421,36 @@
       "subjectRequired": "L’objet est obligatoire.",
       "messageRequired": "Le message est obligatoire."
     }
+  }, "events": {
+    "heroTitle": "Événements CineTime",
+    "heroSubtitle": "Célébrez le cinéma avec des rencontres et festivals uniques.",
+    "heroAlt": "Image Hero des événements CineTime",
+    "awards": {
+      "alt": "Soirée des Récompenses",
+      "title": "Soirée des Récompenses",
+      "desc": "Une soirée élégante honorant les films et réalisateurs les plus réussis de l'année.",
+      "date": "12 avril 2026"
+    },
+    "talk": {
+      "alt": "Discussion avec le réalisateur",
+      "title": "Discussion avec le réalisateur",
+      "desc": "Un voyage dans les profondeurs de l'art cinématographique avec des réalisateurs visionnaires.",
+      "date": "3 mai 2026"
+    },
+    "festival": {
+      "alt": "Festival de cinéma",
+      "title": "Festival de cinéma",
+      "desc": "Une célébration colorée où se rencontrent le cinéma international et de nouvelles perspectives.",
+      "date": "20–25 juin 2026"
+    },
+    "premiere": {
+      "alt": "Soirée Gala",
+      "title": "Soirée Gala",
+      "desc": "Une soirée fascinante avec tapis rouge et premières mondiales.",
+      "date": "8 juillet 2026"
+    },
+    "ctaTitle": "Participez à l'expérience CineTime",
+    "ctaBody": "Réservez votre billet et plongez dans l'atmosphère magique du cinéma.",
+    "ctaBtn": "Acheter un billet"
   }
 }

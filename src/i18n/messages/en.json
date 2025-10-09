@@ -109,6 +109,7 @@
 
   "forms": {
     "email": "Email",
+    "emailOrPhone": "Mobile Number / Email",
     "password": "Password",
     "passwordRepeat": "Password (Repeat)",
     "currentPassword": "Current Password",
@@ -164,10 +165,14 @@
   },
 
   "auth": {
+    "loginEyebrow": "CineTime",
+    "loginWelcome": "Welcome to CineTime",
     "titleLogin": "Login",
     "titleRegister": "Create Account",
     "titleReset": "Reset Password",
+    "loginDescription": "Sign in to your CineTime account to unlock exclusive cinema experiences.",
     "login": "Login",
+    "loggingIn": "Signing you in...",
     "register": "Sign Up",
     "reset": "Reset",
     "logout": "Logout",
@@ -180,7 +185,9 @@
     "successRegister": "Registration completed.",
     "emailSent": "Email sent.",
     "invalidCredentials": "Email or password is incorrect.",
-    "locked": "Account locked. Please try again later."
+    "locked": "Account locked. Please try again later.",
+    "notRobot": "I'm not a robot",
+    "captchaNote": "This sign-in is protected by Google reCAPTCHA technology."
   },
 
   "account": {
@@ -355,7 +362,8 @@
     "enterPassword": "Enter your password",
     "enterName": "Enter your name",
     "enterSurname": "Enter your surname",
-    "enterPromo": "Enter your code"
+    "enterPromo": "Enter your code",
+    "enterEmailOrPhone": "Enter your mobile number or email address"
   },
 
   "a11y": {
@@ -494,5 +502,39 @@
     },
     "ctaWhatsAppShort": "Contact via WhatsApp",
     "defaultText": "Hi, I need support."
+  },
+
+ "events": {
+    "heroTitle": "CineTime Events",
+    "heroSubtitle": "Celebrate cinema through exclusive gatherings and festivals.",
+    "heroAlt": "CineTime Events Hero",
+    "awards": {
+      "alt": "Awards Gala",
+      "title": "Awards Gala",
+      "desc": "An elegant evening honoring outstanding filmmakers and movies.",
+      "date": "April 12, 2026"
+    },
+    "talk": {
+      "alt": "Director Talk",
+      "title": "Director Talk",
+      "desc": "In-depth discussions with visionary directors sharing their craft.",
+      "date": "May 3, 2026"
+    },
+    "festival": {
+      "alt": "Film Festival",
+      "title": "Film Festival",
+      "desc": "A vibrant showcase of international cinema and new perspectives.",
+      "date": "June 20–25, 2026"
+    },
+    "premiere": {
+      "alt": "Premiere Night",
+      "title": "Premiere Night",
+      "desc": "Experience the red carpet and world premieres of the latest films.",
+      "date": "July 8, 2026"
+    },
+    "ctaTitle": "Join the CineTime Experience",
+    "ctaBody": "Reserve your seat and be part of our exclusive cinematic celebrations.",
+    "ctaBtn": "Buy Ticket"
   }
 }
+  
