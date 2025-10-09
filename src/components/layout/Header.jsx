@@ -5,15 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form,
-  InputGroup,
-  NavDropdown,
-  Modal,
-  Button,
+import {Navbar,Nav,Container,Form,InputGroup,NavDropdown,Modal,Button,Offcanvas,
 } from "react-bootstrap";
 import "./Header.scss";
 
@@ -214,29 +206,51 @@ export default function Header() {
       </Navbar>
 
       {/* MENÜ BAR */}
-      <Navbar expand="lg" className="menu-dark">
+      <Navbar expand="lg" className="menu-dark" collapseOnSelect>
         <Container>
           <div className="location-simple" onClick={() => setShowModal(true)}>
             <span className="location-icon">📍</span>
             <span className="location-text">{city}</span>
           </div>
 
-          <Nav className="mx-auto">
-            {MENU.map((item) => (
-              <Nav.Link
-                as={Link}
-                key={item.key}
-                href={L(item.path)}
-                className={isActive(item.path) ? "active" : ""}
-              >
-                {tNav(item.key)}
-              </Nav.Link>
-            ))}
-          </Nav>
+          {/* hamburger butonu (küçük ekranda görünür) */}
+          <Navbar.Toggle
+            aria-controls="offcanvasNavbar-expand-lg"
+            className="custom-toggler"
+          >
+            <div className="bar"></div>
+          </Navbar.Toggle>
+
+          {/* lg altı: offcanvas | lg ve üstü: normal yatay içerik */}
+          <Navbar.Offcanvas
+            id="offcanvasNavbar-expand-lg"
+            aria-labelledby="offcanvasNavbarLabel"
+            placement="end"
+            className="menu-offcanvas"
+          >
+            <Offcanvas.Header closeButton closeVariant="white">
+              <Offcanvas.Title id="offcanvasNavbarLabel">Menü</Offcanvas.Title>
+            </Offcanvas.Header>
+
+            <Offcanvas.Body>
+              <Nav className="mx-auto">
+                {MENU.map((item) => (
+                  <Nav.Link
+                    as={Link}
+                    key={item.key}
+                    href={L(item.path)}
+                    className={isActive(item.path) ? "active" : ""}
+                  >
+                    {tNav(item.key)}
+                  </Nav.Link>
+                ))}
+              </Nav>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
         </Container>
       </Navbar>
 
-      {/* Sinema Bul Modal (şimdilik TR metinler bırakıldı; istersen bunları da i18n'e taşıyalım) */}
+      {/* Sinema Bul Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Sinema Bul</Modal.Title>

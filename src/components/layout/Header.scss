@@ -1,5 +1,4 @@
-// 🎨 Renk paleti
-$highlight-color: #ffc107; // Sarı
+$highlight-color: #ffc107;
 $dark-bg: #1a1a1a;
 $text-light: #f8f9fa;
 
@@ -7,15 +6,13 @@ $text-light: #f8f9fa;
   transition: all 0.3s ease;
 }
 
-/* ===========================
-   TOPBAR
-   =========================== */
+/* TOPBAR */
 .header-dark {
   background-color: $dark-bg !important;
   padding: 0.4rem 0;
 
   .logo-img {
-    height: 80px;  // desktop
+    height: 80px;
     width: auto;
     max-width: 100%;
 
@@ -28,7 +25,6 @@ $text-light: #f8f9fa;
     }
   }
 
-  /* Arama kutusu */
   .search-form {
     width: 40%;
     min-width: 250px;
@@ -54,7 +50,7 @@ $text-light: #f8f9fa;
       border-radius: 0 20px 20px 0;
       background-color: $highlight-color;
       cursor: pointer;
-     display: flex;
+      display: flex;
       align-items: center;
       justify-content: center;
 
@@ -62,12 +58,10 @@ $text-light: #f8f9fa;
         width: 1rem;
         height: 1rem;
         fill: $text-light;
-        display: block;
       }
     }
   }
 
-  /* Sağ kısım */
   .right-actions {
     display: flex;
     align-items: center;
@@ -82,7 +76,8 @@ $text-light: #f8f9fa;
         color: $highlight-color !important;
       }
     }
-   .account-title {
+
+    .account-title {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
@@ -91,28 +86,22 @@ $text-light: #f8f9fa;
         width: 1.1rem;
         height: 1.1rem;
         fill: #0d6efd;
-        flex-shrink: 0;
-        display: block;
       }
     }
   }
 }
 
-
-/* ===========================
-   MENUBAR
-   =========================== */
+/* MENUBAR */
 .menu-dark {
   background-color: #111 !important;
   padding: 0.4rem 0;
 
   .nav {
     display: flex;
-    justify-content: center; /* MENÜYÜ ORTALAR */
+    justify-content: center;
     width: 100%;
   }
 
-  /* Lokasyon sade */
   .location-simple {
     display: flex;
     align-items: center;
@@ -133,20 +122,8 @@ $text-light: #f8f9fa;
       font-weight: 500;
       color: $text-light;
     }
-
-    .location-link {
-      margin-left: 0.5rem;
-      color: #0dcaf0;
-      font-weight: 500;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 
-  /* Menü linkleri */
   .nav-link {
     color: $text-light !important;
     margin: 0 0.8rem;
@@ -155,115 +132,108 @@ $text-light: #f8f9fa;
 
     &:hover {
       color: $highlight-color !important;
-      text-decoration: none;
     }
 
     &.active {
       color: $highlight-color !important;
-      font-weight: 600;
       border-bottom: 2px solid $highlight-color;
     }
   }
 }
 
+/* HAMBURGER BUTONU */
+.menu-dark .navbar-toggler.custom-toggler {
+  border: 2px solid #fff;
+  background: transparent;
+  border-radius: 8px;
+  padding: 6px 8px;
+  position: relative;
+  width: 40px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-
-/* ===========================
-   MODAL: Yakın Sinemalar
-   =========================== */
-.modal-content {
-  background-color: #1e1e1e;
-  color: $text-light;
-  border: 1px solid #333;
-  border-radius: 10px;
-}
-
-.modal-header {
-  border-bottom: 1px solid #333;
-  background-color: #111;
-
-  .modal-title {
-    color: $highlight-color;
-    font-weight: 600;
+  .navbar-toggler-icon {
+    display: none;
   }
 
-  .btn-close {
-    filter: invert(1);
+  &::before, &::after, .bar {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: #fff;
+    border-radius: 1px;
+    transition: all 0.25s ease;
   }
-}
 
-.modal-body {
-  .cinema-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  &::before { top: 8px; }
+  .bar { top: 50%; transform: translateY(-50%); }
+  &::after { bottom: 8px; }
 
-    li {
-      padding: 0.6rem 0;
-      border-bottom: 1px solid #333;
-      color: $text-light;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+  &:hover {
+    border-color: $highlight-color;
 
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .distance {
-        color: #999;
-        font-size: 0.9rem;
-      }
+    &::before,
+    &::after,
+    .bar {
+      background: $highlight-color;
     }
   }
-}
 
-.modal-footer {
-  border-top: 1px solid #333;
-  background-color: #111;
-
-  .btn-secondary {
-    background-color: #333;
-    border: none;
-
-    &:hover {
-      background-color: $highlight-color;
-      color: #000;
-    }
+  &:focus {
+    outline: none;
+    box-shadow: none;
   }
 }
 
-/* ===========================
-   MOBİL UYUM
-   =========================== */
-@media (max-width: 992px) {
-  .search-form {
-    width: 100%;
-    margin: 0.5rem 0;
+/* OFFCANVAS (Mobil Menü) */
+.offcanvas {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Hover efekti: Menü elemanları sarı olsun */
+.offcanvas .nav-link {
+  color: #fff !important;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $highlight-color !important;
   }
 
-  .right-actions {
+  &.active {
+    color: $highlight-color !important;
+    border-bottom: none;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 991.98px) {
+  .menu-offcanvas .nav {
     flex-direction: column;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .menu-dark {
-    flex-direction: column;
+  .menu-dark .nav {
+    display: none !important;
+  }
 
-    .location-simple {
-      margin-bottom: 0.8rem;
-    }
-
-    .nav {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  .navbar-toggler.custom-toggler {
+    display: flex !important;
   }
 }
 
-/* ===========================
-   SINEMA BUL MODAL
-   =========================== */
+@media (min-width: 992px) {
+  .navbar-toggler.custom-toggler {
+    display: none !important;
+  }
+}
+
+/* MODAL (Sinema Bul) */
 .modal-content {
   background-color: #111;
   color: #fff;
@@ -308,7 +278,6 @@ $text-light: #f8f9fa;
     margin-top: 1rem;
     color: #0dcaf0;
     font-weight: 500;
-    text-decoration: none;
     text-align: center;
 
     &:hover {
@@ -332,4 +301,3 @@ $text-light: #f8f9fa;
     }
   }
 }
-
