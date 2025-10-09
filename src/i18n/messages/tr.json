@@ -493,6 +493,41 @@
     "ctaTitle": "Hazır mısın?",
     "ctaBody": "Yakınındaki salonları keşfet ve biletini hemen al.",
     "ctaBtn": "Bilet Al"
+  },
+  
+  "events": {
+    "heroTitle": "CineTime Etkinlikleri",
+    "heroSubtitle": "Sinemayı özel buluşmalar ve festivallerle kutlayın.",
+    "heroAlt": "CineTime Etkinlikleri Hero Görseli",
+    "awards": {
+      "alt": "Ödül Gecesi",
+      "title": "Ödül Gecesi",
+      "desc": "Yılın en başarılı film ve yönetmenlerinin onurlandırıldığı zarif bir gece.",
+      "date": "12 Nisan 2026"
+    },
+    "talk": {
+      "alt": "Yönetmen Sohbeti",
+      "title": "Yönetmen Sohbeti",
+      "desc": "Vizyoner yönetmenlerle sinema sanatının derinliklerine yolculuk.",
+      "date": "3 Mayıs 2026"
+    },
+    "festival": {
+      "alt": "Film Festivali",
+      "title": "Film Festivali",
+      "desc": "Uluslararası sinemanın ve yeni bakış açıların buluştuğu renkli bir şölen.",
+      "date": "20–25 Haziran 2026"
+    },
+    "premiere": {
+      "alt": "Gala Gecesi",
+      "title": "Gala Gecesi",
+      "desc": "Kırmızı halı ve dünya prömiyerleriyle dolu büyüleyici bir gece.",
+      "date": "8 Temmuz 2026"
+    },
+    "ctaTitle": "CineTime Deneyimine Katılın",
+    "ctaBody": "Biletinizi ayırtın ve sinemanın büyülü atmosferinin bir parçası olun.",
+    "ctaBtn": "Bilet Al"
   }
 }
+
+
 

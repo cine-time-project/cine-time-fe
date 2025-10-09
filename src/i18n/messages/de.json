@@ -413,5 +413,37 @@
       "subjectRequired": "Betreff ist erforderlich.",
       "messageRequired": "Nachricht ist erforderlich."
     }
+  },
+  "events": {
+    "heroTitle": "CineTime Veranstaltungen",
+    "heroSubtitle": "Feiern Sie das Kino mit besonderen Treffen und Festivals.",
+    "heroAlt": "CineTime Veranstaltungen Hero Bild",
+    "awards": {
+      "alt": "Preisverleihung",
+      "title": "Preisverleihung",
+      "desc": "Ein eleganter Abend, an dem die erfolgreichsten Filme und Regisseure des Jahres geehrt werden.",
+      "date": "12. April 2026"
+    },
+    "talk": {
+      "alt": "Regisseurgespräch",
+      "title": "Regisseurgespräch",
+      "desc": "Eine Reise in die Tiefen der Filmkunst mit visionären Regisseuren.",
+      "date": "3. Mai 2026"
+    },
+    "festival": {
+      "alt": "Filmfestival",
+      "title": "Filmfestival",
+      "desc": "Ein farbenfrohes Fest, das internationales Kino und neue Perspektiven vereint.",
+      "date": "20.–25. Juni 2026"
+    },
+    "premiere": {
+      "alt": "Galaabend",
+      "title": "Galaabend",
+      "desc": "Ein faszinierender Abend mit rotem Teppich und Weltpremieren.",
+      "date": "8. Juli 2026"
+    },
+    "ctaTitle": "Nehmen Sie am CineTime Erlebnis teil",
+    "ctaBody": "Reservieren Sie Ihr Ticket und werden Sie Teil der magischen Kinoatmosphäre.",
+    "ctaBtn": "Ticket kaufen"
   }
 }

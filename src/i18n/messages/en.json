@@ -494,5 +494,39 @@
     },
     "ctaWhatsAppShort": "Contact via WhatsApp",
     "defaultText": "Hi, I need support."
+  },
+
+ "events": {
+    "heroTitle": "CineTime Events",
+    "heroSubtitle": "Celebrate cinema through exclusive gatherings and festivals.",
+    "heroAlt": "CineTime Events Hero",
+    "awards": {
+      "alt": "Awards Gala",
+      "title": "Awards Gala",
+      "desc": "An elegant evening honoring outstanding filmmakers and movies.",
+      "date": "April 12, 2026"
+    },
+    "talk": {
+      "alt": "Director Talk",
+      "title": "Director Talk",
+      "desc": "In-depth discussions with visionary directors sharing their craft.",
+      "date": "May 3, 2026"
+    },
+    "festival": {
+      "alt": "Film Festival",
+      "title": "Film Festival",
+      "desc": "A vibrant showcase of international cinema and new perspectives.",
+      "date": "June 20–25, 2026"
+    },
+    "premiere": {
+      "alt": "Premiere Night",
+      "title": "Premiere Night",
+      "desc": "Experience the red carpet and world premieres of the latest films.",
+      "date": "July 8, 2026"
+    },
+    "ctaTitle": "Join the CineTime Experience",
+    "ctaBody": "Reserve your seat and be part of our exclusive cinematic celebrations.",
+    "ctaBtn": "Buy Ticket"
   }
 }
+  
