@@ -8,24 +8,23 @@ import { useTranslations, useLocale } from "next-intl";
 
 export default function HomePage() {
   const t = useTranslations("movies");
-  const locale = useLocale();
 
   return (
     <div>
       <HeroCarousel query={"presale"} />
 
-      <SectionTitle padding="px-5" >
-        {t("inTheaters")} – {locale}
+      <SectionTitle padding="px-5">
+        {t("inTheaters")}
       </SectionTitle>
       <MovieStripe query={"in_theaters"} />
       <Spacer />
       <SectionTitle  padding="px-5">
-        {t("comingSoon")} – {locale}
+        {t("comingSoon")}
       </SectionTitle>
       <MovieStripe query={"coming_soon"} />
       <Spacer />
       <SectionTitle  padding="px-5">
-        {t("preSale")} – {locale}
+        {t("preSale")}
       </SectionTitle>
       <MovieStripe query={"presale"} />
       <Spacer />
