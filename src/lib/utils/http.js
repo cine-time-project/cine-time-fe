@@ -4,7 +4,7 @@ export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // e.g. http://loc
 
 // ==== TEMP AUTH TOKEN FOR LOCAL TESTING ====
 // Flip to false once real login is wired.
-const USE_HARDCODED_TOKEN = true;
+const USE_HARDCODED_TOKEN = false;
 
 // Keep your current dev token here so it's controlled in one place.
 const HARDCODED_TOKEN =

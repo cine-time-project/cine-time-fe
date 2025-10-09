@@ -109,6 +109,7 @@
 
   "forms": {
     "email": "E-Mail",
+    "emailOrPhone": "Handynummer / E-Mail",
     "password": "Passwort",
     "passwordRepeat": "Passwort (Wiederholung)",
     "currentPassword": "Aktuelles Passwort",
@@ -164,10 +165,14 @@
   },
 
   "auth": {
+    "loginEyebrow": "CineTime",
+    "loginWelcome": "Willkommen bei CineTime",
     "titleLogin": "Anmeldung",
     "titleRegister": "Konto erstellen",
     "titleReset": "Passwort zurücksetzen",
+    "loginDescription": "Melde dich bei deinem CineTime-Konto an, um exklusive Kinoerlebnisse freizuschalten.",
     "login": "Anmelden",
+    "loggingIn": "Anmeldung läuft...",
     "register": "Registrieren",
     "reset": "Zurücksetzen",
     "logout": "Abmelden",
@@ -180,7 +185,9 @@
     "successRegister": "Registrierung abgeschlossen.",
     "emailSent": "E-Mail gesendet.",
     "invalidCredentials": "E-Mail oder Passwort ist falsch.",
-    "locked": "Konto gesperrt. Bitte später erneut versuchen."
+    "locked": "Konto gesperrt. Bitte später erneut versuchen.",
+    "notRobot": "Ich bin kein Roboter",
+    "captchaNote": "Diese Anmeldung wird durch die Google reCAPTCHA-Technologie geschützt."
   },
 
   "account": {
@@ -352,7 +359,8 @@
     "enterPassword": "Passwort eingeben",
     "enterName": "Vornamen eingeben",
     "enterSurname": "Nachnamen eingeben",
-    "enterPromo": "Code eingeben"
+    "enterPromo": "Code eingeben",
+    "enterEmailOrPhone": "Gib deine Handynummer oder E-Mail-Adresse ein"
   },
 
   "a11y": {
