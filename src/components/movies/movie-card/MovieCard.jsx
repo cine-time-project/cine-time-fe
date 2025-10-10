@@ -4,8 +4,9 @@ import { Button } from "react-bootstrap";
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 
+//TODO: When user logged in, it should be fetched that if the movie is favorited or not.
 export default function MovieCard({ movie }) {
-  const  t  = useTranslations();
+  const t = useTranslations();
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
@@ -54,18 +55,24 @@ export default function MovieCard({ movie }) {
         onClick={handleFavorite}
         aria-label={t("movies.addToFavorites")}
       >
-        {favorite ? <i className="pi pi-heart-fill"></i> : <i className="pi pi-heart"></i>}
+        {favorite ? (
+          <i className="pi pi-heart-fill"></i>
+        ) : (
+          <i className="pi pi-heart"></i>
+        )}
       </Button>
 
-      {/* Buy Ticket Button (Top-right) */}
-      <Button
-        type="button"
-        className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
-        onClick={handleBuyTicket}
-        aria-label={t("movies.buyTicket")}
-      >
+      {/* Buy Ticket Button (Top-right) - If the movie has not COMING_SOON status */}
+      {movie.status !== "COMING_SOON" && (
+        <Button
+          type="button"
+          className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
+          onClick={handleBuyTicket}
+          aria-label={t("movies.buyTicket")}
+        >
           <i className="pi pi-ticket"></i>
-      </Button>
+        </Button>
+      )}
 
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
@@ -77,7 +84,8 @@ export default function MovieCard({ movie }) {
             )}
             {movie.rating != null && movie.rating !== 0 && (
               <div className={styles["movie-card__details__rating"]}>
-                {String(movie.rating).substring(0, 3)}<i className="pi pi-star-fill"></i>
+                {String(movie.rating).substring(0, 3)}
+                <i className="pi pi-star-fill"></i>
               </div>
             )}
           </div>
@@ -92,4 +100,3 @@ export default function MovieCard({ movie }) {
     </Card>
   );
 }
-
