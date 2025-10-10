@@ -5,6 +5,7 @@ import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 
 //TODO: When user logged in, it should be fetched that if the movie is favorited or not.
+//TODO: BuyTicket function is being waited.
 export default function MovieCard({ movie }) {
   const t = useTranslations();
 

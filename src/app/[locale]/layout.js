@@ -1,5 +1,5 @@
 // src/app/[locale]/layout.jsx
-"use client";
+//"use client"; //this line caused error.
 
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
