@@ -1,0 +1,188 @@
+.campaigns {
+    color: #eaeaea;
+    margin-block: 2rem;
+
+    /* ========================
+     Hero Bölümü
+     ======================== */
+    &__hero {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center;
+        margin-bottom: 4rem;
+
+        @media (max-width: 1024px) {
+            flex-direction: column;
+        }
+
+        .hero__copy {
+            flex: 1;
+
+            .hero__title {
+                font-size: 2.5rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                color: #ffc107;
+            }
+
+            .hero__subtitle {
+                font-size: 1.1rem;
+                color: #cfcfcf;
+                line-height: 1.6;
+            }
+        }
+
+        .hero__media {
+            flex: 1;
+            position: relative;
+            min-height: 320px;
+            border-radius: 12px;
+            overflow: hidden;
+
+            .hero__img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+                filter: drop-shadow(0 12px 28px rgba(0, 0, 0, .35));
+            }
+        }
+    }
+
+    /* ========================
+     Kampanya Grid - 3x2
+     ======================== */
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 kart üstte, 3 kart altta */
+        gap: 2rem;
+        margin-bottom: 4rem;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .campaignCard {
+        background: #0f0f0f;
+        border: 1px solid #1f1f1f;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: translateY(-6px);
+        }
+
+        &__media {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            /* Kartların boyutu eşit */
+            background: #111;
+        }
+
+        &__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &__content {
+            padding: 1rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+
+            h3 {
+                font-size: 1.3rem;
+                color: #fff;
+                margin: 0 0 0.5rem 0;
+            }
+
+            &__desc {
+                font-size: 0.95rem;
+                color: #c9c9c9;
+                margin-bottom: 0.5rem;
+            }
+
+            &__date {
+                font-weight: 600;
+                color: #ffc107;
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    /* ========================
+     Lightbox
+     ======================== */
+    &__lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .85);
+        display: grid;
+        place-items: center;
+        z-index: 9999;
+        cursor: zoom-out;
+
+        &-inner {
+            max-width: min(92vw, 1400px);
+            max-height: 90vh;
+            padding: .5rem;
+        }
+
+        &-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .5);
+        }
+    }
+
+    /* ========================
+     CTA
+     ======================== */
+    &__cta {
+        margin-top: 1.25rem;
+        background: linear-gradient(180deg, #161616, #0e0e0e);
+        border: 1px solid #232323;
+        border-radius: 16px;
+        padding: 3rem 1.5rem;
+        text-align: center;
+
+        h3 {
+            color: #fff;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
+            color: #c9c9c9;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: .75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            background: #ffc107;
+            color: #222;
+            text-decoration: none;
+            transition: transform .15s ease-in-out, background-color .3s;
+
+            &:hover {
+                transform: translateY(-2px);
+                background-color: #e6b107;
+            }
+        }
+    }
+}
