@@ -12,6 +12,8 @@ const TicketSelector = ({ onFindTickets }) => {
   const [cinemas, setCinemas] = useState([]);
   const [dates, setDates] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedCinema, setSelectedCinema] = useState("");
@@ -26,19 +28,66 @@ const TicketSelector = ({ onFindTickets }) => {
     localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
 
   console.log("API_BASE", config.apiURL); // should log http://localhost:8090/api
-  // Load cities (only those that have showtimes)
+  // Load countries (only those that have showtimes)
   useEffect(() => {
     axios
-      .get(`${config.apiURL}/show-times/cities-with-showtimes`)
+      .get(`${config.apiURL}/show-times/countries-with-showtimes`)
+      .then((res) => {
+        const arr = Array.isArray(res.data?.returnBody)
+          ? res.data.returnBody
+          : [];
+        setCountries(arr);
+      })
+      .catch((err) => {
+        console.error("[countries-with-showtimes] failed:", err);
+        setCountries([]);
+      });
+  }, []);
+
+  // When country changes → fetch cities that have showtimes in that country
+  useEffect(() => {
+    if (!selectedCountry) {
+      setCities([]);
+      setSelectedCity("");
+      setCinemas([]);
+      setSelectedCinema("");
+      setDates([]);
+      setSelectedDate("");
+      setMovies([]);
+      setSelectedMovie("");
+      return;
+    }
+
+    axios
+      .get(`${config.apiURL}/show-times/cities-with-showtimes`, {
+        params: { countryId: selectedCountry },
+      })
       .then((res) => {
         const arr = Array.isArray(res.data?.returnBody) ? res.data.returnBody : [];
         setCities(arr);
+        // Clear selected city if it's not in the returned list
+        if (selectedCity && !arr.some((c) => String(c.id) === String(selectedCity))) {
+          setSelectedCity("");
+          setCinemas([]);
+          setSelectedCinema("");
+          setDates([]);
+          setSelectedDate("");
+          setMovies([]);
+          setSelectedMovie("");
+        }
       })
       .catch((err) => {
-        console.error("[cities-with-showtimes] failed:", err);
+        console.error("[cities-with-showtimes by country] failed:", err);
         setCities([]);
+        setSelectedCity("");
+        setCinemas([]);
+        setSelectedCinema("");
+        setDates([]);
+        setSelectedDate("");
+        setMovies([]);
+        setSelectedMovie("");
       });
-  }, []);
+  }, [selectedCountry]);
 
   // When city changes → fetch cinemas
   useEffect(() => {
@@ -170,11 +219,26 @@ const TicketSelector = ({ onFindTickets }) => {
     <div className="p-3 bg-dark text-light rounded">
       <h4 className="mb-3 text-warning">🎟️ Bilet Al</h4>
 
+      {/* Country */}
+      <Form.Select
+        className="mb-2"
+        value={selectedCountry}
+        onChange={(e) => setSelectedCountry(e.target.value)}
+      >
+        <option value="">Ülke Seçiniz</option>
+        {countries.map((country) => (
+          <option key={country.id} value={String(country.id)}>
+            {country.name}
+          </option>
+        ))}
+      </Form.Select>
+
       {/* City */}
       <Form.Select
         className="mb-2"
         value={selectedCity}
         onChange={(e) => setSelectedCity(e.target.value)}
+        disabled={!selectedCountry}
       >
         <option value="">Şehir Seçiniz</option>
         {cities.map((city) => (
