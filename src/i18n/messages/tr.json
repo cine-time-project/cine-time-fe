@@ -48,7 +48,7 @@
       "campaigns": "Kampanyalar",
       "events": "Etkinlikler",
       "about": "Hakkımızda",
-      "contact":"İletişim"
+      "contact": "İletişim"
     },
     "premium": {
       "vip": "🎬 CineTime VIP",
@@ -123,7 +123,14 @@
     "language": "Dil",
     "rememberMe": "Beni hatırla",
     "searchPlaceholder": "Film, sinema veya şehir ara...",
-    "optional": "Opsiyonel"
+    "optional": "Opsiyonel",
+    "birthDate": "Doğum Tarihi",
+    "gender": "Cinsiyet",
+    "genderFemale": "Kadın",
+    "genderMale": "Erkek",
+    "day": "Gün",
+    "month": "Ay",
+    "year": "Yıl"
   },
 
   "validation": {
@@ -182,12 +189,29 @@
     "or": "veya",
     "withGoogle": "Google ile devam et",
     "successLogin": "Giriş başarılı.",
-    "successRegister": "Kayıt tamamlandı.",
+    "googleLogin": "Google ile devam et",
     "emailSent": "E-posta gönderildi.",
     "invalidCredentials": "E-posta veya şifre hatalı.",
     "locked": "Hesap kilitli. Lütfen daha sonra deneyin.",
     "notRobot": "Ben robot değilim",
-    "captchaNote": "Bu oturum Google reCAPTCHA teknolojisiyle korunur."
+    "captchaNote": "Bu oturum Google reCAPTCHA teknolojisiyle korunur.",
+    "registerEyebrow": "CINE TIME CLUB",
+    "registerWelcome": "CineTime Club’a Katıl",
+    "registerDescription": "CineTime Club hesabınızı oluşturun; biletlerinizi yönetin, kampanyalardan haberdar olun ve özel sinema ayrıcalıklarından yararlanın.",
+    "registerCta": "Kayıt Ol",
+    "registering": "Kayıt yapılıyor...",
+    "successRegister": "Kayıt başarıyla tamamlandı.",
+    "accountExists": "Bu e-posta ile zaten bir hesap mevcut.",
+    "registerMarketingSms": "SMS bildirimleri almak istiyorum.",
+    "registerMarketingEmail": "E-posta bildirimleri almak istiyorum.",
+    "registerPrivacy": "CineTime Digital Hizmetler A.Ş., kişisel verilerimi <lawLink>6698 sayılı Kişisel Verilerin Korunması Kanunu</lawLink> kapsamında, verdiğim onay doğrultusunda işler.",
+    "birthDate": "Doğum Tarihi",
+    "gender": "Cinsiyet",
+    "genderFemale": "Kadın",
+    "genderMale": "Erkek",
+    "day": "Gün",
+    "month": "Ay",
+    "year": "Yıl"
   },
 
   "account": {
@@ -363,7 +387,8 @@
     "enterName": "Adınızı girin",
     "enterSurname": "Soyadınızı girin",
     "enterPromo": "Kodunuzu girin",
-    "enterEmailOrPhone": "Cep telefonu veya e-posta adresinizi girin"
+    "enterEmailOrPhone": "Cep telefonu veya e-posta adresinizi girin",
+    "enterPhone": "Telefon numaranızı girin"
   },
 
   "a11y": {
@@ -428,7 +453,22 @@
       "phoneInvalid": "Geçerli bir telefon girin.",
       "phoneMask": "Telefon biçimi '(XXX) XXX-XXXX' olmalı.",
       "subjectRequired": "Konu zorunludur.",
-      "messageRequired": "Mesaj zorunludur."
+      "messageRequired": "Mesaj zorunludur.",
+      "invalidPhone": "Geçerli bir telefon numarası girin.",
+      "invalidDate": "Lütfen geçerli bir tarih seçin.",
+      "401": "Bu kaynağa erişmek için giriş yapmanız gerekiyor.",
+      "403": "Yetkiniz bulunmuyor.",
+      "404": "Sayfa bulunamadı.",
+      "500": "Beklenmeyen bir hata oluştu.",
+      "network": "Ağ hatası. Lütfen bağlantınızı kontrol edin.",
+      "timeout": "İstek zaman aşımına uğradı.",
+      "unknown": "Bilinmeyen bir hata oluştu.",
+      "required": "Bu alan zorunludur.",
+      "min": "En az {min} karakter girin.",
+      "max": "En fazla {max} karakter girin.",
+      "invalidEmail": "Geçerli bir e-posta adresi girin.",
+      "authRequired": "Bu kaynağa erişmek için giriş yapmanız gerekiyor.",
+      "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
     },
     "ctaWhatsAppShort": "WhatsApp’tan ulaşın",
     "defaultText": "Merhaba, destek için yazıyorum."
@@ -502,7 +542,7 @@
     "ctaBody": "Yakınındaki salonları keşfet ve biletini hemen al.",
     "ctaBtn": "Bilet Al"
   },
-  
+
   "events": {
     "heroTitle": "CineTime Etkinlikleri",
     "heroSubtitle": "Sinemayı özel buluşmalar ve festivallerle kutlayın.",
@@ -536,6 +576,3 @@
     "ctaBtn": "Bilet Al"
   }
 }
-
-
-

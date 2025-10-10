@@ -3,10 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {Alert,Button,Card,Col,Container,Form,InputGroup,Row,
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
 } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
 import { login as loginRequest } from "@/services/auth-service";
+import { GoogleLogin } from "@react-oauth/google";
 import styles from "./login.module.scss";
 
 export default function LoginPage() {
@@ -158,6 +167,7 @@ export default function LoginPage() {
                   onSubmit={handleSubmit}
                   className={styles.loginCardForm}
                 >
+                  {/* E-posta / telefon alanı */}
                   <Form.Group className="mb-3" controlId="login-identifier">
                     <Form.Label>{tForms("emailOrPhone")}</Form.Label>
                     <InputGroup hasValidation>
@@ -173,21 +183,14 @@ export default function LoginPage() {
                         autoComplete="username"
                         required
                         isInvalid={!!fieldErrors.identifier}
-                        aria-describedby={
-                          fieldErrors.identifier
-                            ? "login-identifier-error"
-                            : undefined
-                        }
                       />
-                      <Form.Control.Feedback
-                        type="invalid"
-                        id="login-identifier-error"
-                      >
+                      <Form.Control.Feedback type="invalid">
                         {resolveErrorMessage(fieldErrors.identifier)}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>
 
+                  {/* Şifre alanı */}
                   <Form.Group className="mb-3" controlId="login-password">
                     <Form.Label>{tForms("password")}</Form.Label>
                     <InputGroup hasValidation>
@@ -203,21 +206,14 @@ export default function LoginPage() {
                         autoComplete="current-password"
                         required
                         isInvalid={!!fieldErrors.password}
-                        aria-describedby={
-                          fieldErrors.password
-                            ? "login-password-error"
-                            : undefined
-                        }
                       />
-                      <Form.Control.Feedback
-                        type="invalid"
-                        id="login-password-error"
-                      >
+                      <Form.Control.Feedback type="invalid">
                         {resolveErrorMessage(fieldErrors.password)}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>
 
+                  {/* Captcha ve hatırlama alanı */}
                   <div className={styles.loginCardMeta}>
                     <Form.Check
                       id="login-remember"
@@ -234,28 +230,7 @@ export default function LoginPage() {
                     </Link>
                   </div>
 
-                  <div className={styles.loginCardCaptcha}>
-                    <Form.Check
-                      id="login-captcha"
-                      type="checkbox"
-                      label={tAuth("notRobot")}
-                    />
-                    <div
-                      className={styles.loginCardCaptchaBrand}
-                      aria-hidden="true"
-                    >
-                      <span className={styles.loginCardCaptchaBrandTitle}>
-                        reCAPTCHA
-                      </span>
-                      <span className={styles.loginCardCaptchaBrandSub}>
-                        Google
-                      </span>
-                    </div>
-                  </div>
-                  <Form.Text className={styles.loginCardCaptchaNote}>
-                    {tAuth("captchaNote")}
-                  </Form.Text>
-
+                  {/* Giriş butonu */}
                   <Button
                     type="submit"
                     className={styles.loginCardSubmit}
@@ -273,6 +248,30 @@ export default function LoginPage() {
                     </span>
                   </Button>
                 </Form>
+
+                {/* 🔹 Google Login Butonu */}
+                <div className="text-center mt-4">
+                  <GoogleLogin
+                    shape="pill"
+                    text="continue_with"
+                    size="large"
+                    logo_alignment="center"
+                    theme="outline"
+                    onSuccess={(credentialResponse) => {
+                      console.log(
+                        " Google Login Success:",
+                        credentialResponse
+                      );
+                      alert(
+                        "Google ile giriş başarılı! (henüz backend'e bağlı değil)"
+                      );
+                    }}
+                    onError={() => {
+                      console.log(" Google Login Failed");
+                      alert("Google girişi başarısız oldu!");
+                    }}
+                  />
+                </div>
 
                 <div className={styles.loginCardFooter}>
                   <span>{tAuth("noAccount")}</span>

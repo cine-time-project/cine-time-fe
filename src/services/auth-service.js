@@ -37,3 +37,32 @@ export async function login({ email, password, signal } = {}) {
 
   return typeof data === "object" && data !== null ? data : { raw: data };
 }
+
+export async function register({ signal, ...payload } = {}) {
+  const response = await fetch(`${config.apiURL}/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    credentials: "omit",
+    body: JSON.stringify(payload),
+    signal,
+  });
+
+  const raw = await response.text();
+  const data = parseJSONSafely(raw);
+
+  if (!response.ok) {
+    const error = new Error(
+      (data && typeof data === "object" && "message" in data && data.message) ||
+        response.statusText ||
+        "Request failed"
+    );
+    error.status = response.status;
+    error.data = data;
+    throw error;
+  }
+
+  return typeof data === "object" && data !== null ? data : { raw: data };
+}
