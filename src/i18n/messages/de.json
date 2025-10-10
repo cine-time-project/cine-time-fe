@@ -123,7 +123,14 @@
     "language": "Sprache",
     "rememberMe": "Angemeldet bleiben",
     "searchPlaceholder": "Film, Kino oder Stadt suchen...",
-    "optional": "Optional"
+    "optional": "Optional",
+    "birthDate": "Geburtsdatum",
+    "gender": "Geschlecht",
+    "genderFemale": "Weiblich",
+    "genderMale": "Männlich",
+    "day": "Tag",
+    "month": "Monat",
+    "year": "Jahr"
   },
 
   "validation": {
@@ -182,12 +189,29 @@
     "or": "oder",
     "withGoogle": "Mit Google fortfahren",
     "successLogin": "Anmeldung erfolgreich.",
-    "successRegister": "Registrierung abgeschlossen.",
     "emailSent": "E-Mail gesendet.",
+    "googleLogin": "Mit Google fortfahren",
     "invalidCredentials": "E-Mail oder Passwort ist falsch.",
     "locked": "Konto gesperrt. Bitte später erneut versuchen.",
     "notRobot": "Ich bin kein Roboter",
-    "captchaNote": "Diese Anmeldung wird durch die Google reCAPTCHA-Technologie geschützt."
+    "captchaNote": "Diese Anmeldung wird durch die Google reCAPTCHA-Technologie geschützt.",
+    "registerEyebrow": "CINE TIME CLUB",
+    "registerWelcome": "CineTime Club beitreten",
+    "registerDescription": "Erstelle dein CineTime Club-Konto, verfolge deine Tickets, verpasse keine Kampagnen und entdecke exklusive Kino-Vorteile.",
+    "registerCta": "Dem Club beitreten",
+    "registering": "Registrierung läuft...",
+    "successRegister": "Registrierung erfolgreich abgeschlossen.",
+    "accountExists": "Ein Konto mit dieser E-Mail existiert bereits.",
+    "registerMarketingSms": "Ich möchte SMS-Benachrichtigungen erhalten.",
+    "registerMarketingEmail": "Ich möchte E-Mail-Benachrichtigungen erhalten.",
+    "registerPrivacy": "CineTime Digital Hizmetler A.Ş. verarbeitet meine personenbezogenen Daten gemäß dem <lawLink>Gesetz Nr. 6698 über den Schutz personenbezogener Daten</lawLink> im Rahmen der von mir erteilten Einwilligungen.",
+    "birthDate": "Geburtsdatum",
+    "gender": "Geschlecht",
+    "genderFemale": "Weiblich",
+    "genderMale": "Männlich",
+    "day": "Tag",
+    "month": "Monat",
+    "year": "Jahr"
   },
 
   "account": {
@@ -328,6 +352,7 @@
   },
 
   "errors": {
+    "401": "Zum Zugriff auf diese Ressource müssen Sie sich anmelden.",
     "403": "Keine Berechtigung.",
     "404": "Seite nicht gefunden.",
     "500": "Unerwarteter Fehler.",
@@ -337,7 +362,8 @@
     "required": "Dieses Feld ist erforderlich.",
     "min": "Bitte mindestens {min} Zeichen eingeben.",
     "max": "Bitte höchstens {max} Zeichen eingeben.",
-    "invalidEmail": "Bitte eine gültige E-Mail-Adresse eingeben."
+    "invalidEmail": "Bitte eine gültige E-Mail-Adresse eingeben.",
+    "authRequired": "Zum Zugriff auf diese Ressource müssen Sie sich anmelden."
   },
 
   "notifications": {
@@ -360,7 +386,8 @@
     "enterName": "Vornamen eingeben",
     "enterSurname": "Nachnamen eingeben",
     "enterPromo": "Code eingeben",
-    "enterEmailOrPhone": "Gib deine Handynummer oder E-Mail-Adresse ein"
+    "enterEmailOrPhone": "Gib deine Handynummer oder E-Mail-Adresse ein",
+    "enterPhone": "Gib deine Telefonnummer ein"
   },
 
   "a11y": {
@@ -419,7 +446,9 @@
       "phoneInvalid": "Bitte geben Sie eine gültige Telefonnummer ein.",
       "phoneMask": "Telefonformat muss „(XXX) XXX-XXXX“ sein.",
       "subjectRequired": "Betreff ist erforderlich.",
-      "messageRequired": "Nachricht ist erforderlich."
+      "messageRequired": "Nachricht ist erforderlich.",
+      "invalidPhone": "Bitte eine gültige Telefonnummer eingeben.",
+      "invalidDate": "Bitte ein gültiges Datum auswählen."
     }
   },
   "events": {

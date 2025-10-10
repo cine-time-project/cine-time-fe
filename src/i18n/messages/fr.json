@@ -122,7 +122,14 @@
     "language": "Langue",
     "rememberMe": "Se souvenir de moi",
     "searchPlaceholder": "Rechercher un film, un cinéma ou une ville...",
-    "optional": "Optionnel"
+    "optional": "Optionnel",
+    "birthDate": "Date de naissance",
+    "gender": "Sexe",
+    "genderFemale": "Femme",
+    "genderMale": "Homme",
+    "day": "Jour",
+    "month": "Mois",
+    "year": "Année"
   },
 
   "validation": {
@@ -179,14 +186,31 @@
     "haveAccount": "Vous avez déjà un compte ?",
     "noAccount": "Vous n’avez pas de compte ?",
     "or": "ou",
+    "googleLogin": "Continuer avec Google",
     "withGoogle": "Continuer avec Google",
     "successLogin": "Connexion réussie.",
-    "successRegister": "Inscription réussie.",
     "emailSent": "E-mail envoyé.",
     "invalidCredentials": "E-mail ou mot de passe incorrect.",
     "locked": "Compte verrouillé. Veuillez réessayer plus tard.",
     "notRobot": "Je ne suis pas un robot",
-    "captchaNote": "Cette connexion est protégée par la technologie Google reCAPTCHA."
+    "captchaNote": "Cette connexion est protégée par la technologie Google reCAPTCHA.",
+    "registerEyebrow": "CINE TIME CLUB",
+    "registerWelcome": "Rejoignez le CineTime Club",
+    "registerDescription": "Créez votre compte CineTime Club pour suivre vos billets, rester informé des campagnes et profiter d’avantages exclusifs au cinéma.",
+    "registerCta": "Rejoindre le Club",
+    "registering": "Inscription en cours...",
+    "successRegister": "Inscription terminée avec succès.",
+    "accountExists": "Un compte avec cet e-mail existe déjà.",
+    "registerMarketingSms": "Je souhaite recevoir des notifications par SMS.",
+    "registerMarketingEmail": "Je souhaite recevoir des notifications par e-mail.",
+    "registerPrivacy": "CineTime Digital Hizmetler A.Ş. traite mes données personnelles conformément à la <lawLink>Loi n°6698 sur la protection des données personnelles</lawLink> dans le cadre du consentement que j’ai donné.",
+    "birthDate": "Date de naissance",
+    "gender": "Sexe",
+    "genderFemale": "Femme",
+    "genderMale": "Homme",
+    "day": "Jour",
+    "month": "Mois",
+    "year": "Année"
   },
 
   "account": {
@@ -327,6 +351,7 @@
   },
 
   "errors": {
+    "401": "Vous devez vous connecter pour accéder à cette ressource.",
     "403": "Vous n’avez pas l’autorisation.",
     "404": "Page non trouvée.",
     "500": "Une erreur inattendue est survenue.",
@@ -336,7 +361,8 @@
     "required": "Ce champ est obligatoire.",
     "min": "Saisissez au moins {min} caractères.",
     "max": "Saisissez au maximum {max} caractères.",
-    "invalidEmail": "Veuillez saisir une adresse e-mail valide."
+    "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
+    "authRequired": "Vous devez vous connecter pour accéder à cette ressource."
   },
 
   "notifications": {
@@ -359,7 +385,8 @@
     "enterName": "Saisissez votre prénom",
     "enterSurname": "Saisissez votre nom",
     "enterPromo": "Saisissez votre code",
-    "enterEmailOrPhone": "Saisissez votre numéro de mobile ou votre adresse e-mail"
+    "enterEmailOrPhone": "Saisissez votre numéro de mobile ou votre adresse e-mail",
+    "enterPhone": "Entrez votre numéro de téléphone"
   },
 
   "a11y": {
@@ -419,9 +446,12 @@
       "phoneInvalid": "Entrez un numéro de téléphone valide.",
       "phoneMask": "Le format du téléphone doit être « (XXX) XXX-XXXX ».",
       "subjectRequired": "L’objet est obligatoire.",
-      "messageRequired": "Le message est obligatoire."
+      "messageRequired": "Le message est obligatoire.",
+      "invalidPhone": "Veuillez entrer un numéro de téléphone valide.",
+      "invalidDate": "Veuillez sélectionner une date valide."
     }
-  }, "events": {
+  },
+  "events": {
     "heroTitle": "Événements CineTime",
     "heroSubtitle": "Célébrez le cinéma avec des rencontres et festivals uniques.",
     "heroAlt": "Image Hero des événements CineTime",
