@@ -567,5 +567,51 @@
     "ctaTitle": "Join the CineTime Experience",
     "ctaBody": "Reserve your seat and be part of our exclusive cinematic celebrations.",
     "ctaBtn": "Buy Ticket"
-  }
+  },
+  "campaigns": {
+  "heroTitle": "CineTime Campaigns",
+  "heroSubtitle": "Discover cinema deals and exclusive perks.",
+  "heroAlt": "CineTime Campaigns Hero Image",
+  "discount": {
+    "alt": "Discount Ticket",
+    "title": "Discount Ticket",
+    "desc": "Don't miss special discounts on selected movies.",
+    "date": "Oct 1–30, 2025"
+  },
+  "earlybird": {
+    "alt": "Early Bird",
+    "title": "Early Bird",
+    "desc": "Book early and get surprise gifts.",
+    "date": "Nov 1–15, 2025"
+  },
+  "festival": {
+    "alt": "Festival Offer",
+    "title": "Festival Offer",
+    "desc": "Special pricing during festival days.",
+    "date": "Dec 20–25, 2025"
+  },
+  "freepopcorn": {
+    "alt": "Free Popcorn",
+    "title": "Free Popcorn",
+    "desc": "Get free popcorn with selected screenings.",
+    "date": "Every Friday"
+  },
+  "member": {
+    "alt": "Member Benefits",
+    "title": "Member Benefits",
+    "desc": "Exclusive discounts and campaigns for CineTime members.",
+    "date": "Unlimited"
+  },
+  "nightshow": {
+    "alt": "Night Show",
+    "title": "Night Show",
+    "desc": "Special night screenings with surprise events.",
+    "date": "Every Saturday"
+  },
+  "ctaTitle": "Take Advantage of Campaigns",
+  "ctaBody": "Don’t miss out, get your ticket now.",
+  "ctaBtn": "Buy Ticket"
 }
+
+}
+
