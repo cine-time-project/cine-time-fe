@@ -213,6 +213,22 @@
     "year": "Année"
   },
 
+  "logout": {
+    "eyebrow": "CINE TIME CLUB",
+    "title": "Déconnectez-vous de votre compte",
+    "subtitle": "Vous êtes sur le point de vous déconnecter. Confirmer ?",
+    "cta": "Se déconnecter",
+    "processing": "Déconnexion en cours…",
+    "cancel": "Annuler et revenir à l’accueil",
+    "doneTitle": "À bientôt !",
+    "doneSubtitle": "Vous vous êtes déconnecté(e) en toute sécurité.",
+    "loginAgain": "Se reconnecter",
+    "redirecting": "Redirection dans un instant…",
+    "login": "Se connecter",
+    "register": "S’inscrire",
+    "error": "Une erreur est survenue lors de la déconnexion."
+  },
+
   "account": {
     "title": "Mon compte",
     "profile": "Profil",
@@ -482,50 +498,49 @@
     "ctaTitle": "Participez à l'expérience CineTime",
     "ctaBody": "Réservez votre billet et plongez dans l'atmosphère magique du cinéma.",
     "ctaBtn": "Acheter un billet"
-  },"campaigns": {
-  "heroTitle": "Campagnes CineTime",
-  "heroSubtitle": "Découvrez les offres et avantages exclusifs au cinéma.",
-  "heroAlt": "Image Hero Campagnes CineTime",
-  "discount": {
-    "alt": "Billet Réduit",
-    "title": "Billet Réduit",
-    "desc": "Ne manquez pas les réductions spéciales sur les films sélectionnés.",
-    "date": "1–30 Octobre 2025"
   },
-  "earlybird": {
-    "alt": "Early Bird",
-    "title": "Early Bird",
-    "desc": "Réservez tôt et recevez des cadeaux surprises.",
-    "date": "1–15 Novembre 2025"
-  },
-  "festival": {
-    "alt": "Offre Festival",
-    "title": "Offre Festival",
-    "desc": "Tarifs spéciaux pendant les jours de festival.",
-    "date": "20–25 Décembre 2025"
-  },
-  "freepopcorn": {
-    "alt": "Popcorn Gratuit",
-    "title": "Popcorn Gratuit",
-    "desc": "Popcorn offert pour certaines séances.",
-    "date": "Tous les vendredis"
-  },
-  "member": {
-    "alt": "Avantages Membres",
-    "title": "Avantages Membres",
-    "desc": "Réductions et campagnes exclusives pour les membres CineTime.",
-    "date": "Illimité"
-  },
-  "nightshow": {
-    "alt": "Séance de Nuit",
-    "title": "Séance de Nuit",
-    "desc": "Séances spéciales de nuit avec événements surprises.",
-    "date": "Tous les samedis"
-  },
-  "ctaTitle": "Profitez des Campagnes",
-  "ctaBody": "Ne ratez rien, réservez votre billet maintenant.",
-  "ctaBtn": "Acheter un Billet"
-}
-
-
+  "campaigns": {
+    "heroTitle": "Campagnes CineTime",
+    "heroSubtitle": "Découvrez les offres et avantages exclusifs au cinéma.",
+    "heroAlt": "Image Hero Campagnes CineTime",
+    "discount": {
+      "alt": "Billet Réduit",
+      "title": "Billet Réduit",
+      "desc": "Ne manquez pas les réductions spéciales sur les films sélectionnés.",
+      "date": "1–30 Octobre 2025"
+    },
+    "earlybird": {
+      "alt": "Early Bird",
+      "title": "Early Bird",
+      "desc": "Réservez tôt et recevez des cadeaux surprises.",
+      "date": "1–15 Novembre 2025"
+    },
+    "festival": {
+      "alt": "Offre Festival",
+      "title": "Offre Festival",
+      "desc": "Tarifs spéciaux pendant les jours de festival.",
+      "date": "20–25 Décembre 2025"
+    },
+    "freepopcorn": {
+      "alt": "Popcorn Gratuit",
+      "title": "Popcorn Gratuit",
+      "desc": "Popcorn offert pour certaines séances.",
+      "date": "Tous les vendredis"
+    },
+    "member": {
+      "alt": "Avantages Membres",
+      "title": "Avantages Membres",
+      "desc": "Réductions et campagnes exclusives pour les membres CineTime.",
+      "date": "Illimité"
+    },
+    "nightshow": {
+      "alt": "Séance de Nuit",
+      "title": "Séance de Nuit",
+      "desc": "Séances spéciales de nuit avec événements surprises.",
+      "date": "Tous les samedis"
+    },
+    "ctaTitle": "Profitez des Campagnes",
+    "ctaBody": "Ne ratez rien, réservez votre billet maintenant.",
+    "ctaBtn": "Acheter un Billet"
+  }
 }

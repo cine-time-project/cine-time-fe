@@ -214,6 +214,22 @@
     "year": "Yıl"
   },
 
+  "logout": {
+    "eyebrow": "CINE TIME CLUB",
+    "title": "Hesabınızdan çıkış yapın",
+    "subtitle": "Oturumunuzu kapatmak üzeresiniz. Emin misiniz?",
+    "cta": "Çıkış Yap",
+    "processing": "Çıkış yapılıyor...",
+    "cancel": "Vazgeç ve ana sayfaya dön",
+    "doneTitle": "Güle güle!",
+    "doneSubtitle": "Hesabınızdan güvenle çıkış yaptınız.",
+    "loginAgain": "Tekrar giriş yap",
+    "redirecting": "Birazdan yönlendirileceksiniz…",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "error": "Çıkış işlemi sırasında bir hata oluştu."
+  },
+
   "account": {
     "title": "Hesabım",
     "profile": "Profil",
@@ -576,48 +592,47 @@
     "ctaBtn": "Bilet Al"
   },
   "campaigns": {
-  "heroTitle": "CineTime Kampanyaları",
-  "heroSubtitle": "Sinemada fırsatlar ve özel avantajları keşfedin.",
-  "heroAlt": "CineTime Kampanyaları Hero Görseli",
-  "discount": {
-    "alt": "İndirimli Bilet",
-    "title": "İndirimli Bilet",
-    "desc": "Seçili filmler için özel indirim fırsatlarını kaçırmayın.",
-    "date": "1–30 Ekim 2025"
-  },
-  "earlybird": {
-    "alt": "Erken Rezervasyon",
-    "title": "Erken Rezervasyon",
-    "desc": "Biletinizi erken alın, sürpriz hediyeler kazanın.",
-    "date": "1–15 Kasım 2025"
-  },
-  "festival": {
-    "alt": "Festival Teklifi",
-    "title": "Festival Teklifi",
-    "desc": "Festival günlerinde özel fiyatlarla film keyfi.",
-    "date": "20–25 Aralık 2025"
-  },
-  "freepopcorn": {
-    "alt": "Ücretsiz Patlamış Mısır",
-    "title": "Ücretsiz Patlamış Mısır",
-    "desc": "Seçili seanslarda bilet alana patlamış mısır hediye.",
-    "date": "Her Cuma"
-  },
-  "member": {
-    "alt": "Üye Avantajları",
-    "title": "Üye Avantajları",
-    "desc": "CineTime üyelerine özel indirimler ve kampanyalar.",
-    "date": "Süresiz"
-  },
-  "nightshow": {
-    "alt": "Gece Gösterimi",
-    "title": "Gece Gösterimi",
-    "desc": "Özel gece seansları ve sürpriz etkinlikler.",
-    "date": "Her Cumartesi"
-  },
-  "ctaTitle": "Kampanyalardan Yararlanın",
-  "ctaBody": "Fırsatları kaçırmayın, biletinizi hemen alın.",
-  "ctaBtn": "Bilet Al"
-}
-
+    "heroTitle": "CineTime Kampanyaları",
+    "heroSubtitle": "Sinemada fırsatlar ve özel avantajları keşfedin.",
+    "heroAlt": "CineTime Kampanyaları Hero Görseli",
+    "discount": {
+      "alt": "İndirimli Bilet",
+      "title": "İndirimli Bilet",
+      "desc": "Seçili filmler için özel indirim fırsatlarını kaçırmayın.",
+      "date": "1–30 Ekim 2025"
+    },
+    "earlybird": {
+      "alt": "Erken Rezervasyon",
+      "title": "Erken Rezervasyon",
+      "desc": "Biletinizi erken alın, sürpriz hediyeler kazanın.",
+      "date": "1–15 Kasım 2025"
+    },
+    "festival": {
+      "alt": "Festival Teklifi",
+      "title": "Festival Teklifi",
+      "desc": "Festival günlerinde özel fiyatlarla film keyfi.",
+      "date": "20–25 Aralık 2025"
+    },
+    "freepopcorn": {
+      "alt": "Ücretsiz Patlamış Mısır",
+      "title": "Ücretsiz Patlamış Mısır",
+      "desc": "Seçili seanslarda bilet alana patlamış mısır hediye.",
+      "date": "Her Cuma"
+    },
+    "member": {
+      "alt": "Üye Avantajları",
+      "title": "Üye Avantajları",
+      "desc": "CineTime üyelerine özel indirimler ve kampanyalar.",
+      "date": "Süresiz"
+    },
+    "nightshow": {
+      "alt": "Gece Gösterimi",
+      "title": "Gece Gösterimi",
+      "desc": "Özel gece seansları ve sürpriz etkinlikler.",
+      "date": "Her Cumartesi"
+    },
+    "ctaTitle": "Kampanyalardan Yararlanın",
+    "ctaBody": "Fırsatları kaçırmayın, biletinizi hemen alın.",
+    "ctaBtn": "Bilet Al"
+  }
 }

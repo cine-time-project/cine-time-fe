@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -7,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {Navbar,Nav,Container,Form,InputGroup,NavDropdown,Modal,Button,Offcanvas,
 } from "react-bootstrap";
-import "./Header.scss";
+import "./header.scss";
 
 export default function Header() {
   const pathname = usePathname() || "/";
@@ -125,7 +124,7 @@ export default function Header() {
             <InputGroup>
               <Form.Control
                 type="search"
-                placeholder={tNav("search")} // i18n: "Ara" / "Search" ...
+                placeholder={tNav("search")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -199,7 +198,7 @@ export default function Header() {
               variant="warning"
               size="sm"
             >
-              {tNav("buy")} {/* i18n: "Bilet Al" / "Buy Ticket" */}
+              {tNav("buy")}
             </Button>
           </Nav>
         </Container>

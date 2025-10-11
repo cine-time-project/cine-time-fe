@@ -66,3 +66,25 @@ export async function register({ signal, ...payload } = {}) {
 
   return typeof data === "object" && data !== null ? data : { raw: data };
 }
+
+export async function googleLogin(idToken) {
+  const response = await fetch(`${config.apiURL}/google`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idToken }),
+  });
+  return response.json();
+}
+
+export async function logout() {
+  try {
+    // Sunucu varsa:
+    await api.post("/auth/logout"); // cookie/JWT invalidate eden endpoint
+  } finally {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+      document.cookie =
+        "Authorization=; Max-Age=0; path=/; SameSite=Lax; Secure";
+    }
+  }
+}

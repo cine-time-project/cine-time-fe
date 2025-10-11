@@ -41,6 +41,14 @@ $color1-light: #ffe082;
   }
 }
 
+/* Sadece masaüstünde sağ–soldan 1'er cm büyüt */
+@media (min-width: 576px) {
+  .loginCard {
+    width: calc(100% + 2cm);
+    margin-inline: -1cm; // sağ-sol -1cm; toplam +2cm genişlik
+  }
+}
+
 .loginCardHeader {
   margin-bottom: 2.5rem;
   text-align: center;
@@ -319,3 +327,11 @@ $color1-light: #ffe082;
     text-decoration: underline;
   }
 }
+
+/* Masaüstünde login formunun yüksekliğini uzat */
+@media (min-width: 576px) {
+  .loginCard .card-body {
+    padding-bottom: calc(2.75rem + 2cm);
+  }
+}
+
