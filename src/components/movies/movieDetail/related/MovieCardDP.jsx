@@ -62,10 +62,10 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
 
           <div className={s.ctaRow}>
             <button className={s.roundBtn} aria-label="Favorilere ekle">
-              <i className="ri-add-line" />
+              <i className="pi pi-plus" />
             </button>
             <button className={s.roundBtn} aria-label="Fragman">
-              <i className="ri-clapperboard-line" />
+              <i className="pi pi-video" />
             </button>
           </div>
 
