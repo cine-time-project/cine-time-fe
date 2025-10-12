@@ -7,6 +7,7 @@ import styles from "./details-tabs.module.scss";
 import { MovieStripe } from "./related/MovieStripeDP";
 
 
+
 export default function DetailsTabs({ movie }) {
   const [tab, setTab] = useState("related"); // "related" | "details"
 
@@ -37,11 +38,7 @@ export default function DetailsTabs({ movie }) {
 
         {/* PANELS */}
         <div className={styles.panel}>
-          {tab === "related" ? (
-           <MovieStripe/>
-          ) : (
-            <MovieDetailsPanel movie={movie} />
-          )}
+        {tab === "related" ? <MovieStripe movie={movie} /> : <MovieDetailsPanel movie={movie} />}
         </div>
       </div>
     </section>

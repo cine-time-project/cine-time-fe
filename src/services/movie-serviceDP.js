@@ -138,3 +138,30 @@ export async function getComingSoonMovies(date, page = 0, size = 10) {
 export async function getMoviesPaged(page = 0, size = 10) {
   return searchMovies("", page, size);
 }
+
+
+// src/services/movie-serviceDP.js içine ekle
+
+export async function getMoviesByGenre(genre, page = 0, size = 10) {
+  // genre yoksa boş sonuç döndürerek sessizce çık
+  if (!genre) return { content: [], number: 0, totalPages: 0, totalElements: 0, size, numberOfElements: 0 };
+
+  const url = new URL(`${API_BASE}/movies/genre`);
+  url.searchParams.set("genre", genre);
+  url.searchParams.set("page", page);
+  url.searchParams.set("size", size);
+
+  const res = await fetch(url.toString(), { next: { revalidate: 0 } });
+  const data = await unwrap(res);
+
+  const content = (data?.content || data?.items || []).map(normalizeMovie);
+  return {
+    ...data,
+    content,
+    number: data?.number ?? page,
+    totalPages: data?.totalPages ?? 1,
+    totalElements: data?.totalElements ?? content.length,
+    size: data?.size ?? size,
+    numberOfElements: data?.numberOfElements ?? content.length,
+  };
+}
