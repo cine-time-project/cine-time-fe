@@ -1,0 +1,52 @@
+/* siyah arkaplanlı bant */
+/* siyah arkaplanlı bant */
+.wrap{
+  background: #000000;
+  padding: 24px 0 40px;
+  color: #fff;
+}
+
+/* >>> container’ı sola yaklaştır (Hero ile aynı ritim) */
+.wrap :global(.container){
+  max-width: 100%;                                   /* Bootstrap genişlik sınırı kalksın */
+  padding-left: clamp(12px, 3vw, 40px);              /* Hero’dakiyle aynı */
+  padding-right: clamp(12px, 3vw, 40px);
+}
+
+/* sekme barı */
+.tabs{
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  margin: 0 0 18px;                                   /* soldan ekstra boşluk yok */
+}
+
+/* sekme butonu */
+.tab{
+  all: unset;
+  cursor: pointer;
+  color: rgba(255,255,255,.9);
+  font-weight: 800;
+  letter-spacing: .2px;
+  font-size: clamp(16px, 1.4vw, 20px);
+  padding: 6px 2px;
+  position: relative;
+  transition: color .15s ease;
+}
+
+.tab:hover{ color: #fff; }
+
+/* aktif alt çizgi */
+.active{ color:#fff; }
+.active::after{
+  content:"";
+  position:absolute;
+  left:0; right:auto; bottom:-6px;                   /* soldan başla */
+  width: 84px;
+  height: 4px;
+  border-radius: 2px;
+  background:#fff;
+}
+
+/* içerik alanı */
+.panel{ /* ekstra ayar gerekirse buraya */ }

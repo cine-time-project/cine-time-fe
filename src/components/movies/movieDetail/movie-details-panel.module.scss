@@ -1,0 +1,82 @@
+
+@use "../../../styles/variables" as *;
+
+
+/* Kapsayıcı: iki kolon (responsive) */
+.detailsWrap{
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 3vw, 36px);
+  padding: clamp(12px, 2vw, 20px);
+  border-radius: 16px;
+
+  /* koyu cam panel */
+  background: rgba(11, 15, 20, .55);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 12px 40px rgba(0,0,0,.24);
+  color: #fff; /* $color-text yerine sabit */
+}
+
+.col{ min-width: 0; }
+
+.title{
+  font-weight: 800;
+  letter-spacing: .2px;
+  margin: 0 0 .75rem;
+  color: #fff;
+}
+
+.summary{
+  margin: 0;
+  color: rgba(255,255,255,.92);
+  line-height: 1.7;
+}
+
+.empty{
+  margin: 0;
+  color: rgba(255,255,255,.6);
+  font-style: italic;
+}
+
+.list{
+  display: grid;
+  grid-template-columns: 180px 1fr; /* label - value */
+  row-gap: .75rem;
+  column-gap: 12px;
+  margin: 0;
+}
+
+.item{ display: contents; }
+
+.label{
+  color: rgba(255,255,255,.64);
+  font-weight: 700;
+}
+
+.value{
+  color: rgba(255,255,255,.95);
+  min-height: 1.5rem;
+}
+
+.chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .5rem;
+}
+
+.chip{
+  display: inline-block;
+  padding: .28rem .6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.16);
+}
+
+@media (max-width: 768px){
+  .detailsWrap{ grid-template-columns: 1fr; }
+  .list{ grid-template-columns: 140px 1fr; }
+}

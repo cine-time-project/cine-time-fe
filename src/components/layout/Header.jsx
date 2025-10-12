@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {Navbar,Nav,Container,Form,InputGroup,NavDropdown,Modal,Button,Offcanvas,
 } from "react-bootstrap";
-import "./header.scss";
+import "./Header.scss";
 
 export default function Header() {
   const pathname = usePathname() || "/";
