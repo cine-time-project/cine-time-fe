@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { Slider } from "primereact/slider"; // PrimeReact slider
+import { Slider } from "primereact/slider";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import { getGenres } from "@/services/movie-service";
@@ -19,13 +19,42 @@ export default function FiltersSidebarContent({ filters, onChange }) {
     filters.maxRating || 10,
   ]);
   const [releaseDate, setReleaseDate] = useState(filters.releaseDate || "");
+  const [releaseDateError, setReleaseDateError] = useState("");
   const [specialHall, setSpecialHall] = useState(filters.specialHalls || "");
 
   useEffect(() => {
     getGenres().then(setGenres).catch(console.error);
   }, []);
 
+  // ReleaseDate validation
+  const handleReleaseDateChange = (e) => {
+    const value = e.target.value;
+    setReleaseDate(value);
+
+    if (!value) {
+      setReleaseDateError("");
+      return;
+    }
+
+    // YYYY-MM-DD format kontrolü
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(value)) {
+      setReleaseDateError("Invalid date");
+      return;
+    }
+
+    const d = new Date(value);
+    if (isNaN(d.getTime())) {
+      setReleaseDateError("Invalid date");
+      return;
+    }
+
+    setReleaseDateError(""); // geçerli tarih
+  };
+
   const handleApply = () => {
+    if (releaseDateError) return;
+
     onChange({
       genre: selectedGenres,
       status,
@@ -41,11 +70,11 @@ export default function FiltersSidebarContent({ filters, onChange }) {
     setStatus("");
     setRatingRange([0, 10]);
     setReleaseDate("");
+    setReleaseDateError("");
     setSpecialHall("");
     onChange({});
   };
 
-  // Split genres into columns
   const splitGenres = (arr, n) => {
     const perCol = Math.ceil(arr.length / n);
     return Array.from({ length: n }, (_, i) =>
@@ -95,7 +124,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
         </Form.Select>
       </Form.Group>
 
-      {/* Rating (PrimeReact Slider) */}
+      {/* Rating */}
       <Form.Group className="mb-3">
         <Form.Label>
           Rating: {ratingRange[0]} - {ratingRange[1]}
@@ -116,8 +145,12 @@ export default function FiltersSidebarContent({ filters, onChange }) {
         <Form.Control
           type="date"
           value={releaseDate}
-          onChange={(e) => setReleaseDate(e.target.value)} // value zaten yyyy-MM-dd formatında
+          onChange={handleReleaseDateChange}
+          isInvalid={!!releaseDateError}
         />
+        <Form.Control.Feedback type="invalid">
+          {releaseDateError}
+        </Form.Control.Feedback>
       </Form.Group>
 
       {/* Special Halls */}
@@ -144,7 +177,12 @@ export default function FiltersSidebarContent({ filters, onChange }) {
           </Button>
         </Col>
         <Col>
-          <Button variant="primary" onClick={handleApply} className="w-100">
+          <Button
+            variant="primary"
+            onClick={handleApply}
+            className="w-100"
+            disabled={!!releaseDateError}
+          >
             Apply
           </Button>
         </Col>
