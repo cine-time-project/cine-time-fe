@@ -14,15 +14,14 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   // 2) Favori (placeholder)
   const toggleFavorite = async () => {
     try {
-      // burayı kendi servisine bağla
-      // await onToggleFavorite?.(movie.id);
+      
       console.log("toggle favorite", movie?.id);
     } catch (e) {
       console.error(e);
     }
   };
 
-  // 4) Kamera arkası – YouTube araması
+  // 4) Kamera arkası – oto YouTube araması
   const openBehindTheScenes = () => {
     const title = movie?.title || "";
     const q = encodeURIComponent(
@@ -58,7 +57,7 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
         />
       </div>
 
-      {/* -- İKONLAR (sıra önemlidir) -- */}
+      {/* -- İKONLAR (sırasıyla) -- */}
       <div className={styles.icons} role="group" aria-label="Film işlemleri">
         {/* 🎬 Fragman */}
         <button

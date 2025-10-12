@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";              // ⬅️ ekle
+import Link from "next/link";              
 import MovieMeta from "./MovieMeta";
 import ActionsBar from "./ActionsBar";
 import styles from "./movie-hero.module.scss";
@@ -22,7 +22,7 @@ export default function MovieHero({ movie }) {
     >
       <div className={styles.overlay} />
 
-      {/* 🔹 Görselin tamamını tıklanabilir yapan şeffaf katman */}
+      {/*  Görselin tamamını tıklanabilir yapan şeffaf katman */}
       <Link
         href={detailsHref}
         aria-label={`${movie?.title || "movie"} details`}

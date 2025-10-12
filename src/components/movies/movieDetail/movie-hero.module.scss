@@ -56,7 +56,7 @@
   margin-bottom: 1.2rem;
 }
 
-/* İstersen meta/özet de aynısını izlesin */
+/* meta/özet de aynısını izlesin */
 .metaRow, .summary{
   margin-bottom: 1rem;
   margin-left: 0;
@@ -69,7 +69,7 @@
 /* Cam görünümlü bilet butonu */
 .btn-bilet{
   display: inline-flex;
-  flex-direction: column;          /* title + subtitle alt alta olsun */
+  flex-direction: column;          /* title + subtitle alt alta */
   justify-content: center;
   gap: .15rem;
   min-width: 260px;
@@ -111,7 +111,7 @@
 
 
 .hero {
-  position: relative; // zaten var ama dursun
+  position: relative; 
 }
 
 /* Overlay elementinin kendisi tıklamayı engellemesin */
@@ -119,7 +119,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  pointer-events: none;        /* çok önemli */
+  pointer-events: none;        /* ****** */
 }
 
 /* Pseudo elementler overlay'in içinde kalır */

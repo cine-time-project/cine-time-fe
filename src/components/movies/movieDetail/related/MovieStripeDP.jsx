@@ -1,4 +1,3 @@
-// src/components/movies/movieDetail/related/MovieStripeDP.jsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
