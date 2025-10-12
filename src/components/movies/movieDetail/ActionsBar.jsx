@@ -12,7 +12,7 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   // locale'li prefix
   const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
-  const ticketHref = `${prefix}/find-showtime`;  // ⬅️ hedef
+  const ticketHref = `${prefix}/find-showtime`;  // ⬅️ buy ticket hedef
 
   // 1) Fragman
   const playTrailer = () => {
@@ -57,12 +57,11 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
-        {/* ⬇️ Bilet Al artık /{locale}/find-showtime'a yönlendirir */}
-        <BiletAl
-          href={ticketHref}
-          variant="hero"
-          subtitle="Yakındaki sinema ve seanslar"
-        />
+        {/* ⬇️ Bilet Al  /{locale}/find-showtime'a yönlendirir */}
+       <BiletAl href={ticketHref} variant="hero">
+  <span className="btn-bilet__text">Bilet Al</span>
+  <span className="btn-bilet__sub">Yakındaki sinema ve seanslar</span>
+</BiletAl>
       </div>
 
       {/* -- İKONLAR (sırasıyla) -- */}
