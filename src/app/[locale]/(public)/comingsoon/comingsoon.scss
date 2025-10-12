@@ -1,0 +1,46 @@
+.center-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #1d1306;
+}
+
+.h1-title {
+  background: #1d1306;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(231, 180, 40);
+  margin-bottom: 10px;
+  letter-spacing: 0.1em;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+}
+
+.comingsoon-card {
+  background: #2a1f0e;
+  border: 4px solid #cfe509;
+  border-radius: 16px;
+  text-align: center;
+  padding: 24px;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.comingsoon-card p {
+  color: #ecad2d;
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+p {
+  margin: 0.1rem 0;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

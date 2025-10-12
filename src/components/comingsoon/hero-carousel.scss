@@ -1,0 +1,346 @@
+
+.comingsoon-hero-carousel {
+  width: 100%;
+  height: 720px;
+  position: relative;
+  padding: 40px 0;
+  background: #1b1a10;
+  margin-bottom: 0;
+  box-shadow: 0 4px 8px rgba(48, 48, 27, 0.5);
+  
+
+  // Navigation arrows
+  .swiper-button-prev,
+  .swiper-button-next {
+    cursor: default !important;
+    width: 60px;
+    height: 60px;
+    background: none; 
+    border: none;     
+    border-radius: 0; 
+    color: #fff;
+    transition: all 0.3s;
+    
+
+    &:hover {
+        cursor: pointer !important;
+      background: rgba(241, 198, 3, 0.7); 
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      
+      
+    }
+
+    &::after {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  .swiper-button-prev {
+    left: 40px;
+  }
+
+  .swiper-button-next {
+    right: 40px;
+  }
+
+  // Pagination dots with number indicator
+  .swiper-pagination {
+    bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transition: all 0.3s ease;
+
+    &-active {
+      width: 40px;
+      border-radius: 5px;
+      background: #cfe509;
+    }
+  }
+}
+
+.comingsoon-hero-card {
+  position: relative;
+  width: 90%;
+  max-width: 1400px;
+  height: 520px;
+  margin: 0 auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.comingsoon-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+}
+
+.comingsoon-hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 60px 80px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.comingsoon-hero-info {
+  flex: 1;
+  max-width: 800px;
+}
+
+.comingsoon-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.comingsoon-hero-tag {
+  color: #ff8c00;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.comingsoon-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 24px;
+  padding: 0 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+.comingsoon-hero-title {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.comingsoon-hero-date {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.comingsoon-hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.comingsoon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.comingsoon-btn-outline {
+  color: #fff;
+  background: transparent;
+  border-color: #ff8c00;
+
+  &:hover {
+    background: rgba(255, 140, 0, 0.2);
+    border-color: #ffa500;
+    transform: translateY(-2px);
+  }
+}
+
+.comingsoon-btn-solid {
+  color: #000;
+  background: #fff;
+  border-color: #fff;
+
+  &:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Slide number indicator (bottom left, outside card)
+.comingsoon-slide-number {
+  position: absolute;
+  bottom: 40px;
+  left: 5%;
+  color: #fff;
+  font-size: 120px;
+  font-weight: 700;
+  opacity: 0.08;
+  z-index: 0;
+  line-height: 1;
+  pointer-events: none;
+}
+
+// Play button overlay (moved inside card, bottom left)
+.comingsoon-hero-play-button {
+  position: absolute;
+  left: 40px;
+  bottom: 140px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 3;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: #fff;
+    transform: scale(1.1);
+  }
+
+  &::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 20px solid #fff;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 4px;
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .comingsoon-hero-carousel {
+    padding: 30px 0;
+  }
+
+  .comingsoon-hero-card {
+    width: 92%;
+    height: 450px;
+  }
+
+  .comingsoon-hero-content {
+    padding: 40px 40px;
+  }
+
+  .comingsoon-hero-title {
+    font-size: 36px;
+  }
+
+  .comingsoon-slide-number {
+    font-size: 100px;
+  }
+
+  .comingsoon-hero-carousel .swiper-button-prev {
+    left: 20px;
+  }
+
+  .comingsoon-hero-carousel .swiper-button-next {
+    right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .comingsoon-hero-carousel {
+    padding: 20px 0;
+  }
+
+  .comingsoon-hero-card {
+    width: 95%;
+    height: 400px;
+  }
+
+  .comingsoon-hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 20px;
+  }
+
+  .comingsoon-hero-title {
+    font-size: 24px;
+  }
+
+  .comingsoon-hero-buttons {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .comingsoon-btn {
+    flex: 1;
+    min-width: auto;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .comingsoon-hero-play-button {
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    bottom: 100px;
+
+    &::after {
+      border-left-width: 14px;
+      border-top-width: 8px;
+      border-bottom-width: 8px;
+    }
+  }
+
+  .comingsoon-slide-number {
+    font-size: 70px;
+    left: 2.5%;
+  }
+
+  .comingsoon-hero-carousel .swiper-button-prev,
+  .comingsoon-hero-carousel .swiper-button-next {
+    width: 40px;
+    height: 40px;
+
+    &::after {
+      font-size: 16px;
+    }
+  }
+}

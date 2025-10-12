@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import TicketSelector from "@/components/tickets/TicketSelector";
-import "./footer.scss";
+import "../layout/Footer.scss";
 import "@/styles/sticky-ticketbar.scss";
 import "primeicons/primeicons.css";
 

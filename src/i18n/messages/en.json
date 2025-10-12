@@ -624,6 +624,21 @@
     "ctaTitle": "Take Advantage of Campaigns",
     "ctaBody": "Don’t miss out, get your ticket now.",
     "ctaBtn": "Buy Ticket"
+  },
+
+  "comingSoon": {
+    "title": "Coming Soon",
+    "description": "Movies coming soon to theaters",
+    "heading": "Coming Soon",
+    "loading": "Loading…",
+    "noItems": "There are no movies to show.",
+    "prev": "Prev",
+    "next": "Next",
+    "genre": "Genre",
+    "formats": "Formats",
+    "releaseTBA": "Release date: TBA",
+    "bookNow": "Book Now",
+    "details": "Details"
   }
 }
 

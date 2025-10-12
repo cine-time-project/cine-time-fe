@@ -542,5 +542,20 @@
     "ctaTitle": "Profitez des Campagnes",
     "ctaBody": "Ne ratez rien, réservez votre billet maintenant.",
     "ctaBtn": "Acheter un Billet"
+  },
+
+  "comingSoon": {
+    "title": "Bientôt au cinéma",
+    "description": "Films bientôt dans les salles de cinéma",
+    "heading": "Bientôt au cinéma",
+    "loading": "Chargement…",
+    "noItems": "Aucun film à afficher.",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "genre": "Genre",
+    "formats": "Formats",
+    "releaseTBA": "Date de sortie : à venir",
+    "bookNow": "Réserver",
+    "details": "Détails"
   }
 }
