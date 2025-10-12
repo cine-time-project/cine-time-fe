@@ -1,18 +1,19 @@
 "use client";
-import Link from "next/link";              
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import MovieMeta from "./MovieMeta";
 import ActionsBar from "./ActionsBar";
 import styles from "./movie-hero.module.scss";
 import { useParams } from "next/navigation";
 
-
 export default function MovieHero({ movie }) {
+  const t = useTranslations("movies");
   const bg = movie.backdropUrl || movie.posterUrl || "/images/demo-backdrop.jpg";
 
-   const { locale } = useParams();        // [locale] segmenti (tr/en vs.)
+  const { locale } = useParams();        // [locale] segmenti (tr/en vs.)
   const prefix = locale ? `/${locale}` : "";
 
- const detailsHref = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
+  const detailsHref = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
 
   return (
     <section
@@ -25,7 +26,7 @@ export default function MovieHero({ movie }) {
       {/*  Görselin tamamını tıklanabilir yapan şeffaf katman */}
       <Link
         href={detailsHref}
-        aria-label={`${movie?.title || "movie"} details`}
+        aria-label={`${movie?.title || "movie"} ${t("detailsTitle")}`}
         className={styles.clickArea}
       />
 

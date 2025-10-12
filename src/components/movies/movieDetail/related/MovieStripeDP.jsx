@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";              // ⬅️ eklendi
 import MovieCard from "@/components/movies/movieDetail/related/MovieCardDP";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -16,6 +17,8 @@ import {
 } from "@/services/movie-serviceDP";
 
 export const MovieStripe = ({ movie }) => {
+  const tErrors = useTranslations("errors");             // ⬅️ eklendi (errors.unknown için)
+
   const [items, setItems] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
   const [fetchingMore, setFetchingMore] = useState(false);
@@ -112,7 +115,7 @@ export const MovieStripe = ({ movie }) => {
         }
       } catch (e) {
         console.error(e);
-        setError("Liste alınamadı");
+        setError(tErrors("unknown"));            // ⬅️ sadece burası çevrildi
         setSource((s) => ({ ...s, hasMore: false }));
       } finally {
         if (!cancelled) setInitialLoading(false);
@@ -123,7 +126,7 @@ export const MovieStripe = ({ movie }) => {
       cancelled = true;
     };
     // attempts değişince yeniden dene
-  }, [attempts]);
+  }, [attempts, tErrors]);                         // ⬅️ tErrors dependency eklendi
 
   // Sonsuz kaydırma: aynı kaynaktan sayfa sayfa devam
   const handleReachEnd = async () => {

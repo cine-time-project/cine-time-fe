@@ -261,7 +261,18 @@
     "noMovies": "Gösterilecek film bulunamadı.",
     "comingSoon": "Pek Yakında",
     "inTheaters": "Gösterimde",
-    "preSale": "Ön Satış"
+    "preSale": "Ön Satış",
+      "summary": "Özet",
+  "details": "Ayrıntılar",
+  "related": "Benzer Filmler",
+  "noCast": "Kadro bilgisi bulunamadı.",
+  "nearby": "Yakındaki sinema ve seanslar",
+  "buyTicket": "Bilet Al",
+  "trailer": "Fragman",
+  "behindTheScenes": "Kamera Arkası",
+  "share": "Paylaş",
+  "statusLabel":"Gösterim durumu",
+  "formats": "Formatı"
   },
 
   "cinemas": {

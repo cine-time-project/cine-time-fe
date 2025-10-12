@@ -1,15 +1,14 @@
-
 /* siyah arkaplanlı bant */
 .wrap{
-  background: #000000;
+  background: #000;
   padding: 24px 0 40px;
   color: #fff;
 }
 
-/* >>> container’ı sola yaklaştır (Hero ile aynı ritim) */
+/* container ritmi */
 .wrap :global(.container){
-  max-width: 100%;                                   /* Bootstrap genişlik sınırı kalksın */
-  padding-left: clamp(12px, 3vw, 40px);              /* Hero’dakiyle aynı */
+  max-width: 100%;
+  padding-left: clamp(12px, 3vw, 40px);
   padding-right: clamp(12px, 3vw, 40px);
 }
 
@@ -18,7 +17,7 @@
   display: flex;
   gap: 28px;
   align-items: center;
-  margin: 0 0 18px;                                   /* soldan ekstra boşluk yok */
+  margin: 0 0 18px;
 }
 
 /* sekme butonu */
@@ -30,23 +29,33 @@
   letter-spacing: .2px;
   font-size: clamp(16px, 1.4vw, 20px);
   padding: 6px 2px;
+  line-height: 1.2;
   position: relative;
+  display: inline-block; /* içerik kadar genişlik */
   transition: color .15s ease;
 }
+.tab:hover{ color:#fff; }
 
-.tab:hover{ color: #fff; }
-
-/* aktif alt çizgi */
-.active{ color:#fff; }
-.active::after{
+/* alt çizgi: metin genişliği kadar */
+.tab::after{
   content:"";
   position:absolute;
-  left:0; right:auto; bottom:-6px;                   /* soldan başla */
-  width: 84px;
-  height: 4px;
-  border-radius: 2px;
+  left:0;
+  right:0;           /* ← width vermiyoruz; metin kadar olur */
+  bottom:-6px;
+  height:4px;
+  border-radius:2px;
   background:#fff;
+  opacity:0;
+  transition: opacity .2s ease;
+}
+
+/* aktif tab */
+.tab.active{ color:#fff; }
+.tab.active::after,
+.tab:focus-visible::after{
+  opacity:1;
 }
 
 /* içerik alanı */
-.panel{ /* ekstra ayar gerekirse buraya */ }
+.panel{ /* gerekirse doldurulur */ }

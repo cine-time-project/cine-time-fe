@@ -261,7 +261,18 @@
     "noMovies": "No movies to display.",
     "comingSoon": "Coming Soon",
     "inTheaters": "In Theaters",
-    "preSale": "Presale"
+    "preSale": "Presale",
+     "summary": "Summary",
+  "details": "Details",
+  "related": "Related Movies",
+  "noCast": "No cast information found.",
+  "nearby": "Nearby cinemas and showtimes",
+  "buyTicket": "Buy Ticket",
+  "trailer": "Trailer",
+  "behindTheScenes": "Behind the Scenes",
+  "share": "Share",
+  "statusLabel":"Show Status",
+  "formats": "Format"
   },
 
   "cinemas": {

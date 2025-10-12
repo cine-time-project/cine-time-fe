@@ -2,17 +2,23 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";   // ⬅️ locale için
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import styles from "./actions-bar.module.scss";
 import BiletAl from "@/components/common/button/BiletAl";
 
 export default function ActionsBar({ movie, onToggleFavorite }) {
   const [castOpen, setCastOpen] = useState(false);
 
+  // i18n
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
+  const tMovies = useTranslations("movies");
+
   // locale'li prefix
   const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
-  const ticketHref = `${prefix}/find-showtime`;  // ⬅️ buy ticket hedef
+  const ticketHref = `${prefix}/find-showtime`;
 
   // 1) Fragman
   const playTrailer = () => {
@@ -23,6 +29,7 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   const toggleFavorite = async () => {
     try {
       console.log("toggle favorite", movie?.id);
+      onToggleFavorite?.(movie);
     } catch (e) {
       console.error(e);
     }
@@ -49,7 +56,7 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
         await navigator.share({ title: movie?.title, text: movie?.summary, url });
       } else {
         await navigator.clipboard.writeText(url);
-        alert("Bağlantı panoya kopyalandı ✅");
+        alert(tMovies("linkCopied", { default: "Bağlantı panoya kopyalandı ✅" }));
       }
     } catch {}
   };
@@ -57,22 +64,28 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
-        {/* ⬇️ Bilet Al  /{locale}/find-showtime'a yönlendirir */}
-       <BiletAl href={ticketHref} variant="hero">
-  <span className="btn-bilet__text">Bilet Al</span>
-  <span className="btn-bilet__sub">Yakındaki sinema ve seanslar</span>
-</BiletAl>
+        {/* Bilet Al */}
+        <BiletAl href={ticketHref} variant="hero">
+          <span className="btn-bilet__text">{tNav("buy")}</span>
+          <span className="btn-bilet__sub">
+            {tMovies("nearby", { default: "Yakındaki sinema ve seanslar" })}
+          </span>
+        </BiletAl>
       </div>
 
       {/* -- İKONLAR (sırasıyla) -- */}
-      <div className={styles.icons} role="group" aria-label="Film işlemleri">
+      <div
+        className={styles.icons}
+        role="group"
+        aria-label={tMovies("actionsAria", { default: "Film işlemleri" })}
+      >
         {/* 🎬 Fragman */}
         <button
           type="button"
           className={styles.iconBtn}
           onClick={playTrailer}
-          title="Fragman"
-          aria-label="Fragman"
+          title={tMovies("trailer", { default: "Fragman" })}
+          aria-label={tMovies("trailer", { default: "Fragman" })}
           disabled={!movie?.trailerUrl}
         >
           <i className="pi pi-video" />
@@ -83,8 +96,8 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
           type="button"
           className={styles.iconBtn}
           onClick={toggleFavorite}
-          title="Favorilere ekle"
-          aria-label="Favorilere ekle"
+          title={tMovies("addToFavorites", { default: "Favorilere ekle" })}
+          aria-label={tMovies("addToFavorites", { default: "Favorilere ekle" })}
         >
           <i className="pi pi-plus" />
         </button>
@@ -94,8 +107,8 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
           type="button"
           className={styles.iconBtn}
           onClick={() => setCastOpen(true)}
-          title="Kadro"
-          aria-label="Kadro"
+          title={tMovies("cast")}
+          aria-label={tMovies("cast")}
         >
           <i className="pi pi-users" />
         </button>
@@ -105,8 +118,8 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
           type="button"
           className={styles.iconBtn}
           onClick={openBehindTheScenes}
-          title="Kamera Arkası"
-          aria-label="Kamera Arkası"
+          title={tMovies("behindTheScenes", { default: "Kamera Arkası" })}
+          aria-label={tMovies("behindTheScenes", { default: "Kamera Arkası" })}
         >
           <i className="pi pi-youtube" />
         </button>
@@ -116,8 +129,8 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
           type="button"
           className={styles.iconBtn}
           onClick={share}
-          title="Paylaş"
-          aria-label="Paylaş"
+          title={tMovies("share", { default: "Paylaş" })}
+          aria-label={tMovies("share", { default: "Paylaş" })}
         >
           <i className="pi pi-share-alt" />
         </button>
@@ -128,11 +141,12 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
         <div className={styles.modalBackdrop} onClick={() => setCastOpen(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHead}>
-              <h5 className="m-0">Kadro</h5>
+              <h5 className="m-0">{tMovies("cast")}</h5>
               <button
                 className={styles.modalClose}
                 onClick={() => setCastOpen(false)}
-                aria-label="Kapat"
+                aria-label={tCommon("close")}
+                title={tCommon("close")}
               >
                 <i className="pi pi-times" />
               </button>
@@ -153,7 +167,9 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
                   ))}
                 </ul>
               ) : (
-                <div className="text-muted">Kadro bilgisi bulunamadı.</div>
+                <div className="text-muted">
+                  {tMovies("noCast", { default: "Kadro bilgisi bulunamadı." })}
+                </div>
               )}
             </div>
           </div>

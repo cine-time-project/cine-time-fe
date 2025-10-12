@@ -1,10 +1,14 @@
+import { useTranslations } from "next-intl";
 import styles from "./movie-meta.module.scss";
 
 export default function MovieMeta({ movie, className = "" }) {
+  const t = useTranslations("movies");
+
   const items = [
     movie.rating != null ? <>⭐ {Number(movie.rating).toFixed(1)} IMDb</> : null,
-    movie.releaseYear || (movie.releaseDate ? new Date(movie.releaseDate).getFullYear() : null),
-    movie.duration ? `${movie.duration} dk` : null,
+    movie.releaseYear ||
+      (movie.releaseDate ? new Date(movie.releaseDate).getFullYear() : null),
+    movie.duration ? `${movie.duration} ${t("minutes")}` : null,
   ].filter(Boolean);
 
   const halls = (movie.specialHalls || "")
@@ -13,8 +17,8 @@ export default function MovieMeta({ movie, className = "" }) {
     .filter(Boolean);
 
   const formats = Array.isArray(movie.formats) ? movie.formats : [];
-  const genres  = Array.isArray(movie.genres || movie.genre)
-    ? (movie.genres || movie.genre)
+  const genres = Array.isArray(movie.genres || movie.genre)
+    ? movie.genres || movie.genre
     : [];
 
   return (
@@ -24,7 +28,9 @@ export default function MovieMeta({ movie, className = "" }) {
         {items.length > 0 && (
           <div className={styles.items}>
             {items.map((it, i) => (
-              <span key={i} className={styles.item}>{it}</span>
+              <span key={i} className={styles.item}>
+                {it}
+              </span>
             ))}
           </div>
         )}
@@ -32,30 +38,34 @@ export default function MovieMeta({ movie, className = "" }) {
         {(halls.length > 0 || formats.length > 0) && (
           <div className={styles.badges}>
             {halls.map((h, i) => (
-              <span key={`hall-${i}`} className={styles.pill}>{h}</span>
+              <span key={`hall-${i}`} className={styles.pill}>
+                {h}
+              </span>
             ))}
             {formats.map((f, i) => (
-              <span key={`fmt-${i}`} className={styles.pill}>{f}</span>
+              <span key={`fmt-${i}`} className={styles.pill}>
+                {f}
+              </span>
             ))}
           </div>
         )}
       </div>
 
       {/* ALT SATIR: TÜRLER */}
-{genres.length > 0 && (
-  <div className={styles.genres}>
-    {genres.map((g, i) => (
-      <a
-        key={`genre-${i}`}
-        href={`/movies?genre=${encodeURIComponent(g)}`}
-        className={styles.genreLink}
-      >
-        {g}
-      </a>
-    ))}
-  </div>
-)}
-
+      {genres.length > 0 && (
+        <div className={styles.genres}>
+          {genres.map((g, i) => (
+            <a
+              key={`genre-${i}`}
+              href={`/movies?genre=${encodeURIComponent(g)}`}
+              className={styles.genreLink}
+              aria-label={`${t("genres")}: ${g}`}
+            >
+              {g}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

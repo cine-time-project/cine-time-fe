@@ -1,20 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import s from "./movie-card-dp.module.scss";
 import { useParams } from "next/navigation";
 
-
-
 /** dk -> "2 h 7 min" */
-const fmtDuration = (min) => {
+const fmtDuration = (min, t) => {
   if (!min && min !== 0) return null;
   const h = Math.floor(min / 60);
   const m = min % 60;
-  return h ? `${h} h ${m} min` : `${m} min`;
+  // dakika birimini çeviriden al
+  return h ? `${h} h ${m} ${t("minutes")}` : `${m} ${t("minutes")}`;
 };
 
 export default function MovieCardDP({ movie = {}, align = "center" }) {
+  const tMovies = useTranslations("movies");
+  const tTips = useTranslations("tooltips");
+
   const {
     slug,
     title,
@@ -29,19 +32,27 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
     age = 16,            // yaş etiketi (opsiyonel)
   } = movie;
 
-  const img = backdropUrl || posterUrl || "/images/hero/avatar-pandora-film-IMAGO.jpg";
- const { locale } = useParams();
-const prefix = locale ? `/${locale}` : "";
-const to = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
+  const img =
+    backdropUrl || posterUrl || "/images/hero/avatar-pandora-film-IMAGO.jpg";
+
+  const { locale } = useParams();
+  const prefix = locale ? `/${locale}` : "";
+  const to = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
 
   // 5 yıldız üzerinden göstermek için
   const starsOutOfFive = rating ? Math.round((Number(rating) / 10) * 5) : 0;
-  const stars = Array.from({ length: 5 }).map((_, i) => (i < starsOutOfFive ? "★" : "☆"));
+  const stars = Array.from({ length: 5 }).map((_, i) =>
+    i < starsOutOfFive ? "★" : "☆"
+  );
 
   return (
     <div className={s.card}>
       {/* küçük tile */}
-      <Link className={s.tileLink} href={to}>
+      <Link
+        className={s.tileLink}
+        href={to}
+        aria-label={tTips("showDetails")}
+      >
         <div className={s.thumb}>
           <img src={img} alt={title || "movie"} />
         </div>
@@ -54,7 +65,11 @@ const to = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
           align === "right" ? s.popRight : align === "left" ? s.popLeft : s.popCenter
         }`}
       >
-        <Link href={to} className={s.popPoster} aria-label={`${title} details`}>
+        <Link
+          href={to}
+          className={s.popPoster}
+          aria-label={`${title} ${tMovies("detailsTitle")}`}
+        >
           <img src={img} alt={title || "movie"} />
         </Link>
 
@@ -66,24 +81,35 @@ const to = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
           {rankText && <div className={s.rank}>{rankText}</div>}
 
           <div className={s.ctaRow}>
-            <button className={s.roundBtn} aria-label="Favorilere ekle">
+            <button
+              className={s.roundBtn}
+              aria-label={tMovies("addToFavorites")}
+              title={tMovies("addToFavorites")}
+            >
               <i className="pi pi-plus" />
             </button>
-            <button className={s.roundBtn} aria-label="Fragman">
+            <button
+              className={s.roundBtn}
+              aria-label={tMovies("trailer")}
+              title={tMovies("trailer")}
+            >
               <i className="pi pi-video" />
             </button>
           </div>
 
           <div className={s.trial}>
             <i className="ri-check-fill" />
-            Watch with a 30 day free Prime trial, auto renews at €8.99/month
+            {tMovies("primeTrial")}
           </div>
 
           <div className={s.metaLine}>
-            {isNew && <span className={s.badge}>NEW MOVIE</span>}
+            {isNew && <span className={s.badge}>{tMovies("newMovie")}</span>}
 
             {rating != null && (
-              <span className={s.stars} title={`IMDb ${Number(rating).toFixed(1)}`}>
+              <span
+                className={s.stars}
+                title={`IMDb ${Number(rating).toFixed(1)}`}
+              >
                 <span className={s.starIcons}>{stars.join("")}</span>
                 <span className={s.ratingNum}>{Number(rating).toFixed(1)}</span>
               </span>
@@ -99,7 +125,7 @@ const to = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
             {duration && (
               <>
                 <span className={s.dot} />
-                <span>{fmtDuration(duration)}</span>
+                <span>{fmtDuration(duration, tMovies)}</span>
               </>
             )}
           </div>
