@@ -3,19 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  InputGroup,
-  Row,
+import {Alert,Button,Card,Col,Container,Form,InputGroup,Row,
 } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
 import { login as loginRequest } from "@/services/auth-service";
 import { GoogleLogin } from "@react-oauth/google";
+import { config } from "@/helpers/config";
 import styles from "./login.module.scss";
 
 export default function LoginPage() {
@@ -82,6 +75,7 @@ export default function LoginPage() {
 
       localStorage.setItem("authToken", token);
       localStorage.setItem("authRemember", rememberMe ? "1" : "0");
+
       if (response?.refreshToken ?? response?.data?.refreshToken) {
         const refresh = response.refreshToken ?? response.data?.refreshToken;
         localStorage.setItem("refreshToken", refresh);
@@ -162,6 +156,7 @@ export default function LoginPage() {
                   </Alert>
                 )}
 
+                {/* Giriş Formu */}
                 <Form
                   noValidate
                   onSubmit={handleSubmit}
@@ -213,7 +208,7 @@ export default function LoginPage() {
                     </InputGroup>
                   </Form.Group>
 
-                  {/* Captcha ve hatırlama alanı */}
+                  {/* Hatırlama ve Şifre Unutma */}
                   <div className={styles.loginCardMeta}>
                     <Form.Check
                       id="login-remember"
@@ -249,7 +244,7 @@ export default function LoginPage() {
                   </Button>
                 </Form>
 
-                {/* 🔹 Google Login Butonu */}
+                {/* Google Login Butonu */}
                 <div className="text-center mt-4">
                   <GoogleLogin
                     shape="pill"
@@ -257,22 +252,64 @@ export default function LoginPage() {
                     size="large"
                     logo_alignment="center"
                     theme="outline"
-                    onSuccess={(credentialResponse) => {
-                      console.log(
-                        " Google Login Success:",
-                        credentialResponse
-                      );
-                      alert(
-                        "Google ile giriş başarılı! (henüz backend'e bağlı değil)"
-                      );
+                    onSuccess={async (credentialResponse) => {
+                      try {
+                        const idToken = credentialResponse?.credential;
+                        if (!idToken) {
+                          alert("Google kimlik doğrulama başarısız oldu.");
+                          return;
+                        }
+
+                        // Backend'e gönder
+                        const response = await fetch(
+                          `${
+                            process.env.NEXT_PUBLIC_API_BASE_URL ||
+                            "http://localhost:8090/api"
+                          }/google`,
+                          {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ idToken }),
+                          }
+                        );
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                          console.error("Google login backend hatası:", data);
+                          alert(
+                            data?.message || "Google ile giriş başarısız oldu."
+                          );
+                          return;
+                        }
+
+                        // Backend JWT token ve kullanıcı bilgilerini al
+                        const token = data?.returnBody?.token;
+                        const user = data?.returnBody;
+
+                        if (!token) {
+                          alert("Sunucudan geçerli bir token alınamadı.");
+                          return;
+                        }
+
+                        // LocalStorage’a kaydet
+                        localStorage.setItem("authToken", token);
+                        localStorage.setItem("authUser", JSON.stringify(user));
+
+                        alert("Google ile giriş başarılı!");
+                        window.location.href = "/"; // veya router.push(`/${locale}`);
+                      } catch (error) {
+                        console.error("Google login hatası:", error);
+                        alert("Google girişi sırasında bir hata oluştu.");
+                      }
                     }}
                     onError={() => {
-                      console.log(" Google Login Failed");
                       alert("Google girişi başarısız oldu!");
                     }}
                   />
                 </div>
 
+                {/* Alt Bilgi */}
                 <div className={styles.loginCardFooter}>
                   <span>{tAuth("noAccount")}</span>
                   <Link
