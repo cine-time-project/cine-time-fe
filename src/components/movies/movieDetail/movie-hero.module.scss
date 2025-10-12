@@ -108,3 +108,36 @@
   color: rgba(255,255,255,.92);
   line-height: 1.15;
 }
+
+
+.hero {
+  position: relative; // zaten var ama dursun
+}
+
+/* Overlay elementinin kendisi tıklamayı engellemesin */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;        /* çok önemli */
+}
+
+/* Pseudo elementler overlay'in içinde kalır */
+.overlay::before,
+.overlay::after {
+  z-index: 1;
+}
+
+/* Şeffaf tıklama alanı: görselin tamamını kaplar */
+.clickArea {
+  position: absolute;
+  inset: 0;
+  z-index: 2;                 /* overlay'in üstünde, içeriklerin altında */
+  display: block;
+}
+
+/* İçerik link katmanının üstünde kalsın ki butonlar çalışsın */
+.hero :global(.container) {
+  position: relative;
+  z-index: 3;                 /* clickArea'nın üstü */
+}

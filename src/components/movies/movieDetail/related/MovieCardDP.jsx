@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import s from "./movie-card-dp.module.scss";
+import { useParams } from "next/navigation";
+
+
 
 /** dk -> "2 h 7 min" */
 const fmtDuration = (min) => {
@@ -27,7 +30,9 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
   } = movie;
 
   const img = backdropUrl || posterUrl || "/images/hero/avatar-pandora-film-IMAGO.jpg";
-  const to  = slug ? `/movies/${slug}` : "#";
+ const { locale } = useParams();
+const prefix = locale ? `/${locale}` : "";
+const to = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
 
   // 5 yıldız üzerinden göstermek için
   const starsOutOfFive = rating ? Math.round((Number(rating) / 10) * 5) : 0;
