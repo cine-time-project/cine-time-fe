@@ -10,6 +10,7 @@ import { useResponsiveSkeletonCount } from "@/components/movies/useResponsiveSke
 
 const PAGE_SIZE = 10;
 
+//TODO: ExpandedMovieCard implementation is pending.
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(0);

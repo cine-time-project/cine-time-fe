@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
 
+//TODO: Needs styling..
 export default function FiltersSidebar({ show, onClose, onApply }) {
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
