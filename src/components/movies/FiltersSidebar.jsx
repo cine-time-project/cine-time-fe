@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Offcanvas, Button, Form, Row, Col } from "react-bootstrap";
 import { Slider } from "primereact/slider";
 import { getGenres } from "@/services/movie-service";
+import { useTranslations } from "next-intl";
 
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
@@ -14,6 +15,7 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
   const [ratingRange, setRatingRange] = useState([0, 10]);
   const [releaseDate, setReleaseDate] = useState("");
   const [specialHall, setSpecialHall] = useState("");
+  const t = useTranslations("movies");
 
   useEffect(() => {
     getGenres().then(setGenres).catch(console.error);
@@ -42,21 +44,23 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
 
   return (
     <Offcanvas
-  show={show}
-  onHide={onClose}
-  responsive="lg"
-  placement="start"
-  backdrop="true"
-  className="bg-dark text-light p-3"
->
+      show={show}
+      onHide={onClose}
+      responsive="lg"
+      placement="start"
+      backdrop="true"
+      className="bg-dark text-light p-3"
+    >
       <Offcanvas.Header closeButton closeVariant="white">
-        <Offcanvas.Title className="text-warning fw-bold">Filter Movies</Offcanvas.Title>
+        <Offcanvas.Title className="text-warning fw-bold">
+          Filter Movies
+        </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Form>
           {/* Genre */}
           <Form.Group className="mb-3">
-            <Form.Label>Genre</Form.Label>
+            <Form.Label>{t("genre")}</Form.Label>
             <div className="d-flex flex-wrap gap-2">
               {genres.map((g) => (
                 <Form.Check
@@ -78,12 +82,12 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
 
           {/* Status */}
           <Form.Group className="mb-3">
-            <Form.Label>Status</Form.Label>
+            <Form.Label>{t("status")}</Form.Label>
             <Form.Select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t("status")}</option>
               {STATUSES.map((s) => (
                 <option key={s} value={s}>
                   {s.replace("_", " ")}
@@ -94,7 +98,9 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
 
           {/* Rating Range */}
           <Form.Group className="mb-3">
-            <Form.Label>Rating: {ratingRange[0]} - {ratingRange[1]}</Form.Label>
+            <Form.Label>
+              {t("rating")}: {ratingRange[0]} - {ratingRange[1]}
+            </Form.Label>
             <Slider
               value={ratingRange}
               onChange={(e) => setRatingRange(e.value)}
@@ -107,7 +113,7 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
 
           {/* Release Date */}
           <Form.Group className="mb-3">
-            <Form.Label>Release Date (after)</Form.Label>
+            <Form.Label>{t("releaseDateAfter")}</Form.Label>
             <Form.Control
               type="date"
               value={releaseDate}
@@ -117,12 +123,12 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
 
           {/* Special Halls */}
           <Form.Group className="mb-3">
-            <Form.Label>Special Halls</Form.Label>
+            <Form.Label>{t("specialHalls")}</Form.Label>
             <Form.Select
               value={specialHall}
               onChange={(e) => setSpecialHall(e.target.value)}
             >
-              <option value="">All</option>
+              <option value="">{t("all")}</option>
               {SPECIAL_HALLS.map((hall) => (
                 <option key={hall} value={hall}>
                   {hall}
@@ -134,13 +140,17 @@ export default function FiltersSidebar({ show, onClose, onApply }) {
           {/* Buttons */}
           <Row>
             <Col>
-              <Button variant="secondary" onClick={handleClear} className="w-100">
-                Clear
+              <Button
+                variant="secondary"
+                onClick={handleClear}
+                className="w-100"
+              >
+                {t("clear")}
               </Button>
             </Col>
             <Col>
               <Button variant="primary" onClick={handleApply} className="w-100">
-                Apply
+                {t("apply")}
               </Button>
             </Col>
           </Row>

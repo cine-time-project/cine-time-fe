@@ -13,19 +13,13 @@ export default function HomePage() {
     <div>
       <HeroCarousel query={"presale"} />
 
-      <SectionTitle padding="px-5">
-        {t("inTheaters")}
-      </SectionTitle>
+      <SectionTitle padding="px-5">{t("inTheaters")}</SectionTitle>
       <MovieStripe query={"in_theaters"} />
       <Spacer />
-      <SectionTitle  padding="px-5">
-        {t("comingSoon")}
-      </SectionTitle>
+      <SectionTitle padding="px-5">{t("comingSoon")}</SectionTitle>
       <MovieStripe query={"coming_soon"} />
       <Spacer />
-      <SectionTitle  padding="px-5">
-        {t("preSale")}
-      </SectionTitle>
+      <SectionTitle padding="px-5">{t("preSale")}</SectionTitle>
       <MovieStripe query={"presale"} />
       <Spacer />
     </div>

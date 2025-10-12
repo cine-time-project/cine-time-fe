@@ -5,10 +5,12 @@ import { Slider } from "primereact/slider";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import { getGenres } from "@/services/movie-service";
+import { useTranslations } from "next-intl";
 
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
 const GENRE_COLS = 2;
+const t = useTranslations("movies");
 
 export default function FiltersSidebarContent({ filters, onChange }) {
   const [genres, setGenres] = useState([]);
@@ -39,13 +41,13 @@ export default function FiltersSidebarContent({ filters, onChange }) {
     // YYYY-MM-DD format kontrolü
     const regex = /^\d{4}-\d{2}-\d{2}$/;
     if (!regex.test(value)) {
-      setReleaseDateError("Invalid date");
+      setReleaseDateError(t("invalidDate"));
       return;
     }
 
     const d = new Date(value);
     if (isNaN(d.getTime())) {
-      setReleaseDateError("Invalid date");
+      setReleaseDateError(t("invalidDate"));
       return;
     }
 
@@ -87,7 +89,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
     <Form>
       {/* Genre */}
       <Form.Group className="mb-3">
-        <Form.Label>Genre</Form.Label>
+        <Form.Label>{t("genres")}</Form.Label>
         <Row>
           {genreColumns.map((colGenres, colIdx) => (
             <Col key={colIdx}>
@@ -113,9 +115,9 @@ export default function FiltersSidebarContent({ filters, onChange }) {
 
       {/* Status */}
       <Form.Group className="mb-3">
-        <Form.Label>Status</Form.Label>
+        <Form.Label>{t("status")}</Form.Label>
         <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="">All</option>
+          <option value="">{t("all")}</option>
           {STATUSES.map((s) => (
             <option key={s} value={s}>
               {s.replace("_", " ")}
@@ -127,7 +129,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
       {/* Rating */}
       <Form.Group className="mb-3">
         <Form.Label>
-          Rating: {ratingRange[0]} - {ratingRange[1]}
+          {t("rating")}: {ratingRange[0]} - {ratingRange[1]}
         </Form.Label>
         <Slider
           value={ratingRange}
@@ -141,7 +143,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
 
       {/* Release Date */}
       <Form.Group className="mb-3">
-        <Form.Label>Release Date (after)</Form.Label>
+        <Form.Label>{t("releaseDateAfter")}</Form.Label>
         <Form.Control
           type="date"
           value={releaseDate}
@@ -155,12 +157,12 @@ export default function FiltersSidebarContent({ filters, onChange }) {
 
       {/* Special Halls */}
       <Form.Group className="mb-3">
-        <Form.Label>Special Halls</Form.Label>
+        <Form.Label>{t("specialHalls")}</Form.Label>
         <Form.Select
           value={specialHall}
           onChange={(e) => setSpecialHall(e.target.value)}
         >
-          <option value="">All</option>
+          <option value="">{t("all")}</option>
           {SPECIAL_HALLS.map((hall) => (
             <option key={hall} value={hall}>
               {hall}
@@ -173,7 +175,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
       <Row>
         <Col>
           <Button variant="secondary" onClick={handleClear} className="w-100">
-            Clear
+            {t("clear")}
           </Button>
         </Col>
         <Col>
