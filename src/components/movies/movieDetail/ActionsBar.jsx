@@ -1,10 +1,18 @@
+// src/components/movies/movieDetail/ActionsBar.jsx
 "use client";
+
 import { useState } from "react";
+import { useParams } from "next/navigation";   // ⬅️ locale için
 import styles from "./actions-bar.module.scss";
 import BiletAl from "@/components/common/button/BiletAl";
 
 export default function ActionsBar({ movie, onToggleFavorite }) {
   const [castOpen, setCastOpen] = useState(false);
+
+  // locale'li prefix
+  const { locale } = useParams();
+  const prefix = locale ? `/${locale}` : "";
+  const ticketHref = `${prefix}/find-showtime`;  // ⬅️ hedef
 
   // 1) Fragman
   const playTrailer = () => {
@@ -14,7 +22,6 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   // 2) Favori (placeholder)
   const toggleFavorite = async () => {
     try {
-      
       console.log("toggle favorite", movie?.id);
     } catch (e) {
       console.error(e);
@@ -50,8 +57,9 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
+        {/* ⬇️ Bilet Al artık /{locale}/find-showtime'a yönlendirir */}
         <BiletAl
-          href={`/movies/${movie?.slug}/showtimes`}
+          href={ticketHref}
           variant="hero"
           subtitle="Yakındaki sinema ve seanslar"
         />
