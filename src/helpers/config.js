@@ -56,7 +56,7 @@ export const config = {
 
   // ---- API kökü: env > config fallback (tek yerden kontrol) ----
   // Not: api-routes.js bu değeri import edip tüm endpoint’leri oradan kurmalı.
-  apiURL: (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8090/api").replace(/\/$/, ""),
+  apiURL: (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8100/api").replace(/\/$/, ""),
 
   // Desteklenen diller
   locales: ["tr", "en", "de", "fr"],
