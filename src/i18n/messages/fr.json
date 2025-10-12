@@ -210,7 +210,17 @@
     "genderMale": "Homme",
     "day": "Jour",
     "month": "Mois",
-    "year": "Année"
+    "year": "Année",
+    "backToLogin": "Retour à la connexion",
+    "forgot": {
+      "tab": "Mot de passe oublié",
+      "title": "Vous avez oublié votre mot de passe ?",
+      "subtitle": "Saisissez votre adresse e-mail ; nous vous enverrons un lien de réinitialisation.",
+      "submit": "Envoyer le lien",
+      "success": "Si un compte existe pour cet e-mail, un lien de réinitialisation du mot de passe a été envoyé.",
+      "notFound": "Aucun compte trouvé avec cet e-mail.",
+      "rateLimit": "Trop de demandes en peu de temps. Veuillez réessayer plus tard."
+    }
   },
 
   "logout": {
