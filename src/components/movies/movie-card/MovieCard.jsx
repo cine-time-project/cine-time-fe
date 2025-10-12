@@ -94,7 +94,7 @@ export default function MovieCard({ movie }) {
         </Card.Title>
         <Card.Text className={styles["movie-card__summary"]}>
           {movie.summary?.length > 70
-            ? movie.summary.substring(0, 70) + t("movies.summaryEllipsis")
+            ? movie.summary.substring(0, 70) + "..."
             : movie.summary}
         </Card.Text>
       </Card.Body>

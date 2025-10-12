@@ -1,4 +1,4 @@
-
+//TODO: Card content will be arranged.
 export const HeroCard = ({ movie }) => {
   // 🎬 Select the scene image for the movie
   // Prefer the one marked as not poster, otherwise use the first image available

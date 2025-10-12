@@ -10,9 +10,9 @@ import { useTranslations } from "next-intl";
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
 const GENRE_COLS = 2;
-const t = useTranslations("movies");
 
 export default function FiltersSidebarContent({ filters, onChange }) {
+  const t = useTranslations("movies");
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState(filters.genre || []);
   const [status, setStatus] = useState(filters.status || "");
@@ -115,7 +115,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
 
       {/* Status */}
       <Form.Group className="mb-3">
-        <Form.Label>{t("status")}</Form.Label>
+        <Form.Label>{t("statusLabel")}</Form.Label>
         <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value="">{t("all")}</option>
           {STATUSES.map((s) => (
