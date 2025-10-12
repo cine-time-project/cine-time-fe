@@ -272,7 +272,9 @@
   "behindTheScenes": "Kamera Arkası",
   "share": "Paylaş",
   "statusLabel":"Gösterim durumu",
-  "formats": "Formatı"
+  "formats": "Formatı",
+   "actionsAria": "Film işlemleri",
+    "primeTrial": "Prime ile 30 gün ücretsiz dene"
   },
 
   "cinemas": {

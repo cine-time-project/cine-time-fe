@@ -272,7 +272,9 @@
   "behindTheScenes": "Behind the Scenes",
   "share": "Share",
   "statusLabel":"Show Status",
-  "formats": "Format"
+  "formats": "Format",
+   "actionsAria": "Movie actions",
+    "primeTrial": "Try Prime free for 30 days"
   },
 
   "cinemas": {

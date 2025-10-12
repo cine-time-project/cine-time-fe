@@ -1,9 +1,23 @@
-// src/services/movie-serviceDP.js
-// FE → BE kök adresleri
-const RAW = (process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8100/api").replace(/\/$/, "");
-const API_BASE = RAW;                        // ör: http://localhost:8100/api
-const ORIGIN   = RAW.replace(/\/api$/, "");  // ör: http://localhost:8100
-const ASSET_BASE = process.env.NEXT_PUBLIC_ASSET_BASE || ORIGIN;
+
+import {
+  movieByIdApi,
+  MOVIE_SEARCH_API,
+  MOVIE_STATUS_API,
+  MOVIES_IN_THEATRES_API,
+  MOVIES_COMING_SOON_API,
+  MOVIE_GENRE_LIST_API,
+} from "@/helpers/api-routes";
+
+ const ASSET_BASE =
+   process.env.NEXT_PUBLIC_ASSET_BASE ||
+   (() => {
+     try {
+       // MOVIE_SEARCH_API zaten mutlak (api-routes config.apiURL’den kuruyor)
+       return new URL(MOVIE_SEARCH_API).origin; // örn: http://localhost:8100
+     } catch {
+       return "";
+     }
+   })();
 
 /** ResponseMessage sarmalayıcısını aç (returnBody | object | direct) */
 async function unwrap(res) {
@@ -12,7 +26,6 @@ async function unwrap(res) {
     try { txt = await res.text(); } catch {}
     throw new Error(`HTTP ${res.status} ${txt || ""}`);
   }
-  // BE bazen ResponseMessage{returnBody: ...}, bazen object, bazen düz DTO döndürüyor
   const json = await res.json();
   return json?.returnBody ?? json?.object ?? json;
 }
@@ -55,10 +68,10 @@ function normalizeMovie(dto = {}) {
     title: dto.title,
     slug: dto.slug || dto.title?.toLowerCase().replace(/\s+/g, "-"),
     summary: dto.summary || dto.overview,
-    rating: dto.imdbRating ?? dto.rating ?? null,         // 0..10
+    rating: dto.imdbRating ?? dto.rating ?? null,
     releaseDate: dto.releaseDate,
     releaseYear: dto.releaseYear || (dto.releaseDate ? new Date(dto.releaseDate).getFullYear() : null),
-    duration: dto.duration || dto.runtime || null,        // dakika
+    duration: dto.duration || dto.runtime || null,
     genres: dto.genres || dto.genre || [],
     director: dto.director,
     cast: dto.cast || dto.actors || [],
@@ -75,16 +88,14 @@ function normalizeMovie(dto = {}) {
    PUBLIC API FONKSİYONLARI
    =========================== */
 
-/** Hero için tekil film */
 export async function getMovieById(id) {
-  const res = await fetch(`${API_BASE}/movies/id/${id}`, { next: { revalidate: 0 } });
+  const res = await fetch(movieByIdApi(id), { next: { revalidate: 0 } });
   const dto = await unwrap(res);
   return normalizeMovie(dto);
 }
 
-/** Arama (slug metni için fallback) */
 export async function searchMovies(q = "", page = 0, size = 10) {
-  const url = new URL(`${API_BASE}/movies/search`);
+  const url = new URL(MOVIE_SEARCH_API);
   if (q) url.searchParams.set("q", q);
   url.searchParams.set("page", page);
   url.searchParams.set("size", size);
@@ -94,10 +105,14 @@ export async function searchMovies(q = "", page = 0, size = 10) {
   const content = (data.content || data.items || []).map(normalizeMovie);
   return { ...data, content };
 }
+// Genel sayfalı liste (BE’de düz /movies yoksa boş arama ile)
+export async function getMoviesPaged(page = 0, size = 10) {
+  return searchMovies("", page, size);
+}
 
-/** Status filtresi gerekiyorsa (opsiyon) */
+
 export async function getMoviesByStatus(status, page = 0, size = 10) {
-  const url = new URL(`${API_BASE}/movies/status`);
+  const url = new URL(MOVIE_STATUS_API);
   if (status) url.searchParams.set("status", status);
   url.searchParams.set("page", page);
   url.searchParams.set("size", size);
@@ -108,9 +123,8 @@ export async function getMoviesByStatus(status, page = 0, size = 10) {
   return { ...data, content };
 }
 
-/** Vizyondakiler (opsiyon) */
 export async function getMoviesInTheatres(date, page = 0, size = 10) {
-  const url = new URL(`${API_BASE}/movies/in-theatres`);
+  const url = new URL(MOVIES_IN_THEATRES_API);
   if (date) url.searchParams.set("date", date);
   url.searchParams.set("page", page);
   url.searchParams.set("size", size);
@@ -121,9 +135,8 @@ export async function getMoviesInTheatres(date, page = 0, size = 10) {
   return { ...data, content };
 }
 
-/** Yakında (opsiyon) */
 export async function getComingSoonMovies(date, page = 0, size = 10) {
-  const url = new URL(`${API_BASE}/movies/coming-soon`);
+  const url = new URL(MOVIES_COMING_SOON_API);
   if (date) url.searchParams.set("date", date);
   url.searchParams.set("page", page);
   url.searchParams.set("size", size);
@@ -133,20 +146,11 @@ export async function getComingSoonMovies(date, page = 0, size = 10) {
   const content = (data.content || data.items || []).map(normalizeMovie);
   return { ...data, content };
 }
-
-/** Genel sayfalı liste (BE’de düz /movies yoksa boş arama ile) */
-export async function getMoviesPaged(page = 0, size = 10) {
-  return searchMovies("", page, size);
-}
-
-
-// src/services/movie-serviceDP.js içine ekle
 
 export async function getMoviesByGenre(genre, page = 0, size = 10) {
-  // genre yoksa boş sonuç döndürerek sessizce çık
   if (!genre) return { content: [], number: 0, totalPages: 0, totalElements: 0, size, numberOfElements: 0 };
 
-  const url = new URL(`${API_BASE}/movies/genre`);
+  const url = new URL(MOVIE_GENRE_LIST_API);
   url.searchParams.set("genre", genre);
   url.searchParams.set("page", page);
   url.searchParams.set("size", size);
