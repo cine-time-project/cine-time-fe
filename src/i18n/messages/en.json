@@ -211,7 +211,17 @@
     "genderMale": "Male",
     "day": "Day",
     "month": "Month",
-    "year": "Year"
+    "year": "Year",
+    "backToLogin": "Back to login",
+    "forgot": {
+      "tab": "Forgot Password",
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email address and we'll send you a reset link.",
+      "submit": "Send Link",
+      "success": "If an account exists for this email, a password reset link has been sent.",
+      "notFound": "No account found with this email.",
+      "rateLimit": "Too many requests in a short time. Please try again later."
+    }
   },
 
   "logout": {
@@ -637,6 +647,21 @@
     "ctaTitle": "Take Advantage of Campaigns",
     "ctaBody": "Don’t miss out, get your ticket now.",
     "ctaBtn": "Buy Ticket"
+  },
+
+  "comingSoon": {
+    "title": "Coming Soon",
+    "description": "Movies coming soon to theaters",
+    "heading": "Coming Soon",
+    "loading": "Loading…",
+    "noItems": "There are no movies to show.",
+    "prev": "Prev",
+    "next": "Next",
+    "genre": "Genre",
+    "formats": "Formats",
+    "releaseTBA": "Release date: TBA",
+    "bookNow": "Book Now",
+    "details": "Details"
   }
 }
 
