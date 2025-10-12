@@ -46,3 +46,17 @@ export async function getMoviesByStatus(status = "IN_THEATERS", page = 0, size =
     throw new Error("Failed to fetch movies");
   }
 }
+
+export async function fetchComingSoon({ page = 1, size = 12 } = {}) {
+  const p = Math.max(0, page - 1); // backend 0-based
+  const pageData = await getMoviesByStatus("COMING_SOON", p, size);
+
+  // Page map (Spring Page standardı)
+  return {
+    movies: pageData?.content ?? [],
+    page: (pageData?.number ?? p) + 1, // UI 1-based
+    size: pageData?.size ?? size,
+    totalPages: pageData?.totalPages ?? 1,
+    totalElements: pageData?.totalElements ?? 0,
+  };
+}

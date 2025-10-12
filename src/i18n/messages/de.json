@@ -552,5 +552,20 @@
     "ctaTitle": "Nutzen Sie die Kampagnen",
     "ctaBody": "Verpassen Sie nicht, sichern Sie sich jetzt Ihr Ticket.",
     "ctaBtn": "Ticket Kaufen"
+  },
+
+  "comingSoon": {
+    "title": "Demnächst",
+    "description": "Filme, die bald in den Kinos erscheinen",
+    "heading": "Demnächst im Kino",
+    "loading": "Wird geladen…",
+    "noItems": "Es gibt keine Filme zum Anzeigen.",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "genre": "Genre",
+    "formats": "Formate",
+    "releaseTBA": "Veröffentlichungsdatum: wird bekanntgegeben",
+    "bookNow": "Jetzt buchen",
+    "details": "Details"
   }
 }

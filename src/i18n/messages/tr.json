@@ -644,5 +644,20 @@
     "ctaTitle": "Kampanyalardan Yararlanın",
     "ctaBody": "Fırsatları kaçırmayın, biletinizi hemen alın.",
     "ctaBtn": "Bilet Al"
+  },
+
+  "comingSoon": {
+    "title": "Yakında",
+    "description": "Yakında vizyona girecek filmler",
+    "heading": "Yakında",
+    "loading": "Yükleniyor…",
+    "noItems": "Şu an listelenecek film yok.",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "genre": "Tür",
+    "formats": "Formatlar",
+    "releaseTBA": "Vizyon tarihi: Bilinmiyor",
+    "bookNow": "Bilet Al",
+    "details": "Detaylar"
   }
 }
