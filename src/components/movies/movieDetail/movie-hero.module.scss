@@ -1,0 +1,143 @@
+@use "../../../styles/variables" as *;
+
+
+/* Hero alanı (arka plan + overlay kaplayıcı) */
+.hero{
+  position: relative;
+  min-height: 70vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  padding: 4rem 0 3rem;
+}
+
+/* Prime benzeri soldan koyu + alttan hafif bant */
+.overlay::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    /* soldan sağa güçlü koyuluk */
+    linear-gradient(to right,
+      rgb(0, 0, 0) 0%,
+      rgb(0, 0, 0) 12%,
+      rgba(0, 0, 0, 0.8) 24%,
+      rgba(0,0,0,.42) 38%,
+      rgba(0,0,0,.18) 50%,
+      rgba(0,0,0,0) 62%);
+}
+
+/* alttan bant aynı kalabilir, istersen biraz güçlendir: */
+.overlay::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:0; height:30%;
+  background: linear-gradient(to top,
+      rgb(0, 0, 0) 0%,
+      rgb(0, 0, 0) 12%,
+      rgba(0, 0, 0, 0.8) 24%,
+      rgba(0,0,0,.42) 38%,
+      rgba(0,0,0,.18) 50%,
+      rgba(0,0,0,0) 62%,
+      rgba(0,0,0,0) 82%,
+      rgba(0,0,0,0) 92%);
+}
+
+/* 2) Metni daha sola çek: hero içindeki container tam genişlik + küçük padding */
+.hero :global(.container){
+  max-width: 100%;                 /* bootstrap genişlik sınırını kaldır */
+  padding-left: clamp(12px, 3vw, 40px);
+  padding-right: clamp(12px, 3vw, 40px);
+}
+
+/* Başlığı biraz daha sola hizalı göster ve nefes ver */
+.title{
+  margin-left: 0;                  /* garanti */
+  margin-bottom: 1.2rem;
+}
+
+/* meta/özet de aynısını izlesin */
+.metaRow, .summary{
+  margin-bottom: 1rem;
+  margin-left: 0;
+  margin-right:25%;
+}
+
+
+
+
+/* Cam görünümlü bilet butonu */
+.btn-bilet{
+  display: inline-flex;
+  flex-direction: column;          /* title + subtitle alt alta */
+  justify-content: center;
+  gap: .15rem;
+  min-width: 260px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.10));
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  backdrop-filter: blur(4px);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn-bilet:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(0,0,0,.24);
+  background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.12));
+}
+.btn-bilet[aria-disabled="true"],
+.btn-bilet:disabled{ opacity:.6; pointer-events:none; }
+
+/* Hero varyantı (bir tık iri) */
+.btn-bilet--hero{
+  min-width: 320px;
+  padding: 16px 20px;
+  border-radius: 16px;
+}
+
+/* İç metinler */
+.btn-bilet__icon{ font-size: 1.1rem; margin-right: .4rem; }
+.btn-bilet__text{ font-size: 1.05rem; line-height: 1.1; }
+.btn-bilet__sub{
+  font-size: .95rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.92);
+  line-height: 1.15;
+}
+
+
+.hero {
+  position: relative; 
+}
+
+/* Overlay elementinin kendisi tıklamayı engellemesin */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;        /* ****** */
+}
+
+/* Pseudo elementler overlay'in içinde kalır */
+.overlay::before,
+.overlay::after {
+  z-index: 1;
+}
+
+/* Şeffaf tıklama alanı: görselin tamamını kaplar */
+.clickArea {
+  position: absolute;
+  inset: 0;
+  z-index: 2;                 /* overlay'in üstünde, içeriklerin altında */
+  display: block;
+}
+
+/* İçerik link katmanının üstünde kalsın ki butonlar çalışsın */
+.hero :global(.container) {
+  position: relative;
+  z-index: 3;                 /* clickArea'nın üstü */
+}

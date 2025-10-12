@@ -1,0 +1,9 @@
+@use "../../../styles/variables" as *;
+
+.sectionTitle { margin-bottom: .75rem; }
+.desc { color: rgba(255,255,255,.75); }
+
+.dl {
+  dt { color: rgba(255,255,255,.65); }
+  dd { margin-bottom: .5rem; }
+}

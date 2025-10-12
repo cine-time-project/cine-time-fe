@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -126,7 +125,7 @@ export default function Header() {
             <InputGroup>
               <Form.Control
                 type="search"
-                placeholder={tNav("search")} // i18n: "Ara" / "Search" ...
+                placeholder={tNav("search")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -200,7 +199,7 @@ export default function Header() {
               variant="warning"
               size="sm"
             >
-              {tNav("buy")} {/* i18n: "Bilet Al" / "Buy Ticket" */}
+              {tNav("buy")}
             </Button>
           </Nav>
         </Container>

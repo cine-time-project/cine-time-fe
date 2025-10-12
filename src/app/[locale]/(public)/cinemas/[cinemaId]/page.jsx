@@ -5,8 +5,9 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { config } from "@/helpers/config.js";
 
-const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API = config.apiURL;
 
 // util: format "HH:mm:ss" → "HH:mm"
 function hhmm(t) {

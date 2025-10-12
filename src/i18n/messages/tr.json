@@ -211,7 +211,33 @@
     "genderMale": "Erkek",
     "day": "Gün",
     "month": "Ay",
-    "year": "Yıl"
+    "year": "Yıl",
+    "backToLogin": "Girişe dön",
+    "forgot": {
+      "tab": "Şifremi Unuttum",
+      "title": "Şifrenizi mi unuttunuz?",
+      "subtitle": "E-posta adresinizi girin; sıfırlama bağlantısını gönderelim.",
+      "submit": "Bağlantıyı Gönder",
+      "success": "Eğer bu e-postaya kayıtlı bir hesap varsa, şifre sıfırlama bağlantısı gönderildi.",
+      "notFound": "Bu e-posta ile eşleşen bir hesap bulunamadı.",
+      "rateLimit": "Kısa sürede çok istek gönderildi. Lütfen biraz sonra tekrar deneyin."
+    }
+  },
+
+  "logout": {
+    "eyebrow": "CINE TIME CLUB",
+    "title": "Hesabınızdan çıkış yapın",
+    "subtitle": "Oturumunuzu kapatmak üzeresiniz. Emin misiniz?",
+    "cta": "Çıkış Yap",
+    "processing": "Çıkış yapılıyor...",
+    "cancel": "Vazgeç ve ana sayfaya dön",
+    "doneTitle": "Güle güle!",
+    "doneSubtitle": "Hesabınızdan güvenle çıkış yaptınız.",
+    "loginAgain": "Tekrar giriş yap",
+    "redirecting": "Birazdan yönlendirileceksiniz…",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "error": "Çıkış işlemi sırasında bir hata oluştu."
   },
 
   "account": {
@@ -247,6 +273,19 @@
     "comingSoon": "Pek Yakında",
     "inTheaters": "Gösterimde",
     "preSale": "Ön Satış",
+    "summary": "Özet",
+    "details": "Ayrıntılar",
+    "related": "Benzer Filmler",
+    "noCast": "Kadro bilgisi bulunamadı.",
+    "nearby": "Yakındaki sinema ve seanslar",
+    "buyTicket": "Bilet Al",
+    "trailer": "Fragman",
+    "behindTheScenes": "Kamera Arkası",
+    "share": "Paylaş",
+    "statusLabel": "Gösterim durumu",
+    "formats": "Formatı",
+    "actionsAria": "Film işlemleri",
+    "primeTrial": "Prime ile 30 gün ücretsiz dene",
     "staus": "Durum",
     "all": "Tümü",
     "rating": "Puan",
@@ -628,5 +667,20 @@
     "ctaTitle": "Kampanyalardan Yararlanın",
     "ctaBody": "Fırsatları kaçırmayın, biletinizi hemen alın.",
     "ctaBtn": "Bilet Al"
+  },
+
+  "comingSoon": {
+    "title": "Yakında",
+    "description": "Yakında vizyona girecek filmler",
+    "heading": "Yakında",
+    "loading": "Yükleniyor…",
+    "noItems": "Şu an listelenecek film yok.",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "genre": "Tür",
+    "formats": "Formatlar",
+    "releaseTBA": "Vizyon tarihi: Bilinmiyor",
+    "bookNow": "Bilet Al",
+    "details": "Detaylar"
   }
 }

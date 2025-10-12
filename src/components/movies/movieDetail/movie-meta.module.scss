@@ -1,0 +1,64 @@
+@use "../../../styles/variables" as *;
+
+/* Dış kap: dikey yığın, satırlar arası boşluk */
+.wrap { display: flex; flex-direction: column; gap: .5rem; }
+
+/* Üst satır: meta + rozetler aynı satırda */
+.topRow { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
+
+/* Meta (⭐ IMDb • yıl • süre) */
+.items {
+  display: flex; align-items: center; gap: 16px;
+  color: rgba(255,255,255,.92); font-weight: 700; letter-spacing: .1px;
+}
+.item:not(:last-child)::after {
+  content: "·"; opacity: .85; margin-left: 16px;
+}
+
+/* Ortak rozet görünümü */
+.badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+.pill {
+  display: inline-block; padding: .35rem .65rem; line-height: 1;
+  border-radius: 999px; font-weight: 700; color: #fff;
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.18);
+}
+
+/* Alt satır: sadece türler */
+.genres { margin-top: .25rem; }
+
+/* Mobilde boşlukları kıs */
+@media (max-width: 768px) {
+  .topRow { gap: 12px; }
+  .items { gap: 12px; }
+  .item:not(:last-child)::after { margin-left: 12px; }
+}
+
+
+/* Türleri alt satırda, altı çizili link olarak göster */
+.genres{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;                /* linkler arası boşluk */
+  margin-top: .25rem;
+}
+
+.genreLink{
+  color: #fff;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;   /* çizgiyi metinden biraz ayır */
+}
+
+/* Araya nokta koy */
+.genreLink:not(:last-child)::after{
+  content: "·";
+  opacity: .85;
+  margin-left: 14px;            /* noktadan sonra boşluk */
+}
+
+/* Mobilde biraz sıkılaştır */
+@media (max-width: 768px){
+  .genres{ gap: 12px; }
+  .genreLink:not(:last-child)::after{ margin-left: 12px; }
+}

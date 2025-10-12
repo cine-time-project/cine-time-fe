@@ -1,0 +1,131 @@
+@use "../../../styles/variables" as *;
+
+/* === Satır düzeni === */
+.actions{
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;   /* aynı tarafa hizala */
+  gap: 12px;                     /* daha sıkı */
+  flex-wrap: wrap;
+}
+
+.left{
+  flex: 0 0 auto;                /* büyüyüp arayı açmasın */
+  min-width: 300px;
+}
+
+.icons{
+  display: flex;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-left: 12px;             /* butona yakın dursun */
+}
+
+/* =====================
+   BİLET AL (GLOBAL)
+   BiletAl.jsx className="btn-bilet" döndürüyor.
+   CSS Modules içinde görünmesi için :global kullan.
+===================== */
+
+/* Koyu cam – normal durum */
+:global(.btn-bilet){
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .2rem;
+  min-width: 300px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #fff;
+
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.12));
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(4px);
+
+  font-weight: 800;
+  overflow: hidden;
+
+  /* sadece metin/kenar/gölge animasyonu */
+  transition: color 40ms ease, border-color 40ms ease, box-shadow 40ms ease;
+}
+
+/* HOVER: sarı cam + siyah yazı (animasyon background’da değil) */
+:global(.btn-bilet:hover),
+:global(.btn-bilet:focus-visible){
+  /* $color1: rgb(255,195,3) */
+  background: linear-gradient(
+    180deg,
+    rgba(255,195,3,.96),
+    rgba(255,195,3,.88)
+  );
+  border-color: rgba(255,195,3,.95);
+  color: #0b0f14; /* siyah yazı */
+  box-shadow: 0 16px 36px rgba(0,0,0,.24);
+}
+
+/* İç metinler */
+:global(.btn-bilet__text){ font-size: 1.05rem; line-height: 1.1; }
+:global(.btn-bilet__sub){  font-size: .95rem;  font-weight: 600; color: rgba(255,255,255,.92); }
+:global(.btn-bilet:hover .btn-bilet__sub),
+:global(.btn-bilet:focus-visible .btn-bilet__sub){ color: #0b0f14; }
+
+/* =====================
+   Yuvarlak ikon butonlar
+===================== */
+.iconBtn{
+  all: unset;                               /* native stil sıfırla */
+  display: grid; place-items: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  cursor: pointer;
+
+  border: 1px solid rgba(255,255,255,.22);
+  background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.08));
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  backdrop-filter: blur(4px);
+
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.iconBtn:hover,
+.iconBtn:focus-visible{
+  background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.26), rgba(255,255,255,.14));
+  border-color: rgba(255,255,255,.32);
+  box-shadow: 0 12px 30px rgba(0,0,0,.24);
+  outline: none;
+}
+
+.iconBtn > i{
+  font-size: 1.25rem;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.25));
+}
+
+/* Beğenme için kırmızımsı vurgu */
+.danger:hover,
+.danger:focus-visible{
+  background: radial-gradient(120% 120% at 30% 30%, rgba(255,120,120,.28), rgba(255,255,255,.14));
+  border-color: rgba(255,160,160,.5);
+}
+
+/* Mobil */
+@media (max-width: 576px){
+  .actions{ gap: 10px; }
+  .left{ min-width: 100%; }
+  .icons{ margin-left: 0; gap: 10px; }
+  .iconBtn{ width: 48px; height: 48px; }
+  .iconBtn > i{ font-size: 1.1rem; }
+}
+
+
+/* actions-bar.module.scss – modal ekleri */
+.modalBackdrop{ position:fixed; inset:0; z-index:1050; background:rgba(0,0,0,.5); display:grid; place-items:center; }
+.modal{ width:min(720px,92vw); background:rgba(20,24,30,.92); color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+.modalHead{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.08); }
+.modalClose{ all:unset; cursor:pointer; padding:6px; border-radius:8px; &:hover{ background:rgba(255,255,255,.08); } }
+.modalBody{ padding:14px 16px; max-height:60vh; overflow:auto; }
+.castList{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px 14px; margin:0; padding:0; list-style:none;
+  li a{ color:#fff; text-decoration:underline; text-underline-offset:2px; }
+}
