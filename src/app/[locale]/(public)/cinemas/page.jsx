@@ -6,8 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { authHeaders } from "@/lib/utils/http";
+import { config } from "@/helpers/config.js";
 
-const API = process.env.NEXT_PUBLIC_API_BASE_URL; // e.g. http://localhost:8090/api
+const API = config.apiURL; // e.g. http://localhost:8090/api
 
 // Prefer backend-provided URL. If empty, fall back to our binary endpoint.
 // Also normalize cases where backend returns a path like "/api/cinemaimages/123".
