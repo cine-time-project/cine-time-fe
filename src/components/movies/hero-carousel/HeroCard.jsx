@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "use-intl";
 
 //TODO: Card content will be arranged.
+//TODO: Buttons must use stopPropagation in order to ignore Card's own onClick behaviour.
 export const HeroCard = ({ movie }) => {
   const t = useTranslations();
   const locale = useLocale();
