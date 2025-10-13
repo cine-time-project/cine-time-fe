@@ -64,6 +64,7 @@ export const MOVIES_COMING_SOON_API = `${API}/movies/coming-soon`;  // GET
 export const MOVIES_BY_CINEMA_DATE_API = `${API}/movies/by-cinema-date`; // GET
 export const MOVIES_ADMIN_LIST_API = `${API}/movies/admin`;         // GET
 export const movieDeleteApi = (movieId) => `${API}/movies/del/${movieId}`;   // DELETE
+export const MOVIE_BY_SLUG_API = `${API}/movies/slug/movie`;  // GET -> /{slug}
 
 // -------------------- Images --------------------
 export const imageByIdApi = (imageId) => `${API}/images/${imageId}`; // GET/PUT/DELETE
