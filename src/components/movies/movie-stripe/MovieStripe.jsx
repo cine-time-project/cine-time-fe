@@ -8,6 +8,7 @@ import { Skeleton } from "primereact/skeleton";
 import "swiper/css";
 import "swiper/css/navigation";
 import "./movie-stripe.scss";
+import { useTranslations } from "next-intl";
 
 /**
  * MovieStripe Component
@@ -25,6 +26,8 @@ export const MovieStripe = ({ query }) => {
   const [hasMore, setHasMore] = useState(true);
 
   const [slidesPerView, setSlidesPerView] = useState(5);
+
+  const t = useTranslations("movies");
 
   // Responsive slides per view
   useEffect(() => {
@@ -67,7 +70,7 @@ export const MovieStripe = ({ query }) => {
       setPage(pageNum);
     } catch (err) {
       console.error(err);
-      setError("Failed to load movies.");
+      setError(t("failed"));
       setHasMore(false); // Prevent infinite fetch loop on error
     } finally {
       setInitialLoading(false);
@@ -109,7 +112,7 @@ export const MovieStripe = ({ query }) => {
       {/* Empty State */}
       {!initialLoading && movies.length === 0 && !error && (
         <p className="text-center text-muted py-4">
-          No movies found for “{query}”.
+           “{query}”.
         </p>
       )}
 
@@ -121,7 +124,7 @@ export const MovieStripe = ({ query }) => {
             onClick={() => fetchMovies(page + 1, true)}
             className="btn btn-sm btn-outline-light ms-2"
           >
-            Retry
+            {t("retry")}
           </button>
         </div>
       )}

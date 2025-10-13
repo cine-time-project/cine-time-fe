@@ -2,6 +2,8 @@
 import { config } from "./config";
 const API = config.apiURL;
 
+
+export const API_BASE = API;
 // -------------------- Auth --------------------
 export const AUTH_LOGIN_API = `${API}/login`;
 export const AUTH_GOOGLE_API = `${API}/google`;
@@ -52,10 +54,12 @@ export const movieUpdateApi = (movieId) => `${API}/movies/update/${movieId}`; //
 export const MOVIE_STATUS_API = `${API}/movies/status`;             // GET
 export const moviesByCinemaSlugApi = (cinemaSlug) => `${API}/movies/slug/${cinemaSlug}`; // GET
 export const MOVIE_SEARCH_API = `${API}/movies/search`;             // GET
+export const MOVIE_FILTER_API = `${API}/movies/filter`;             // GET
 export const MOVIES_IN_THEATRES_API = `${API}/movies/in-theatres`;  // GET
 export const movieByIdApi = (movieId) => `${API}/movies/id/${movieId}`;      // GET
 export const moviesByHallNameApi = (hallName) => `${API}/movies/hall/${hallName}`; // GET
-export const MOVIE_GENRE_LIST_API = `${API}/movies/genre`;          // GET
+export const MOVIE_BY_GENRE_API = `${API}/movies/genre`;          // GET
+export const MOVIE_GENRE_LIST = `${API}/movies/genre-list`;          // GET
 export const MOVIES_COMING_SOON_API = `${API}/movies/coming-soon`;  // GET
 export const MOVIES_BY_CINEMA_DATE_API = `${API}/movies/by-cinema-date`; // GET
 export const MOVIES_ADMIN_LIST_API = `${API}/movies/admin`;         // GET

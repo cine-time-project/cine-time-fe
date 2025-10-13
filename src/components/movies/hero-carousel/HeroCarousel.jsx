@@ -9,11 +9,13 @@ import "./hero-carousel.scss";
 import { HeroCard } from "./HeroCard";
 import { useEffect, useState, useRef } from "react";
 import { getMoviesByStatus } from "@/services/movie-service";
+import { useTranslations } from "next-intl";
 
 export const HeroCarousel = ({ query }) => {
   // State for storing movies and errors
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
+  const t = useTranslations("movies");
 
   // Ref for Swiper instance
   const swiperRef = useRef(null);
@@ -27,7 +29,7 @@ export const HeroCarousel = ({ query }) => {
         setMovies(content); // Update movies state
       } catch (err) {
         console.error(err);
-        setError("Failed to load movies.");
+        setError(t("failed"));
       }
     };
 

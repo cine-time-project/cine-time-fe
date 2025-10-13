@@ -263,11 +263,26 @@
     "ageRating": "Classification",
     "genres": "Genres",
     "releaseDate": "Date de sortie",
+    "releaseDateAfter": "Date de sortie (après)",
     "showtimes": "Séances",
     "seeShowtimes": "Voir les séances",
     "addToFavorites": "Ajouter aux favoris",
     "removeFromFavorites": "Retirer des favoris",
-    "noMovies": "Aucun film trouvé."
+    "noMovies": "Aucun film à afficher.",
+    "comingSoon": "Bientôt au cinéma",
+    "inTheaters": "Au cinéma",
+    "preSale": "Prévente",
+    "posterAlt": "Affiche du film",
+    "summaryEllipsis": "...",
+    "buyTicket": "Acheter un billet",
+    "all": "Tous",
+    "rating": "Note",
+    "specialHalls": "Salles spéciales",
+    "clear": "Effacer",
+    "apply": "Appliquer",
+    "invalidDate": "Date invalide",
+    "retry": "Réessayer",
+    "failed": "Échec du chargement des films"
   },
 
   "cinemas": {

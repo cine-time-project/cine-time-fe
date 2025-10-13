@@ -1,51 +1,100 @@
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import styles from "./movie-card.module.scss"; // Custom SCSS module for styling
+import styles from "./movie-card.module.scss";
+import { Button } from "react-bootstrap";
+import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
+//TODO: When user logged in, it should be fetched that if the movie is favorited or not.
+//TODO: BuyTicket function is being waited.
 export default function MovieCard({ movie }) {
-  // 🎬 Select the poster image for the movie
-  // Prefer the one marked as poster, otherwise use the first image available
-  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
-  const imageUrl = poster ? poster.url : null;
+  const t = useTranslations();
 
-  // 🖱️ Handle click event on the entire card
-  // Currently logs the movie ID, but can later navigate to a detail page
+  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
+  const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
+  const [favorite, setFavorite] = useState(false);
+
   const handleClick = () => {
     console.log(`Clicked on: ${movie.id}`);
-    // Future use: navigate(`/movies/${movie.id}`);
   };
 
+  const handleFavorite = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setFavorite((prev) => !prev);
+      console.log(
+        `${movie.title} ${!favorite ? "added to" : "removed from"} favorites`
+      );
+    },
+    [favorite, movie.title]
+  );
+
+  const handleBuyTicket = useCallback(
+    (e) => {
+      e.stopPropagation();
+      console.log(`Buy ticket for: ${movie.title}`);
+    },
+    [movie.title]
+  );
+
   return (
-    // 📦 Main card container
-    // role="button" improves accessibility by signaling it's clickable
-    // onClick makes the entire card interactive
     <Card className={styles["movie-card"]} onClick={handleClick} role="button">
-      {/* 🎞️ Image section */}
-      {imageUrl ? (
-        <div className={styles["movie-card__image-wrapper"]}>
-          <Card.Img
-            src={imageUrl}
-            alt={poster.name}
-            className={styles["movie-card__image"]}
-          />
-        </div>
-      ) : (
-        // 🚫 Fallback if no image is available
-        <div className={styles["movie-card__no-image"]}>
-          <span className="text-muted">No Image</span>
-        </div>
+      <div className={styles["movie-card__image-wrapper"]}>
+        <Card.Img
+          loading="lazy"
+          src={imageUrl}
+          alt={poster?.name || t("movies.addToFavorites")}
+          className={styles["movie-card__image"]}
+        />
+      </div>
+
+      <div className={styles["movie-card__overlay"]}></div>
+
+      {/* Favorite Button (Top-left) */}
+      <Button
+        type="button"
+        className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
+        onClick={handleFavorite}
+        aria-label={t("movies.addToFavorites")}
+      >
+        {favorite ? (
+          <i className="pi pi-heart-fill"></i>
+        ) : (
+          <i className="pi pi-heart"></i>
+        )}
+      </Button>
+
+      {/* Buy Ticket Button (Top-right) - If the movie has not COMING_SOON status */}
+      {movie.status !== "COMING_SOON" && (
+        <Button
+          type="button"
+          className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
+          onClick={handleBuyTicket}
+          aria-label={t("movies.buyTicket")}
+        >
+          <i className="pi pi-ticket"></i>
+        </Button>
       )}
 
-      {/* 🧾 Card body section with title and summary */}
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
+          <div className={styles["movie-card__details"]}>
+            {movie.releaseDate && (
+              <div className={styles["movie-card__details__releaseDate"]}>
+                {movie.releaseDate.substring(0, 4)}
+              </div>
+            )}
+            {movie.rating != null && movie.rating !== 0 && (
+              <div className={styles["movie-card__details__rating"]}>
+                {String(movie.rating).substring(0, 3)}
+                <i className="pi pi-star-fill"></i>
+              </div>
+            )}
+          </div>
           {movie.title}
         </Card.Title>
-
         <Card.Text className={styles["movie-card__summary"]}>
-          {/* Truncate long summaries to 100 characters */}
-          {movie.summary?.length > 100
-            ? movie.summary.substring(0, 100) + "..."
+          {movie.summary?.length > 70
+            ? movie.summary.substring(0, 70) + "..."
             : movie.summary}
         </Card.Text>
       </Card.Body>

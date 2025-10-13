@@ -1,3 +1,5 @@
+@use "@/styles/mixins" as *;
+
 .movie-card {
   position: relative;
   border: none;
@@ -8,42 +10,45 @@
   background-color: rgb(0, 5, 13);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  // 🎯 Hover effect
   &:hover {
-    transform: scale(1.05); // less scale (to keep the radius unspoiled)
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); 
-  }
-
-  // 💡 This pseudo-element protects the radius
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 3;
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
   }
 
   &__image-wrapper {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     z-index: 0;
-    overflow: hidden; // to keep the radius
-    border-radius: inherit; // child element inherits the radius
+    overflow: hidden;
+    border-radius: inherit;
   }
 
   &__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
-    border-radius: inherit;
+    transition: all 0.4s ease;
+    filter: brightness(0.9);
   }
 
   &:hover .movie-card__image {
     transform: scale(1.08);
+    filter: brightness(1.1);
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 80% 60% at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0.6) 80%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
   }
 
   &__body {
@@ -51,18 +56,13 @@
     bottom: 0;
     width: 100%;
     padding: 1rem;
+    z-index: 4;
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, 0.9) 0%,
-      rgba(0, 0, 0, 0.7) 25%,
-      rgba(0, 0, 0, 0.5) 50%,
-      rgba(0, 0, 0, 0.2) 75%,
+      rgba(0, 0, 0, 0.7) 50%,
       rgba(0, 0, 0, 0) 100%
     );
-    color: #fff;
-    z-index: 2;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
   }
 
   &__title {
@@ -73,5 +73,64 @@
   &__summary {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
+  }
+
+  &__details {
+    margin-bottom: 10px;
+    display: flex;
+    gap: 20px;
+
+    &__releaseDate {
+      font-size: 0.9rem;
+      color: $color2;
+      background-color: $color3;
+      padding: 2px;
+      border-radius: 3px;
+    }
+
+    &__rating {
+      font-size: 0.9rem;
+      color: $color1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  // Top buttons (absolute)
+  &__icon-button {
+    position: absolute;
+    top: 10px;
+    z-index: 5;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__favorite-button {
+    left: 10px;
+    background: rgba(255, 75, 92, 0.8);
+    color: white;
+  }
+
+  &__buy-button {
+    right: 10px;
+    background: rgba(255, 208, 0, 0.8);
+    color: #000;
   }
 }
