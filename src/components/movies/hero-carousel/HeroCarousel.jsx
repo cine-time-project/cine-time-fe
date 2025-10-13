@@ -65,6 +65,7 @@ export const HeroCarousel = ({ query }) => {
       allowTouchMove={false}                // Disable touch drag
       simulateTouch={false}                 // Disable mouse drag
       className="movie-hero-carousel"
+      
     >
       {/* Render each movie as a SwiperSlide */}
       {movies.map((movie) => (
