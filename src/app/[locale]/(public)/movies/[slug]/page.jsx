@@ -1,53 +1,46 @@
-// app/(public)/movies/[slug]/page.jsx
 import MovieHero from "@/components/movies/movieDetail/MovieHero";
 import DetailsTabs from "@/components/movies/movieDetail/DetailsTabs";
-import { getMovieById, searchMovies } from "@/services/movie-serviceDP";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getMovieById, getMovieBySlug, searchMovies } from "@/services/movie-serviceDP";
 
-// bu sayfanın server-side fetch'lerinde cache kullanmayalım (dev için güvenli)
 export const revalidate = 0;
 
-// slug şu şekillerde gelebilir:
-//  - "1959" (sadece ID)  → /api/movies/id/1959
-//  - "play-dirty-2025-941109" (metin + id sondaysa) → sondaki numarayı al
-//  - "avatar-the-way-of-water" (sadece metin) → search ile ilk kaydı al (fallback)
-async function loadMovieBySlug(slug) {
-  // 1) tamamen sayı ise direkt ID
-  if (/^\d+$/.test(slug)) {
-    const m = await getMovieById(Number(slug));
-    return m;
+function tailId(s){ const m = String(s).match(/(\d{3,})$/); return m ? Number(m[1]) : null; }
+
+async function resolveMovie(seg) {
+  // 1) tamamen sayı -> ID
+  if (/^\d+$/.test(seg)) return await getMovieById(Number(seg));
+
+  // 2) metin -> SLUG endpoint
+  const bySlug = await getMovieBySlug(seg).catch(() => null);
+  if (bySlug?.id) return bySlug;
+
+  // 3) slug+id olabilir -> sondaki id
+  const id = tailId(seg);
+  if (id) {
+    const byId = await getMovieById(id).catch(() => null);
+    if (byId?.id) return byId;
   }
 
-  // 2) sonda id benzeri sayı varsa onu dene
-  const tailId = slug.match(/(\d{3,})$/)?.[1];
-  if (tailId) {
-    try {
-      const m = await getMovieById(Number(tailId));
-      if (m?.id) return m;
-    } catch {}
-  }
-
-  // 3) fallback: arama ile ilk eşleşeni al
-  const res = await searchMovies(slug, 0, 1);
-  const first = res?.content?.[0];
-  if (first) return first;
-
-  return null;
+  // 4) son çare: search
+  const page = await searchMovies(seg, 0, 1).catch(() => null);
+  return page?.content?.[0] ?? null;
 }
 
-export default async function MovieDetailsPage({ params }) {
-  const awaitedParams = await params;
-  const slug = awaitedParams?.slug;
-  const movie = await loadMovieBySlug(slug);
+export default async function Page({ params: { locale, slug } }) {
+  const movie = await resolveMovie(slug);
+  if (!movie) notFound();
 
-  if (!movie) {
-    notFound();
+  // Kanonik yönlendirme: id veya slug+id ile gelindiyse düz slug'a taşı
+  const isPureId = /^\d+$/.test(slug);
+  const hasTailId = /-\d{3,}$/.test(slug);
+  if ((isPureId || hasTailId) && movie.slug && movie.slug !== slug) {
+    redirect(`/${locale}/movies/${movie.slug}`);
   }
 
   return (
     <>
       <MovieHero movie={movie} />
-      {/* alt içerik/sekme; STRIPE'A DOKUNMADIK */}
       <DetailsTabs movie={movie} />
     </>
   );

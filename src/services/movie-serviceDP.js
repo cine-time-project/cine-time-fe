@@ -6,7 +6,11 @@ import {
   MOVIES_IN_THEATRES_API,
   MOVIES_COMING_SOON_API,
   MOVIE_BY_GENRE_API,
+  MOVIE_BY_SLUG_API,  
 } from "@/helpers/api-routes";
+
+
+
 
  const ASSET_BASE =
    process.env.NEXT_PUBLIC_ASSET_BASE ||
@@ -168,4 +172,10 @@ export async function getMoviesByGenre(genre, page = 0, size = 10) {
     size: data?.size ?? size,
     numberOfElements: data?.numberOfElements ?? content.length,
   };
+}
+export async function getMovieBySlug(slug) {
+  const url = `${MOVIE_BY_SLUG_API}/${encodeURIComponent(slug)}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const dto = await unwrap(res);       // ResponseMessage sarmalını açar
+  return normalizeMovie(dto);
 }

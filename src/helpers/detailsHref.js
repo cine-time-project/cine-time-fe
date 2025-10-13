@@ -1,4 +1,6 @@
-export function buildDetailsHref(movie, locale) {
+
+export function buildDetailsHref(movie, locale){
   const prefix = locale ? `/${locale}` : "";
-  return movie?.id ? `${prefix}/movies/${movie.id}` : "#";
+  const seg = movie?.slug || movie?.id;
+  return seg ? `${prefix}/movies/${seg}` : "#";
 }
