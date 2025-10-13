@@ -27,11 +27,7 @@ function MovieCard({ movie }) {
   const prefix = locale ? `/${locale}` : "";
 
   // Construct detail page URL using movie ID
-  const detailsHref = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
-
-  // Optional: SEO-friendly slug fallback (can combine title + ID)
-  // const movieSlug = movie.slug || `${movie.title?.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${movie.id}`;
-  // const detailsHref = movie?.id ? `${prefix}/movies/${movieSlug}` : "#";
+  const detailsHref = movie?.slug ? `${prefix}/movies/${movie.slug}` : movie?.id ?? `${prefix}/movies/${movie.id}`;
 
   /**
    * Navigate to movie detail page
