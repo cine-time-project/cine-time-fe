@@ -36,7 +36,8 @@ async function loadMovieBySlug(slug) {
 }
 
 export default async function MovieDetailsPage({ params }) {
-  const slug = params?.slug;
+  const awaitedParams = await params;
+  const slug = awaitedParams?.slug;
   const movie = await loadMovieBySlug(slug);
 
   if (!movie) {

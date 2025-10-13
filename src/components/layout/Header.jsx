@@ -12,7 +12,7 @@ export default function Header() {
   const pathname = usePathname() || "/";
   //const locale = pathname.split("/")[1] || "tr"; // "tr" | "en" | "de" | "fr"...
   const tNav = useTranslations("nav"); // nav.* etiketleri (menü, hesap, arama vs.)
-  const locale = useLocale().toUpperCase();
+  const locale = useLocale();
 
   // /{locale}/{rest}
   const L = (rest = "") =>
@@ -178,7 +178,7 @@ export default function Header() {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title={`${locale} 🌐`} id="locale-dropdown" align="end">
+            <NavDropdown title={`${locale.toUpperCase()} 🌐`} id="locale-dropdown" align="end">
               <NavDropdown.Item as={Link} href="/tr">
                 TR
               </NavDropdown.Item>
