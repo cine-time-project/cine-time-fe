@@ -5,7 +5,7 @@ import {
   MOVIE_STATUS_API,
   MOVIES_IN_THEATRES_API,
   MOVIES_COMING_SOON_API,
-  MOVIE_GENRE_LIST_API,
+  MOVIE_BY_GENRE_API,
 } from "@/helpers/api-routes";
 
  const ASSET_BASE =
@@ -150,7 +150,7 @@ export async function getComingSoonMovies(date, page = 0, size = 10) {
 export async function getMoviesByGenre(genre, page = 0, size = 10) {
   if (!genre) return { content: [], number: 0, totalPages: 0, totalElements: 0, size, numberOfElements: 0 };
 
-  const url = new URL(MOVIE_GENRE_LIST_API);
+  const url = new URL(MOVIE_BY_GENRE_API);
   url.searchParams.set("genre", genre);
   url.searchParams.set("page", page);
   url.searchParams.set("size", size);
