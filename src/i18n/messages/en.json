@@ -415,7 +415,8 @@
     "min": "Enter at least {min} characters.",
     "max": "Enter at most {max} characters.",
     "invalidEmail": "Please enter a valid email address.",
-    "authRequired": "You need to sign in to access this resource."
+    "authRequired": "You need to sign in to access this resource.",
+    "invalid": "Invalid request. Please check your information."
   },
 
   "notifications": {

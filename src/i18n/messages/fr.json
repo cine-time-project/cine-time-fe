@@ -403,7 +403,8 @@
     "min": "Saisissez au moins {min} caractères.",
     "max": "Saisissez au maximum {max} caractères.",
     "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
-    "authRequired": "Vous devez vous connecter pour accéder à cette ressource."
+    "authRequired": "Vous devez vous connecter pour accéder à cette ressource.",
+    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
   },
 
   "notifications": {

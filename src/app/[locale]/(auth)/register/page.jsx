@@ -1,14 +1,12 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
-
 import { register as registerRequest } from "@/services/auth-service";
-
 import styles from "./register.module.scss";
+import { normalizePhoneForApi } from "@/helpers/phone";
 
 const days = Array.from({ length: 31 }, (_, index) =>
   String(index + 1).padStart(2, "0")
@@ -156,21 +154,17 @@ export default function RegisterPage() {
 
     setPending(true);
     try {
-      const payload = {
-        name: formData.name.trim(),
-        surname: formData.surname.trim(),
+      const base = {
+        firstName: formData.name.trim(),
+        lastName: formData.surname.trim(),
         email: formData.email.trim(),
-        phone: sanitizePhone(formData.phone.trim()),
+        phone: normalizePhoneForApi(formData.phone.trim()),
         birthDate: `${formData.birthYear}-${formData.birthMonth}-${formData.birthDay}`,
-        gender: formData.gender,
+        gender: (formData.gender || "").toUpperCase(),
         password: formData.password,
-        passwordRepeat: formData.passwordRepeat,
-        marketing: {
-          sms: formData.marketingSms,
-          email: formData.marketingEmail,
-        },
+        confirmPassword: formData.passwordRepeat, 
       };
-
+      const payload = base;
       await registerRequest(payload);
 
       setAlert({ type: "success", message: tAuth("successRegister") });
@@ -191,24 +185,38 @@ export default function RegisterPage() {
       setFieldErrors({});
       router.push(`/${locale}/login`);
     } catch (error) {
-      const status = error?.status ?? 0;
-      if (status === 409) {
-        setAlert({ type: "danger", message: tAuth("accountExists") });
-      } else if (status === 400) {
+      const details =
+        error?.data?.errors ||
+        error?.data?.fieldErrors ||
+        error?.data?.violations;
+
+      if (Array.isArray(details) && details.length) {
+        const next = {};
+        details.forEach((e) => {
+          const field = e.field || e.property || e.path || e.param;
+          const msg = e.defaultMessage || e.message || tErrors("invalid");
+          next[field] = { message: msg }; // alan-altı hata göstermek için
+        });
+        setFieldErrors(next);
         setAlert({ type: "danger", message: tErrors("invalid") });
-      } else if (status === 500) {
-        setAlert({ type: "danger", message: tErrors("500") });
-      } else if (status === 0) {
-        setAlert({ type: "danger", message: tErrors("network") });
-      } else {
-        const fallbackMessage =
-          (error?.data &&
-            typeof error.data === "object" &&
-            error.data?.message) ||
-          error?.message ||
-          tErrors("unknown");
-        setAlert({ type: "danger", message: fallbackMessage });
+        return;
       }
+      const status = error?.status ?? 0;
+      const fallbackKey =
+        status === 409
+          ? "accountExists"
+          : status === 400
+          ? "invalid"
+          : status === 500
+          ? "500"
+          : status === 0
+          ? "network"
+          : "unknown";
+
+      setAlert({
+        type: "danger",
+        message: error?.data?.message || tErrors(fallbackKey),
+      });
     } finally {
       setPending(false);
     }
@@ -479,21 +487,22 @@ export default function RegisterPage() {
                     type="radio"
                     id="register-gender-female"
                     name="gender"
-                    value="female"
+                    value="FEMALE"
                     label={tForms("genderFemale")}
                     onChange={selectGender}
-                    checked={formData.gender === "female"}
+                    checked={formData.gender === "FEMALE"}
                   />
                   <Form.Check
                     type="radio"
                     id="register-gender-male"
                     name="gender"
-                    value="male"
+                    value="MALE"
                     label={tForms("genderMale")}
                     onChange={selectGender}
-                    checked={formData.gender === "male"}
+                    checked={formData.gender === "MALE"}
                   />
                 </div>
+
                 {fieldErrors.gender && (
                   <div className="invalid-feedback">
                     {resolveErrorMessage(fieldErrors.gender)}
