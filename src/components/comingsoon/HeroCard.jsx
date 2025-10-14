@@ -66,7 +66,7 @@ export const HeroCard = ({ movie, slideNumber }) => {
             </button>
           )}
           <Link
-            href={`/${locale}//movies/showtimes/${movie.id}`}
+            href={`/${locale}/buy-ticket?movieId=${movie.id}`}
             className="comingsoon-btn comingsoon-btn-outline"
           >
             {t("bookNow")}
