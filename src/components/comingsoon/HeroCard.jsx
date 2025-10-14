@@ -1,9 +1,10 @@
-// src/components/comingsoon/HeroCard.jsx
 "use client";
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { getHeroUrl } from "@/services/coming-soon-service";
+import { FaPlayCircle } from "react-icons/fa";
+import "./hero-carousel.scss";
 
 export const HeroCard = ({ movie, slideNumber }) => {
   const t = useTranslations("comingSoon");
@@ -18,18 +19,8 @@ export const HeroCard = ({ movie, slideNumber }) => {
     >
       <div className="comingsoon-hero-overlay" />
 
-      {/* Slide number indicator (large background number) */}
       {slideNumber && (
         <div className="comingsoon-slide-number">{slideNumber}</div>
-      )}
-
-      {/* Optional: Play button for trailers */}
-      {movie.trailerUrl && (
-        <button
-          className="comingsoon-hero-play-button"
-          onClick={() => window.open(movie.trailerUrl, "_blank")}
-          aria-label="Play trailer"
-        />
       )}
 
       <div className="comingsoon-hero-content">
@@ -57,6 +48,23 @@ export const HeroCard = ({ movie, slideNumber }) => {
         </div>
 
         <div className="comingsoon-hero-buttons">
+          {movie.trailerUrl && (
+            <button
+              className="comingsoon-btn comingsoon-btn-outline"
+              onClick={() => window.open(movie.trailerUrl, "_blank")}
+              aria-label={t("trailer")}
+              type="button"
+            >
+              <FaPlayCircle
+                style={{
+                  fontSize: 22,
+                  marginRight: 8,
+                  verticalAlign: "middle",
+                }}
+              />
+              {t("trailer")}
+            </button>
+          )}
           <Link
             href={`/${locale}/buy-ticket?movieId=${movie.id}`}
             className="comingsoon-btn comingsoon-btn-outline"
@@ -64,7 +72,7 @@ export const HeroCard = ({ movie, slideNumber }) => {
             {t("bookNow")}
           </Link>
           <Link
-            href={`/${locale}/movie/${movie.slug || movie.id}`}
+            href={`/${locale}/movies/${movie.slug || movie.id}`}
             className="comingsoon-btn comingsoon-btn-solid"
           >
             {t("details")}

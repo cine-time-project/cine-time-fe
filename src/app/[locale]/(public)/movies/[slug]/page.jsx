@@ -27,7 +27,8 @@ async function resolveMovie(seg) {
   return page?.content?.[0] ?? null;
 }
 
-export default async function Page({ params: { locale, slug } }) {
+export default async function Page({ params }) {
+  const { locale, slug } = await params;
   const movie = await resolveMovie(slug);
   if (!movie) notFound();
 
