@@ -7,12 +7,14 @@ import "primereact/resources/primereact.min.css";
 import { getGenres } from "@/services/movie-service";
 import { useTranslations } from "next-intl";
 
+// Constants for dropdown selections
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
-const GENRE_COLS = 2;
 
 export default function FiltersSidebarContent({ filters, onChange }) {
   const t = useTranslations("movies");
+
+  // --- Local States ---
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState(filters.genre || []);
   const [status, setStatus] = useState(filters.status || "");
@@ -24,11 +26,12 @@ export default function FiltersSidebarContent({ filters, onChange }) {
   const [releaseDateError, setReleaseDateError] = useState("");
   const [specialHall, setSpecialHall] = useState(filters.specialHalls || "");
 
+  // --- Fetch genres once on mount ---
   useEffect(() => {
     getGenres().then(setGenres).catch(console.error);
   }, []);
 
-  // ReleaseDate validation
+  // --- Validate release date format (YYYY-MM-DD) ---
   const handleReleaseDateChange = (e) => {
     const value = e.target.value;
     setReleaseDate(value);
@@ -38,22 +41,16 @@ export default function FiltersSidebarContent({ filters, onChange }) {
       return;
     }
 
-    // YYYY-MM-DD format kontrolü
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!regex.test(value)) {
+    // Simple date validation
+    const date = new Date(value);
+    if (isNaN(date.getTime())) {
       setReleaseDateError(t("invalidDate"));
-      return;
+    } else {
+      setReleaseDateError("");
     }
-
-    const d = new Date(value);
-    if (isNaN(d.getTime())) {
-      setReleaseDateError(t("invalidDate"));
-      return;
-    }
-
-    setReleaseDateError(""); // geçerli tarih
   };
 
+  // --- Apply filters ---
   const handleApply = () => {
     if (releaseDateError) return;
 
@@ -67,6 +64,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
     });
   };
 
+  // --- Clear all filters ---
   const handleClear = () => {
     setSelectedGenres([]);
     setStatus("");
@@ -77,28 +75,38 @@ export default function FiltersSidebarContent({ filters, onChange }) {
     onChange({});
   };
 
-  const splitGenres = (arr, n) => {
-    const perCol = Math.ceil(arr.length / n);
-    return Array.from({ length: n }, (_, i) =>
-      arr.slice(i * perCol, (i + 1) * perCol)
-    );
-  };
-  const genreColumns = splitGenres(genres, GENRE_COLS);
-
   return (
     <Form>
-      {/* Genre */}
+      {/* 🎭 Genre Selection (Button-style checkboxes) */}
       <Form.Group className="mb-3">
         <Form.Label>{t("genres")}</Form.Label>
-        <Row>
-          {genreColumns.map((colGenres, colIdx) => (
-            <Col key={colIdx}>
-              {colGenres.map((g) => (
-                <Form.Check
-                  key={g}
+        <div className="d-flex flex-wrap gap-2">
+          {genres.map((g) => {
+            const isSelected = selectedGenres.includes(g);
+            return (
+              <label
+                key={g}
+                className={`btn btn-sm border rounded-pill px-3 py-1 d-flex align-items-center ${
+                  isSelected
+                    ? "btn-warning text-dark border-primary"
+                    : "btn-outline-secondary"
+                }`}
+                style={{
+                  cursor: "pointer",
+                  transition: "transform 0.15s ease",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "translateY(-2px)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "translateY(0)")
+                }
+              >
+                {g}
+                <input
                   type="checkbox"
-                  label={g}
-                  checked={selectedGenres.includes(g)}
+                  value={g}
+                  checked={isSelected}
                   onChange={(e) =>
                     setSelectedGenres((prev) =>
                       e.target.checked
@@ -106,14 +114,15 @@ export default function FiltersSidebarContent({ filters, onChange }) {
                         : prev.filter((x) => x !== g)
                     )
                   }
+                  className="d-none"
                 />
-              ))}
-            </Col>
-          ))}
-        </Row>
+              </label>
+            );
+          })}
+        </div>
       </Form.Group>
 
-      {/* Status */}
+      {/* 🎬 Movie Status */}
       <Form.Group className="mb-3">
         <Form.Label>{t("statusLabel")}</Form.Label>
         <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -126,7 +135,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
         </Form.Select>
       </Form.Group>
 
-      {/* Rating */}
+      {/* ⭐ Rating Range */}
       <Form.Group className="mb-3">
         <Form.Label>
           {t("rating")}: {ratingRange[0]} - {ratingRange[1]}
@@ -141,7 +150,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
         />
       </Form.Group>
 
-      {/* Release Date */}
+      {/* 📅 Release Date */}
       <Form.Group className="mb-3">
         <Form.Label>{t("releaseDateAfter")}</Form.Label>
         <Form.Control
@@ -155,7 +164,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      {/* Special Halls */}
+      {/* 🏛️ Special Halls */}
       <Form.Group className="mb-3">
         <Form.Label>{t("specialHalls")}</Form.Label>
         <Form.Select
@@ -171,7 +180,7 @@ export default function FiltersSidebarContent({ filters, onChange }) {
         </Form.Select>
       </Form.Group>
 
-      {/* Buttons */}
+      {/* 🎯 Action Buttons */}
       <Row>
         <Col>
           <Button variant="secondary" onClick={handleClear} className="w-100">
