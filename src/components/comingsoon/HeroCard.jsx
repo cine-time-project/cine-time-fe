@@ -58,7 +58,7 @@ export const HeroCard = ({ movie, slideNumber }) => {
 
         <div className="comingsoon-hero-buttons">
           <Link
-            href={`/${locale}/buy-ticket?movieId=${movie.id}`}
+            href={`/${locale}//movies/showtimes/${movie.id}`}
             className="comingsoon-btn comingsoon-btn-outline"
           >
             {t("bookNow")}
