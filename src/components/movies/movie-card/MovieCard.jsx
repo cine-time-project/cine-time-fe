@@ -100,7 +100,7 @@ function MovieCard({ movie }) {
       </Button>
 
       {/* Buy ticket button (top-right) */}
-      {movie.status !== "COMING_SOON" && (
+      {movie.status === "IN_THEATERS" && (
         <Button
           type="button"
           className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
