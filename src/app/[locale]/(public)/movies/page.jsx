@@ -104,8 +104,8 @@ export default function MoviesPage() {
   const renderMoviesWithSkeletons = () => {
     const items = [...movies];
 
-    // Add skeletons if loading
-    if (isLoading || (movies.length && !hasMore && page === 0)) {
+    // ✅ Skeletons only when first load (no movies yet)
+    if (isLoading && movies.length === 0) {
       for (let i = 0; i < skeletonCount; i++) {
         items.push({ skeleton: true, id: `skeleton-${i}` });
       }
@@ -130,12 +130,13 @@ export default function MoviesPage() {
           style={{
             position: "sticky",
             flexShrink: 0,
-            top: "120px", // header height
-            maxHeight: "calc(100vh - 120px - 1rem)",
+            top: "110px", // header height
+            maxHeight: "100vh",
             width: "300px",
             overflowY: "auto",
             borderRight: "1px solid #dee2e6",
-            padding: "1rem",
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
           }}
         >
           <FiltersSidebar
@@ -177,7 +178,7 @@ export default function MoviesPage() {
             style={{ overflow: "hidden" }}
           >
             {/* Movie grid + skeletons */}
-            <Row className="g-3 d-flex justify-content-start">
+            <Row className="g-5 d-flex justify-content-start p-3">
               {renderMoviesWithSkeletons()}
             </Row>
           </InfiniteScroll>
