@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
 
-export default function FiltersSidebarContent({ filters, onChange }) {
+export default function FiltersSidebar({ filters, onChange }) {
   const t = useTranslations("movies");
 
   // --- Local States ---

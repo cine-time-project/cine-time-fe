@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { filterMovies } from "@/services/movie-service";
 import MovieCard from "@/components/movies/movie-card/MovieCard";
-import FiltersSidebarContent from "@/components/movies/FiltersSidebarContent";
+import FiltersSidebar from "@/components/movies/FiltersSidebar";
 import { Container, Row, Col, Button, Offcanvas } from "react-bootstrap";
 import MovieCardSkeleton from "@/components/movies/movie-card/MovieCardSkeleton";
 import { useResponsiveSkeletonCount } from "@/components/movies/useResponsiveSkeletonCount";
@@ -127,7 +127,7 @@ export default function MoviesPage() {
             padding: "1rem",
           }}
         >
-          <FiltersSidebarContent filters={filters} onChange={setFilters} />
+          <FiltersSidebar filters={filters} onChange={setFilters} />
         </div>
 
         {/* Main Content */}
@@ -173,7 +173,7 @@ export default function MoviesPage() {
           <Offcanvas.Title>Filters</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body style={{ paddingBottom: "2rem" }}>
-          <FiltersSidebarContent
+          <FiltersSidebar
             filters={filters}
             onChange={newFilters => {
               setFilters(newFilters);
