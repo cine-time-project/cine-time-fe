@@ -11,10 +11,11 @@ function parseJSONSafely(text) {
 }
 
 export async function login({ email, password, signal } = {}) {
-  const response = await fetch(`${config.apiURL}/auth/login`, {
+  // BE: POST /api/login
+  const response = await fetch(`${config.apiURL}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    credentials: "omit", // Cookie tabanlı oturumsa "include" yap
+    credentials: "omit",
     body: JSON.stringify({ email, password }),
     signal,
   });
@@ -33,7 +34,8 @@ export async function login({ email, password, signal } = {}) {
 }
 
 export async function register({ signal, ...payload } = {}) {
-  const response = await fetch(`${config.apiURL}/auth/register`, {
+  // BE: POST /api/register
+  const response = await fetch(`${config.apiURL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     credentials: "omit",
@@ -55,8 +57,8 @@ export async function register({ signal, ...payload } = {}) {
 }
 
 export async function googleLogin(idToken) {
-  // BE tarafı: POST /api/auth/google
-  const response = await fetch(`${config.apiURL}/auth/google`, {
+  // BE: POST /api/google
+  const response = await fetch(`${config.apiURL}/google`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     credentials: "omit",
@@ -78,8 +80,8 @@ export async function googleLogin(idToken) {
 
 export async function logout() {
   try {
-    // BE tarafı: POST /api/auth/logout
-    await api.post("/auth/logout");
+    // BE: POST /api/logout
+    await api.post("/logout");
   } finally {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token");
@@ -90,7 +92,19 @@ export async function logout() {
 }
 
 export async function requestPasswordReset(payload) {
-  // BE tarafı: POST /api/forgot-password  (email, locale vs.)
+  // BE: POST /api/forgot-password  (email, locale vs.)
   const { data } = await api.post("/forgot-password", payload);
+  return data;
+}
+
+// (opsiyonel) KODLA SIFIRLAMA
+export async function resetPasswordWithCode(payload) {
+  const { data } = await api.post(`/reset-password-code`, payload);
+  return data;
+}
+
+// (opsiyonel) OTURUM AÇIKKEN SIFIRLAMA
+export async function resetPasswordAuthenticated(payload) {
+  const { data } = await api.post(`/reset-password`, payload);
   return data;
 }

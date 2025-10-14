@@ -4,14 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { fetchComingSoon } from "@/services/movie-service";
+import { getComingSoonMovies } from "@/services/movie-serviceDP";
 import { getPosterUrl } from "@/services/coming-soon-service";
-
 import { HeroCarousel } from "@/components/comingsoon/HeroCarousel";
-
 import "./comingsoon.scss";
 
-// URL'den page & size okuyan küçük yardımcı hook
 function usePageAndSize() {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page") || "1");
@@ -28,7 +25,6 @@ export default function ComingSoonPage() {
   const { page, size } = usePageAndSize();
 
   const [allMovies, setAllMovies] = useState([]);
-
   const [state, setState] = useState({
     loading: true,
     error: "",
@@ -39,11 +35,21 @@ export default function ComingSoonPage() {
     let alive = true;
     setState((s) => ({ ...s, loading: true, error: "" }));
 
-    fetchComingSoon({ page, size: Math.max(size, 12) })
+    getComingSoonMovies(undefined, page - 1, size)
       .then((data) => {
         if (alive) {
-          setAllMovies(data.movies || []);
-          setState({ loading: false, error: "", data });
+          setAllMovies(data.content || []);
+          setState({
+            loading: false,
+            error: "",
+            data: {
+              movies: data.content || [],
+              page: (data.number ?? 0) + 1,
+              size: data.size ?? size,
+              totalPages: data.totalPages ?? 1,
+              totalElements: data.totalElements ?? 0,
+            },
+          });
         }
       })
       .catch((err) => {
@@ -64,7 +70,6 @@ export default function ComingSoonPage() {
 
   return (
     <>
-      {/* ✅ MODIFIED: Pass movies to carousel instead of fetching inside */}
       <HeroCarousel movies={allMovies.slice(0, 4)} />
 
       <section className="center-container py-10 px-4 sm:px-6 lg:px-8">
@@ -109,7 +114,7 @@ export default function ComingSoonPage() {
                         href={`/${locale}/movies/${m.slug || m.id}`}
                         className="link-class"
                       >
-                        <article>
+                        <article style={{ position: "relative" }}>
                           <div className="aspect-[2/3] w-full bg-zinc-900 flex items-center justify-center">
                             <img
                               src={getPosterUrl(m)}
@@ -145,6 +150,35 @@ export default function ComingSoonPage() {
                               </p>
                             )}
                           </div>
+
+                          <Link
+                            href={`/${locale}/buy-ticket?movieId=${m.id}`}
+                            className="movie-buy-btn"
+                          >
+                            {t("bookNow")}
+                          </Link>
+
+                          {m.trailerUrl && (
+                            <button
+                              className="movie-trailer-btn"
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(m.trailerUrl, "_blank");
+                              }}
+                            >
+                              <span
+                                style={{
+                                  marginRight: 6,
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                ▶
+                              </span>
+                              {t("trailer")}
+                            </button>
+                          )}
                         </article>
                       </Link>
                     ))}
@@ -152,19 +186,21 @@ export default function ComingSoonPage() {
                 </div>
               )}
 
-              <div className="">
+              <div className="pagination-container">
                 <PageLink
                   disabled={page <= 1}
                   href={`?page=${page - 1}&size=${size}`}
+                  className="page-link"
                 >
                   {t("prev")}
                 </PageLink>
-                <span className="text-sm opacity-80 text-white">
+                <span className="page-number">
                   {page} / {totalPages}
                 </span>
                 <PageLink
                   disabled={page >= totalPages}
                   href={`?page=${page + 1}&size=${size}`}
+                  className="page-link"
                 >
                   {t("next")}
                 </PageLink>
@@ -177,22 +213,16 @@ export default function ComingSoonPage() {
   );
 }
 
-// küçük link bileşeni
-function PageLink({ disabled, href, children }) {
+function PageLink({ disabled, href, children, className }) {
   if (disabled) {
     return (
-      <span className="px-3 py-1.5 text-sm rounded-md border border-zinc-800/60 opacity-50 select-none">
+      <span className={className + " disabled"} aria-disabled="true">
         {children}
       </span>
     );
   }
   return (
-    <Link
-      className="px-3 py-1.5 text-sm rounded-md border border-zinc-700 hover:border-zinc-500 transition"
-      href={href}
-      replace
-      scroll={false}
-    >
+    <Link className={className} href={href} replace scroll={false}>
       {children}
     </Link>
   );

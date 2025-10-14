@@ -413,7 +413,8 @@
     "required": "Bu alan zorunludur.",
     "min": "En az {min} karakter girin.",
     "max": "En fazla {max} karakter girin.",
-    "invalidEmail": "Geçerli bir e-posta adresi girin."
+    "invalidEmail": "Geçerli bir e-posta adresi girin.",
+    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
   },
 
   "notifications": {
@@ -681,6 +682,7 @@
     "formats": "Formatlar",
     "releaseTBA": "Vizyon tarihi: Bilinmiyor",
     "bookNow": "Bilet Al",
-    "details": "Detaylar"
+    "details": "Detaylar",
+    "trailer": "Fragman"
   }
 }

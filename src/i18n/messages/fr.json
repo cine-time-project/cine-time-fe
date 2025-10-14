@@ -403,7 +403,8 @@
     "min": "Saisissez au moins {min} caractères.",
     "max": "Saisissez au maximum {max} caractères.",
     "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
-    "authRequired": "Vous devez vous connecter pour accéder à cette ressource."
+    "authRequired": "Vous devez vous connecter pour accéder à cette ressource.",
+    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
   },
 
   "notifications": {
@@ -581,6 +582,7 @@
     "formats": "Formats",
     "releaseTBA": "Date de sortie : à venir",
     "bookNow": "Réserver",
-    "details": "Détails"
+    "details": "Détails",
+    "trailer": "Bande-annonce"
   }
 }
