@@ -15,9 +15,9 @@ import { useTranslations } from "next-intl";
  * Clicking the card navigates to the movie's detail page, respecting locale.
  */
 function MovieCard({ movie }) {
-  const t = useTranslations();      // Translation hook
-  const router = useRouter();       // Next.js router
-  const { locale } = useParams();   // Current locale segment from URL
+  const t = useTranslations(); // Translation hook
+  const router = useRouter(); // Next.js router
+  const { locale } = useParams(); // Current locale segment from URL
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
