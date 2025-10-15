@@ -284,7 +284,7 @@
     "statusLabel": "Show Status",
     "formats": "Format",
     "actionsAria": "Movie actions",
-    "primeTrial": "Try Prime free for 30 days",
+    "primeTrial": "Enjoy watching with Cine Time",
     "preSale": "Presale",
     "posterAlt": "Movie Poster",
     "all": "All",
@@ -415,7 +415,8 @@
     "min": "Enter at least {min} characters.",
     "max": "Enter at most {max} characters.",
     "invalidEmail": "Please enter a valid email address.",
-    "authRequired": "You need to sign in to access this resource."
+    "authRequired": "You need to sign in to access this resource.",
+    "invalid": "Invalid request. Please check your information."
   },
 
   "notifications": {
@@ -671,6 +672,7 @@
     "formats": "Formats",
     "releaseTBA": "Release date: TBA",
     "bookNow": "Book Now",
-    "details": "Details"
+    "details": "Details",
+    "trailer": "Trailer"
   }
 }

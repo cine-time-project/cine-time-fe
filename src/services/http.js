@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { config } from "@/helpers/config";
 
@@ -6,7 +5,7 @@ export const api = axios.create({
   baseURL: config.apiURL,
   timeout: 15000,
   withCredentials: false,
-  headers: { Accept: "application/json" },
+  headers: { "Content-Type": "application/json", Accept: "application/json" },
 });
 
 // (İsteğe bağlı) Authorization eklemek isterseniz:

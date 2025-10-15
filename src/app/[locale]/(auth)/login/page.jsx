@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -57,7 +56,7 @@ export default function LoginPage() {
     setPending(true);
     try {
       const payload = {
-        email: formData.identifier.trim(),
+        phoneOrEmail: formData.identifier.trim(),
         password: formData.password,
       };
 
@@ -90,21 +89,37 @@ export default function LoginPage() {
       setFieldErrors({});
       router.push(`/${locale}`);
     } catch (error) {
-      const status = error?.status ?? 0;
-      const messages = {
-        401: tAuth("invalidCredentials"),
-        423: tAuth("locked"),
-        500: tErrors("500"),
-        0: tErrors("network"),
-      };
-      setAlert({
-        type: "danger",
-        message:
-          messages[status] ||
-          error?.data?.message ||
+      const status =
+        error?.status ??
+        error?.response?.status ?? // axios olursa
+        0;
+
+      // BE'nin sık döndürdükleri: 401/423
+      if (status === 401) {
+        setAlert({ type: "danger", message: tAuth("invalidCredentials") });
+      } else if (status === 423) {
+        setAlert({ type: "danger", message: tAuth("locked") });
+      } else {
+        // Diğer tüm durumlar için i18n’e map et
+        const key =
+          status === 400
+            ? "invalid"
+            : status === 500
+            ? "500"
+            : status === 0
+            ? "network"
+            : "unknown";
+
+        // Sunucu anlamlı bir mesaj gönderdiyse onu kullan; yoksa i18n
+        const serverMsg =
+          (error?.data &&
+            typeof error.data === "object" &&
+            error.data?.message) ||
           error?.message ||
-          tErrors("unknown"),
-      });
+          "";
+
+        setAlert({ type: "danger", message: serverMsg || tErrors(key) });
+      }
     } finally {
       setPending(false);
     }

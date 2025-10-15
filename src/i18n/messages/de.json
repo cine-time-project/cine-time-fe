@@ -404,7 +404,17 @@
     "min": "Bitte mindestens {min} Zeichen eingeben.",
     "max": "Bitte höchstens {max} Zeichen eingeben.",
     "invalidEmail": "Bitte eine gültige E-Mail-Adresse eingeben.",
-    "authRequired": "Zum Zugriff auf diese Ressource müssen Sie sich anmelden."
+    "authRequired": "Zum Zugriff auf diese Ressource müssen Sie sich anmelden.",
+    "invalidDate": "Bitte ein gültiges Datum auswählen.",
+    "fullNameRequired": "Vor- und Nachname ist erforderlich.",
+      "emailRequired": "E-Mail ist erforderlich.",
+      "emailInvalid": "Bitte geben Sie eine gültige E-Mail ein.",
+      "phoneRequired": "Telefonnummer ist erforderlich.",
+      "phoneInvalid": "Bitte geben Sie eine gültige Telefonnummer ein.",
+      "phoneMask": "Telefonformat muss „(XXX) XXX-XXXX“ sein.",
+      "subjectRequired": "Betreff ist erforderlich.",
+      "messageRequired": "Nachricht ist erforderlich.",
+      "invalidPhone": "Bitte eine gültige Telefonnummer eingeben."
   },
 
   "notifications": {
@@ -581,6 +591,7 @@
     "formats": "Formate",
     "releaseTBA": "Veröffentlichungsdatum: wird bekanntgegeben",
     "bookNow": "Jetzt buchen",
-    "details": "Details"
+    "details": "Details",
+    "trailer": "Trailer"
   }
 }
