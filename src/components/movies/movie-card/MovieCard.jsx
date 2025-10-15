@@ -95,14 +95,14 @@ function MovieCard({ movie }) {
         onClick={handleFavorite}
         aria-label={t("movies.addToFavorites")}
       >
-       {favorite ? (
-        <i className="pi pi-heart-fill" style={{ color: "#ff4b81" }}></i>
-      ) : (
-        <i className="pi pi-heart" style={{ color: "#fff" }}></i>
-      )}
-      <span className={styles["tooltip-text"]}>
-        {favorite ? "Favorited" : "Add to Favorites"}
-      </span>
+        {favorite ? (
+          <i className="pi pi-heart-fill" style={{ color: "#ff4b81" }}></i>
+        ) : (
+          <i className="pi pi-heart" style={{ color: "#fff" }}></i>
+        )}
+        <span className={styles["tooltip-text"]}>
+          {favorite ? "Favorited" : "Add to Favorites"}
+        </span>
       </div>
 
       {/* Buy ticket button (top-right) */}
@@ -123,6 +123,9 @@ function MovieCard({ movie }) {
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
+          {movie.title}
+        </Card.Title>
+        <Card.Subtitle>
           <div className={styles["movie-card__details"]}>
             {movie.releaseDate && (
               <div className={styles["movie-card__details__releaseDate"]}>
@@ -131,13 +134,12 @@ function MovieCard({ movie }) {
             )}
             {movie.rating != null && movie.rating !== 0 && (
               <div className={styles["movie-card__details__rating"]}>
-                {String(movie.rating).substring(0, 3)}
-                <i className="pi pi-star-fill"></i>
+                <span className={styles["movie-card__details__rating__text"]}>{String(movie.rating).substring(0, 3)} </span>
+                <i className="pi pi-star-fill" style={{fontSize: "0.7rem"}}></i>
               </div>
             )}
           </div>
-          {movie.title}
-        </Card.Title>
+        </Card.Subtitle>
         <Card.Text className={styles["movie-card__summary"]}>
           {movie.summary?.length > 70
             ? movie.summary.substring(0, 70) + "..."
