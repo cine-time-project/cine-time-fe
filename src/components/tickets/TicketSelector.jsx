@@ -36,22 +36,30 @@ const TicketSelector = ({ onFindTickets }) => {
   const preMovieId = searchParams.get("movieId");
   const preMovieTitle = searchParams.get("movieTitle") || "Seçili Film";
   const lockedByPrefill = !!preMovieId; // if true, keep movie preselected even before date
+  const movieFilterId = selectedMovie || preMovieId;
 
   // 1) Load countries that have showtimes
-  useEffect(() => {
-    axios
-      .get(`${config.apiURL}/show-times/countries-with-showtimes`)
-      .then((res) => {
-        const arr = Array.isArray(res.data?.returnBody)
-          ? res.data.returnBody
-          : [];
-        setCountries(arr);
-      })
-      .catch((err) => {
-        console.error("[countries-with-showtimes] failed:", err);
-        setCountries([]);
-      });
-  }, []);
++useEffect(() => {
+  const params = {};
+  if (preMovieId) params.movieId = Number(preMovieId); // ✅ sadece film filtresi
+  axios.get(`${config.apiURL}/show-times/countries-with-showtimes`, { params })
+    .then((res) => {
+      const arr = Array.isArray(res.data?.returnBody) ? res.data.returnBody : [];
+      setCountries(arr);
+      // seçili ülke listede değilse temizle
+      if (selectedCountry && !arr.some(c => String(c.id) === String(selectedCountry))) {
+        setSelectedCountry("");
+      }
+    })
+    .catch((err) => {
+   console.error("[cities-with-showtimes by country] failed:",
+     err.response?.status, err.response?.data || err.message);
+     console.error("[countries-with-showtimes] failed:",
+        err.response?.status, err.response?.data || err.message);
+    });
+  // preMovieId değişirse veya tarih seçilirse tekrar getir
+}, [preMovieId]);
+
 
   // 2) On mount, apply movie prefill (if any)
   useEffect(() => {
@@ -79,10 +87,13 @@ const TicketSelector = ({ onFindTickets }) => {
       return;
     }
 
-    axios
-      .get(`${config.apiURL}/show-times/cities-with-showtimes`, {
-        params: { countryId: Number(selectedCountry) },
-      })
+ axios.get(`${config.apiURL}/show-times/cities-with-showtimes`, {
+   params: {
+     countryId: Number(selectedCountry),
+     ...(preMovieId ? { movieId: Number(preMovieId) } : {}), // ✔ sadece film filtresi
+   },
+ })
+
       .then((res) => {
         const arr = Array.isArray(res.data?.returnBody)
           ? res.data.returnBody
@@ -118,7 +129,7 @@ const TicketSelector = ({ onFindTickets }) => {
           setSelectedMovie("");
         }
       });
-  }, [selectedCountry, lockedByPrefill]); // respect prefill
+ }, [selectedCountry, lockedByPrefill, preMovieId]);
 
   // 4) When city changes → fetch cinemas
   useEffect(() => {
@@ -155,9 +166,13 @@ const TicketSelector = ({ onFindTickets }) => {
         const halls = Array.isArray(body) ? body : [];
 
         // collect all times
-        const allTimes = halls.flatMap((h) =>
-          (h.movies || []).flatMap((m) => m.times || [])
-        );
+     const allTimes = halls.flatMap((h) =>
+       (h.movies || [])
+         .filter((mm) =>
+           movieFilterId ? String(mm.movie?.id) === String(movieFilterId) : true
+         )
+         .flatMap((mm) => mm.times || [])
+    );
 
         // YYYY-MM-DD unique
         const uniqueDates = [...new Set(allTimes.map((t) => String(t).slice(0, 10)))].sort();
@@ -171,7 +186,7 @@ const TicketSelector = ({ onFindTickets }) => {
         setDates([]);
         setSelectedDate("");
       });
-  }, [selectedCinema, selectedDate, lockedByPrefill]);
+  }, [selectedCinema, selectedDate, lockedByPrefill, movieFilterId]);
 
   // 6) When date changes → derive movies for that date
   useEffect(() => {
