@@ -1,10 +1,9 @@
 import BiletAl from "@/components/common/button/BiletAl";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "use-intl";
-import styles from "@/components/movies/movieDetail/actions-bar.module.scss"
+import styles from "@/components/movies/movieDetail/actions-bar.module.scss";
+import { useCallback } from "react";
 
-//TODO: Card content will be arranged.
-//TODO: Buttons must use stopPropagation in order to ignore Card's own onClick behaviour.
 export const HeroCard = ({ movie }) => {
   // i18n
   const tNav = useTranslations("nav");
@@ -23,11 +22,12 @@ export const HeroCard = ({ movie }) => {
     movie?.id
   }&movieTitle=${encodeURIComponent(movie?.title || "")}`;
 
-    // 1) Fragman
-  const playTrailer = () => {
+  // 1) Fragman
+  const handlePlayTrailer = useCallback((e) => {
+    e.stopPropagation();
     if (movie?.trailerUrl) window.open(movie.trailerUrl, "_blank", "noopener");
-  };
-  
+  });
+
   const handleClick = () => {
     router.push(`/${locale}/movies/${movie.id}`);
   };
@@ -52,16 +52,16 @@ export const HeroCard = ({ movie }) => {
             </span>
           </BiletAl>
           {/* 🎬 Fragman */}
-        <button
-          type="button"
-          className={styles.iconBtn}
-          onClick={playTrailer}
-          title={tMovies("trailer", { default: "Fragman" })}
-          aria-label={tMovies("trailer", { default: "Fragman" })}
-          disabled={!movie?.trailerUrl}
-        >
-          <i className="pi pi-video" />
-        </button>
+          <button
+            type="button"
+            className={styles.iconBtn}
+            onClick={handlePlayTrailer}
+            title={tMovies("trailer", { default: "Fragman" })}
+            aria-label={tMovies("trailer", { default: "Fragman" })}
+            disabled={!movie?.trailerUrl}
+          >
+            <i className="pi pi-video" />
+          </button>
         </div>
       </div>
     </div>
