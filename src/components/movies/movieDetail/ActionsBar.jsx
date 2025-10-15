@@ -18,7 +18,8 @@ export default function ActionsBar({ movie, onToggleFavorite }) {
   // locale'li prefix
   const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
-  const ticketHref = `${prefix}/find-showtime`;
+  const ticketHref =   `${prefix}/find-showtime?movieId=${movie?.id}&movieTitle=${encodeURIComponent(movie?.title || "")}`;
+
 
   // 1) Fragman
   const playTrailer = () => {
