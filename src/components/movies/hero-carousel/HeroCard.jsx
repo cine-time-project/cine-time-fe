@@ -1,10 +1,16 @@
+import BiletAl from "@/components/common/button/BiletAl";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "use-intl";
+import styles from "@/components/movies/movieDetail/actions-bar.module.scss"
 
 //TODO: Card content will be arranged.
 //TODO: Buttons must use stopPropagation in order to ignore Card's own onClick behaviour.
 export const HeroCard = ({ movie }) => {
-  const t = useTranslations();
+  // i18n
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
+  const tMovies = useTranslations("movies");
+
   const locale = useLocale();
   const router = useRouter();
   // 🎬 Select the scene image for the movie
@@ -12,6 +18,16 @@ export const HeroCard = ({ movie }) => {
   const scene = movie.images?.find((img) => !img.poster) || movie.images?.[0]; // poster fallback
   const imageUrl = scene?.url || "https://via.placeholder.com/600x400"; // ekstra güvenlik
 
+  const prefix = locale ? `/${locale}` : "";
+  const ticketHref = `${prefix}/find-showtime?movieId=${
+    movie?.id
+  }&movieTitle=${encodeURIComponent(movie?.title || "")}`;
+
+    // 1) Fragman
+  const playTrailer = () => {
+    if (movie?.trailerUrl) window.open(movie.trailerUrl, "_blank", "noopener");
+  };
+  
   const handleClick = () => {
     router.push(`/${locale}/movies/${movie.id}`);
   };
@@ -29,8 +45,23 @@ export const HeroCard = ({ movie }) => {
         <h2 className="hero-title">{movie.title}</h2>
         <p className="hero-summary">{movie.summary}</p>
         <div className="hero-buttons">
-          <button className="btn primary">🎟️ Buy Ticket</button>
-          <button className="btn secondary">▶️ Watch Trailer</button>
+          <BiletAl href={ticketHref} variant="hero">
+            <span className="btn-bilet__text">{tNav("buy")}</span>
+            <span className="btn-bilet__sub">
+              {tMovies("nearby", { default: "Yakındaki sinema ve seanslar" })}
+            </span>
+          </BiletAl>
+          {/* 🎬 Fragman */}
+        <button
+          type="button"
+          className={styles.iconBtn}
+          onClick={playTrailer}
+          title={tMovies("trailer", { default: "Fragman" })}
+          aria-label={tMovies("trailer", { default: "Fragman" })}
+          disabled={!movie?.trailerUrl}
+        >
+          <i className="pi pi-video" />
+        </button>
         </div>
       </div>
     </div>
