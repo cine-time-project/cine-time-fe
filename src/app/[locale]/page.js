@@ -22,6 +22,7 @@ export default function HomePage() {
       <SectionTitle padding="px-5">{t("preSale")}</SectionTitle>
       <MovieStripe query={"presale"} />
       <Spacer />
+      
     </div>
   );
 }
