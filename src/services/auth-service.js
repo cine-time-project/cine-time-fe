@@ -10,13 +10,15 @@ function parseJSONSafely(text) {
   }
 }
 
-export async function login({ email, password, signal } = {}) {
-  // BE: POST /api/login
+export async function login({ phoneOrEmail, password, signal } = {}) {
   const response = await fetch(`${config.apiURL}/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
     credentials: "omit",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ phoneOrEmail, password }),
     signal,
   });
 
@@ -32,6 +34,7 @@ export async function login({ email, password, signal } = {}) {
   }
   return typeof data === "object" && data !== null ? data : { raw: data };
 }
+
 
 export async function register({ signal, ...payload } = {}) {
   // BE: POST /api/register

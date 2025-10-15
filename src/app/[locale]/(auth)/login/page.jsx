@@ -56,7 +56,7 @@ export default function LoginPage() {
     setPending(true);
     try {
       const payload = {
-        email: formData.identifier.trim(),
+        phoneOrEmail: formData.identifier.trim(),
         password: formData.password,
       };
 
