@@ -5,7 +5,12 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 import { Form, Button, Spinner, Alert, Badge } from "react-bootstrap";
 import SeatMap from "@/components/tickets/SeatMap";
-import { API_BASE as API, authHeaders } from "@/lib/utils/http";
+ import { authHeaders } from "@/lib/utils/http";
+ import {
+   cinemaByIdApi,
+   movieByIdApi,
+   cinemaHallsApi,
+ } from "@/helpers/api-routes";
 import { savePendingOrder } from "@/lib/utils/checkout"; // <-- handoff to payment
 
 export default function BuyTicketPage() {
@@ -77,23 +82,23 @@ export default function BuyTicketPage() {
         setError(null);
 
         // cinema name (C03)
-        const cRes = await axios.get(`${API}/cinemas/${cinemaId}`, {
-          headers: authHeaders(),
-        });
+       const cRes = await axios.get(cinemaByIdApi(cinemaId), {
+    headers: authHeaders(),
+  });
         const cBody = cRes.data?.returnBody ?? cRes.data;
         setCinema({ id: cinemaId, name: cBody?.name });
 
         // movie title (M09)
-        const mRes = await axios.get(`${API}/movies/id/${movieId}`, {
-          headers: authHeaders(),
-        });
+    const mRes = await axios.get(movieByIdApi(movieId), {
+    headers: authHeaders(),
+  });
         const mBody = mRes.data?.returnBody ?? mRes.data;
         setMovie({ id: movieId, title: mBody?.title });
 
         // halls + showtimes (S01)
-        const sRes = await axios.get(`${API}/show-times/cinema/${cinemaId}`, {
-          headers: authHeaders(),
-        });
+        const sRes = await axios.get(cinemaHallsApi(cinemaId), {
+    headers: authHeaders(),
+  });
         const sBody = sRes.data?.returnBody ?? sRes.data;
         setHalls(Array.isArray(sBody) ? sBody : []);
       } catch (e) {
