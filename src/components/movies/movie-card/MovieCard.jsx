@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import React, { useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 /**
  * MovieCard Component
@@ -15,9 +16,9 @@ import { useTranslations } from "next-intl";
  * Clicking the card navigates to the movie's detail page, respecting locale.
  */
 function MovieCard({ movie }) {
-  const t = useTranslations();      // Translation hook
-  const router = useRouter();       // Next.js router
-  const { locale } = useParams();   // Current locale segment from URL
+  const t = useTranslations(); // Translation hook
+  const router = useRouter(); // Next.js router
+  const { locale } = useParams(); // Current locale segment from URL
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
@@ -27,7 +28,9 @@ function MovieCard({ movie }) {
   const prefix = locale ? `/${locale}` : "";
 
   // Construct detail page URL using movie ID
-  const detailsHref = movie?.slug ? `${prefix}/movies/${movie.slug}` : movie?.id ?? `${prefix}/movies/${movie.id}`;
+  const detailsHref = movie?.slug
+    ? `${prefix}/movies/${movie.slug}`
+    : movie?.id ?? `${prefix}/movies/${movie.id}`;
 
   /**
    * Navigate to movie detail page
@@ -86,29 +89,35 @@ function MovieCard({ movie }) {
       <div className={styles["movie-card__overlay"]}></div>
 
       {/* Favorite button (top-left) */}
-      <Button
+      <div
         type="button"
         className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
         onClick={handleFavorite}
         aria-label={t("movies.addToFavorites")}
       >
-        {favorite ? (
-          <i className="pi pi-heart-fill"></i>
-        ) : (
-          <i className="pi pi-heart"></i>
-        )}
-      </Button>
+       {favorite ? (
+        <i className="pi pi-heart-fill" style={{ color: "#ff4b81" }}></i>
+      ) : (
+        <i className="pi pi-heart" style={{ color: "#fff" }}></i>
+      )}
+      <span className={styles["tooltip-text"]}>
+        {favorite ? "Favorited" : "Add to Favorites"}
+      </span>
+      </div>
 
       {/* Buy ticket button (top-right) */}
       {movie.status === "IN_THEATERS" && (
-        <Button
-          type="button"
+        <div
           className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
-          onClick={handleBuyTicket}
-          aria-label={t("movies.buyTicket")}
         >
-          <i className="pi pi-ticket"></i>
-        </Button>
+          <Image
+            src="/icons/buy-tickets-2.png" // public klasöründeki bir resim
+            alt="Buy Tickets"
+            width={60} // orijinal genişlik
+            height={50} // orijinal yükseklik
+          />
+          <span className={styles["tooltip-text"]}>Buy Tickets</span>
+        </div>
       )}
 
       {/* Card body: title, release date, rating, summary */}
