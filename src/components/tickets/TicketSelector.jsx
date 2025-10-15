@@ -60,7 +60,8 @@ const TicketSelector = ({ onFindTickets }) => {
 
     axios
       .get(`${config.apiURL}/show-times/cities-with-showtimes`, {
-        params: { countryId: selectedCountry },
+       params: { countryId: Number(selectedCountry) },
+
       })
       .then((res) => {
         const arr = Array.isArray(res.data?.returnBody) ? res.data.returnBody : [];
