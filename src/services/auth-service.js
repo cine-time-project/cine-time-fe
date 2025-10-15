@@ -83,11 +83,12 @@ export async function googleLogin(idToken) {
 
 export async function logout() {
   try {
-    // BE: POST /api/logout
-    await api.post("/logout");
   } finally {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("authUser");
+      localStorage.removeItem("refreshToken");
       document.cookie =
         "Authorization=; Max-Age=0; path=/; SameSite=Lax; Secure";
     }
