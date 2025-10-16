@@ -1,35 +1,14 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import SectionTitle from "../SectionTitle";
-import { Button, Card, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
+import NearbyCinemaCard from "./NearbyCinemaCard";
 
-// Standart Leaflet marker ayarı
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
-
-// Kırmızı kullanıcı marker’ı
-const userIcon = new L.Icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
-  iconRetinaUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
-
+// Harita merkezi güncelleme hook'u
 function RecenterMap({ coords }) {
   const map = useMap();
   useEffect(() => {
@@ -59,42 +38,67 @@ const normalizeURL = (url) =>
 
 export default function NearbyCinemasMap() {
   const [coords, setCoords] = useState(null); // Harita merkezi
-  const [userCoords, setUserCoords] = useState(null); // Gerçek kullanıcı konumu
+  const [userCoords, setUserCoords] = useState(null); // Kullanıcı konumu
   const [city, setCity] = useState("Lokasyon Alınıyor...");
   const [cinemas, setCinemas] = useState([]);
   const [searchCity, setSearchCity] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Kullanıcı konumu
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setCity("Tarayıcı desteklemiyor");
-      return;
-    }
+  // Leaflet marker'ları client-side'a al
+  const [userIcon, setUserIcon] = useState(null);
 
-    navigator.geolocation.getCurrentPosition(
-      async ({ coords }) => {
-        const position = [coords.latitude, coords.longitude];
-        setUserCoords(position);
-        setCoords(position); // harita başlangıçta kullanıcı
-        try {
-          const r = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
-          );
-          const d = await r.json();
-          const cityName =
-            d.address.city ||
-            d.address.town ||
-            d.address.state ||
-            "Bilinmeyen Konum";
-          setCity(cityName);
-          await loadNearbyCinemas(coords.latitude, coords.longitude, position);
-        } catch {
-          setCity("Konum alınamadı");
-        }
-      },
-      () => setCity("Konum izni reddedildi")
-    );
+  useEffect(() => {
+    if (typeof window === "undefined") return; // SSR koruması
+
+    // Leaflet default marker ayarı
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+      iconUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+      shadowUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    });
+
+    // Kırmızı kullanıcı marker'ı
+    const redIcon = new L.Icon({
+      iconUrl:
+        "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      iconRetinaUrl:
+        "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    });
+
+    setUserIcon(redIcon);
+
+    // Kullanıcı konumu al
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async ({ coords }) => {
+          const position = [coords.latitude, coords.longitude];
+          setUserCoords(position);
+          setCoords(position); // Harita başlangıçta kullanıcı konumuna
+          try {
+            const r = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
+            );
+            const d = await r.json();
+            const cityName =
+              d.address.city || d.address.town || d.address.state || "Bilinmeyen Konum";
+            setCity(cityName);
+            await loadNearbyCinemas(coords.latitude, coords.longitude, position);
+          } catch {
+            setCity("Konum alınamadı");
+          }
+        },
+        () => setCity("Konum izni reddedildi")
+      );
+    }
   }, []);
 
   const getCoordsByCity = async (cityName) => {
@@ -108,7 +112,7 @@ export default function NearbyCinemasMap() {
     return null;
   };
 
-  // Sinemaları yükleme, mesafe kullanıcı konumuna göre
+  // Sinemaları yükle, mesafeyi kullanıcı konumuna göre hesapla
   const loadNearbyCinemas = async (lat, lon, userPos = userCoords) => {
     setLoading(true);
     try {
@@ -176,26 +180,18 @@ export default function NearbyCinemasMap() {
 
   return (
     <div className="p-4 space-y-4">
-      <SectionTitle> Daha fazlasını bulun</SectionTitle>
+      <SectionTitle>🎬 Daha Fazlasını Bulun</SectionTitle>
 
       {/* Arama alanı */}
-      <InputGroup  className="flex flex-col md:flex-row items-center gap-2">
+      <InputGroup className="flex flex-col md:flex-row items-center gap-2">
         <Form.Control
           type="text"
           value={searchCity}
           onChange={(e) => setSearchCity(e.target.value)}
           placeholder="Şehir ara..."
-          
         />
-        <Button
-          onClick={handleSearch}
-        >
-          🔍 Ara
-        </Button>
-        <Button
-          onClick={handleFindCurrent}
-          className="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition"
-        >
+        <Button onClick={handleSearch}>🔍 Ara</Button>
+        <Button onClick={handleFindCurrent} className="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition">
           📍 Mevcut Konumda Bul
         </Button>
       </InputGroup>
@@ -204,7 +200,7 @@ export default function NearbyCinemasMap() {
         Konum: <b>{city}</b>
       </p>
 
-      {/* Sinema Listesi */}
+      {/* Sinema listesi */}
       {loading ? (
         <div className="text-center">
           <Spinner animation="border" variant="primary" />
@@ -216,64 +212,23 @@ export default function NearbyCinemasMap() {
         <Row className="g-4 mb-5">
           {cinemas.map((c) => (
             <Col key={c.id} md={4} sm={6}>
-              <Card className="shadow-sm h-100 border-0 rounded-4">
-                <Card.Body>
-                  <Card.Title className="text-primary fw-bold">
-                    {c.website ? (
-                      <a
-                        href={normalizeURL(c.website)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-decoration-none text-primary"
-                      >
-                        {c.name}
-                      </a>
-                    ) : (
-                      c.name
-                    )}
-                  </Card.Title>
-                  <Card.Text className="text-muted small mb-2">
-                    <i className="pi pi-map-marker text-danger me-1" />
-                    {c.distance} km uzaklıkta
-                  </Card.Text>
-                  {c.website && (
-                    <Button
-                      size="sm"
-                      variant="outline-primary"
-                      href={normalizeURL(c.website)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i className="pi pi-globe me-1" />
-                      Web Sitesi
-                    </Button>
-                  )}
-                </Card.Body>
-              </Card>
+              <NearbyCinemaCard cinema={c} normalizedURL={normalizeURL(c.website)} />
             </Col>
           ))}
         </Row>
       )}
 
       {/* Harita */}
-      {coords && (
-        <MapContainer
-          center={coords}
-          zoom={13}
-          style={{ height: "400px", width: "100%", borderRadius: "12px" }}
-        >
+      {coords && userIcon && (
+        <MapContainer center={coords} zoom={13} style={{ height: 400, width: "100%", borderRadius: "12px" }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <RecenterMap coords={coords} />
 
-          {/* Kullanıcı konumu kırmızı marker */}
-          {userCoords && (
-            <Marker position={userCoords} icon={userIcon}>
-              <Popup>📍 Buradasın</Popup>
-            </Marker>
-          )}
+          {/* Kullanıcı marker */}
+          {userCoords && <Marker position={userCoords} icon={userIcon}><Popup>📍 Buradasın</Popup></Marker>}
 
           {/* Sinema markerları */}
           {cinemas.map((cinema) => (
@@ -285,13 +240,7 @@ export default function NearbyCinemasMap() {
                 {cinema.website && (
                   <>
                     <br />
-                    🌐{" "}
-                    <a
-                      href={normalizeURL(cinema.website)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline"
-                    >
+                    🌐 <a href={normalizeURL(cinema.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
                       Web sitesine git
                     </a>
                   </>
