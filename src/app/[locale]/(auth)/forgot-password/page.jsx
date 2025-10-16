@@ -39,13 +39,22 @@ export default function ForgotPasswordPage() {
       await requestPasswordReset({ email: email.trim(), locale });
       setAlert({
         type: "success",
-        message: tAuth("forgot.success"),
+        message: "Doğrulama kodu gönderildi. Lütfen e-postanızı kontrol edin.",
       });
+      // 1.5 saniye sonra verify-code sayfasına yönlendir
+      setTimeout(() => {
+        window.location.href = `/${locale}/verify-reset-code?email=${encodeURIComponent(
+          email.trim()
+        )}`;
+      }, 1500);
     } catch (ex) {
       const status = ex?.status ?? 0;
       const msg =
         status === 404
           ? tAuth("forgot.notFound")
+          : status === 400
+          ? ex?.data?.message ||
+            "E-posta gönderimi başarısız oldu, lütfen tekrar deneyin."
           : status === 429
           ? tAuth("forgot.rateLimit")
           : tErrors("unknown");
@@ -123,7 +132,7 @@ export default function ForgotPasswordPage() {
                     role="status"
                   />
                 )}
-                {tAuth("forgot.submit")}
+                {pending ? "Gönderiliyor..." : "Kodu Gönder"}
               </Button>
             </Form>
 
