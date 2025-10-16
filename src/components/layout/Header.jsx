@@ -4,9 +4,22 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import {Navbar,Nav,Container,Form,InputGroup,NavDropdown,Modal,Button,Offcanvas,
+import {
+  Navbar,
+  Nav,
+  Container,
+  Form,
+  InputGroup,
+  NavDropdown,
+  Modal,
+  Button,
+  Offcanvas,
 } from "react-bootstrap";
-import "./header.scss";
+import "./Header.scss";
+import { useRouter } from "next/navigation";
+
+import { searchMovies } from "@/services/movie-serviceDP";
+
 
 export default function Header() {
   const pathname = usePathname() || "/";
@@ -31,6 +44,12 @@ export default function Header() {
   const [showModal, setShowModal] = useState(false);
   const [cinemas, setCinemas] = useState([]);
   const [searchCity, setSearchCity] = useState("");
+  const [results, setResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -57,6 +76,48 @@ export default function Header() {
       () => setCity("Konum izni reddedildi")
     );
   }, []);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+    setRecentSearches(saved);
+  }, []);
+
+  const handleSelectMovie = (movie) => {
+    const updatedHistory = [
+      movie.title,
+      ...recentSearches.filter((t) => t !== movie.title),
+    ].slice(0, 5);
+    localStorage.setItem("recentSearches", JSON.stringify(updatedHistory));
+    setRecentSearches(updatedHistory);
+    setShowResults(false);
+    setSearch("");
+
+    router.push(`/${locale}/movies/${movie.slug || movie.id}`);
+  };
+
+  const handleSearchChange = async (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    if (!value.trim()) {
+      setResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const data = await searchMovies(value, 0, 5);
+      setResults(data?.content || []);
+      setShowResults(true);
+    } catch (err) {
+      console.error("Search error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   const loadDummyCinemas = (cityName) => {
     if (!cityName) return;
@@ -119,7 +180,7 @@ export default function Header() {
           </Navbar.Brand>
 
           <Form
-            className="search-form mx-auto"
+            className="search-form mx-auto position-relative"
             onSubmit={(e) => e.preventDefault()}
           >
             <InputGroup>
@@ -127,7 +188,9 @@ export default function Header() {
                 type="search"
                 placeholder={tNav("search")}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleSearchChange}
+                onFocus={() => setShowResults(true)}
+                onBlur={() => setTimeout(() => setShowResults(false), 200)}
               />
               <InputGroup.Text className="search-icon">
                 <svg
@@ -141,6 +204,48 @@ export default function Header() {
                 </svg>
               </InputGroup.Text>
             </InputGroup>
+
+            {/* 🔽 Arama sonuçları dropdown */}
+            {showResults && (
+              <div className="search-dropdown">
+                {loading && <div className="search-loading">Aranıyor...</div>}
+
+                {!loading && results.length > 0
+                  ? results.map((movie) => (
+                      <div
+                        key={movie.id}
+                        className="search-item"
+                        onMouseDown={() => handleSelectMovie(movie)}
+                      >
+                        {movie.posterUrl && (
+                          <img
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            className="poster"
+                          />
+                        )}
+                        <span>{movie.title}</span>
+                      </div>
+                    ))
+                  : !loading &&
+                    recentSearches.length > 0 && (
+                      <>
+                        <div className="recent-title">Son Aramalar</div>
+                        {recentSearches.map((t, i) => (
+                          <div
+                            key={i}
+                            className="search-item recent"
+                            onMouseDown={() =>
+                              router.push(`/${locale}/movies/${t}`)
+                            }
+                          >
+                            {t}
+                          </div>
+                        ))}
+                      </>
+                    )}
+              </div>
+            )}
           </Form>
 
           <Nav className="right-actions">
@@ -178,7 +283,11 @@ export default function Header() {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title={`${locale.toUpperCase()} 🌐`} id="locale-dropdown" align="end">
+            <NavDropdown
+              title={`${locale.toUpperCase()} 🌐`}
+              id="locale-dropdown"
+              align="end"
+            >
               <NavDropdown.Item as={Link} href="/tr">
                 TR
               </NavDropdown.Item>

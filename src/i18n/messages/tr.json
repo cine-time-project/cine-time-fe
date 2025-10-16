@@ -130,7 +130,9 @@
     "genderMale": "Erkek",
     "day": "Gün",
     "month": "Ay",
-    "year": "Yıl"
+    "year": "Yıl",
+    "verificationCode": "Doğrulama Kodu",
+    "confirmPassword": "Yeni Şifre (Tekrar)"
   },
 
   "validation": {
@@ -181,7 +183,6 @@
     "login": "Giriş",
     "loggingIn": "Giriş yapılıyor...",
     "register": "Kayıt Ol",
-    "reset": "Sıfırla",
     "logout": "Çıkış Yap",
     "forgotPassword": "Şifremi unuttum",
     "haveAccount": "Hesabın var mı?",
@@ -213,6 +214,7 @@
     "month": "Ay",
     "year": "Yıl",
     "backToLogin": "Girişe dön",
+
     "forgot": {
       "tab": "Şifremi Unuttum",
       "title": "Şifrenizi mi unuttunuz?",
@@ -221,6 +223,24 @@
       "success": "Eğer bu e-postaya kayıtlı bir hesap varsa, şifre sıfırlama bağlantısı gönderildi.",
       "notFound": "Bu e-posta ile eşleşen bir hesap bulunamadı.",
       "rateLimit": "Kısa sürede çok istek gönderildi. Lütfen biraz sonra tekrar deneyin."
+    },
+
+    "reset": {
+      "title": "Yeni Şifre Belirle",
+      "subtitle": "Yeni şifrenizi belirleyin.",
+      "subtitleWithEmail": "{email} adresi için yeni şifrenizi belirleyin.",
+      "submit": "Şifreyi Kaydet",
+      "processing": "Kaydediliyor...",
+      "success": "Şifreniz başarıyla sıfırlandı. Giriş sayfasına yönlendiriliyorsunuz..."
+    },
+
+    "verify": {
+      "title": "Doğrulama Kodu",
+      "subtitle": "E-posta adresinize gönderilen 6 haneli kodu giriniz.",
+      "subtitleWithEmail": "{email} adresine gönderilen 6 haneli kodu giriniz.",
+      "submit": "Kodu Doğrula",
+      "processing": "Doğrulanıyor...",
+      "success": "Kod doğrulandı! Yeni şifre belirleme sayfasına yönlendiriliyorsunuz..."
     }
   },
 
@@ -347,7 +367,16 @@
     "showQr": "QR Göster",
     "refund": "İptal/İade",
     "noTickets": "Henüz biletin yok.",
-    "details": "Detay"
+    "details": "Detay",
+    "subtitle": "Satın aldığınız biletleri buradan görüntüleyebilirsiniz.",
+    "loading": "Yükleniyor...",
+    "errorLoading": "Bilet bilgileri alınırken bir hata oluştu.",
+    "currentTickets": "Aktif Biletler",
+    "pastTickets": "Geçmiş Biletler",
+    "noCurrent": "Aktif biletiniz bulunmamaktadır.",
+    "noPast": "Geçmiş biletiniz bulunmamaktadır.",
+    "hall": "Salon",
+    "showtime": "Seans"
   },
 
   "favorites": {
@@ -414,7 +443,8 @@
     "min": "En az {min} karakter girin.",
     "max": "En fazla {max} karakter girin.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
+    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
+    "passwordMismatch": "Şifreler eşleşmiyor."
   },
 
   "notifications": {
@@ -438,7 +468,9 @@
     "enterSurname": "Soyadınızı girin",
     "enterPromo": "Kodunuzu girin",
     "enterEmailOrPhone": "Cep telefonu veya e-posta adresinizi girin",
-    "enterPhone": "Telefon numaranızı girin"
+    "enterPhone": "Telefon numaranızı girin",
+    "enterCode": "6 haneli kodu girin",
+    "repeatPassword": "Yeni şifreyi tekrar girin"
   },
 
   "a11y": {

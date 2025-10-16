@@ -2,6 +2,7 @@ import MovieHero from "@/components/movies/movieDetail/MovieHero";
 import DetailsTabs from "@/components/movies/movieDetail/DetailsTabs";
 import { notFound, redirect } from "next/navigation";
 import { getMovieById, getMovieBySlug, searchMovies } from "@/services/movie-serviceDP";
+import FavoriteController from "@/components/movies/movieDetail/FavoriteController";
 
 export const revalidate = 0;
 
@@ -42,6 +43,7 @@ export default async function Page({ params }) {
   return (
     <>
       <MovieHero movie={movie} />
+      
       <DetailsTabs movie={movie} />
     </>
   );

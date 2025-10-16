@@ -35,7 +35,6 @@ export async function login({ phoneOrEmail, password, signal } = {}) {
   return typeof data === "object" && data !== null ? data : { raw: data };
 }
 
-
 export async function register({ signal, ...payload } = {}) {
   // BE: POST /api/register
   const response = await fetch(`${config.apiURL}/register`, {
@@ -95,10 +94,23 @@ export async function logout() {
   }
 }
 
-export async function requestPasswordReset(payload) {
-  // BE: POST /api/forgot-password  (email, locale vs.)
-  const { data } = await api.post("/forgot-password", payload);
-  return data;
+export async function requestPasswordReset({ email }) {
+  try {
+    // BE: POST /api/forgot-password
+    const response = await api.post("/forgot-password", { email });
+    // Sendgrid veya MailHelper başarılıysa, backend şunu döndürür:
+    // { "message": "Forgot password email sent" }
+    return response.data;
+  } catch (error) {
+    // Axios veya fetch hatalarını normalize et
+    const status = error?.response?.status ?? 0;
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Şifre sıfırlama isteği başarısız oldu.";
+    // frontend'te yakalamak için status ve message dön
+    throw { status, message };
+  }
 }
 
 // (opsiyonel) KODLA SIFIRLAMA
