@@ -3,7 +3,8 @@ import "../styles/index.scss";
 
 export const metadata = {
   title: "CineTime",
-  description: "CineTime – En yeni filmleri keşfedin ve sinema biletinizi kolayca alın.",
+  description:
+    "CineTime – En yeni filmleri keşfedin ve sinema biletinizi kolayca alın.",
   keywords: ["sinema", "bilet", "film", "vizyondakiler", "CineTime"],
 };
 
