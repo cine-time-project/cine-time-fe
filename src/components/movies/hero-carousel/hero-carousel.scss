@@ -50,31 +50,36 @@
   left: 0;
   height: 100%;
   width: 100%;
+}
 
-  /* Three layered linear gradients */
-  background: 
-    /* left to right gradient */ linear-gradient(
-      to right,
-      rgba(0, 5, 13, 1) 0%,
-      /* dark on the left */ rgba(0, 5, 13, 0.8) 25%,
-      /* dark on the left */ rgba(0, 5, 13, 0.5) 40%,
-      /* dark on the left */ rgba(0, 0, 0, 0) 50%,
-      /* dark on the left */
-    ),
-    /* bottom to top gradient */
-      linear-gradient(
-        to top,
-        rgba(0, 5, 13, 1) 0%,
-        /* dark on the left */ rgba(0, 5, 13, 0.7) 20%,
-        /* dark on the left */ rgba(0, 5, 13, 0.5) 30%,
-        /* dark on the left */ rgba(0, 5, 13, 0.2) 40%,
-        /* dark on the left */ rgba(0, 5, 13, 0) 50%,
-        /* dark on the left */
-      );
+/* Prime benzeri soldan koyu + alttan hafif bant */
+.hero-overlay::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    /* soldan sağa güçlü koyuluk */
+    linear-gradient(to right,
+      rgb(0, 0, 0) 0%,
+      rgb(0, 0, 0) 12%,
+      rgba(0, 0, 0, 0.8) 24%,
+      rgba(0,0,0,.42) 38%,
+      rgba(0,0,0,.18) 50%,
+      rgba(0,0,0,0) 62%);
+}
 
-  /* Blend all layers smoothly */
-  background-blend-mode: multiply;
-  z-index: 1;
+/* alttan bant aynı kalabilir, istersen biraz güçlendir: */
+.hero-overlay::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:0; height:30%;
+  background: linear-gradient(to top,
+      rgb(0, 0, 0) 0%,
+      rgb(0, 0, 0) 12%,
+      rgba(0, 0, 0, 0.8) 24%,
+      rgba(0,0,0,.42) 38%,
+      rgba(0,0,0,.18) 50%,
+      rgba(0,0,0,0) 62%,
+      rgba(0,0,0,0) 82%,
+      rgba(0,0,0,0) 92%);
 }
 
 /* Text and buttons content */
