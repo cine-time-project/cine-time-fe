@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import SectionTitle from "../SectionTitle";
 import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import NearbyCinemaCard from "./NearbyCinemaCard";
 
-// Harita merkezi güncelleme hook'u
+// Recenter hook
 function RecenterMap({ coords }) {
   const map = useMap();
   useEffect(() => {
@@ -17,7 +16,7 @@ function RecenterMap({ coords }) {
   return null;
 }
 
-// Mesafe hesaplama (Haversine)
+// Haversine ile mesafe
 const getDistanceKm = (lat1, lon1, lat2, lon2) => {
   const R = 6371;
   const toRad = (deg) => (deg * Math.PI) / 180;
@@ -36,21 +35,20 @@ const getDistanceKm = (lat1, lon1, lat2, lon2) => {
 const normalizeURL = (url) =>
   url ? (url.startsWith("http") ? url : `https://${url}`) : null;
 
-export default function NearbyCinemasMap() {
-  const [coords, setCoords] = useState(null); // Harita merkezi
-  const [userCoords, setUserCoords] = useState(null); // Kullanıcı konumu
+export default function NearbyCinemasLeaflet() {
+  const [coords, setCoords] = useState(null);
+  const [userCoords, setUserCoords] = useState(null);
+  const [userIcon, setUserIcon] = useState(null);
   const [city, setCity] = useState("Lokasyon Alınıyor...");
   const [cinemas, setCinemas] = useState([]);
   const [searchCity, setSearchCity] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Leaflet marker'ları client-side'a al
-  const [userIcon, setUserIcon] = useState(null);
-
+  // Leaflet icon ayarları ve kullanıcı konumu
   useEffect(() => {
-    if (typeof window === "undefined") return; // SSR koruması
+    if (typeof window === "undefined") return;
 
-    // Leaflet default marker ayarı
+    // Leaflet default marker
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl:
@@ -61,7 +59,7 @@ export default function NearbyCinemasMap() {
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
     });
 
-    // Kırmızı kullanıcı marker'ı
+    // Kırmızı kullanıcı marker
     const redIcon = new L.Icon({
       iconUrl:
         "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
@@ -73,16 +71,15 @@ export default function NearbyCinemasMap() {
       shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
     });
-
     setUserIcon(redIcon);
 
-    // Kullanıcı konumu al
+    // Kullanıcı konumunu al
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async ({ coords }) => {
           const position = [coords.latitude, coords.longitude];
           setUserCoords(position);
-          setCoords(position); // Harita başlangıçta kullanıcı konumuna
+          setCoords(position); // harita merkezi
           try {
             const r = await fetch(
               `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
@@ -112,7 +109,6 @@ export default function NearbyCinemasMap() {
     return null;
   };
 
-  // Sinemaları yükle, mesafeyi kullanıcı konumuna göre hesapla
   const loadNearbyCinemas = async (lat, lon, userPos = userCoords) => {
     setLoading(true);
     try {
@@ -179,11 +175,8 @@ export default function NearbyCinemasMap() {
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <SectionTitle>🎬 Daha Fazlasını Bulun</SectionTitle>
-
-      {/* Arama alanı */}
-      <InputGroup className="flex flex-col md:flex-row items-center gap-2">
+    <div className="space-y-4">
+      <InputGroup className="flex flex-col md:flex-row gap-2">
         <Form.Control
           type="text"
           value={searchCity}
@@ -191,20 +184,17 @@ export default function NearbyCinemasMap() {
           placeholder="Şehir ara..."
         />
         <Button onClick={handleSearch}>🔍 Ara</Button>
-        <Button onClick={handleFindCurrent} className="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition">
+        <Button onClick={handleFindCurrent} variant="success">
           📍 Mevcut Konumda Bul
         </Button>
       </InputGroup>
 
-      <p className="text-gray-600">
-        Konum: <b>{city}</b>
-      </p>
+      <p>Konum: <b>{city}</b></p>
 
-      {/* Sinema listesi */}
       {loading ? (
         <div className="text-center">
-          <Spinner animation="border" variant="primary" />
-          <p className="mt-2 text-muted">Sinemalar yükleniyor...</p>
+          <Spinner animation="border" />
+          <p className="text-muted mt-2">Sinemalar yükleniyor...</p>
         </div>
       ) : cinemas.length === 0 ? (
         <p className="text-center text-muted">Henüz sinema bulunamadı.</p>
@@ -220,27 +210,30 @@ export default function NearbyCinemasMap() {
 
       {/* Harita */}
       {coords && userIcon && (
-        <MapContainer center={coords} zoom={13} style={{ height: 400, width: "100%", borderRadius: "12px" }}>
+        <MapContainer
+          center={coords}
+          zoom={13}
+          style={{ height: 400, width: "100%", borderRadius: "12px" }}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <RecenterMap coords={coords} />
 
-          {/* Kullanıcı marker */}
+          {/* Kullanıcı konumu */}
           {userCoords && <Marker position={userCoords} icon={userIcon}><Popup>📍 Buradasın</Popup></Marker>}
 
           {/* Sinema markerları */}
-          {cinemas.map((cinema) => (
-            <Marker key={cinema.id} position={[cinema.lat, cinema.lon]}>
+          {cinemas.map((c) => (
+            <Marker key={c.id} position={[c.lat, c.lon]}>
               <Popup>
-                🎬 <b>{cinema.name}</b>
-                <br />
-                {cinema.distance} km uzaklıkta
-                {cinema.website && (
+                🎬 <b>{c.name}</b><br/>
+                {c.distance} km uzaklıkta
+                {c.website && (
                   <>
-                    <br />
-                    🌐 <a href={normalizeURL(cinema.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                    <br/>
+                    🌐 <a href={normalizeURL(c.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
                       Web sitesine git
                     </a>
                   </>
