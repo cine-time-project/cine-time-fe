@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import SectionTitle from "../common/SectionTitle";
+import SectionTitle from "../SectionTitle";
 import { Button, Card, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 
 // Standart Leaflet marker ayarı
