@@ -97,28 +97,25 @@ function MovieCard({ movie }) {
         aria-label={t("movies.addToFavorites")}
       >
         {favorite ? (
-          <i className="pi pi-heart-fill" style={{color: "#ff4081"}}></i>
+          <i className="pi pi-heart-fill" style={{ color: "#ff4081" }}></i>
         ) : (
-          <i className="pi pi-heart" style={{color: "#220514ff"}}></i>
+          <i className="pi pi-heart" style={{ color: "#220514ff" }}></i>
         )}
       </div>
 
       {/* Buy ticket button (top-right) */}
       {movie.status === "IN_THEATERS" && (
-        <div
+        <Image
           type="button"
           className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
           onClick={handleBuyTicket}
           title={t("movies.buyTicket", { default: "Buy Ticket" })}
           aria-label={t("movies.buyTicket", { default: "Buy Ticket" })}
-        >
-           <Image
-            src="/icons/buy-tickets.png" // public klasöründeki bir resim
-            alt="Buy Tickets"
-            width={70} // orijinal genişlik
-            height={70} // orijinal yükseklik
-          />
-        </div>
+          src="/icons/buy-tickets.png" // public klasöründeki bir resim
+          alt="Buy Tickets"
+          width={70} // orijinal genişlik
+          height={70} // orijinal yükseklik
+        />
       )}
 
       {/* Card body: title, release date, rating, summary */}
