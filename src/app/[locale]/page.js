@@ -2,7 +2,6 @@
 
 import SectionTitle from "@/components/common/SectionTitle";
 import Spacer from "@/components/common/Spacer";
-import NearbyCinemasMap from "@/components/layout/NearbyCinemasMap";
 import { HeroCarousel } from "@/components/movies/hero-carousel/HeroCarousel";
 import { MovieStripe } from "@/components/movies/movie-stripe/MovieStripe";
 import { useTranslations } from "next-intl";
@@ -13,7 +12,6 @@ export default function HomePage() {
   return (
     <div>
       <HeroCarousel query={"presale"} />
-
       <SectionTitle padding="px-5">{t("inTheaters")}</SectionTitle>
       <MovieStripe query={"in_theaters"} />
       <Spacer />
@@ -23,8 +21,6 @@ export default function HomePage() {
       <SectionTitle padding="px-5">{t("preSale")}</SectionTitle>
       <MovieStripe query={"presale"} />
       <Spacer />
-      <NearbyCinemasMap />
-      
     </div>
   );
 }

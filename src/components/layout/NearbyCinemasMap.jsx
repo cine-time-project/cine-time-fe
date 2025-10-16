@@ -3,14 +3,29 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import SectionTitle from "../common/SectionTitle";
+import { Button, Card, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 
-// Marker ikon düzeltmesi (Leaflet + Next.js uyumu)
+// Standart Leaflet marker ayarı
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+});
+
+// Kırmızı kullanıcı marker’ı
+const userIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  iconRetinaUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
@@ -26,30 +41,31 @@ function RecenterMap({ coords }) {
 // Mesafe hesaplama (Haversine)
 const getDistanceKm = (lat1, lon1, lat2, lon2) => {
   const R = 6371;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const lat1Rad = toRad(lat1);
+  const lat2Rad = toRad(lat2);
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
-  return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c * 100) / 100;
 };
 
-// 🌐 URL formatını güvenli hale getir
-const normalizeURL = (url) => {
-  if (!url) return null;
-  return url.startsWith("http") ? url : `https://${url}`;
-};
+// URL normalize
+const normalizeURL = (url) =>
+  url ? (url.startsWith("http") ? url : `https://${url}`) : null;
 
 export default function NearbyCinemasMap() {
-  const [coords, setCoords] = useState(null);
+  const [coords, setCoords] = useState(null); // Harita merkezi
+  const [userCoords, setUserCoords] = useState(null); // Gerçek kullanıcı konumu
   const [city, setCity] = useState("Lokasyon Alınıyor...");
   const [cinemas, setCinemas] = useState([]);
   const [searchCity, setSearchCity] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🧭 Kullanıcı konumunu al
+  // Kullanıcı konumu
   useEffect(() => {
     if (!navigator.geolocation) {
       setCity("Tarayıcı desteklemiyor");
@@ -59,7 +75,8 @@ export default function NearbyCinemasMap() {
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
         const position = [coords.latitude, coords.longitude];
-        setCoords(position);
+        setUserCoords(position);
+        setCoords(position); // harita başlangıçta kullanıcı
         try {
           const r = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
@@ -71,7 +88,7 @@ export default function NearbyCinemasMap() {
             d.address.state ||
             "Bilinmeyen Konum";
           setCity(cityName);
-          await loadNearbyCinemas(coords.latitude, coords.longitude);
+          await loadNearbyCinemas(coords.latitude, coords.longitude, position);
         } catch {
           setCity("Konum alınamadı");
         }
@@ -80,7 +97,6 @@ export default function NearbyCinemasMap() {
     );
   }, []);
 
-  // 📍 Şehir adına göre koordinat al
   const getCoordsByCity = async (cityName) => {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?city=${cityName}&format=json&limit=1`
@@ -92,15 +108,15 @@ export default function NearbyCinemasMap() {
     return null;
   };
 
-  // 🎥 Yakındaki sinemaları OSM’den getir
-  const loadNearbyCinemas = async (latitude, longitude) => {
+  // Sinemaları yükleme, mesafe kullanıcı konumuna göre
+  const loadNearbyCinemas = async (lat, lon, userPos = userCoords) => {
     setLoading(true);
     try {
       const query = `
         [out:json];
         node
           [amenity=cinema]
-          (around:5000,${latitude},${longitude});
+          (around:5000,${lat},${lon});
         out tags center;
       `;
       const res = await fetch("https://overpass-api.de/api/interpreter", {
@@ -111,7 +127,6 @@ export default function NearbyCinemasMap() {
       if (data.elements?.length > 0) {
         const found = data.elements.map((c) => {
           const tags = c.tags || {};
-          // 🎞️ Website veya alternatif sosyal medya linklerini topla
           const website =
             tags.website ||
             tags["contact:website"] ||
@@ -119,29 +134,28 @@ export default function NearbyCinemasMap() {
             tags.facebook ||
             tags.instagram ||
             null;
-
+          const distance = userPos
+            ? getDistanceKm(userPos[0], userPos[1], c.lat, c.lon)
+            : null;
           return {
             id: c.id,
             name: tags.name || "İsimsiz Sinema",
             website,
             lat: c.lat,
             lon: c.lon,
-            distance: getDistanceKm(latitude, longitude, c.lat, c.lon),
+            distance,
           };
         });
         setCinemas(found);
-      } else {
-        setCinemas([]);
-      }
+      } else setCinemas([]);
     } catch (err) {
-      console.error("Sinema verisi alınamadı:", err);
+      console.error(err);
       setCinemas([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔍 Şehir araması
   const handleSearch = async () => {
     if (!searchCity) return;
     const newCoords = await getCoordsByCity(searchCity);
@@ -154,78 +168,94 @@ export default function NearbyCinemasMap() {
     await loadNearbyCinemas(newCoords[0], newCoords[1]);
   };
 
-  // 📍 Mevcut konuma göre arama
   const handleFindCurrent = async () => {
-    if (!coords) return;
-    await loadNearbyCinemas(coords[0], coords[1]);
+    if (!userCoords) return;
+    setCoords(userCoords);
+    await loadNearbyCinemas(userCoords[0], userCoords[1]);
   };
 
   return (
     <div className="p-4 space-y-4">
-      <h2 className="text-2xl font-semibold text-gray-800">
-        🎬 Yakındaki Sinemalar
-      </h2>
+      <SectionTitle> Daha fazlasını bulun</SectionTitle>
 
-      {/* 🔍 Arama alanı */}
-      <div className="flex flex-col md:flex-row items-center gap-2">
-        <input
+      {/* Arama alanı */}
+      <InputGroup  className="flex flex-col md:flex-row items-center gap-2">
+        <Form.Control
           type="text"
           value={searchCity}
           onChange={(e) => setSearchCity(e.target.value)}
           placeholder="Şehir ara..."
-          className="border rounded-xl p-2 w-full md:w-64"
+          
         />
-        <button
+        <Button
           onClick={handleSearch}
-          className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
         >
           🔍 Ara
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={handleFindCurrent}
           className="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition"
         >
           📍 Mevcut Konumda Bul
-        </button>
-      </div>
+        </Button>
+      </InputGroup>
 
       <p className="text-gray-600">
         Konum: <b>{city}</b>
       </p>
 
-      {/* 🎞️ Sinema listesi */}
+      {/* Sinema Listesi */}
       {loading ? (
-        <p className="text-center text-gray-500">Sinemalar yükleniyor...</p>
-      ) : cinemas.length === 0 ? (
-        <p className="text-center text-gray-500">
-          Henüz sinema bulunamadı. Arama yapmayı deneyin.
-        </p>
-      ) : (
-        <div className="space-y-1">
-          {cinemas.map((c) => (
-            <div
-              key={c.id}
-              className="p-2 border rounded-xl flex justify-between items-center hover:bg-gray-50 transition"
-            >
-              {c.website ? (
-                <a
-                  href={normalizeURL(c.website)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline font-medium"
-                >
-                  {c.name}
-                </a>
-              ) : (
-                <span className="text-gray-800">{c.name}</span>
-              )}
-              <span className="text-sm text-gray-500">{c.distance} km</span>
-            </div>
-          ))}
+        <div className="text-center">
+          <Spinner animation="border" variant="primary" />
+          <p className="mt-2 text-muted">Sinemalar yükleniyor...</p>
         </div>
+      ) : cinemas.length === 0 ? (
+        <p className="text-center text-muted">Henüz sinema bulunamadı.</p>
+      ) : (
+        <Row className="g-4 mb-5">
+          {cinemas.map((c) => (
+            <Col key={c.id} md={4} sm={6}>
+              <Card className="shadow-sm h-100 border-0 rounded-4">
+                <Card.Body>
+                  <Card.Title className="text-primary fw-bold">
+                    {c.website ? (
+                      <a
+                        href={normalizeURL(c.website)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-decoration-none text-primary"
+                      >
+                        {c.name}
+                      </a>
+                    ) : (
+                      c.name
+                    )}
+                  </Card.Title>
+                  <Card.Text className="text-muted small mb-2">
+                    <i className="pi pi-map-marker text-danger me-1" />
+                    {c.distance} km uzaklıkta
+                  </Card.Text>
+                  {c.website && (
+                    <Button
+                      size="sm"
+                      variant="outline-primary"
+                      href={normalizeURL(c.website)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="pi pi-globe me-1" />
+                      Web Sitesi
+                    </Button>
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       )}
 
-      {/* 🗺️ Harita */}
+      {/* Harita */}
       {coords && (
         <MapContainer
           center={coords}
@@ -238,12 +268,14 @@ export default function NearbyCinemasMap() {
           />
           <RecenterMap coords={coords} />
 
-          {/* 📍 Kullanıcı konumu */}
-          <Marker position={coords}>
-            <Popup>📍 Buradasın</Popup>
-          </Marker>
+          {/* Kullanıcı konumu kırmızı marker */}
+          {userCoords && (
+            <Marker position={userCoords} icon={userIcon}>
+              <Popup>📍 Buradasın</Popup>
+            </Marker>
+          )}
 
-          {/* 🎬 Sinemalar */}
+          {/* Sinema markerları */}
           {cinemas.map((cinema) => (
             <Marker key={cinema.id} position={[cinema.lat, cinema.lon]}>
               <Popup>
