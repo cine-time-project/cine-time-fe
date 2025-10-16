@@ -1,43 +1,36 @@
-// src/lib/utils/http.js
 
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // e.g. http://localhost:8090/api
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // örn: http://localhost:8090/api
 
-// ==== TEMP AUTH TOKEN FOR LOCAL TESTING ====
-// Flip to false once real login is wired.
-const USE_HARDCODED_TOKEN = false;
-
-// Keep your current dev token here so it's controlled in one place.
-const HARDCODED_TOKEN =
-  "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZW1iZXJAY2luZXRpbWUubG9jYWwiLCJpYXQiOjE3NTk3Nzc4NjQsImV4cCI6MTc1OTg2NDI2NH0.cxkEQC16jlnOjJqM3xj-8r-TbZ5aG28aUmf_QmFgrNmzeHe3yUqbk4-142QSiGkPrSB99V9YbaI3FQrUiRMq_w";
-// ===========================================
+// Tarayıcıdan token'ı oku (login hangi key'i yazdıysa onu bulur)
+const TOKEN_KEYS = ["authToken", "access_token", "token"];
 
 export function getToken() {
-  try {
-    if (USE_HARDCODED_TOKEN && HARDCODED_TOKEN) return HARDCODED_TOKEN;
-
-    // Fallbacks once login is implemented
-    if (typeof window !== "undefined") {
-      return (
-        localStorage.getItem("authToken") ||
-        localStorage.getItem("access_token") ||
-        localStorage.getItem("token") ||
-        ""
-      );
-    }
-    return "";
-  } catch {
-    return "";
+  if (typeof window === "undefined") return "";
+  for (const k of TOKEN_KEYS) {
+    const v = localStorage.getItem(k);
+    if (v && String(v).trim()) return String(v).trim();
   }
+  return "";
+}
+
+
+export function authHeaders(extra = {}) {
+  const token = getToken();
+  const base = token ? { Authorization: `Bearer ${token}` } : {};
+  return { ...base, ...extra };
 }
 
 /**
- * Build Authorization headers (and optionally merge extra headers).
- * Usage:
- *   axios.get(url, { headers: authHeaders() })
- *   axios.post(url, data, { headers: authHeaders({ "Idempotency-Key": key }) })
+ * Axios config döndürür: { headers: { Authorization: ... } }
+ * Yeni yazacağınız servislerde BUNU kullanın:
+ *   axios.get(url, axiosAuth())
+ *   axios.post(url, data, axiosAuth())
  */
-export function authHeaders(extra = {}) {
-  const token = getToken();
-  const base = token ? { Authorization: `Bearer ${String(token).trim()}` } : {};
-  return { ...base, ...extra };
+export function axiosAuth(extra = {}) {
+  return { headers: authHeaders(extra) };
+}
+
+// İsteğe bağlı: hızlı kontrol
+export function isLoggedIn() {
+  return !!getToken();
 }
