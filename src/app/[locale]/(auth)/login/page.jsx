@@ -91,16 +91,14 @@ export default function LoginPage() {
     } catch (error) {
       const status =
         error?.status ??
-        error?.response?.status ?? // axios olursa
+        error?.response?.status ??
         0;
 
-      // BE'nin sık döndürdükleri: 401/423
       if (status === 401) {
         setAlert({ type: "danger", message: tAuth("invalidCredentials") });
       } else if (status === 423) {
         setAlert({ type: "danger", message: tAuth("locked") });
       } else {
-        // Diğer tüm durumlar için i18n’e map et
         const key =
           status === 400
             ? "invalid"
@@ -110,7 +108,6 @@ export default function LoginPage() {
             ? "network"
             : "unknown";
 
-        // Sunucu anlamlı bir mesaj gönderdiyse onu kullan; yoksa i18n
         const serverMsg =
           (error?.data &&
             typeof error.data === "object" &&
@@ -233,7 +230,7 @@ export default function LoginPage() {
                       onChange={(event) => setRememberMe(event.target.checked)}
                     />
                     <Link
-                      href={`/${locale}/reset-password`}
+                      href={`/${locale}/forgot-password`}
                       className={styles.loginCardLink}
                     >
                       {tAuth("forgotPassword")}
