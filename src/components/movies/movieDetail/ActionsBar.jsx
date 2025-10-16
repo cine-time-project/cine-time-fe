@@ -112,21 +112,21 @@ export default function ActionsBar({
         </button>
 
         {/* ＋ Favoriler */}
-        <button
-          type="button"
-          className={[
-            styles.iconBtn,
-            isFavorite ? styles.favOn : styles.favOff,
-          ].join(" ")}
-          onClick={toggleFavorite}
-          disabled={favBusy}
-          title={favTitle}
-          aria-label={favTitle}
-          aria-pressed={isFavorite}
-          suppressHydrationWarning
-        >
-          <i className="pi pi-plus" />
-        </button>
+      <button
+  type="button"
+  className={[
+    styles.iconBtn,
+    isFavorite ? styles.favOn : styles.neutral, // <= unfav = neutral
+  ].join(" ")}
+  onClick={toggleFavorite}
+  disabled={favBusy}
+  title={favTitle}
+  aria-label={favTitle}
+  aria-pressed={isFavorite}
+  suppressHydrationWarning
+>
+  <i className="pi pi-plus" />
+</button>
 
         {/* 👥 Kadro */}
         <button
