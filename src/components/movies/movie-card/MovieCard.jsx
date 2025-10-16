@@ -93,30 +93,31 @@ function MovieCard({ movie }) {
         type="button"
         className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
         onClick={handleFavorite}
+        title={t("movies.addToFavorites", { default: "Add to Favorites" })}
         aria-label={t("movies.addToFavorites")}
       >
         {favorite ? (
-          <i className="pi pi-heart-fill" style={{ color: "#ff4b81" }}></i>
+          <i className="pi pi-heart-fill" style={{color: "#ff4081"}}></i>
         ) : (
-          <i className="pi pi-heart" style={{ color: "#fff" }}></i>
+          <i className="pi pi-heart" style={{color: "#220514ff"}}></i>
         )}
-        <span className={styles["tooltip-text"]}>
-          {favorite ? "Favorited" : "Add to Favorites"}
-        </span>
       </div>
 
       {/* Buy ticket button (top-right) */}
       {movie.status === "IN_THEATERS" && (
         <div
+          type="button"
           className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
+          onClick={handleBuyTicket}
+          title={t("movies.buyTicket", { default: "Buy Ticket" })}
+          aria-label={t("movies.buyTicket", { default: "Buy Ticket" })}
         >
-          <Image
-            src="/icons/buy-tickets-2.png" // public klasöründeki bir resim
+           <Image
+            src="/icons/buy-tickets.png" // public klasöründeki bir resim
             alt="Buy Tickets"
-            width={60} // orijinal genişlik
-            height={50} // orijinal yükseklik
+            width={70} // orijinal genişlik
+            height={70} // orijinal yükseklik
           />
-          <span className={styles["tooltip-text"]}>Buy Tickets</span>
         </div>
       )}
 
@@ -134,8 +135,13 @@ function MovieCard({ movie }) {
             )}
             {movie.rating != null && movie.rating !== 0 && (
               <div className={styles["movie-card__details__rating"]}>
-                <span className={styles["movie-card__details__rating__text"]}>{String(movie.rating).substring(0, 3)} </span>
-                <i className="pi pi-star-fill" style={{fontSize: "0.7rem"}}></i>
+                <span className={styles["movie-card__details__rating__text"]}>
+                  {String(movie.rating).substring(0, 3)}{" "}
+                </span>
+                <i
+                  className="pi pi-star-fill"
+                  style={{ fontSize: "0.7rem" }}
+                ></i>
               </div>
             )}
           </div>
