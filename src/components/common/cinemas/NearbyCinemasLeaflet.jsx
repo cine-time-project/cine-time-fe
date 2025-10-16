@@ -7,7 +7,7 @@ import L from "leaflet";
 import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import NearbyCinemaCard from "./NearbyCinemaCard";
 
-// Recenter hook
+// Harita merkezini güncelleyen hook
 function RecenterMap({ coords }) {
   const map = useMap();
   useEffect(() => {
@@ -15,21 +15,6 @@ function RecenterMap({ coords }) {
   }, [coords, map]);
   return null;
 }
-
-// Haversine ile mesafe
-const getDistanceKm = (lat1, lon1, lat2, lon2) => {
-  const R = 6371;
-  const toRad = (deg) => (deg * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const lat1Rad = toRad(lat1);
-  const lat2Rad = toRad(lat2);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return Math.round(R * c * 100) / 100;
-};
 
 // URL normalize
 const normalizeURL = (url) =>
@@ -44,7 +29,7 @@ export default function NearbyCinemasLeaflet() {
   const [searchCity, setSearchCity] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Leaflet icon ayarları ve kullanıcı konumu
+  // Leaflet iconları ve kullanıcı konumu
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -80,6 +65,7 @@ export default function NearbyCinemasLeaflet() {
           const position = [coords.latitude, coords.longitude];
           setUserCoords(position);
           setCoords(position); // harita merkezi
+
           try {
             const r = await fetch(
               `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
@@ -88,7 +74,7 @@ export default function NearbyCinemasLeaflet() {
             const cityName =
               d.address.city || d.address.town || d.address.state || "Bilinmeyen Konum";
             setCity(cityName);
-            await loadNearbyCinemas(coords.latitude, coords.longitude, position);
+            await loadNearbyCinemas(coords.latitude, coords.longitude);
           } catch {
             setCity("Konum alınamadı");
           }
@@ -98,18 +84,18 @@ export default function NearbyCinemasLeaflet() {
     }
   }, []);
 
+  // Şehirden koordinat al
   const getCoordsByCity = async (cityName) => {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?city=${cityName}&format=json&limit=1`
     );
     const data = await res.json();
-    if (data?.length > 0) {
-      return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-    }
+    if (data?.length > 0) return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
     return null;
   };
 
-  const loadNearbyCinemas = async (lat, lon, userPos = userCoords) => {
+  // Sinemaları yükle
+  const loadNearbyCinemas = async (lat, lon) => {
     setLoading(true);
     try {
       const query = `
@@ -134,16 +120,22 @@ export default function NearbyCinemasLeaflet() {
             tags.facebook ||
             tags.instagram ||
             null;
-          const distance = userPos
-            ? getDistanceKm(userPos[0], userPos[1], c.lat, c.lon)
-            : null;
+
+          const address =
+            (tags["addr:street"] || "") +
+            (tags["addr:housenumber"] ? " " + tags["addr:housenumber"] : "") ||
+            tags.address ||
+            null;
+
           return {
             id: c.id,
             name: tags.name || "İsimsiz Sinema",
             website,
             lat: c.lat,
             lon: c.lon,
-            distance,
+            address,
+            operator: tags.operator || null,
+            phone: tags.phone || null,
           };
         });
         setCinemas(found);
@@ -159,10 +151,7 @@ export default function NearbyCinemasLeaflet() {
   const handleSearch = async () => {
     if (!searchCity) return;
     const newCoords = await getCoordsByCity(searchCity);
-    if (!newCoords) {
-      alert("Şehir bulunamadı!");
-      return;
-    }
+    if (!newCoords) return alert("Şehir bulunamadı!");
     setCoords(newCoords);
     setCity(searchCity);
     await loadNearbyCinemas(newCoords[0], newCoords[1]);
@@ -208,7 +197,6 @@ export default function NearbyCinemasLeaflet() {
         </Row>
       )}
 
-      {/* Harita */}
       {coords && userIcon && (
         <MapContainer
           center={coords}
@@ -221,22 +209,17 @@ export default function NearbyCinemasLeaflet() {
           />
           <RecenterMap coords={coords} />
 
-          {/* Kullanıcı konumu */}
           {userCoords && <Marker position={userCoords} icon={userIcon}><Popup>📍 Buradasın</Popup></Marker>}
 
-          {/* Sinema markerları */}
           {cinemas.map((c) => (
             <Marker key={c.id} position={[c.lat, c.lon]}>
               <Popup>
-                🎬 <b>{c.name}</b><br/>
-                {c.distance} km uzaklıkta
+                🎬 <b>{c.name}</b><br />
+                {c.address && <>🏠 {c.address}<br /></>}
+                {c.operator && <>👤 {c.operator}<br /></>}
+                {c.phone && <>📞 {c.phone}<br /></>}
                 {c.website && (
-                  <>
-                    <br/>
-                    🌐 <a href={normalizeURL(c.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                      Web sitesine git
-                    </a>
-                  </>
+                  <>🌐 <a href={normalizeURL(c.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Web sitesine git</a></>
                 )}
               </Popup>
             </Marker>
