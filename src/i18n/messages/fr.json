@@ -48,7 +48,8 @@
       "cinemas": "Cinémas",
       "campaigns": "Campagnes",
       "events": "Événements",
-      "about": "À propos"
+      "about": "À propos",
+      "contact": "Contact"
     },
     "premium": {
       "vip": "🎬 CineTime VIP",
@@ -129,7 +130,9 @@
     "genderMale": "Homme",
     "day": "Jour",
     "month": "Mois",
-    "year": "Année"
+    "year": "Année",
+    "verificationCode": "Code de vérification",
+    "confirmPassword": "Confirmation du mot de passe"
   },
 
   "validation": {
@@ -172,38 +175,37 @@
 
   "auth": {
     "loginEyebrow": "CineTime",
-    "loginWelcome": "Bienvenue sur CineTime",
+    "loginWelcome": "Bienvenue chez CineTime",
     "titleLogin": "Connexion",
     "titleRegister": "Créer un compte",
     "titleReset": "Réinitialiser le mot de passe",
-    "loginDescription": "Connectez-vous à votre compte CineTime pour profiter d'expériences cinéma exclusives.",
+    "loginDescription": "Rejoignez l’expérience CineTime et découvrez des avantages exclusifs en vous connectant.",
     "login": "Connexion",
     "loggingIn": "Connexion en cours...",
-    "register": "Inscription",
-    "reset": "Réinitialiser",
+    "register": "S'inscrire",
     "logout": "Déconnexion",
     "forgotPassword": "Mot de passe oublié",
     "haveAccount": "Vous avez déjà un compte ?",
     "noAccount": "Vous n’avez pas de compte ?",
     "or": "ou",
-    "googleLogin": "Continuer avec Google",
     "withGoogle": "Continuer avec Google",
     "successLogin": "Connexion réussie.",
+    "googleLogin": "Continuer avec Google",
     "emailSent": "E-mail envoyé.",
-    "invalidCredentials": "E-mail ou mot de passe incorrect.",
-    "locked": "Compte verrouillé. Veuillez réessayer plus tard.",
+    "invalidCredentials": "E-mail ou mot de passe invalide.",
+    "locked": "Compte bloqué. Veuillez réessayer plus tard.",
     "notRobot": "Je ne suis pas un robot",
-    "captchaNote": "Cette connexion est protégée par la technologie Google reCAPTCHA.",
+    "captchaNote": "Cette session est protégée par la technologie Google reCAPTCHA.",
     "registerEyebrow": "CINE TIME CLUB",
     "registerWelcome": "Rejoignez le CineTime Club",
-    "registerDescription": "Créez votre compte CineTime Club pour suivre vos billets, rester informé des campagnes et profiter d’avantages exclusifs au cinéma.",
-    "registerCta": "Rejoindre le Club",
+    "registerDescription": "Créez votre compte CineTime Club ; gérez vos billets, restez informé des promotions et profitez d’avantages exclusifs.",
+    "registerCta": "S'inscrire",
     "registering": "Inscription en cours...",
-    "successRegister": "Inscription terminée avec succès.",
+    "successRegister": "Inscription réussie.",
     "accountExists": "Un compte avec cet e-mail existe déjà.",
     "registerMarketingSms": "Je souhaite recevoir des notifications par SMS.",
     "registerMarketingEmail": "Je souhaite recevoir des notifications par e-mail.",
-    "registerPrivacy": "CineTime Digital Hizmetler A.Ş. traite mes données personnelles conformément à la <lawLink>Loi n°6698 sur la protection des données personnelles</lawLink> dans le cadre du consentement que j’ai donné.",
+    "registerPrivacy": "CineTime Digital Services traite mes données personnelles conformément à la <lawLink>loi n°6698 sur la protection des données personnelles</lawLink> avec mon consentement.",
     "birthDate": "Date de naissance",
     "gender": "Sexe",
     "genderFemale": "Femme",
@@ -212,14 +214,33 @@
     "month": "Mois",
     "year": "Année",
     "backToLogin": "Retour à la connexion",
+
     "forgot": {
       "tab": "Mot de passe oublié",
-      "title": "Vous avez oublié votre mot de passe ?",
-      "subtitle": "Saisissez votre adresse e-mail ; nous vous enverrons un lien de réinitialisation.",
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Saisissez votre adresse e-mail pour recevoir un lien de réinitialisation.",
       "submit": "Envoyer le lien",
-      "success": "Si un compte existe pour cet e-mail, un lien de réinitialisation du mot de passe a été envoyé.",
+      "success": "Si un compte existe pour cet e-mail, un lien de réinitialisation a été envoyé.",
       "notFound": "Aucun compte trouvé avec cet e-mail.",
-      "rateLimit": "Trop de demandes en peu de temps. Veuillez réessayer plus tard."
+      "rateLimit": "Trop de tentatives. Veuillez réessayer plus tard."
+    },
+
+    "reset": {
+      "title": "Définir un nouveau mot de passe",
+      "subtitle": "Définissez votre nouveau mot de passe.",
+      "subtitleWithEmail": "Définissez un nouveau mot de passe pour {email}.",
+      "submit": "Enregistrer le mot de passe",
+      "processing": "Enregistrement...",
+      "success": "Votre mot de passe a été réinitialisé avec succès. Redirection vers la page de connexion..."
+    },
+
+    "verify": {
+      "title": "Code de vérification",
+      "subtitle": "Entrez le code à 6 chiffres envoyé à votre adresse e-mail.",
+      "subtitleWithEmail": "Entrez le code à 6 chiffres envoyé à {email}.",
+      "submit": "Vérifier le code",
+      "processing": "Vérification...",
+      "success": "Code vérifié ! Redirection vers la page de réinitialisation du mot de passe..."
     }
   },
 
@@ -335,7 +356,16 @@
     "showQr": "Afficher le QR",
     "refund": "Annuler/Rembourser",
     "noTickets": "Vous n’avez pas encore de billet.",
-    "details": "Détails"
+    "details": "Détails",
+    "subtitle": "Vous pouvez consulter ici tous vos billets achetés.",
+    "loading": "Chargement...",
+    "errorLoading": "Une erreur est survenue lors du chargement des billets.",
+    "currentTickets": "Billets Actifs",
+    "pastTickets": "Billets Passés",
+    "noCurrent": "Aucun billet actif trouvé.",
+    "noPast": "Aucun billet passé trouvé.",
+    "hall": "Salle",
+    "showtime": "Séance"
   },
 
   "favorites": {
@@ -404,7 +434,9 @@
     "max": "Saisissez au maximum {max} caractères.",
     "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
     "authRequired": "Vous devez vous connecter pour accéder à cette ressource.",
-    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
+    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
+    "passwordMismatch": "Les mots de passe ne correspondent pas.",
+    "invalidCode": "Code invalide ou expiré."
   },
 
   "notifications": {
@@ -428,7 +460,9 @@
     "enterSurname": "Saisissez votre nom",
     "enterPromo": "Saisissez votre code",
     "enterEmailOrPhone": "Saisissez votre numéro de mobile ou votre adresse e-mail",
-    "enterPhone": "Entrez votre numéro de téléphone"
+    "enterPhone": "Entrez votre numéro de téléphone",
+    "enterCode": "Entrez le code à 6 chiffres",
+    "repeatPassword": "Répétez le nouveau mot de passe"
   },
 
   "a11y": {

@@ -20,12 +20,6 @@ export default withNextIntl({
 
   // Eski /reset-password -> yeni /forgot-password
   async redirects() {
-    return [
-      {
-        source: "/:locale/reset-password",
-        destination: "/:locale/forgot-password",
-        permanent: true, // geliştirme sırasında istersen false yap
-      },
-    ];
+    return [];
   },
 });
