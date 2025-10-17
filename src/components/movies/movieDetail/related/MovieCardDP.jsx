@@ -1,4 +1,3 @@
-// src/components/movies/movieDetail/related/MovieCardDP.jsx
 "use client";
 
 import Link from "next/link";
@@ -22,28 +21,26 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
 
   const router = useRouter();
   const pathname = usePathname();
+  const { locale } = useParams();
 
-  // login durumu sadece client'ta
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => setIsLoggedIn(!!localStorage.getItem("authToken")), []);
 
-  // kart bazlı favori state (BE'den gelmişse kullan)
   const [isFav, setIsFav] = useState(!!movie?.isFavorite);
   const [busy, setBusy] = useState(false);
 
   const {
     id,
-    slug,
     title,
-    rating,              // 6.4
-    releaseYear,         // 2022
-    duration,            // dk
-    summary,             // kısa özet
+    rating,
+    releaseYear,
+    duration,
+    summary,
     backdropUrl,
     posterUrl,
-    rankText,            // "#3 in Germany" gibi (opsiyonel)
-    isNew,               // true -> NEW MOVIE rozeti
-    age = 16,            // yaş etiketi (opsiyonel)
+    rankText,
+    isNew,
+    age = 16,
   } = movie;
 
   const img = useMemo(
@@ -51,26 +48,24 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
     [backdropUrl, posterUrl]
   );
 
-  const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
   const to = id ? `${prefix}/movies/${id}` : "#";
+  const loginHref = `${prefix}/login?redirect=${encodeURIComponent(pathname)}`;
 
-  // 5 yıldız üzerinden göstermek için
   const starsOutOfFive = rating ? Math.round((Number(rating) / 10) * 5) : 0;
-  const stars = Array.from({ length: 5 }).map((_, i) =>
-    i < starsOutOfFive ? "★" : "☆"
-  );
+  const stars = Array.from({ length: 5 }).map((_, i) => (i < starsOutOfFive ? "★" : "☆"));
 
-  // + buton click
   const onToggleFav = async (e) => {
-    e.preventDefault(); // karttaki linke tıklamayı engelle
+    e.preventDefault();
     e.stopPropagation();
 
+    if (busy) return;
+
     if (!isLoggedIn) {
-      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+      router.push(loginHref);
       return;
     }
-    if (!id || busy) return;
+    if (!id) return;
 
     setBusy(true);
     const next = !isFav;
@@ -78,19 +73,15 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
 
     try {
       if (next) {
-        await addFavoriteMovie(id);   // 409'u başarı say
+        await addFavoriteMovie(id);   // 409 başarı say
       } else {
-        await removeFavoriteMovie(id); // 404'ü başarı say
+        await removeFavoriteMovie(id); // 404 başarı say
       }
     } catch (err) {
-      // geri al
-      setIsFav(!next);
+      setIsFav(!next); // geri al
       const st = err?.response?.status;
-      if (st === 401 || st === 403) {
-        router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
-      } else {
-        console.error(err);
-      }
+      if (st === 401 || st === 403) router.push(loginHref);
+      else console.error(err);
     } finally {
       setBusy(false);
     }
@@ -98,54 +89,41 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
 
   return (
     <div className={s.card}>
-      {/* küçük tile */}
-      <Link
-        className={s.tileLink}
-        href={to}
-        aria-label={tTips("showDetails")}
-      >
-        <div className={s.thumb}>
-          <img src={img} alt={title || "movie"} />
-        </div>
+      <Link className={s.tileLink} href={to} aria-label={tTips("showDetails")}>
+        <div className={s.thumb}><img src={img} alt={title || "movie"} /></div>
         <div className={s.title}>{title}</div>
       </Link>
 
-      {/* hover pop (prime tarzı) */}
       <div
         className={`${s.pop} ${
           align === "right" ? s.popRight : align === "left" ? s.popLeft : s.popCenter
         }`}
       >
-        <Link
-          href={to}
-          className={s.popPoster}
-          aria-label={`${title} ${tMovies("detailsTitle")}`}
-        >
+        <Link href={to} className={s.popPoster} aria-label={`${title} ${tMovies("detailsTitle")}`}>
           <img src={img} alt={title || "movie"} />
         </Link>
 
         <div className={s.popBody}>
-          <Link href={to} className={s.popTitleLink}>
-            <h4 className={s.popTitle}>{title}</h4>
-          </Link>
-
+          <Link href={to} className={s.popTitleLink}><h4 className={s.popTitle}>{title}</h4></Link>
           {rankText && <div className={s.rank}>{rankText}</div>}
 
-          {/* CTA Row */}
           <div className={s.ctaRow}>
-            {/* + Favori */}
+            {/* ＋ Favori */}
             <button
               className={`${s.roundBtn} ${isFav ? s.favOn : s.neutral}`}
               onClick={onToggleFav}
-              disabled={busy}
               aria-pressed={isFav}
-              title={
-                !isLoggedIn
-                  ? "Favoriye eklemek için giriş yap"
-                  : isFav
-                  ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" })
-                  : tMovies("addToFavorites", { default: "Favorilere ekle" })
-              }
+              aria-disabled={busy}
+              data-busy={busy ? "1" : undefined}
+title={
+  !isLoggedIn
+    ? tMovies("loginToFavorite", { default: "Favoriye eklemek için giriş yap" })
+    : isFav
+    ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" })
+    : tMovies("addToFavorites", { default: "Favorilere ekle" })
+}
+
+
             >
               <i className="pi pi-plus" />
             </button>
@@ -160,41 +138,21 @@ export default function MovieCardDP({ movie = {}, align = "center" }) {
             </button>
           </div>
 
-          <div className={s.trial}>
-            <i className="ri-check-fill" />
-            {tMovies("primeTrial")}
-          </div>
+          <div className={s.trial}><i className="ri-check-fill" />{tMovies("primeTrial")}</div>
 
           <div className={s.metaLine}>
             {isNew && <span className={s.badge}>{tMovies("newMovie")}</span>}
-
             {rating != null && (
-              <span
-                className={s.stars}
-                title={`IMDb ${Number(rating).toFixed(1)}`}
-              >
+              <span className={s.stars} title={`IMDb ${Number(rating).toFixed(1)}`}>
                 <span className={s.starIcons}>{stars.join("")}</span>
                 <span className={s.ratingNum}>{Number(rating).toFixed(1)}</span>
               </span>
             )}
-
-            {releaseYear && (
-              <>
-                <span className={s.dot} />
-                <span>{releaseYear}</span>
-              </>
-            )}
-
-            {duration && (
-              <>
-                <span className={s.dot} />
-                <span>{fmtDuration(duration, tMovies)}</span>
-              </>
-            )}
+            {releaseYear && (<><span className={s.dot} /><span>{releaseYear}</span></>)}
+            {duration && (<><span className={s.dot} /><span>{fmtDuration(duration, tMovies)}</span></>)}
           </div>
 
           <div className={s.age}>{age}</div>
-
           {summary && <p className={s.excerpt}>{summary}</p>}
         </div>
       </div>
