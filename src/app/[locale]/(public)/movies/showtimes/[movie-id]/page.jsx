@@ -1,8 +1,6 @@
-"use client";
-
+"use client"
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import { config } from "@/helpers/config.js";
@@ -41,6 +39,8 @@ export default function MovieShowtimeCinemasPage() {
   const [cinemas, setCinemas] = useState([]); // [{id, name, cityName?, imageUrl?}]
   const [hydrating, setHydrating] = useState(false);
   const [movieTitle, setMovieTitle] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
 
   // Track the last movieId we fetched; avoids StrictMode double-fetch,
   // but still refetches when movieId changes during client navigation.
@@ -120,6 +120,7 @@ export default function MovieShowtimeCinemasPage() {
                         ? `Cinema #${cidRaw}`
                         : "(İsimsiz Sinema)"),
                     cityName: st?.cityName ?? st?.city_name ?? undefined,
+                    countryName: st?.countryName ?? st?.country_name ?? undefined,
                     imageUrl: st?.imageUrl ?? st?.image_url ?? null,
                   },
                 ];
@@ -208,6 +209,41 @@ export default function MovieShowtimeCinemasPage() {
     };
   }, [cinemas]);
 
+  // Build dropdown options from already-fetched cinemas
+  let countries = Array.from(
+    new Set(
+      cinemas
+        .map((c) => (c.countryName || "").toString())
+        .filter(Boolean)
+    )
+  ).sort();
+  // If backend didn't send country names, provide a fallback so the dropdown is usable
+  if (countries.length === 0 && cinemas.length > 0) {
+    countries = ["All"]; // user can pick All to unlock city selection
+  }
+
+  const cities = Array.from(
+    new Set(
+      cinemas
+        .filter((c) =>
+          selectedCountry && selectedCountry !== "All"
+            ? c.countryName === selectedCountry
+            : true
+        )
+        .map((c) => (c.cityName || "").toString())
+        .filter(Boolean)
+    )
+  ).sort();
+
+  const filteredCinemas = cinemas.filter((c) => {
+    // Don't render until both selects are chosen
+    if (!selectedCountry || !selectedCity) return false;
+    const countryOk =
+      selectedCountry === "All" || (c.countryName && c.countryName === selectedCountry);
+    const cityOk = c.cityName === selectedCity;
+    return countryOk && cityOk;
+  });
+
   return (
     <div className="container py-4">
       <h1 className="mb-1">
@@ -220,18 +256,54 @@ export default function MovieShowtimeCinemasPage() {
         {hydrating && <span className="ms-2">• loading images…</span>}
       </p>
 
+      <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
+        <label className="form-label me-2 mb-0">Country</label>
+        <select
+          className="form-select form-select-sm w-auto"
+          value={selectedCountry}
+          onChange={(e) => {
+            setSelectedCountry(e.target.value);
+            setSelectedCity("");
+          }}
+        >
+          <option value="">Select country…</option>
+          {countries.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </select>
+
+        <label className="form-label ms-3 me-2 mb-0">City</label>
+        <select
+          className="form-select form-select-sm w-auto"
+          value={selectedCity}
+          onChange={(e) => setSelectedCity(e.target.value)}
+          disabled={!selectedCountry || cities.length === 0}
+        >
+          <option value="">Select city…</option>
+          {cities.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {loading && <div className="py-5">Loading…</div>}
       {error && <div className="alert alert-danger">{error}</div>}
 
       {!loading && !error && (
         <>
-          {cinemas.length === 0 ? (
+          {filteredCinemas.length === 0 ? (
             <div className="text-secondary py-5">
-              No cinemas currently have showtimes for this movie.
+              {selectedCountry && selectedCity
+                ? "No cinemas match your selection."
+                : "Select a country and a city to see cinemas with showtimes."}
             </div>
           ) : (
             <div className="cinema-grid">
-              {cinemas.map((c, idx) => {
+              {filteredCinemas.map((c, idx) => {
                 const src = c?.id ? resolveCinemaImage(c) : FALLBACK_DATA_URL;
                 const cityName = c.cityName || "-";
                 const reactKey = c?.id ?? `name-${c?.name ?? idx}`;
@@ -239,21 +311,14 @@ export default function MovieShowtimeCinemasPage() {
                 return (
                   <article className="cinema-card" key={reactKey}>
                     <div className="cinema-card__media">
-                      <Image
+                      <img
                         src={src}
                         alt={c.name}
-                        fill
-                        unoptimized
-                        sizes="(max-width: 1000px) 100vw, 420px"
-                        style={{ objectFit: "cover" }}
+                        loading="lazy"
                         onError={(e) => {
                           try {
                             const img = e.currentTarget;
-                            if (
-                              img &&
-                              img.tagName === "IMG" &&
-                              img.src !== FALLBACK_DATA_URL
-                            ) {
+                            if (img && img.src !== FALLBACK_DATA_URL) {
                               img.src = FALLBACK_DATA_URL;
                             }
                           } catch {}
@@ -330,6 +395,12 @@ export default function MovieShowtimeCinemasPage() {
           position: relative;
           min-height: 230px;
         }
+        .cinema-card__media img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
         .cinema-card__body {
           padding: 16px;
           display: grid;
@@ -342,6 +413,8 @@ export default function MovieShowtimeCinemasPage() {
           font-weight: 700;
           font-size: 20px;
         }
+        .form-select { background-color: #1d1f24; color: #fff; border-color: #2b2e36; }
+        .form-select:disabled { opacity: .6; }
       `}</style>
     </div>
   );
