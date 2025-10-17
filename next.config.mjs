@@ -1,7 +1,7 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
-// ✅ Global i18n config (timeZone dahil)
-const withNextIntl = createNextIntlPlugin("./next-intl.config.mjs");
+// ✅ JSON üzerinden i18n yüklemek için request.js kullanıyoruz
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.js");
 
 export default withNextIntl({
   sassOptions: {
