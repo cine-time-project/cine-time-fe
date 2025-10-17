@@ -15,7 +15,7 @@ import {
   Button,
   Offcanvas,
 } from "react-bootstrap";
-import "./Header.scss";
+import "./header.scss";
 import { useRouter } from "next/navigation";
 
 import { searchMovies } from "@/services/movie-serviceDP";
