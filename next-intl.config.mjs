@@ -1,5 +1,5 @@
 export default {
   locales: ["tr", "en", "de", "fr"],
-  timeZone: "Europe/Vienna",
+  timeZone: "Europe/Berlin",
   defaultLocale: "tr",
 };

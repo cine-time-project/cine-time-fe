@@ -4,7 +4,9 @@ import { getTranslations } from "next-intl/server";
 import ZoomableEventsGrid from "./ZoomableGrid";
 
 export default async function EventsPage({ params }) {
-  const { locale } = await params;
+  // ❗ HATA FİX: await kaldırıldı
+  const { locale } = params;
+
   const t = await getTranslations({ locale, namespace: "events" });
 
   const eventItems = [
@@ -40,7 +42,6 @@ export default async function EventsPage({ params }) {
 
   return (
     <section className="events container">
-      {/* Hero */}
       <header className="events__hero">
         <div className="hero__copy">
           <h1 className="hero__title">{t("heroTitle")}</h1>
@@ -58,10 +59,8 @@ export default async function EventsPage({ params }) {
         </div>
       </header>
 
-      {/* Zoomable Grid */}
       <ZoomableEventsGrid items={eventItems} />
 
-      {/* CTA */}
       <section className="events__cta">
         <h3>{t("ctaTitle")}</h3>
         <p>{t("ctaBody")}</p>
