@@ -314,7 +314,12 @@
     "apply": "Uygula",
     "invalidDate": "Geçersiz Tarih",
     "retry": "Tekrar Dene",
-    "failed": "Filmler yüklenemedi"
+    "failed": "Filmler yüklenemedi",
+    "loginToFavorite": "Favoriye eklemek için giriş yap",
+    "addedToFavoritesToast": "Favorilere eklendi.",
+    "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
+    "halls": "Özel Salonlar"
+
   },
 
   "cinemas": {

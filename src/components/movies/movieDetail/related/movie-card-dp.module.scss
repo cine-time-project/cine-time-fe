@@ -95,3 +95,46 @@ i.ri-check-fill::before{ content:"✔"; }
 
 
 .pop { z-index: 20; } /* oklar 1000'de */
+
+
+/* yuvarlak küçük butonun tabanı */
+.roundBtn{
+  all: unset;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  cursor: pointer; outline: none;
+  transition: background .18s, border-color .18s, color .18s, box-shadow .18s, transform .06s;
+  border: 1px solid transparent;
+}
+.roundBtn > i { font-size: 1.05rem; line-height: 1; }
+
+/* nötr “cam” görünüm — favori EKLİ DEĞİLKEN bunu kullanıyoruz */
+.neutral{
+  background:
+    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.20), rgba(255,255,255,.10));
+  color:#fff;
+  border-color: rgba(255,255,255,.22);
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+  backdrop-filter: blur(4px);
+}
+.neutral:hover,
+.neutral:focus-visible{
+  background:
+    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.28), rgba(255,255,255,.14));
+  border-color: rgba(255,255,255,.30);
+  box-shadow: 0 12px 26px rgba(0,0,0,.28);
+}
+
+/* favori EKLİ — beyaz daire */
+.favOn,
+.favOn:hover,
+.favOn:focus-visible{
+  background:#fff;
+  color:#0f1520;
+  border-color: rgba(0,0,0,.15);
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+}
+
+/* minik geri bildirim */
+.roundBtn:active { transform: scale(.98); }
+.roundBtn[disabled]{ opacity:.7; cursor: pointer; }

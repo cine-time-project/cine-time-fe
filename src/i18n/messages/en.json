@@ -314,7 +314,13 @@
     "apply": "Apply",
     "invalidDate": "Invalid Date",
     "retry": "Retry",
-    "failed": "Failed to load movies"
+    "failed": "Failed to load movies",
+    "loginToFavorite": "Sign in to add to favorites",
+    "addedToFavoritesToast": "Added to favorites.",
+    "removedFromFavoritesToast": "Removed from favorites.",
+    "halls": "Special halls"
+   
+
   },
 
   "cinemas": {
