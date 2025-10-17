@@ -66,6 +66,10 @@ export const MOVIES_ADMIN_LIST_API = `${API}/movies/admin`;         // GET
 export const movieDeleteApi = (movieId) => `${API}/movies/del/${movieId}`;   // DELETE
 export const MOVIE_BY_SLUG_API = `${API}/movies/slug/movie`;  // GET -> /{slug}
 
+// --- Favorites (Movies) ---
+export const favoriteMovieApi = (movieId) => `${API}/favorites/movies/${movieId}`; // POST(add) / DELETE(remove)
+export const FAVORITE_MOVIES_AUTH_API = `${API}/favorites/movies/auth`;           // GET (isteğe bağlı: kullanıcının favori listesi)
+
 // -------------------- Images --------------------
 export const imageByIdApi = (imageId) => `${API}/images/${imageId}`; // GET/PUT/DELETE
 export const imageUploadForMovieApi = (movieId) => `${API}/images/${movieId}`; // POST

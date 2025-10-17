@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import React, { useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 /**
  * MovieCard Component
@@ -27,11 +28,9 @@ function MovieCard({ movie }) {
   const prefix = locale ? `/${locale}` : "";
 
   // Construct detail page URL using movie ID
-  const detailsHref = movie?.id ? `${prefix}/movies/${movie.id}` : "#";
-
-  // Optional: SEO-friendly slug fallback (can combine title + ID)
-  // const movieSlug = movie.slug || `${movie.title?.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${movie.id}`;
-  // const detailsHref = movie?.id ? `${prefix}/movies/${movieSlug}` : "#";
+  const detailsHref = movie?.slug
+    ? `${prefix}/movies/${movie.slug}`
+    : movie?.id ?? `${prefix}/movies/${movie.id}`;
 
   /**
    * Navigate to movie detail page
@@ -90,34 +89,41 @@ function MovieCard({ movie }) {
       <div className={styles["movie-card__overlay"]}></div>
 
       {/* Favorite button (top-left) */}
-      <Button
+      <div
         type="button"
         className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
         onClick={handleFavorite}
+        title={t("movies.addToFavorites", { default: "Add to Favorites" })}
         aria-label={t("movies.addToFavorites")}
       >
         {favorite ? (
-          <i className="pi pi-heart-fill"></i>
+          <i className="pi pi-heart-fill" style={{ color: "#ff4081" }}></i>
         ) : (
-          <i className="pi pi-heart"></i>
+          <i className="pi pi-heart" style={{ color: "#220514ff" }}></i>
         )}
-      </Button>
+      </div>
 
       {/* Buy ticket button (top-right) */}
-      {movie.status !== "COMING_SOON" && (
-        <Button
+      {movie.status === "IN_THEATERS" && (
+        <Image
           type="button"
           className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
           onClick={handleBuyTicket}
-          aria-label={t("movies.buyTicket")}
-        >
-          <i className="pi pi-ticket"></i>
-        </Button>
+          title={t("movies.buyTicket", { default: "Buy Ticket" })}
+          aria-label={t("movies.buyTicket", { default: "Buy Ticket" })}
+          src="/icons/buy-tickets.png" // public klasöründeki bir resim
+          alt="Buy Tickets"
+          width={70} // orijinal genişlik
+          height={70} // orijinal yükseklik
+        />
       )}
 
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
+          {movie.title}
+        </Card.Title>
+        <Card.Subtitle>
           <div className={styles["movie-card__details"]}>
             {movie.releaseDate && (
               <div className={styles["movie-card__details__releaseDate"]}>
@@ -126,13 +132,17 @@ function MovieCard({ movie }) {
             )}
             {movie.rating != null && movie.rating !== 0 && (
               <div className={styles["movie-card__details__rating"]}>
-                {String(movie.rating).substring(0, 3)}
-                <i className="pi pi-star-fill"></i>
+                <span className={styles["movie-card__details__rating__text"]}>
+                  {String(movie.rating).substring(0, 3)}{" "}
+                </span>
+                <i
+                  className="pi pi-star-fill"
+                  style={{ fontSize: "0.7rem" }}
+                ></i>
               </div>
             )}
           </div>
-          {movie.title}
-        </Card.Title>
+        </Card.Subtitle>
         <Card.Text className={styles["movie-card__summary"]}>
           {movie.summary?.length > 70
             ? movie.summary.substring(0, 70) + "..."

@@ -130,7 +130,9 @@
     "genderMale": "Männlich",
     "day": "Tag",
     "month": "Monat",
-    "year": "Jahr"
+    "year": "Jahr",
+    "verificationCode": "Bestätigungscode",
+    "confirmPassword": "Neues Passwort (Wiederholung)"
   },
 
   "validation": {
@@ -174,37 +176,36 @@
   "auth": {
     "loginEyebrow": "CineTime",
     "loginWelcome": "Willkommen bei CineTime",
-    "titleLogin": "Anmeldung",
+    "titleLogin": "Anmelden",
     "titleRegister": "Konto erstellen",
     "titleReset": "Passwort zurücksetzen",
-    "loginDescription": "Melde dich bei deinem CineTime-Konto an, um exklusive Kinoerlebnisse freizuschalten.",
+    "loginDescription": "Treten Sie der CineTime-Erfahrung bei und entdecken Sie exklusive Vorteile, indem Sie sich anmelden.",
     "login": "Anmelden",
     "loggingIn": "Anmeldung läuft...",
     "register": "Registrieren",
-    "reset": "Zurücksetzen",
     "logout": "Abmelden",
     "forgotPassword": "Passwort vergessen",
-    "haveAccount": "Du hast bereits ein Konto?",
-    "noAccount": "Kein Konto?",
+    "haveAccount": "Haben Sie bereits ein Konto?",
+    "noAccount": "Haben Sie kein Konto?",
     "or": "oder",
     "withGoogle": "Mit Google fortfahren",
     "successLogin": "Anmeldung erfolgreich.",
-    "emailSent": "E-Mail gesendet.",
     "googleLogin": "Mit Google fortfahren",
-    "invalidCredentials": "E-Mail oder Passwort ist falsch.",
-    "locked": "Konto gesperrt. Bitte später erneut versuchen.",
+    "emailSent": "E-Mail gesendet.",
+    "invalidCredentials": "E-Mail oder Passwort ist ungültig.",
+    "locked": "Konto gesperrt. Bitte versuchen Sie es später erneut.",
     "notRobot": "Ich bin kein Roboter",
-    "captchaNote": "Diese Anmeldung wird durch die Google reCAPTCHA-Technologie geschützt.",
+    "captchaNote": "Diese Sitzung wird durch Google reCAPTCHA geschützt.",
     "registerEyebrow": "CINE TIME CLUB",
-    "registerWelcome": "CineTime Club beitreten",
-    "registerDescription": "Erstelle dein CineTime Club-Konto, verfolge deine Tickets, verpasse keine Kampagnen und entdecke exklusive Kino-Vorteile.",
-    "registerCta": "Dem Club beitreten",
+    "registerWelcome": "Treten Sie dem CineTime Club bei",
+    "registerDescription": "Erstellen Sie Ihr CineTime Club-Konto; verwalten Sie Ihre Tickets, bleiben Sie über Aktionen informiert und genießen Sie exklusive Kinovorteile.",
+    "registerCta": "Registrieren",
     "registering": "Registrierung läuft...",
     "successRegister": "Registrierung erfolgreich abgeschlossen.",
     "accountExists": "Ein Konto mit dieser E-Mail existiert bereits.",
     "registerMarketingSms": "Ich möchte SMS-Benachrichtigungen erhalten.",
     "registerMarketingEmail": "Ich möchte E-Mail-Benachrichtigungen erhalten.",
-    "registerPrivacy": "CineTime Digital Hizmetler A.Ş. verarbeitet meine personenbezogenen Daten gemäß dem <lawLink>Gesetz Nr. 6698 über den Schutz personenbezogener Daten</lawLink> im Rahmen der von mir erteilten Einwilligungen.",
+    "registerPrivacy": "CineTime Digital Services GmbH verarbeitet meine personenbezogenen Daten gemäß <lawLink>Gesetz Nr. 6698 zum Schutz personenbezogener Daten</lawLink> mit meiner Zustimmung.",
     "birthDate": "Geburtsdatum",
     "gender": "Geschlecht",
     "genderFemale": "Weiblich",
@@ -213,14 +214,33 @@
     "month": "Monat",
     "year": "Jahr",
     "backToLogin": "Zurück zur Anmeldung",
+
     "forgot": {
       "tab": "Passwort vergessen",
-      "title": "Passwort vergessen?",
-      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, wir senden Ihnen einen Link zum Zurücksetzen.",
+      "title": "Haben Sie Ihr Passwort vergessen?",
+      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen Link zum Zurücksetzen zu erhalten.",
       "submit": "Link senden",
-      "success": "Falls ein Konto mit dieser E-Mail existiert, wurde ein Link zum Zurücksetzen des Passworts gesendet.",
-      "notFound": "Kein Konto mit dieser E-Mail-Adresse gefunden.",
-      "rateLimit": "Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es später erneut."
+      "success": "Wenn ein Konto für diese E-Mail existiert, wurde ein Link gesendet.",
+      "notFound": "Kein Konto mit dieser E-Mail gefunden.",
+      "rateLimit": "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
+    },
+
+    "reset": {
+      "title": "Neues Passwort festlegen",
+      "subtitle": "Legen Sie Ihr neues Passwort fest.",
+      "subtitleWithEmail": "Neues Passwort für {email} festlegen.",
+      "submit": "Passwort speichern",
+      "processing": "Speichern...",
+      "success": "Ihr Passwort wurde erfolgreich zurückgesetzt. Weiterleitung zur Anmeldeseite..."
+    },
+
+    "verify": {
+      "title": "Bestätigungscode",
+      "subtitle": "Geben Sie den 6-stelligen Code ein, der an Ihre E-Mail gesendet wurde.",
+      "subtitleWithEmail": "Geben Sie den 6-stelligen Code ein, der an {email} gesendet wurde.",
+      "submit": "Code bestätigen",
+      "processing": "Wird überprüft...",
+      "success": "Code bestätigt! Weiterleitung zur Seite zum Zurücksetzen des Passworts..."
     }
   },
 
@@ -336,7 +356,16 @@
     "showQr": "QR anzeigen",
     "refund": "Stornieren/Erstatten",
     "noTickets": "Du hast noch keine Tickets.",
-    "details": "Details"
+    "details": "Details",
+    "subtitle": "Hier kannst du alle deine gekauften Tickets ansehen.",
+    "loading": "Wird geladen...",
+    "errorLoading": "Beim Laden der Ticketdaten ist ein Fehler aufgetreten.",
+    "currentTickets": "Aktive Tickets",
+    "pastTickets": "Vergangene Tickets",
+    "noCurrent": "Keine aktiven Tickets gefunden.",
+    "noPast": "Keine vergangenen Tickets gefunden.",
+    "hall": "Saal",
+    "showtime": "Vorstellung"
   },
 
   "favorites": {
@@ -407,14 +436,17 @@
     "authRequired": "Zum Zugriff auf diese Ressource müssen Sie sich anmelden.",
     "invalidDate": "Bitte ein gültiges Datum auswählen.",
     "fullNameRequired": "Vor- und Nachname ist erforderlich.",
-      "emailRequired": "E-Mail ist erforderlich.",
-      "emailInvalid": "Bitte geben Sie eine gültige E-Mail ein.",
-      "phoneRequired": "Telefonnummer ist erforderlich.",
-      "phoneInvalid": "Bitte geben Sie eine gültige Telefonnummer ein.",
-      "phoneMask": "Telefonformat muss „(XXX) XXX-XXXX“ sein.",
-      "subjectRequired": "Betreff ist erforderlich.",
-      "messageRequired": "Nachricht ist erforderlich.",
-      "invalidPhone": "Bitte eine gültige Telefonnummer eingeben."
+    "emailRequired": "E-Mail ist erforderlich.",
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail ein.",
+    "phoneRequired": "Telefonnummer ist erforderlich.",
+    "phoneInvalid": "Bitte geben Sie eine gültige Telefonnummer ein.",
+    "phoneMask": "Telefonformat muss „(XXX) XXX-XXXX“ sein.",
+    "subjectRequired": "Betreff ist erforderlich.",
+    "messageRequired": "Nachricht ist erforderlich.",
+    "invalidPhone": "Bitte eine gültige Telefonnummer eingeben.",
+    "passwordMismatch": "Passwörter stimmen nicht überein.",
+    "invalid": "Ungültige Anfrage, bitte versuchen Sie es erneut.",
+    "invalidCode": "Der Code ist ungültig oder abgelaufen."
   },
 
   "notifications": {
@@ -438,7 +470,9 @@
     "enterSurname": "Nachnamen eingeben",
     "enterPromo": "Code eingeben",
     "enterEmailOrPhone": "Gib deine Handynummer oder E-Mail-Adresse ein",
-    "enterPhone": "Gib deine Telefonnummer ein"
+    "enterPhone": "Gib deine Telefonnummer ein",
+    "enterCode": "6-stelligen Code eingeben",
+    "repeatPassword": "Neues Passwort wiederholen"
   },
 
   "a11y": {

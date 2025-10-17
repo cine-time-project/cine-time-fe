@@ -12,6 +12,10 @@ export const config = {
     liveChat: false, // Crisp/Tidio gibi script’leri eğitimde kapatalım
   },
 
+i18n: {
+    timeZone: 'Europe/Berlin',
+},
+  
   contact: {
     info: {
       phone: {
