@@ -10,7 +10,11 @@ const GOOGLE_CLIENT_ID =
 export default function ClientProviders({ children, locale, messages }) {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <NextIntlClientProvider locale={locale} messages={messages}>
+      <NextIntlClientProvider
+        locale={locale}
+        messages={messages}
+        timeZone="Europe/Vienna" // ✅ Zorunlu eklendi
+      >
         {children}
       </NextIntlClientProvider>
     </GoogleOAuthProvider>
