@@ -524,7 +524,8 @@
       "subjectRequired": "L’objet est obligatoire.",
       "messageRequired": "Le message est obligatoire.",
       "invalidPhone": "Veuillez entrer un numéro de téléphone valide.",
-      "invalidDate": "Veuillez sélectionner une date valide."
+      "invalidDate": "Veuillez sélectionner une date valide.",
+      "userNotFound": "Aucun utilisateur trouvé avec {email}"
     }
   },
   "events": {
