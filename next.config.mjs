@@ -1,14 +1,14 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin("./src/i18n/request.js");
+// ✅ Global i18n config (timeZone dahil)
+const withNextIntl = createNextIntlPlugin("./next-intl.config.mjs");
 
 export default withNextIntl({
   sassOptions: {
-    quietDeps: true, // dependency'lerden gelen deprecated @import uyarılarını bastırır
+    quietDeps: true,
   },
   reactStrictMode: true,
 
-  // CORS için Overpass proxy
   async rewrites() {
     return [
       {
@@ -18,13 +18,12 @@ export default withNextIntl({
     ];
   },
 
-  // Eski /reset-password -> yeni /forgot-password
   async redirects() {
     return [
       {
         source: "/:locale/reset-password",
         destination: "/:locale/forgot-password",
-        permanent: true, // geliştirme sırasında istersen false yap
+        permanent: true,
       },
     ];
   },
