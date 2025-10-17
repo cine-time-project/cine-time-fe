@@ -453,7 +453,8 @@
     "authRequired": "You need to sign in to access this resource.",
     "invalid": "Invalid request. Please check your information.",
     "passwordMismatch": "Passwords do not match.",
-    "invalidCode": "Invalid or expired code."
+    "invalidCode": "Invalid or expired code.",
+    "userNotFound": "User not found with {email}"
   },
 
   "notifications": {

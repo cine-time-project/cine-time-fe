@@ -555,7 +555,8 @@
       "max": "En fazla {max} karakter girin.",
       "invalidEmail": "Geçerli bir e-posta adresi girin.",
       "authRequired": "Bu kaynağa erişmek için giriş yapmanız gerekiyor.",
-      "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin."
+      "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
+      "userNotFound": "Bu e-posta adresine ait bir kullanıcı bulunamadı: {email}"
     },
     "ctaWhatsAppShort": "WhatsApp’tan ulaşın",
     "defaultText": "Merhaba, destek için yazıyorum."
