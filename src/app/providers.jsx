@@ -6,7 +6,7 @@ export default function Providers({ children, locale, messages }) {
     <NextIntlClientProvider
       locale={locale}
       messages={messages}
-      timeZone="Europe/Vienna" // <--- burayı ekledik
+      timeZone={config.i18n.timeZone} // <--- burayı ekledik
     >
       {children}
     </NextIntlClientProvider>

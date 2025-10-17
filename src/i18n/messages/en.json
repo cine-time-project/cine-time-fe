@@ -130,7 +130,9 @@
     "genderMale": "Male",
     "day": "Day",
     "month": "Month",
-    "year": "Year"
+    "year": "Year",
+    "verificationCode": "Verification Code",
+    "confirmPassword": "Confirm Password"
   },
 
   "validation": {
@@ -177,34 +179,33 @@
     "titleLogin": "Login",
     "titleRegister": "Create Account",
     "titleReset": "Reset Password",
-    "loginDescription": "Sign in to your CineTime account to unlock exclusive cinema experiences.",
+    "loginDescription": "Join the CineTime experience and explore exclusive benefits by signing in.",
     "login": "Login",
-    "loggingIn": "Signing you in...",
-    "register": "Sign Up",
-    "reset": "Reset",
+    "loggingIn": "Logging in...",
+    "register": "Register",
     "logout": "Logout",
-    "forgotPassword": "Forgot password",
+    "forgotPassword": "Forgot Password",
     "haveAccount": "Already have an account?",
-    "noAccount": "Don’t have an account?",
+    "noAccount": "Don't have an account?",
     "or": "or",
     "withGoogle": "Continue with Google",
     "successLogin": "Login successful.",
-    "emailSent": "Email sent.",
     "googleLogin": "Continue with Google",
-    "invalidCredentials": "Email or password is incorrect.",
+    "emailSent": "Email sent.",
+    "invalidCredentials": "Invalid email or password.",
     "locked": "Account locked. Please try again later.",
     "notRobot": "I'm not a robot",
-    "captchaNote": "This sign-in is protected by Google reCAPTCHA technology.",
+    "captchaNote": "This session is protected by Google reCAPTCHA technology.",
     "registerEyebrow": "CINE TIME CLUB",
-    "registerWelcome": "Join the CineTime Club",
-    "registerDescription": "Create your CineTime Club account to track your tickets, stay up to date with campaigns, and unlock exclusive cinema privileges.",
-    "registerCta": "Join the Club",
+    "registerWelcome": "Join CineTime Club",
+    "registerDescription": "Create your CineTime Club account; manage your tickets, stay updated with campaigns and enjoy exclusive cinema privileges.",
+    "registerCta": "Sign Up",
     "registering": "Registering...",
     "successRegister": "Registration completed successfully.",
     "accountExists": "An account with this email already exists.",
-    "registerMarketingSms": "I would like to receive SMS notifications.",
-    "registerMarketingEmail": "I would like to receive email notifications.",
-    "registerPrivacy": "CineTime Digital Hizmetler A.Ş. processes my personal data in accordance with <lawLink>Law No. 6698 on the Protection of Personal Data</lawLink> within the scope of the consent I have provided.",
+    "registerMarketingSms": "I want to receive SMS notifications.",
+    "registerMarketingEmail": "I want to receive email notifications.",
+    "registerPrivacy": "CineTime Digital Services Inc. processes my personal data in accordance with <lawLink>Law No. 6698 on the Protection of Personal Data</lawLink> with my consent.",
     "birthDate": "Date of Birth",
     "gender": "Gender",
     "genderFemale": "Female",
@@ -212,15 +213,34 @@
     "day": "Day",
     "month": "Month",
     "year": "Year",
-    "backToLogin": "Back to login",
+    "backToLogin": "Back to Login",
+
     "forgot": {
       "tab": "Forgot Password",
       "title": "Forgot your password?",
-      "subtitle": "Enter your email address and we'll send you a reset link.",
+      "subtitle": "Enter your email address to receive a reset link.",
       "submit": "Send Link",
-      "success": "If an account exists for this email, a password reset link has been sent.",
+      "success": "If an account exists for this email, a reset link has been sent.",
       "notFound": "No account found with this email.",
-      "rateLimit": "Too many requests in a short time. Please try again later."
+      "rateLimit": "Too many requests. Please try again later."
+    },
+
+    "reset": {
+      "title": "Set New Password",
+      "subtitle": "Set your new password.",
+      "subtitleWithEmail": "Set a new password for {email}.",
+      "submit": "Save Password",
+      "processing": "Saving...",
+      "success": "Your password has been reset successfully. Redirecting to the login page..."
+    },
+
+    "verify": {
+      "title": "Verification Code",
+      "subtitle": "Enter the 6-digit code sent to your email address.",
+      "subtitleWithEmail": "Enter the 6-digit code sent to {email}.",
+      "submit": "Verify Code",
+      "processing": "Verifying...",
+      "success": "Code verified! Redirecting to the password reset page..."
     }
   },
 
@@ -294,7 +314,13 @@
     "apply": "Apply",
     "invalidDate": "Invalid Date",
     "retry": "Retry",
-    "failed": "Failed to load movies"
+    "failed": "Failed to load movies",
+    "loginToFavorite": "Sign in to add to favorites",
+    "addedToFavoritesToast": "Added to favorites.",
+    "removedFromFavoritesToast": "Removed from favorites.",
+    "halls": "Special halls"
+   
+
   },
 
   "cinemas": {
@@ -347,7 +373,16 @@
     "showQr": "Show QR",
     "refund": "Cancel/Refund",
     "noTickets": "You don’t have any tickets yet.",
-    "details": "Details"
+    "details": "Details",
+    "subtitle": "You can view all your purchased tickets here.",
+    "loading": "Loading...",
+    "errorLoading": "An error occurred while fetching ticket data.",
+    "currentTickets": "Active Tickets",
+    "pastTickets": "Past Tickets",
+    "noCurrent": "No active tickets found.",
+    "noPast": "No past tickets found.",
+    "hall": "Hall",
+    "showtime": "Showtime"
   },
 
   "favorites": {
@@ -416,7 +451,9 @@
     "max": "Enter at most {max} characters.",
     "invalidEmail": "Please enter a valid email address.",
     "authRequired": "You need to sign in to access this resource.",
-    "invalid": "Invalid request. Please check your information."
+    "invalid": "Invalid request. Please check your information.",
+    "passwordMismatch": "Passwords do not match.",
+    "invalidCode": "Invalid or expired code."
   },
 
   "notifications": {
@@ -440,7 +477,9 @@
     "enterSurname": "Enter your surname",
     "enterPromo": "Enter your code",
     "enterEmailOrPhone": "Enter your mobile number or email address",
-    "enterPhone": "Enter your phone number"
+    "enterPhone": "Enter your phone number",
+    "enterCode": "Enter 6-digit code",
+    "repeatPassword": "Repeat password"
   },
 
   "a11y": {
