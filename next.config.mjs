@@ -19,12 +19,6 @@ export default withNextIntl({
   },
 
   async redirects() {
-    return [
-      {
-        source: "/:locale/reset-password",
-        destination: "/:locale/forgot-password",
-        permanent: true,
-      },
-    ];
+    return [];
   },
 });
