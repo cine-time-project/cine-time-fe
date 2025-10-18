@@ -4,20 +4,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form,
-  InputGroup,
-  NavDropdown,
-  Modal,
-  Button,
-  Offcanvas,
+import {Navbar,Nav,Container,Form,InputGroup,NavDropdown,Modal,Button,Offcanvas,
 } from "react-bootstrap";
 import "./header.scss";
 import { useRouter } from "next/navigation";
-
 import { searchMovies } from "@/services/movie-serviceDP";
 
 
