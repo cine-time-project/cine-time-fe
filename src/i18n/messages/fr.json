@@ -436,7 +436,11 @@
     "authRequired": "Vous devez vous connecter pour accéder à cette ressource.",
     "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
     "passwordMismatch": "Les mots de passe ne correspondent pas.",
-    "invalidCode": "Code invalide ou expiré."
+    "invalidCode": "Code invalide ou expiré.",
+    "validationFailedForObject": "Échec de la validation pour l'objet « {object} ». Nombre d'erreurs : {count}",
+    "fetchFailed": "Échec du chargement des données. Veuillez vérifier votre connexion Internet ou le serveur.",
+    "variableNotDefined": "{variable} n'est pas défini.",
+    "fullAuthRequired": "Une authentification complète est requise pour accéder à cette ressource."
   },
 
   "notifications": {

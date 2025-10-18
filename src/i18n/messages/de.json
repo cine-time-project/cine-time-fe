@@ -447,7 +447,11 @@
     "passwordMismatch": "Passwörter stimmen nicht überein.",
     "invalid": "Ungültige Anfrage, bitte versuchen Sie es erneut.",
     "invalidCode": "Der Code ist ungültig oder abgelaufen.",
-    "userNotFound": "Kein Benutzer mit {email} gefunden"
+    "userNotFound": "Kein Benutzer mit {email} gefunden",
+    "validationFailedForObject": "Validierung fehlgeschlagen für Objekt='{object}'. Fehleranzahl: {count}",
+    "fetchFailed": "Daten konnten nicht abgerufen werden. Bitte überprüfen Sie Ihre Internetverbindung oder den Server.",
+    "variableNotDefined": "{variable} ist nicht definiert.",
+    "fullAuthRequired": "Für den Zugriff auf diese Ressource ist eine vollständige Authentifizierung erforderlich."
   },
 
   "notifications": {
