@@ -55,9 +55,18 @@ function hhmm(t) {
 const FALLBACK_IMG = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
 
 // If you later add posters, map each ticket to a poster URL here
-function resolvePoster(/*ticket*/) {
-  // e.g., if backend adds ticket.moviePosterUrl use that value.
-  return FALLBACK_IMG;
+function resolvePoster(ticket) {
+  const raw = ticket?.moviePosterUrl;
+  if (!raw) return FALLBACK_IMG;
+  const url = String(raw).trim();
+  if (!url) return FALLBACK_IMG;
+  if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith("/")) {
+    const base = (API || "").replace(/\/api\/?$/, "");
+    return `${base}${url}`;
+  }
+  const base = (API || "").replace(/\/$/, "");
+  return `${base}/${url}`;
 }
 
 // Small ticket card
@@ -83,9 +92,10 @@ function TicketCard({ ticket, locale }) {
         <Image
           src={poster}
           alt={movieName}
-          fill
+          height={160}
+          width={120}
           unoptimized
-          sizes="(max-width: 1000px) 100vw, 360px"
+          sizes="70px"
           style={{ objectFit: "cover" }}
           onError={(e) => {
             try {
@@ -238,16 +248,16 @@ export default function PastTicketsPage() {
         .tickets-grid {
           display: grid;
           gap: 18px;
-          grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         }
         .ticket-card {
           display: grid;
-          grid-template-columns: 1.1fr 1fr;
+          grid-template-columns: 60px 1fr;
           background: #1d1f24;
           border: 1px solid #2b2e36;
           border-radius: 14px;
           overflow: hidden;
-          min-height: 200px;
+          min-height: 90px;
         }
         @media (max-width: 880px) {
           .ticket-card {
@@ -256,19 +266,19 @@ export default function PastTicketsPage() {
         }
         .ticket-card__media {
           position: relative;
-          min-height: 200px;
+          height: 90px; /* poster ~2:3 */
         }
         .ticket-card__body {
-          padding: 16px;
+          padding: 8px;
           display: grid;
           align-content: start;
-          gap: 10px;
+          gap: 4px;
         }
         .ticket-card__title {
           margin: 0;
           color: #fff;
           font-weight: 700;
-          font-size: 20px;
+          font-size: 13px;
         }
       `}</style>
     </div>
