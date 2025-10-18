@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import NearbyCinemaCard from "./NearbyCinemaCard";
+import { useTranslations } from "next-intl";
 
 // Harita merkezini güncelleyen hook
 function RecenterMap({ coords }) {
@@ -21,10 +22,11 @@ const normalizeURL = (url) =>
   url ? (url.startsWith("http") ? url : `https://${url}`) : null;
 
 export default function NearbyCinemasLeaflet() {
+  const tCinemas = useTranslations("cinemas")
   const [coords, setCoords] = useState(null);
   const [userCoords, setUserCoords] = useState(null);
   const [userIcon, setUserIcon] = useState(null);
-  const [city, setCity] = useState("Lokasyon Alınıyor...");
+  const [city, setCity] = useState(tCinemas("locating"));
   const [cinemas, setCinemas] = useState([]);
   const [searchCity, setSearchCity] = useState("");
   const [loading, setLoading] = useState(false);
@@ -72,14 +74,14 @@ export default function NearbyCinemasLeaflet() {
             );
             const d = await r.json();
             const cityName =
-              d.address.city || d.address.town || d.address.state || "Bilinmeyen Konum";
+              d.address.city || d.address.town || d.address.state || tCinemas("noLocation");
             setCity(cityName);
             await loadNearbyCinemas(coords.latitude, coords.longitude);
           } catch {
-            setCity("Konum alınamadı");
+            setCity(tCinemas("noLocation"));
           }
         },
-        () => setCity("Konum izni reddedildi")
+        () => setCity(tCinemas("noLocPermission"))
       );
     }
   }, []);
@@ -151,7 +153,7 @@ export default function NearbyCinemasLeaflet() {
   const handleSearch = async () => {
     if (!searchCity) return;
     const newCoords = await getCoordsByCity(searchCity);
-    if (!newCoords) return alert("Şehir bulunamadı!");
+    if (!newCoords) return alert(tCinemas("noCity"));
     setCoords(newCoords);
     setCity(searchCity);
     await loadNearbyCinemas(newCoords[0], newCoords[1]);
@@ -170,23 +172,23 @@ export default function NearbyCinemasLeaflet() {
           type="text"
           value={searchCity}
           onChange={(e) => setSearchCity(e.target.value)}
-          placeholder="Şehir ara..."
+          placeholder={tCinemas("searchCity")}
         />
-        <Button onClick={handleSearch}>🔍 Ara</Button>
-        <Button onClick={handleFindCurrent} variant="success">
-          📍 Mevcut Konumda Bul
+        <Button onClick={handleSearch} variant="warning" className="rounded">{tCinemas("search")}</Button>
+        <Button onClick={handleFindCurrent} variant="secondary">
+          {tCinemas("findAround")}
         </Button>
       </InputGroup>
 
-      <p>Konum: <b>{city}</b></p>
+      <p className="mt-2">{tCinemas("location")}: <b>{city}</b></p>
 
       {loading ? (
         <div className="text-center">
           <Spinner animation="border" />
-          <p className="text-muted mt-2">Sinemalar yükleniyor...</p>
+          <p className="text-muted mt-2">{tCinemas("cinemasLoading")}</p>
         </div>
       ) : cinemas.length === 0 ? (
-        <p className="text-center text-muted">Henüz sinema bulunamadı.</p>
+        <p className="text-center text-muted">{tCinemas("noCinemaYet")}</p>
       ) : (
         <Row className="g-4 mb-5">
           {cinemas.map((c) => (

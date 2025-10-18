@@ -329,7 +329,19 @@
     "features": "Özellikler",
     "halls": "Salonlar",
     "selectCinema": "Sinema Seç",
-    "noCinemas": "Listelenecek sinema bulunamadı."
+    "noCinemas": "Listelenecek sinema bulunamadı.",
+    "findMore" : "Daha fazlasını bulun",
+    "locating" : "Lokasyon alınıyor",
+    "noLocation" : "Konum alınamadı",
+    "noLocPermission" : "Konum izni reddedildi",
+    "noCity" : "Şehir bulunamadı!",
+    "searchCity" : "Şehir ara",
+    "findAround" : "Mevcut konumda bul",
+    "location" : "Konum",
+    "cinemasLoading" : "Sinemalar yükleniyor...",
+    "noCinemaYet" : "Henüz sinema bulunamadı..",
+    "search" :"Ara"
+
   },
 
   "showtimes": {

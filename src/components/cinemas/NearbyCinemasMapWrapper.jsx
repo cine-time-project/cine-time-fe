@@ -1,7 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import SectionTitle from "../SectionTitle";
+import SectionTitle from "../common/SectionTitle";
+import { useTranslations } from "next-intl";
+
 
 // Harita component’ini sadece client-side render et
 const NearbyCinemasLeaflet = dynamic(
@@ -10,9 +12,10 @@ const NearbyCinemasLeaflet = dynamic(
 );
 
 export default function NearbyCinemasMapWrapper() {
+  const tCinema = useTranslations("cinemas");
   return (
-    <div className="p-4 space-y-4">
-      <SectionTitle>🎬 Daha Fazlasını Bulun</SectionTitle>
+    <div className="">
+      <SectionTitle>{tCinema("findMore")}</SectionTitle>
       <NearbyCinemasLeaflet />
     </div>
   );

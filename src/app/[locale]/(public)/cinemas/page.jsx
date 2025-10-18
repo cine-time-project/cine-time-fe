@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { authHeaders } from "@/lib/utils/http";
 import { config } from "@/helpers/config.js";
-import NearbyCinemasMapWrapper from "@/components/common/cinemas/NearbyCinemasMapWrapper";
+import NearbyCinemasMapWrapper from "@/components/cinemas/NearbyCinemasMapWrapper";
 
 const API = config.apiURL; // e.g. http://localhost:8090/api
 
