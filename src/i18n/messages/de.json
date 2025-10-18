@@ -446,7 +446,8 @@
     "invalidPhone": "Bitte eine gültige Telefonnummer eingeben.",
     "passwordMismatch": "Passwörter stimmen nicht überein.",
     "invalid": "Ungültige Anfrage, bitte versuchen Sie es erneut.",
-    "invalidCode": "Der Code ist ungültig oder abgelaufen."
+    "invalidCode": "Der Code ist ungültig oder abgelaufen.",
+    "userNotFound": "Kein Benutzer mit {email} gefunden"
   },
 
   "notifications": {
