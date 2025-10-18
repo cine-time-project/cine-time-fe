@@ -11,6 +11,7 @@ export default function ResetPasswordPage() {
   const locale = useLocale();
   const params = useSearchParams();
   const email = params.get("email") || "";
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (email === null || email === undefined) return;
 
@@ -44,15 +45,14 @@ export default function ResetPasswordPage() {
 
     setPending(true);
     try {
-      const response = await fetch(`${config.apiURL}/reset-password-code`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          code,
-          newPassword: password,
-        }),
-      });
+     const response = await fetch(`${API_BASE}/reset-password-direct`, {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify({
+         email: email,
+         newPassword: password,
+       }),
+     });
 
       const raw = await response.text();
       let data;

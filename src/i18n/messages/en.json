@@ -454,7 +454,11 @@
     "invalid": "Invalid request. Please check your information.",
     "passwordMismatch": "Passwords do not match.",
     "invalidCode": "Invalid or expired code.",
-    "userNotFound": "User not found with {email}"
+    "userNotFound": "User not found with {email}",
+    "validationFailedForObject": "Validation failed for object='{object}'. Error count: {count}",
+    "fetchFailed": "Failed to fetch data. Please check your internet connection or server.",
+    "variableNotDefined": "{variable} is not defined.",
+    "fullAuthRequired": "Full authentication is required to access this resource."
   },
 
   "notifications": {

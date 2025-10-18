@@ -449,7 +449,11 @@
     "max": "En fazla {max} karakter girin.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
     "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
-    "passwordMismatch": "Şifreler eşleşmiyor."
+    "passwordMismatch": "Şifreler eşleşmiyor.",
+    "validationFailedForObject": "Doğrulama başarısız: nesne='{object}'. Hata sayısı: {count}",
+    "fetchFailed": "Veri alınamadı. Lütfen internet bağlantınızı veya sunucuyu kontrol edin.",
+    "variableNotDefined": "{variable} tanımlı değil.",
+    "fullAuthRequired": "Bu kaynağa erişmek için tam kimlik doğrulaması gereklidir."
   },
 
   "notifications": {
