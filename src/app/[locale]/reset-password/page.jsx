@@ -107,18 +107,6 @@ export default function ResetPasswordPage() {
 
             <Form onSubmit={onSubmit} className={styles.resetForm}>
               <Form.Group className="mb-3">
-                <Form.Label>{tForms("verificationCode")}</Form.Label>
-                <Form.Control
-                  type="text"
-                  maxLength={6}
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  placeholder={tPlaceholders("enterCode")}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
                 <Form.Label>{tForms("newPassword")}</Form.Label>
                 <Form.Control
                   type="password"
