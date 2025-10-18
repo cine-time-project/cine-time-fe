@@ -12,7 +12,6 @@ export default function HomePage() {
   return (
     <div>
       <HeroCarousel query={"presale"} />
-
       <SectionTitle padding="px-5">{t("inTheaters")}</SectionTitle>
       <MovieStripe query={"in_theaters"} />
       <Spacer />
@@ -22,7 +21,6 @@ export default function HomePage() {
       <SectionTitle padding="px-5">{t("preSale")}</SectionTitle>
       <MovieStripe query={"presale"} />
       <Spacer />
-      
     </div>
   );
 }

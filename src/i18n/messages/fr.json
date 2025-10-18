@@ -307,14 +307,25 @@
   },
 
   "cinemas": {
-    "listTitle": "Cinémas",
-    "address": "Adresse",
-    "phone": "Téléphone",
-    "features": "Caractéristiques",
-    "halls": "Salles",
-    "selectCinema": "Choisir un cinéma",
-    "noCinemas": "Aucun cinéma trouvé."
-  },
+  "listTitle": "Cinémas",
+  "address": "Adresse",
+  "phone": "Téléphone",
+  "features": "Caractéristiques",
+  "halls": "Salles",
+  "selectCinema": "Sélectionner un cinéma",
+  "noCinemas": "Aucun cinéma trouvé à afficher.",
+  "findMore": "Trouver plus",
+  "locating": "Localisation en cours",
+  "noLocation": "Impossible d'obtenir la position",
+  "noLocPermission": "Permission de localisation refusée",
+  "noCity": "Ville introuvable !",
+  "searchCity": "Rechercher une ville",
+  "findAround": "Trouver près de la position actuelle",
+  "location": "Emplacement",
+  "cinemasLoading": "Chargement des cinémas...",
+  "noCinemaYet": "Aucun cinéma trouvé pour le moment...",
+  "search" :"Rechercher"
+},
 
   "showtimes": {
     "date": "Date",

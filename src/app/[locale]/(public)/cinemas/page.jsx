@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { authHeaders } from "@/lib/utils/http";
 import { config } from "@/helpers/config.js";
+import NearbyCinemasMapWrapper from "@/components/cinemas/NearbyCinemasMapWrapper";
 
 const API = config.apiURL; // e.g. http://localhost:8090/api
 
@@ -262,6 +263,7 @@ export default function CinemasPage() {
           font-size: 20px;
         }
       `}</style>
+      <NearbyCinemasMapWrapper />
     </div>
   );
 }

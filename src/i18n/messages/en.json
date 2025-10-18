@@ -324,14 +324,26 @@
   },
 
   "cinemas": {
-    "listTitle": "Cinemas",
-    "address": "Address",
-    "phone": "Phone",
-    "features": "Features",
-    "halls": "Halls",
-    "selectCinema": "Select Cinema",
-    "noCinemas": "No cinemas found."
-  },
+  "listTitle": "Cinemas",
+  "address": "Address",
+  "phone": "Phone",
+  "features": "Features",
+  "halls": "Halls",
+  "selectCinema": "Select Cinema",
+  "noCinemas": "No cinemas found to list.",
+  "findMore": "Find more",
+  "locating": "Getting location",
+  "noLocation": "Location could not be obtained",
+  "noLocPermission": "Location permission denied",
+  "noCity": "City not found!",
+  "searchCity": "Search city",
+  "findAround": "Find near current location",
+  "location": "Location",
+  "cinemasLoading": "Cinemas loading...",
+  "noCinemaYet": "No cinema found yet...",
+  "search" :"Search"
+}
+,
 
   "showtimes": {
     "date": "Date",
