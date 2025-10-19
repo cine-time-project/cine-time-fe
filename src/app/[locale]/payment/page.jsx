@@ -6,6 +6,58 @@ import { Form, Button, Alert, Spinner, Badge } from "react-bootstrap";
 import { loadPendingOrder, clearPendingOrder } from "@/lib/utils/checkout";
 import { API_BASE as API, authHeaders } from "@/lib/utils/http";
 
+// --- UI helpers ---
+const fmtDateLong = (dateStr) => {
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+};
+const fmtTime = (timeStr) => (timeStr || "").slice(0, 5);
+
+// Very simple .ics generator for "Add to calendar"
+function buildCalendarICS({ title, description, startISO, endISO, location }) {
+  const pad = (n) => String(n).padStart(2, "0");
+  const toUTC = (iso) => {
+    const d = new Date(iso);
+    return (
+      d.getUTCFullYear() +
+      pad(d.getUTCMonth() + 1) +
+      pad(d.getUTCDate()) +
+      "T" +
+      pad(d.getUTCHours()) +
+      pad(d.getUTCMinutes()) +
+      pad(d.getUTCSeconds()) +
+      "Z"
+    );
+  };
+  const dtStart = toUTC(startISO);
+  const dtEnd = toUTC(endISO);
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//CineTime//EN",
+    "BEGIN:VEVENT",
+    `UID:${Date.now()}@cinetime`,
+    `DTSTAMP:${dtStart}`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    `SUMMARY:${(title || "").replace(/\n/g, " ")}`,
+    `DESCRIPTION:${(description || "").replace(/\n/g, " ")}`,
+    `LOCATION:${(location || "").replace(/\n/g, " ")}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+  return new Blob([ics], { type: "text/calendar" });
+}
+
 export default function PaymentPage() {
   const router = useRouter();
   const pathname = usePathname();
@@ -43,6 +95,46 @@ export default function PaymentPage() {
       setError("Sipariş bulunamadı. Lütfen bilet seçim sayfasına dönün.");
     }
   }, []);
+
+  // Prefill purchaser fields from backend profile (/api/user-information)
+  useEffect(() => {
+    let isMounted = true;
+
+    (async () => {
+      try {
+        const res = await axios.get(`${API}/user-information`, {
+          headers: authHeaders({ Accept: "application/json" }),
+          validateStatus: () => true,
+        });
+
+        if (res.status === 200) {
+          const body = res.data?.returnBody ?? res.data ?? {};
+          const f = (body?.name || "").trim();
+          const l = (body?.surname || "").trim();
+          const em = (body?.email || "").trim();
+          const ph = (body?.phoneNumber || "").trim();
+
+          if (!isMounted) return;
+
+          // Only set if user hasn't typed yet
+          if (!firstName && f) setFirstName(f);
+          if (!lastName && l) setLastName(l);
+          if (!email && em) setEmail(em);
+          if (!phone && ph) setPhone(ph);
+
+          // Suggest card holder name from profile if empty
+          const fullName = `${f} ${l}`.trim();
+          if (!cardName && fullName) setCardName(fullName);
+        }
+      } catch (_e) {
+        // ignore prefill failures; do not block checkout
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [API]);
 
   const seatBadges = useMemo(() => {
     if (!order?.seats?.length) return null;
@@ -168,40 +260,99 @@ export default function PaymentPage() {
 
         {!success && (
           <div className="row g-3">
-            {/* Left summary */}
+            {/* Left summary (ticket look) */}
             <div className="col-lg-4">
-              <div
-                className="p-3 rounded"
-                style={{ background: "#22252b", border: "1px solid #333" }}
-              >
-                <div className="mb-2">
-                  <div className="text-muted small">Sinema</div>
-                  <div className="fw-semibold">{order.cinemaName}</div>
+              <div className="ticket-summary p-3 rounded">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <Button
+                    variant="link"
+                    className="p-0 link-light link-underline-opacity-0"
+                    onClick={() => router.back()}
+                  >
+                    Cancel My Reservation
+                  </Button>
                 </div>
-                <div className="mb-2">
-                  <div className="text-muted small">Film</div>
-                  <div className="fw-semibold">{order.movieTitle}</div>
-                </div>
-                <div className="mb-2">
-                  <div className="text-muted small">Salon / Seans</div>
-                  <div className="fw-semibold">
-                    {order.hall} — {order.date} {order.time}
+
+                {/* QR placeholder */}
+                <div className="d-flex justify-content-center my-3">
+                  <div className="qr-circle">
+                    <div className="qr-inner">QR</div>
                   </div>
                 </div>
-                <div className="mb-2">
-                  <div className="text-muted small">Koltuklar</div>
-                  <div>{seatBadges}</div>
+
+                <div className="ticket-field">
+                  <div className="label">TICKETS</div>
+                  <div className="value">
+                    {order.seats.length} Adult
+                    {order.seats.length > 1 ? "s" : ""}
+                  </div>
                 </div>
-                <hr />
-                <div className="d-flex justify-content-between">
-                  <span>Bilet Bedeli</span>
-                  <span>
-                    {order.seats.length} × {formatUSD(order.pricing.unitPrice)}
-                  </span>
+
+                <div className="ticket-field">
+                  <div className="label">AUDITORIUM</div>
+                  <div className="value">{order.hall}</div>
                 </div>
-                <div className="d-flex justify-content-between fw-bold">
-                  <span>Toplam</span>
-                  <span>{formatUSD(order.pricing.total)}</span>
+
+                <div className="ticket-field">
+                  <div className="label">SEATS</div>
+                  <div className="value">{seatBadges}</div>
+                </div>
+
+                <div className="ticket-field">
+                  <div className="label">THEATRE</div>
+                  <div className="value">{order.cinemaName}</div>
+                </div>
+
+                <div className="ticket-field">
+                  <div className="label">DATE</div>
+                  <div className="value d-grid gap-1">
+                    <div className="fw-semibold">{fmtDateLong(order.date)}</div>
+                    <div className="text-muted small">
+                      at {fmtTime(order.time)}
+                    </div>
+                    <div>
+                      <Button
+                        size="sm"
+                        variant="link"
+                        className="p-0 link-warning"
+                        onClick={() => {
+                          const start = new Date(
+                            `${order.date}T${fmtTime(order.time)}:00`
+                          );
+                          const end = new Date(
+                            start.getTime() + 2 * 60 * 60 * 1000
+                          ); // +2h
+                          const blob = buildCalendarICS({
+                            title: order.movieTitle,
+                            description: `${order.cinemaName} — ${order.hall}`,
+                            startISO: start.toISOString(),
+                            endISO: end.toISOString(),
+                            location: order.cinemaName,
+                          });
+                          const url = URL.createObjectURL(blob);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = `${order.movieTitle.replace(
+                            /[^a-z0-9]+/gi,
+                            "-"
+                          )}.ics`;
+                          document.body.appendChild(a);
+                          a.click();
+                          a.remove();
+                          URL.revokeObjectURL(url);
+                        }}
+                      >
+                        Add to calendar
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="ticket-field mt-3">
+                  <div className="label">PAYMENT</div>
+                  <div className="value fw-bold">
+                    {formatUSD(order.pricing.total)}
+                  </div>
                 </div>
               </div>
             </div>
@@ -327,6 +478,47 @@ export default function PaymentPage() {
           </div>
         )}
       </div>
+      <style jsx>{`
+        .ticket-summary {
+          background: #111418;
+          border: 1px solid #23262d;
+        }
+        .ticket-field {
+          margin-bottom: 12px;
+        }
+        .ticket-field .label {
+          color: #9aa0a6;
+          font-size: 12px;
+          letter-spacing: 0.08em;
+        }
+        .ticket-field .value {
+          color: #e9ecef;
+        }
+        .qr-circle {
+          width: 156px;
+          height: 156px;
+          border-radius: 50%;
+          border: 6px solid #e5465a;
+          display: grid;
+          place-items: center;
+        }
+        .qr-inner {
+          width: 104px;
+          height: 104px;
+          background: repeating-linear-gradient(
+            45deg,
+            #000,
+            #000 6px,
+            #222 6px,
+            #222 12px
+          );
+          border-radius: 8px;
+          color: #fff;
+          display: grid;
+          place-items: center;
+          font-weight: 800;
+        }
+      `}</style>
     </div>
   );
 }
