@@ -3,11 +3,13 @@
 import { useAuth } from "@/components/providers/AuthProvider";
 import Link from "next/link";
 import { NavDropdown } from "react-bootstrap";
+import { useLocalStorageUser } from "./useLocalStorageUser";
 
 export default function AccountDropdown({ L, tNav }) {
-  // --- AUTH CONTEXT ---
-  // We consume the AuthProvider context to get the current user and logout function
-  const { user, logout } = useAuth();
+ // Get logout function from auth context
+  const { logout } = useAuth();
+  // Get user data from localStorage hook
+  const user = useLocalStorageUser();
 
   return (
     <NavDropdown
