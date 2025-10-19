@@ -730,5 +730,82 @@
     "bookNow": "Book Now",
     "details": "Details",
     "trailer": "Trailer"
+  },
+  
+  "experiences": {
+    "shared": {
+      "bookNow": "Buy Ticket",
+      "reserve": "Reserve",
+      "laserProjection": "Laser projection",
+      "immersiveAudio": "Immersive audio",
+      "premiumSeats": "Premium seats",
+      "crystalClear": "Crystal-clear image",
+      "massiveScreen": "Massive screen",
+      "preciseSound": "Precise sound"
+    },
+
+    "imax": {
+      "title": "IMAX Experience",
+      "subtitle": "Breathtaking scale and clarity",
+      "body": "IMAX fuses a wall-to-wall screen, purpose-built auditorium geometry and laser projection to push image size and fidelity to the limit. Enhanced brightness and contrast preserve detail even in the darkest scenes, while the tuned sound system delivers every nuance with power and precision. The result is a cinema experience that feels larger than life.",
+      "tile1": "Maximum brightness and contrast: laser projection renders deeper blacks, brighter whites and accurate color from scene to scene—ideal for high-dynamic-range cinematography.",
+      "tile2": "Floor-to-ceiling immersion: the giant, slightly curved screen fills your field of view so you perceive more of the frame without turning your head.",
+      "tile3": "Sound you can feel: a custom-calibrated multi-channel system keeps whispers clear and impact thunderous, with convincing direction and distance."
+    },
+
+    "4dx": {
+      "title": "4DX Motion Theater",
+      "subtitle": "Feel every scene",
+      "body": "4DX brings the action off the screen and into your seat with motion and environmental effects. Wind, rain, scent and light cues are synchronized to the picture, lifting adrenaline and presence without overwhelming comfort.",
+      "motion": "Motion Seats",
+      "motionDesc": "Seats move up/down, left/right and forward/back to simulate acceleration, vibration and turns—timed precisely to the rhythm of the scene.",
+      "scent": "Scent",
+      "scentDesc": "Subtle aromas triggered in select moments to reinforce setting and mood, applied sparingly to avoid fatigue.",
+      "wind": "Wind",
+      "windDesc": "From gentle breeze to storm gusts, wind enhances speed and outdoor sequences with a natural feel.",
+      "rain": "Rain",
+      "rainDesc": "Fine mist and droplets to support rain and splash scenes; region-controlled for comfort.",
+      "dynamicChairs": "Dynamic chairs",
+      "environmentFX": "Wind, rain and scent FX"
+    },
+
+    "atmos": {
+      "title": "Dolby Atmos",
+      "subtitle": "Object-based 3D audio",
+      "body": "Dolby Atmos treats sounds as individual objects and adds overhead channels to introduce height. A helicopter can pass convincingly above you, and rain can fall around you with natural direction and distance. Wide dynamic range and low noise keep even the tiniest details intact.",
+      "objectAudio": "Object-based audio",
+      "objectAudioDesc": "Each sound element carries precise positional metadata, mixed for the room and calibrated so it’s heard exactly where it belongs.",
+      "ceilingSpeakers": "Ceiling speakers",
+      "ceilingDesc": "The height layer completes true 3D space, adding realism to rain, flight and ambient effects.",
+      "precision": "Studio-grade precision",
+      "placement": "Accurate placement"
+    },
+
+    "vip": {
+      "title": "CineTime VIP",
+      "subtitle": "Maximum comfort, minimal noise",
+      "body": "CineTime VIP turns moviegoing into personal comfort. Spacious recliners and extra legroom keep you relaxed in longer features, while a quieter atmosphere, limited capacity and dedicated service minimize distractions.",
+      "recliners": "Recliner seats",
+      "reclinersDesc": "Adjustable back and leg support for ergonomic posture; soft upholstery and generous width for long-form comfort.",
+      "lounge": "Lounge",
+      "loungeDesc": "A calm space to unwind before or after the show—light refreshments, charging points and cozy seating.",
+      "service": "Service",
+      "serviceDesc": "Snacks and drinks delivered to your seat so you never miss a moment.",
+      "welcomeDrink": "Welcome drink",
+      "extraComfort": "Extra comfort"
+    },
+
+    "family": {
+      "title": "Family Lounge",
+      "subtitle": "Cinema that fits families",
+      "body": "Designed so parents and kids can enjoy the big screen together with ease. Softer lighting, generous seating and convenient amenities make short breaks simple and stress-free. Volume and content choices are balanced with family expectations in mind.",
+      "kidsArea": "Kids’ area",
+      "kidsAreaDesc": "A safe corner with age-appropriate toys, coloring books and soft seating. Perfect for pre/post-show energy; open sightlines let parents supervise comfortably.",
+      "babyCare": "Baby care corner",
+      "babyCareDesc": "Changing table, wipes station and a comfortable nursing chair—handle essentials without leaving the lounge. Nearby sinks and hygiene bins streamline quick cleanups.",
+      "toys": "Toys & books",
+      "babyFriendly": "Baby-friendly services"
+    }
   }
 }
+

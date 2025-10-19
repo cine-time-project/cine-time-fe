@@ -1,0 +1,74 @@
+/* /src/styles/experience.scss */
+
+/* Renkler */
+:root {
+  --brand-yellow: #f2c200;
+  --tile-bg: #141414;
+  --text-strong: rgba(255,255,255,.96);
+  --text-mid: rgba(40, 34, 34, 0.9);
+  --text-dim: rgba(255,255,255,.75);
+}
+
+.exp { padding: clamp(16px, 3vw, 28px); }
+
+/* HERO – boşluklar azaltıldı */
+.exp__hero { display: grid; gap: 16px; grid-template-columns: 1fr; align-items: center; }
+.exp__hero--big { margin-bottom: 40px; }
+@media (min-width: 992px){
+  .exp__hero { grid-template-columns: 1.2fr 1fr; gap: 18px; }
+}
+
+.exp__title { font-size: clamp(28px, 4vw, 52px); font-weight: 800; color: var(--brand-yellow); margin: 0; }
+.exp__subtitle { color: var(--text-dim); margin-top: 4px; }
+.exp__media { position: relative; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden; }
+.exp__img { object-fit: cover; }
+
+/* Gövde metni */
+.exp__body { margin-top: 8px; }
+.exp__lead {
+  color: var(--text-mid);
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.7;
+  max-width: 72ch;
+}
+
+/* ÖZELLİK LİSTESİ – beyaz zeminde koyu, koyu zeminde açık */
+.exp__features{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 10px 18px;
+  margin: 16px 0 0;
+}
+.exp__featureItem{
+  display:flex; align-items:center; gap:10px;
+  color:#655f5f;                 /* <- beyaz zemin için KOYU metin */
+  font-size:1rem; line-height:1.5; font-weight:900;
+}
+.exp--dark .exp__featureItem{ color: var(--text-strong); } /* koyu bölümde aç */
+.exp__featureText{ color:inherit; }
+
+/* PrimeIcons / emoji */
+.exp__pi{ font-size:1.15rem; color:var(--brand-yellow); }
+.exp__emoji{ font-size:1.15rem; filter:drop-shadow(0 0 1px rgba(0,0,0,.25)); }
+
+/* TILES */
+.exp__tiles{ margin-top:18px; display:grid; gap:16px; grid-template-columns:1fr; }
+@media (min-width:768px){ .exp__tiles--grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1200px){ .exp__tiles--grid{ grid-template-columns:repeat(4,1fr); } }
+
+.expTile{ background:var(--tile-bg); border-radius:16px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,.25); }
+.expTile__media{ position:relative; aspect-ratio:16/10; }
+.expTile__content{ padding:18px 16px; }
+.expTile__content h3{ color:var(--brand-yellow); font-weight:800; margin:0 0 6px; }
+.expTile__desc{ color:var(--text-strong); line-height:1.65; font-size:1rem; }
+
+/* CTA */
+.exp__cta{ margin:24px 0; display:flex; justify-content:center; }
+.btn-cta{ background:var(--brand-yellow); color:#000; font-weight:800; padding:10px 20px; border-radius:999px; }
+.btn-cta:hover{ filter:brightness(.95); }
+
+
+.exp__lead--inHero {
+  margin-top: 8px;           /* başlıkla arayı aç */
+  max-width: 60ch;           /* satır uzunluğu kontrol */
+}
