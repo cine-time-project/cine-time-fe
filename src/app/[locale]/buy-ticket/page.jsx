@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 import { Form, Button, Spinner, Alert, Badge } from "react-bootstrap";
-import SeatMap from "@/components/tickets/SeatMap";
+import SeatPickerRemote from "@/components/tickets/SeatMap";
  import { authHeaders } from "@/lib/utils/http";
  import {
    cinemaByIdApi,
@@ -141,13 +141,6 @@ export default function BuyTicketPage() {
     setSelectedSeats([]);
   }, [sessions, selectedHall, selectedTime]);
 
-  // SeatMap toggler: stores "A1","B3",...
-  const toggleSeat = (letter, number) => {
-    const id = `${letter}${number}`;
-    setSelectedSeats((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
 
   // ---- CONTINUE TO PAYMENT (save order -> navigate) ----------------------
   const continueToPayment = () => {
@@ -301,13 +294,18 @@ export default function BuyTicketPage() {
         {/* seat map */}
         <div className="mb-3">
           <Form.Label className="text-muted">Koltuk Seçimi</Form.Label>
-          <SeatMap
+          <SeatPickerRemote
             rows={ROWS}
             cols={COLS}
-            selectedSeats={selectedSeats}
-            onToggleSeat={toggleSeat}
-            lockSelection={!canPickSeats}
-            lockMessage="Önce salon ve saat seçiniz"
+            movieName={movie?.title || ""}
+            hall={selectedHall}
+            cinema={cinema?.name || ""}
+            dateISO={date}
+            timeISO={selectedTime}
+            value={selectedSeats}
+            onChange={setSelectedSeats}
+            // Automatically locks until all identifiers exist
+            lockWhenMissingFields={true}
           />
         </div>
 

@@ -16,7 +16,7 @@
     "moment": "^2.30.1",
     "next": "^15.5.4",
     "next-auth": "^4.24.11",
-    "next-intl": "^4.3.9",
+    "next-intl": "^4.3.12",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
