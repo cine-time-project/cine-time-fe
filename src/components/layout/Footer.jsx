@@ -66,35 +66,32 @@ export default function Footer() {
               </ul>
             </Col>
 
-            {/* Ayrıcalıklı Salonlar */}
-            <Col md={3} className="footer-col">
-              <h5>{tFooter("sections.premiumCinemas.title")}</h5>
-              <ul>
-                <li>
-                  <Link href={L("cinemas/vip")}>{tFooter("premium.vip")}</Link>
-                </li>
-                <li>
-                  <Link href={L("cinemas/imax")}>
-                    {tFooter("premium.imax")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={L("cinemas/4dx")}>
-                    {tFooter("premium.fourdx")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={L("cinemas/dolby")}>
-                    {tFooter("premium.dolby")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href={L("cinemas/family")}>
-                    {tFooter("premium.family")}
-                  </Link>
-                </li>
-              </ul>
-            </Col>
+          {/* Ayrıcalıklı Salonlar */}
+<Col md={3} className="footer-col">
+  <h5>{tFooter("sections.premiumCinemas.title")}</h5>
+  <ul>
+    <li>
+      <Link href={L("experiences/vip")}>{tFooter("premium.vip")}</Link>
+    </li>
+    <li>
+      <Link href={L("experiences/imax")}>{tFooter("premium.imax")}</Link>
+    </li>
+    <li>
+      <Link href={L("experiences/4dx")}>{tFooter("premium.fourdx")}</Link>
+    </li>
+    <li>
+      <Link href={L("experiences/dolby-atmos")}>
+        {tFooter("premium.dolby")}
+      </Link>
+    </li>
+    <li>
+      <Link href={L("experiences/family-lounge")}>
+        {tFooter("premium.family")}
+      </Link>
+    </li>
+  </ul>
+</Col>
+
 
             {/* İletişim */}
             <Col md={3} className="footer-col">
