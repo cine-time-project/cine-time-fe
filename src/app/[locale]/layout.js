@@ -1,6 +1,7 @@
 // src/app/[locale]/layout.jsx
 import { notFound } from "next/navigation";
-import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/footer/Footer";
 import ClientProviders from "@/components/providers/ClientProviders";
 import Header from "@/components/layout/header/Header";
 
