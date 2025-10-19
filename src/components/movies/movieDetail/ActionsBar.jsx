@@ -100,7 +100,7 @@ const favTitle = !mounted
            type="button"
                      className={[styles.iconBtn, styles.neutral].join(" ")}
 
-           onClick={toggleFavorite}
+          onClick={playTrailer}
           title={tMovies("trailer", { default: "Fragman" })}
           aria-label={tMovies("trailer", { default: "Fragman" })}
           aria-disabled={!movie?.trailerUrl}

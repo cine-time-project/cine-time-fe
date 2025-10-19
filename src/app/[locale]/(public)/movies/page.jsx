@@ -9,9 +9,14 @@ import { Container, Row, Col, Button, Offcanvas } from "react-bootstrap";
 import MovieCardSkeleton from "@/components/movies/movie-card/MovieCardSkeleton";
 import { useResponsiveSkeletonCount } from "@/components/movies/useResponsiveSkeletonCount";
 
+import { useSearchParams } from "next/navigation";
+
 const PAGE_SIZE = 10;
 
 export default function MoviesPage() {
+
+  const params = useSearchParams();         
+  const initGenre = params.get("genre");     // ex: "Comedy"
   // -------------------------
   // State declarations
   // -------------------------
@@ -20,7 +25,9 @@ export default function MoviesPage() {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filters, setFilters] = useState({});
+ const [filters, setFilters] = useState(() =>
+    initGenre ? { genre: [initGenre] } : {}
+  );
   const [showFilters, setShowFilters] = useState(false);
 
   const skeletonCount = useResponsiveSkeletonCount(); // Responsive skeleton count
