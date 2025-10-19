@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import Link from "next/link";
@@ -11,12 +12,12 @@ export default function LoginForm({ onLogin, pending }) {
   const tErrors = useTranslations("errors");
   const tPlaceholders = useTranslations("placeholders");
 
-  const resolveErrorMessage = (error) =>
-    error?.message ?? (error?.key ? tErrors(error.key, { default: "" }) : "");
-
   const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [rememberMe, setRememberMe] = useState(true);
   const [fieldErrors, setFieldErrors] = useState({});
+
+  const resolveErrorMessage = (error) =>
+    error?.message ?? (error?.key ? tErrors(error.key, { default: "" }) : "");
 
   const updateField = (name) => (e) => {
     const value = e?.target?.value ?? "";
@@ -26,8 +27,7 @@ export default function LoginForm({ onLogin, pending }) {
 
   const validate = () => {
     const nextErrors = {};
-    if (!formData.identifier.trim())
-      nextErrors.identifier = { key: "required" };
+    if (!formData.identifier.trim()) nextErrors.identifier = { key: "required" };
     if (!formData.password) nextErrors.password = { key: "required" };
     setFieldErrors(nextErrors);
     return nextErrors;
@@ -93,7 +93,7 @@ export default function LoginForm({ onLogin, pending }) {
         </InputGroup>
       </Form.Group>
 
-      {/* Remember + Forgot */}
+      {/* Remember + Forgot Password */}
       <div className={styles.loginCardMeta}>
         <Form.Check
           id="login-remember"
@@ -102,28 +102,14 @@ export default function LoginForm({ onLogin, pending }) {
           checked={rememberMe}
           onChange={(e) => setRememberMe(e.target.checked)}
         />
-        <Link
-          href={`/${locale}/forgot-password`}
-          className={styles.loginCardLink}
-        >
+        <Link href={`/${locale}/forgot-password`} className={styles.loginCardLink}>
           {tAuth("forgotPassword")}
         </Link>
       </div>
 
-      <Button
-        type="submit"
-        className={styles.loginCardSubmit}
-        disabled={pending}
-      >
-        {pending && (
-          <span
-            className="spinner-border spinner-border-sm"
-            aria-hidden="true"
-          />
-        )}
-        <span className={styles.loginCardSubmitLabel}>
-          {pending ? tAuth("loggingIn") : tAuth("login")}
-        </span>
+      <Button type="submit" className={styles.loginCardSubmit} disabled={pending}>
+        {pending && <span className="spinner-border spinner-border-sm" aria-hidden="true" />}
+        <span className={styles.loginCardSubmitLabel}>{pending ? tAuth("loggingIn") : tAuth("login")}</span>
       </Button>
     </Form>
   );
