@@ -1,0 +1,29 @@
+/* /src/styles/experience.scss */
+.exp { padding: clamp(16px, 3vw, 32px); }
+
+.exp__hero { display: grid; gap: 24px; grid-template-columns: 1fr; align-items: center; }
+.exp__hero--big { margin-bottom: 12px; }
+@media (min-width: 992px){ .exp__hero { grid-template-columns: 1.2fr 1fr; } }
+
+.exp__title { font-size: clamp(28px, 4vw, 52px); font-weight: 800; color: #f2c200; }
+.exp__subtitle { color: rgba(255,255,255,.8); margin-top: 6px; }
+.exp__media { position: relative; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden; }
+.exp__img { object-fit: cover; }
+
+.exp__lead { color: rgba(255,255,255,.85); font-size: clamp(16px, 1.2vw, 18px); margin-top: 10px; }
+
+.exp__features { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin: 18px 0 6px; }
+.exp__icon { margin-right: 8px; }
+
+.exp__tiles { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 768px){ .exp__tiles--grid { grid-template-columns: repeat(2,1fr); } }
+@media (min-width: 1200px){ .exp__tiles--grid { grid-template-columns: repeat(4,1fr); } }
+
+.expTile { background: #121212; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.expTile__media { position: relative; aspect-ratio: 16/10; }
+.expTile__content { padding: 14px; }
+.expTile__desc { color: rgba(255,255,255,.8); }
+
+.exp__cta { margin: 28px 0; display:flex; justify-content:center; }
+.btn-cta { background:#f2c200; color:#000; font-weight:800; padding:10px 20px; border-radius:999px; }
+.btn-cta:hover { filter:brightness(.95); }
