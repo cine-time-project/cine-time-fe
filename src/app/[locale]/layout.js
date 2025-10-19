@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/layout/footer/Footer";
 import ClientProviders from "@/components/providers/ClientProviders";
 import Header from "@/components/layout/header/Header";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const SUPPORTED = ["tr", "en", "de", "fr"];
 
@@ -25,11 +26,13 @@ export default async function LocaleLayout({ children, params }) {
 
   return (
     <ClientProviders locale={locale} messages={messages}>
-      <div className="page-wrapper">
-        <Header />
-        <main className="content">{children}</main>
-        <Footer />
-      </div>
+      <AuthProvider>
+        <div className="page-wrapper">
+          <Header />
+          <main className="content">{children}</main>
+          <Footer />
+        </div>
+      </AuthProvider>
     </ClientProviders>
   );
 }

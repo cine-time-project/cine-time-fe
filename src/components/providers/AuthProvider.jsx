@@ -3,18 +3,18 @@ import { createContext, useContext, useState, useEffect } from "react";
 import * as authService from "@/services/auth-service";
 import { config } from "@/helpers/config";
 
-
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
+  // Load user from localStorage when component mounts
   useEffect(() => {
     const storedUser = localStorage.getItem("authUser");
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  // Normal login
+  // Normal login using AuthService
   const login = async (credentials) => {
     const data = await authService.login(credentials);
     const authUser = { user: data.user, token: data.token };
@@ -26,14 +26,11 @@ export function AuthProvider({ children }) {
 
   // Google login handler
   const loginWithGoogle = async (idToken) => {
-    const response = await fetch(
-      `${config.apiURL}/google`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }),
-      }
-    );
+    const response = await fetch(`${config.apiURL}/google`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken }),
+    });
 
     const data = await response.json();
     if (!response.ok) throw new Error(data?.message || "Google login failed");
@@ -52,7 +49,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    authService.logout();
+    authService.logout(); // Clears localStorage
     setUser(null);
   };
 
