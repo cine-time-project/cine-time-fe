@@ -1,8 +1,14 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import styles from "./movie-meta.module.scss";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 
 export default function MovieMeta({ movie, className = "" }) {
   const t = useTranslations("movies");
+  const { locale } = useParams();
+  const prefix = locale ? `/${locale}` : "";
 
   const items = [
     movie.rating != null ? <>⭐ {Number(movie.rating).toFixed(1)} IMDb</> : null,
@@ -55,14 +61,14 @@ export default function MovieMeta({ movie, className = "" }) {
       {genres.length > 0 && (
         <div className={styles.genres}>
           {genres.map((g, i) => (
-            <a
-              key={`genre-${i}`}
-              href={`/movies?genre=${encodeURIComponent(g)}`}
-              className={styles.genreLink}
-              aria-label={`${t("genres")}: ${g}`}
-            >
-              {g}
-            </a>
+              <Link
+        key={`genre-${i}`}
+        href={`${prefix}/movies?genre=${encodeURIComponent(g)}`}
+        className={styles.genreLink}
+        aria-label={`${t("genres")}: ${g}`}
+      >
+        {g}
+      </Link>
           ))}
         </div>
       )}
