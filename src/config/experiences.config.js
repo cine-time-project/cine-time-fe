@@ -2,90 +2,95 @@ export const EXPERIENCES = {
   "imax": {
     variant: "hero",
     heroImage: "/images/experiences/imax-hero.jpg",
-    titleKey: "experiences.imax.title",
-    subtitleKey: "experiences.imax.subtitle",
-    bodyKey: "experiences.imax.body",
+    titleKey: "imax.title",
+    subtitleKey: "imax.subtitle",
+    bodyKey: "imax.body",
     tiles: [
-      { titleKey: "experiences.shared.crystalClear", descKey: "experiences.imax.tile1" },
-      { titleKey: "experiences.shared.massiveScreen", descKey: "experiences.imax.tile2" },
-      { titleKey: "experiences.shared.preciseSound", descKey: "experiences.imax.tile3" }
+      { titleKey: "shared.crystalClear", descKey: "imax.tile1" },
+      { titleKey: "shared.massiveScreen", descKey: "imax.tile2" },
+      { titleKey: "shared.preciseSound", descKey: "imax.tile3" }
     ],
+    // PrimeIcons
     features: [
-      { icon: "📽️", textKey: "experiences.shared.laserProjection" },
-      { icon: "🎧", textKey: "experiences.shared.immersiveAudio" },
-      { icon: "🪑", textKey: "experiences.shared.premiumSeats" }
+      { pi: "pi-video",      textKey: "shared.laserProjection" },
+      { pi: "pi-volume-up",  textKey: "shared.immersiveAudio" },
+      { pi: "pi-star",       textKey: "shared.premiumSeats" }
     ],
-    ctaKey: "experiences.shared.bookNow"
+    ctaKey: "shared.bookNow"
   },
 
   "4dx": {
     variant: "tiles",
     heroImage: "/images/experiences/4dx-hero.jpg",
-    titleKey: "experiences.4dx.title",
-    subtitleKey: "experiences.4dx.subtitle",
-    bodyKey: "experiences.4dx.body",
+    titleKey: "4dx.title",
+    subtitleKey: "4dx.subtitle",
+    bodyKey: "4dx.body",
     tiles: [
-      { titleKey: "experiences.4dx.motion", descKey: "experiences.4dx.motionDesc" },
-      { titleKey: "experiences.4dx.scent",  descKey: "experiences.4dx.scentDesc"  },
-      { titleKey: "experiences.4dx.wind",   descKey: "experiences.4dx.windDesc"   },
-      { titleKey: "experiences.4dx.rain",   descKey: "experiences.4dx.rainDesc"   }
+      { titleKey: "4dx.motion", descKey: "4dx.motionDesc" },
+      { titleKey: "4dx.scent",  descKey: "4dx.scentDesc"  },
+      { titleKey: "4dx.wind",   descKey: "4dx.windDesc"   },
+      { titleKey: "4dx.rain",   descKey: "4dx.rainDesc"   }
     ],
+    // PrimeIcons (yakın anlamlılar)
     features: [
-      { icon: "↔️", textKey: "experiences.4dx.dynamicChairs" },
-      { icon: "💨", textKey: "experiences.4dx.environmentFX" }
+      { pi: "pi-arrows-h",   textKey: "4dx.dynamicChairs" }, // hareket/ekseni simgeler
+      { pi: "pi-cloud",      textKey: "4dx.environmentFX" }  // rüzgâr/yağmur/koku genel
     ],
-    ctaKey: "experiences.shared.bookNow"
+    ctaKey: "shared.bookNow"
   },
 
   "dolby-atmos": {
     variant: "hero",
-    heroImage: "/images/experiences/atmos-hero.jpg",
-    titleKey: "experiences.atmos.title",
-    subtitleKey: "experiences.atmos.subtitle",
-    bodyKey: "experiences.atmos.body",
+    heroImage: "/images/experiences/atmos-hero.webp",
+    titleKey: "atmos.title",
+    subtitleKey: "atmos.subtitle",
+    bodyKey: "atmos.body",
     tiles: [
-      { titleKey: "experiences.atmos.objectAudio", descKey: "experiences.atmos.objectAudioDesc" },
-      { titleKey: "experiences.atmos.ceilingSpeakers", descKey: "experiences.atmos.ceilingDesc" }
+      { titleKey: "atmos.objectAudio",     descKey: "atmos.objectAudioDesc" },
+      { titleKey: "atmos.ceilingSpeakers", descKey: "atmos.ceilingDesc" }
     ],
+    // PrimeIcons
     features: [
-      { icon: "🔊", textKey: "experiences.atmos.precision" },
-      { icon: "🧭", textKey: "experiences.atmos.placement" }
+      { pi: "pi-sliders-h",  textKey: "atmos.precision" },  // hassas ayar
+      { pi: "pi-compass",    textKey: "atmos.placement" }   // konumlandırma
     ],
-    ctaKey: "experiences.shared.bookNow"
+    ctaKey: "shared.bookNow"
   },
 
   "vip": {
     variant: "tiles",
-    heroImage: "/images/experiences/vip-hero.jpg",
-    titleKey: "experiences.vip.title",
-    subtitleKey: "experiences.vip.subtitle",
-    bodyKey: "experiences.vip.body",
+    heroImage: "/images/experiences/vip-hero.avif",
+    titleKey: "vip.title",
+    subtitleKey: "vip.subtitle",
+    bodyKey: "vip.body",
     tiles: [
-      { titleKey: "experiences.vip.recliners", descKey: "experiences.vip.reclinersDesc" },
-      { titleKey: "experiences.vip.lounge",    descKey: "experiences.vip.loungeDesc"    },
-      { titleKey: "experiences.vip.service",   descKey: "experiences.vip.serviceDesc"   }
+      { titleKey: "vip.recliners", descKey: "vip.reclinersDesc" },
+      { titleKey: "vip.lounge",    descKey: "vip.loungeDesc"    },
+      { titleKey: "vip.service",   descKey: "vip.serviceDesc"   }
     ],
+    // PrimeIcons
     features: [
-      { icon: "🥂", textKey: "experiences.vip.welcomeDrink" },
-      { icon: "🛋️", textKey: "experiences.vip.extraComfort" }
+      { pi: "pi-check-circle", textKey: "vip.welcomeDrink" },
+      { pi: "pi-thumbs-up",    textKey: "vip.extraComfort" }
     ],
-    ctaKey: "experiences.shared.reserve"
+    ctaKey: "shared.reserve"
   },
 
   "family-lounge": {
     variant: "hero",
-    heroImage: "/images/experiences/family-hero.jpg",
-    titleKey: "experiences.family.title",
-    subtitleKey: "experiences.family.subtitle",
-    bodyKey: "experiences.family.body",
+    heroImage: "/images/experiences/family-hero.webp",
+    titleKey: "family.title",
+    subtitleKey: "family.subtitle",
+    bodyKey: "family.body",
     tiles: [
-      { titleKey: "experiences.family.kidsArea", descKey: "experiences.family.kidsAreaDesc" },
-      { titleKey: "experiences.family.babyCare", descKey: "experiences.family.babyCareDesc" }
+      { titleKey: "family.kidsArea", descKey: "family.kidsAreaDesc" },
+      { titleKey: "family.babyCare", descKey: "family.babyCareDesc" }
     ],
+    // PrimeIcons
     features: [
-      { icon: "🧸", textKey: "experiences.family.toys" },
-      { icon: "🍼", textKey: "experiences.family.babyFriendly" }
+      { pi: "pi-gift",     textKey: "family.toys" },
+      { pi: "pi-heart",    textKey: "family.babyFriendly" }
     ],
-    ctaKey: "experiences.shared.bookNow"
+    ctaKey: "shared.bookNow"
   }
 };

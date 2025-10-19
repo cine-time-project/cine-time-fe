@@ -1,15 +1,10 @@
-"use client";
-
+// /src/components/experience/ExperienceView.jsx
 import Image from "next/image";
 import Link from "next/link";
-import clsx from "clsx";
 
-export default function ExperienceView({
-  t,                 // next-intl çeviri fonksiyonu
-  locale,            // sayfa dili (URL üretimi için)
-  content,           // EXPERIENCES[slug]
-  showImages = true, // tile’larda görsel olsun mu?
-}) {
+const cx = (...a) => a.filter(Boolean).join(" ");
+
+export default function ExperienceView({ t, locale, content, showImages = true }) {
   const {
     variant = "hero",
     heroImage,
@@ -21,13 +16,22 @@ export default function ExperienceView({
     ctaKey
   } = content || {};
 
+  const RenderIcon = ({ item }) => {
+    if (item?.pi) return <i className={`pi ${item.pi} exp__pi`} aria-hidden="true" />;
+    if (item?.icon) return <span className="exp__emoji" aria-hidden="true">{item.icon}</span>;
+    return null;
+  };
+
   return (
     <section className="exp container">
       {/* HERO */}
-      <header className={clsx("exp__hero", variant === "hero" && "exp__hero--big")}>
+      <header className={cx("exp__hero", variant === "hero" && "exp__hero--big")}>
         <div className="exp__copy">
           <h1 className="exp__title">{t(titleKey)}</h1>
           <p className="exp__subtitle">{t(subtitleKey)}</p>
+
+          {/* UZUN AÇIKLAMA: başlığın hemen altında */}
+          <p className="exp__lead exp__lead--inHero">{t(bodyKey)}</p>
         </div>
 
         {heroImage && (
@@ -44,35 +48,26 @@ export default function ExperienceView({
         )}
       </header>
 
-      {/* BODY */}
-      <article className="exp__body">
-        <p className="exp__lead">{t(bodyKey)}</p>
-
-        {features?.length > 0 && (
-          <ul className="exp__features">
-            {features.map((f, i) => (
-              <li key={i}>
-                <span className="exp__icon">{f.icon}</span>
-                <span>{t(f.textKey)}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </article>
+      {/* ÖZELLİKLER */}
+      {features?.length > 0 && (
+        <ul className="exp__features">
+          {features.map((f, i) => (
+            <li key={i} className="exp__featureItem">
+              <RenderIcon item={f} />
+              <span className="exp__featureText">{t(f.textKey)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {/* TILES */}
       {tiles?.length > 0 && (
-        <section className={clsx("exp__tiles", variant === "tiles" && "exp__tiles--grid")}>
+        <section className={cx("exp__tiles", variant === "tiles" && "exp__tiles--grid")}>
           {tiles.map((tile, i) => (
             <article key={i} className="expTile">
               {showImages && tile.image && (
                 <div className="expTile__media">
-                  <Image
-                    src={tile.image}
-                    alt={t(tile.titleKey)}
-                    fill
-                    sizes="(max-width: 1200px) 100vw, 33vw"
-                  />
+                  <Image src={tile.image} alt={t(tile.titleKey)} fill sizes="100vw" />
                 </div>
               )}
               <div className="expTile__content">

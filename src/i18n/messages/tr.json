@@ -738,7 +738,88 @@
     "bookNow": "Bilet Al",
     "details": "Detaylar",
     "trailer": "Fragman"
+  },
+
+
+
+
+  "experiences": {
+    "shared": {
+      "bookNow": "Bilet Al",
+      "reserve": "Rezervasyon Yap",
+      "laserProjection": "Lazer projeksiyon",
+      "immersiveAudio": "Sarmal ses",
+      "premiumSeats": "Premium koltuklar",
+      "crystalClear": "Kristal netlikte görüntü",
+      "massiveScreen": "Dev ekran",
+      "preciseSound": "Hassas ses"
+    },
+
+    "imax": {
+      "title": "IMAX Deneyimi",
+      "subtitle": "Nefes kesen ölçek ve berraklık",
+      "body": "IMAX; dev perde, özel mimari ve lazer projeksiyonun gücünü birleştirerek görüntüyü sınırlarına kadar genişletir. Geliştirilmiş parlaklık ve kontrast, en karanlık sahnelerde dahi ayrıntıyı korur; özel ses sistemi ise duyduğunuz her ayrıntıyı net ve güçlü biçimde iletir. Sonuç: kendinizi filmin içindeymiş gibi hissettiğiniz, standart salonların ötesinde bir sinema deneyimi.",
+      "tile1": "En yüksek parlaklık ve kontrast: Lazer projeksiyon sayesinde siyahlar daha derin, beyazlar daha canlıdır; renk doğruluğu sahne sahne korunur. Bu sayede özellikle yüksek dinamik aralığa sahip filmler gerçekçi bir derinlik kazanır.",
+      "tile2": "Zeminden tavana, duvardan duvara sürükleyicilik: Özel eğimli dev ekran, görüş alanınızı doldurarak çevresel algıyı artırır; başınızı çevirmeden daha geniş bir kadraj görmenizi sağlar.",
+      "tile3": "Hissedeceğiniz güçlü ses: Özel kalibrasyonla ayarlanmış çok kanallı sistem, fısıltıdan patlamaya her detayı berrak biçimde sunar; yön ve mesafe hissi gerçeğe yakın bir yerleşimle üretilir."
+    },
+
+    "4dx": {
+      "title": "4DX Hareketli Sinema",
+      "subtitle": "Her sahneyi hissedin",
+      "body": "4DX, koltuk hareketleri ve çevresel efektlerle ekrandaki aksiyonu bedeninize taşır. Rüzgâr, yağmur, koku ve ışık efektleri sahnelere senkronize çalışarak algınızı bir üst seviyeye çıkarır. Dozajı iyi ayarlanmış fiziksel geri bildirimler, macera ve aksiyon türlerinde benzersiz bir adrenalin sunar.",
+      "motion": "Hareketli Koltuklar",
+      "motionDesc": "Koltuklar sahneye göre yukarı-aşağı, sağa-sola ve öne-arkaya hareket ederek hızlanma, sarsılma ve dönüş etkilerini yumuşak ama belirgin biçimde hissettirir. Senkronizasyon, görüntüdeki ritimle uyumlu olacak şekilde kalibre edilir.",
+      "scent": "Koku",
+      "scentDesc": "Seçilmiş sahnelerde ortamı destekleyen hafif aromalar devreye girer. Koku yoğunluğu rahatsız etmeyecek seviyede tutulur ve etkiler sadece kısa sürelerle uygulanır.",
+      "wind": "Rüzgâr",
+      "windDesc": "Nazik esintiden sert fırtınaya kadar farklı şiddetlerde rüzgâr efektleri; hız duygusunu artırır, açık hava sahnelerinde gerçeklik hissini güçlendirir.",
+      "rain": "Yağmur",
+      "rainDesc": "İnce sis ve damlacık efektleri, yağmur ve su sıçraması sahnelerini destekler. Salonun bölgelerine göre kontrollü uygulanır, böylece konfor korunur.",
+      "dynamicChairs": "Dinamik koltuklar",
+      "environmentFX": "Rüzgâr, yağmur, koku efektleri"
+    },
+
+    "atmos": {
+      "title": "Dolby Atmos",
+      "subtitle": "Nesne tabanlı 3D ses",
+      "body": "Dolby Atmos, sesleri tek tek ‘nesne’ olarak konumlandırır ve tavan kanallarıyla yüksekliği de işin içine katar. Böylece bir helikopter üstünüzden geçerken ya da yağmur damlaları çevrenizde düşerken yön ve mesafeyi doğal biçimde hissedersiniz. Geniş dinamik aralık ve düşük gürültü tabanı, en ince ayrıntıların dahi net kalmasını sağlar.",
+      "objectAudio": "Nesne tabanlı ses",
+      "objectAudioDesc": "Miksajda her ses unsuru konum bilgisiyle ayrı ayrı yönetilir; salonun akustiğine göre kalibre edilerek ‘tam orada’ duyulması sağlanır.",
+      "ceilingSpeakers": "Tavan hoparlörleri",
+      "ceilingDesc": "Yükseklik katmanı, yağmur, uçuş ve ortam efektlerinde gerçek 3D derinlik yaratır; sahnenin çevresel bütünlüğü tamamlanır.",
+      "precision": "Stüdyo seviyesinde hassasiyet",
+      "placement": "Doğru konumlandırma"
+    },
+
+    "vip": {
+      "title": "CineTime VIP",
+      "subtitle": "Maksimum konfor, minimum gürültü",
+      "body": "CineTime VIP, sinema keyfini kişisel konfora dönüştürür. Geniş yaslanır koltuklar ve ekstra diz mesafesi, uzun filmlerde bile rahat bir izleme sağlar. Sessiz atmosfer, sınırlı kapasite ve özel servis ile dikkat dağıtan unsurları en aza indirip premium bir deneyim sunar.",
+      "recliners": "Yaslanır koltuklar",
+      "reclinersDesc": "Ayarlanabilir sırt ve ayak desteği ile vücut ergonomisine uygun oturuş yakalanır; yumuşak kaplama ve geniş oturum alanı uzun süreli konfor sağlar.",
+      "lounge": "Lounge",
+      "loungeDesc": "Seans öncesi ve sonrasında dinlenebileceğiniz sakin bir alan. Hafif ikramlar, şarj üniteleri ve rahat oturma düzeni ile bekleme süresi de keyfe dönüşür.",
+      "service": "Servis",
+      "serviceDesc": "Atıştırmalıklar ve içecekler koltuğunuza kadar gelir; böylece film aralarında sıraya girmeden deneyiminizi sürdürebilirsiniz.",
+      "welcomeDrink": "Hoş geldin içeceği",
+      "extraComfort": "Ekstra konfor"
+    },
+
+    "family": {
+      "title": "Aile Salonu",
+      "subtitle": "Ailelere uygun sinema",
+      "body": "Aile Salonu; ebeveynlerin ve çocukların aynı salonda rahatça film izleyebilmesi için tasarlandı. Yumuşak aydınlatma, geniş oturma düzeni ve pratik erişimli imkanlar sayesinde küçük molalar bile kolay ve stressizdir. Gürültü seviyesi ve içerik seçimi, ailelerin beklentilerine uygun biçimde dengelenir.",
+      "kidsArea": "Çocuk alanı",
+      "kidsAreaDesc": "Yaşa uygun oyuncaklar, boyama kitapları ve yumuşak oturma birimlerinin bulunduğu güvenli bir köşe. Seans öncesi/sonrası enerjiyi atmaya birebir; açık plan yerleşim sayesinde ebeveynler çocuklarını rahatça gözetleyebilir.",
+      "babyCare": "Bebek bakım köşesi",
+      "babyCareDesc": "Alt değiştirme masası, ıslak mendil istasyonu ve rahat bir emzirme koltuğu ile temel ihtiyaçlarınızı salon dışına çıkmadan karşılayın. Yakındaki lavabo ve hijyen kutuları hızlı temizlik için düşünülmüştür.",
+      "toys": "Oyuncak ve kitaplar",
+      "babyFriendly": "Bebek dostu hizmetler"
+    }
   }
 }
+
+
 
 
