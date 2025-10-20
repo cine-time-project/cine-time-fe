@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { Container, Card, Form, Button, Alert } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
+import ForgotHeader from "./ForgotHeader";
+import ForgotTabs from "./ForgotTabs";
+import ForgotAlert from "./ForgotAlert";
+import ForgotForm from "./ForgotForm";
+import ForgotFooter from "./ForgotFooter";
 import styles from "./forgot-password.module.scss";
 import { requestPasswordReset } from "@/services/auth-service";
 
@@ -41,7 +45,6 @@ export default function ForgotPasswordPage() {
         type: "success",
         message: "Doğrulama kodu gönderildi. Lütfen e-postanızı kontrol edin.",
       });
-      // 1.5 saniye sonra verify-code sayfasına yönlendir
       setTimeout(() => {
         window.location.href = `/${locale}/verify-reset-code?email=${encodeURIComponent(
           email.trim()
@@ -69,88 +72,19 @@ export default function ForgotPasswordPage() {
       <Container className={styles.forgotPageContainer}>
         <Card className={styles.forgotCard}>
           <Card.Body>
-            <header className={styles.forgotHeader}>
-              <p className={styles.forgotEyebrow}>C I N E T I M E</p>
-              <h1 className={styles.forgotTitle}>{tAuth("forgot.title")}</h1>
-              <p className={styles.forgotSubtitle}>
-                {tAuth("forgot.subtitle")}
-              </p>
-            </header>
-
-            <div
-              className={styles.forgotTabs}
-              role="tablist"
-              aria-label="auth-tabs"
-            >
-              <Link href={`/${locale}/login`} className={styles.forgotTab}>
-                {tAuth("titleLogin")}
-              </Link>
-              <span
-                className={`${styles.forgotTab} is-active`}
-                aria-current="page"
-              >
-                {tAuth("forgot.tab")}
-              </span>
-            </div>
-
-            {alert && (
-              <Alert
-                variant={alert.type === "success" ? "success" : "danger"}
-                onClose={() => setAlert(null)}
-                dismissible
-                className={styles.forgotAlert}
-              >
-                {alert.message}
-              </Alert>
-            )}
-
-            <Form noValidate onSubmit={onSubmit} className={styles.forgotForm}>
-              <Form.Label>{tForms("email")}</Form.Label>
-              <div className="input-group">
-                <span className="input-group-text" aria-hidden="true">
-                  <i className="pi pi-at" />
-                </span>
-                <Form.Control
-                  type="email"
-                  value={email}
-                  placeholder={tPlaceholders("enterEmail")}
-                  onChange={(e) => setEmail(e.target.value)}
-                  isInvalid={!!error}
-                  autoComplete="email"
-                />
-              </div>
-              {error && <div className="invalid-feedback d-block">{error}</div>}
-
-              <Button
-                type="submit"
-                disabled={pending}
-                className={styles.forgotSubmit}
-              >
-                {pending && (
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                  />
-                )}
-                {pending ? "Gönderiliyor..." : "Kodu Gönder"}
-              </Button>
-            </Form>
-
-            <div className={styles.forgotFooter}>
-              <Link
-                href={`/${locale}/login`}
-                className={styles.forgotFooterLink}
-              >
-                ← {tAuth("backToLogin")}
-              </Link>
-              <span>·</span>
-              <Link
-                href={`/${locale}/register`}
-                className={styles.forgotFooterLink}
-              >
-                {tAuth("register")}
-              </Link>
-            </div>
+            <ForgotHeader tAuth={tAuth} />
+            <ForgotTabs locale={locale} tAuth={tAuth} />
+            {alert && <ForgotAlert alert={alert} setAlert={setAlert} />}
+            <ForgotForm
+              tForms={tForms}
+              tPlaceholders={tPlaceholders}
+              email={email}
+              setEmail={setEmail}
+              error={error}
+              pending={pending}
+              onSubmit={onSubmit}
+            />
+            <ForgotFooter tAuth={tAuth} locale={locale} />
           </Card.Body>
         </Card>
       </Container>
