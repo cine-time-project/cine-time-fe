@@ -31,16 +31,6 @@ export default function Header() {
     return relPath === seg || relPath.startsWith(seg + "/");
   };
 
-  const MENU = [
-    { key: "home", path: "" },
-    { key: "movies", path: "movies" },
-    { key: "cinemas", path: "cinemas" },
-    { key: "comingsoon", path: "comingsoon" },
-    { key: "events", path: "events" },
-    { key: "campaigns", path: "campaigns" },
-    { key: "favorites", path: "myfavorites" },
-  ].filter((it) => !["about", "contact"].includes(it.key));
-
   return (
     <>
       {/* --- TOP BAR --- Logo, Search, User Actions */}
@@ -89,7 +79,7 @@ export default function Header() {
             </Offcanvas.Header>
 
             <Offcanvas.Body>
-              <Navigation menu={MENU} L={L} isActive={isActive} tNav={tNav} />
+              <Navigation L={L} isActive={isActive} tNav={tNav} />
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>

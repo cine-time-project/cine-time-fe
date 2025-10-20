@@ -21,6 +21,8 @@ export function AuthProvider({ children }) {
     localStorage.setItem("authUser", JSON.stringify(authUser.user));
     localStorage.setItem("authToken", authUser.token);
     setUser(authUser);
+    // Dispatch event for same-tab updates
+    document.dispatchEvent(new Event("auth-change"));
     return authUser;
   };
 
@@ -40,17 +42,20 @@ export function AuthProvider({ children }) {
 
     if (!token) throw new Error("Missing token from Google backend");
 
-    const authUser = { user, token };
+    const authUser = { ...user, token };
     localStorage.setItem("authUser", JSON.stringify(authUser));
     localStorage.setItem("authToken", token);
     setUser(authUser);
-
+// Dispatch event for same-tab updates
+    document.dispatchEvent(new Event("auth-change"));
     return authUser;
   };
 
   const logout = () => {
     authService.logout(); // Clears localStorage
     setUser(null);
+    // Dispatch event for same-tab updates
+    document.dispatchEvent(new Event("auth-change"));
   };
 
   return (
