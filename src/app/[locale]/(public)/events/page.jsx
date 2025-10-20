@@ -4,8 +4,8 @@ import { getTranslations } from "next-intl/server";
 import ZoomableEventsGrid from "./ZoomableGrid";
 
 export default async function EventsPage({ params }) {
-  // ❗ HATA FİX: await kaldırıldı
-  const { locale } = params;
+  // ✅ params önce çözülmeli (await)
+  const { locale } = await params;
 
   const t = await getTranslations({ locale, namespace: "events" });
 
