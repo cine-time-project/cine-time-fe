@@ -1,11 +1,10 @@
 .comingsoon-hero-carousel {
   width: 100%;
-  height: 720px;
+  height: 820px;
   position: relative;
-  padding: 40px 0;
-  background: #1b1a10;
+  padding: 60px 80px;
+  background: #000000;
   margin-bottom: 0;
-  box-shadow: 0 4px 8px rgba(48, 48, 27, 0.5);
 
   // Navigation arrows
   .swiper-button-prev,
@@ -59,7 +58,7 @@
     &-active {
       width: 40px;
       border-radius: 5px;
-      background: #cfe509;
+      background: #ffee00;
     }
   }
 }
@@ -75,7 +74,7 @@
   background-repeat: no-repeat;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 60px rgba(255, 238, 0, 0.979);
 }
 
 .comingsoon-hero-overlay {
@@ -155,17 +154,18 @@
 
 .comingsoon-hero-buttons {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .comingsoon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 160px;
-  padding: 14px 28px;
-  font-size: 16px;
+  min-width: 120px;
+  padding: 12px 20px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: 6px;
   text-decoration: none;
@@ -194,6 +194,19 @@
   &:hover {
     background: rgba(255, 140, 0, 0.2);
     border-color: #ffa500;
+    transform: translateY(-2px);
+  }
+}
+
+.comingsoon-btn-favorite {
+  color: #fff;
+  background: transparent;
+  border-color: #ff8c00;
+
+  &:hover {
+    background: #ff4757;
+    color: #fff;
+    border-color: #ff3742;
     transform: translateY(-2px);
   }
 }
@@ -272,23 +285,21 @@
   .comingsoon-btn {
     flex: 1;
     min-width: auto;
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 10px 16px;
+    font-size: 13px;
   }
 
   .comingsoon-hero-buttons .comingsoon-btn-trailer {
-  color: #fff;
-  background: transparent;
-  border-color: #ff8c00;
+    color: #fff;
+    background: transparent;
+    border-color: #ff8c00;
 
-  &:hover {
-    background: rgba(255, 140, 0, 0.2);
-    border-color: #ffa500;
-    transform: translateY(-2px);
+    &:hover {
+      background: rgba(255, 140, 0, 0.2);
+      border-color: #ffa500;
+      transform: translateY(-2px);
+    }
   }
- 
-
-}
 
   .comingsoon-slide-number {
     font-size: 70px;

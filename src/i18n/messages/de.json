@@ -307,26 +307,25 @@
   },
 
   "cinemas": {
-  "listTitle": "Kinos",
-  "address": "Adresse",
-  "phone": "Telefon",
-  "features": "Eigenschaften",
-  "halls": "Säle",
-  "selectCinema": "Kino auswählen",
-  "noCinemas": "Keine Kinos gefunden.",
-  "findMore": "Mehr finden",
-  "locating": "Standort wird ermittelt",
-  "noLocation": "Standort konnte nicht ermittelt werden",
-  "noLocPermission": "Standortberechtigung verweigert",
-  "noCity": "Stadt nicht gefunden!",
-  "searchCity": "Stadt suchen",
-  "findAround": "In der Nähe des aktuellen Standorts finden",
-  "location": "Standort",
-  "cinemasLoading": "Kinos werden geladen...",
-  "noCinemaYet": "Noch kein Kino gefunden...",
-  "search": "Suche"
-
-},
+    "listTitle": "Kinos",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "features": "Eigenschaften",
+    "halls": "Säle",
+    "selectCinema": "Kino auswählen",
+    "noCinemas": "Keine Kinos gefunden.",
+    "findMore": "Mehr finden",
+    "locating": "Standort wird ermittelt",
+    "noLocation": "Standort konnte nicht ermittelt werden",
+    "noLocPermission": "Standortberechtigung verweigert",
+    "noCity": "Stadt nicht gefunden!",
+    "searchCity": "Stadt suchen",
+    "findAround": "In der Nähe des aktuellen Standorts finden",
+    "location": "Standort",
+    "cinemasLoading": "Kinos werden geladen...",
+    "noCinemaYet": "Noch kein Kino gefunden...",
+    "search": "Suche"
+  },
 
   "showtimes": {
     "date": "Datum",
@@ -635,6 +634,7 @@
     "description": "Filme, die bald in den Kinos erscheinen",
     "heading": "Demnächst im Kino",
     "loading": "Wird geladen…",
+    "loadingMovies": "Filme werden geladen...",
     "noItems": "Es gibt keine Filme zum Anzeigen.",
     "prev": "Zurück",
     "next": "Weiter",
@@ -643,6 +643,9 @@
     "releaseTBA": "Veröffentlichungsdatum: wird bekanntgegeben",
     "bookNow": "Jetzt buchen",
     "details": "Details",
-    "trailer": "Trailer"
+    "trailer": "Trailer",
+    "favorite": "Favorit",
+    "error": "Fehler",
+    "apiConnectionCheck": "Bitte API-Verbindung überprüfen:"
   }
 }
