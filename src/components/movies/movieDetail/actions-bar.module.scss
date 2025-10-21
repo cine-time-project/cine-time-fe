@@ -1,82 +1,131 @@
-/* layout */
-.actions{ margin-top:1.25rem; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-.left{ flex:0 0 auto; min-width:300px; }
-.icons{ display:flex; gap:12px; }
+@use "../../../styles/variables" as *;
 
-/* ticket (global) */
+/* === Satır düzeni === */
+.actions{
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;   /* aynı tarafa hizala */
+  gap: 12px;                     /* daha sıkı */
+  flex-wrap: wrap;
+}
+
+.left{
+  flex: 0 0 auto;                /* büyüyüp arayı açmasın */
+  min-width: 300px;
+}
+
+.icons{
+  display: flex;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-left: 12px;             /* butona yakın dursun */
+}
+
+/* =====================
+   BİLET AL (GLOBAL)
+   BiletAl.jsx className="btn-bilet" döndürüyor.
+   CSS Modules içinde görünmesi için :global kullan.
+===================== */
+
+/* Koyu cam – normal durum */
 :global(.btn-bilet){
-  display:inline-flex; flex-direction:column; gap:.2rem; min-width:300px;
-  padding:14px 18px; border-radius:14px; color:#fff; text-decoration:none; font-weight:800;
-  background: rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(4px);
-  transition: color .1s, border-color .1s, box-shadow .1s;
-}
-:global(.btn-bilet:hover), :global(.btn-bilet:focus-visible){
-  background:#ffc303; color:#0b0f14; border-color:#ffc303; box-shadow:0 16px 36px rgba(0,0,0,.24);
-}
-:global(.btn-bilet__text){ font-size:1.05rem; line-height:1.1; }
-:global(.btn-bilet__sub){ font-size:.95rem; font-weight:600; opacity:.9; }
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .2rem;
+  min-width: 300px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #fff;
 
-/* round icon base */
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.12));
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(4px);
+
+  font-weight: 800;
+  overflow: hidden;
+
+  /* sadece metin/kenar/gölge animasyonu */
+  transition: color 40ms ease, border-color 40ms ease, box-shadow 40ms ease;
+}
+
+/* HOVER: sarı cam + siyah yazı (animasyon background’da değil) */
+:global(.btn-bilet:hover),
+:global(.btn-bilet:focus-visible){
+  /* $color1: rgb(255,195,3) */
+  background: linear-gradient(
+    180deg,
+    rgba(255,195,3,.96),
+    rgba(255,195,3,.88)
+  );
+  border-color: rgba(255,195,3,.95);
+  color: #0b0f14; /* siyah yazı */
+  box-shadow: 0 16px 36px rgba(0,0,0,.24);
+}
+
+/* İç metinler */
+:global(.btn-bilet__text){ font-size: 1.05rem; line-height: 1.1; }
+:global(.btn-bilet__sub){  font-size: .95rem;  font-weight: 600; color: rgba(255,255,255,.92); }
+:global(.btn-bilet:hover .btn-bilet__sub),
+:global(.btn-bilet:focus-visible .btn-bilet__sub){ color: #0b0f14; }
+
+/* =====================
+   Yuvarlak ikon butonlar
+===================== */
 .iconBtn{
-  all:unset; display:grid; place-items:center; width:56px; height:56px; border-radius:50%;
-  cursor:pointer; outline:none; transition: background .18s, border-color .18s, color .18s, box-shadow .18s;
-}
-.iconBtn > i{ font-size:1.25rem; }
+  all: unset;                               /* native stil sıfırla */
+  display: grid; place-items: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  cursor: pointer;
 
-/* diğer ikonlar için nötr cam */
-.neutral{
-  background:
-    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.20), rgba(255,255,255,.10));
-  color:#fff;
-  border:1px solid rgba(255,255,255,.22);
-  box-shadow:0 10px 25px rgba(0,0,0,.22);
+  border: 1px solid rgba(255,255,255,.22);
+  background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.08));
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
   backdrop-filter: blur(4px);
-}
-.neutral:hover,
-.neutral:focus-visible{
-  background:
-    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.28), rgba(255,255,255,.14));
-  border-color: rgba(255,255,255,.3);
-  box-shadow:0 12px 30px rgba(0,0,0,.28);
+
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
-/* FAVORI DEĞİL — KOYU CAM + beyaz plus */
-.favOff,
-.favOff:hover,
-.favOff:focus-visible{
-  background:
-    linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.45)),
-    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.22), rgba(255,255,255,.10));
-  color:#fff;
-  border:1px solid rgba(255,255,255,.28);
-  box-shadow:0 10px 25px rgba(0,0,0,.28);
-  backdrop-filter: blur(4px);
+.iconBtn:hover,
+.iconBtn:focus-visible{
+  background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.26), rgba(255,255,255,.14));
+  border-color: rgba(255,255,255,.32);
+  box-shadow: 0 12px 30px rgba(0,0,0,.24);
+  outline: none;
 }
 
-/* FAVORI — BEYAZ DÜZ DAİRE + koyu plus */
-.favOn,
-.favOn:hover,
-.favOn:focus-visible{
-  background:#fff;
-  color:#0f1520;
-  border:1px solid rgba(0,0,0,.15);
-  box-shadow:0 10px 25px rgba(0,0,0,.25);
+.iconBtn > i{
+  font-size: 1.25rem;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.25));
 }
 
-/* modal */
+/* Beğenme için kırmızımsı vurgu */
+.danger:hover,
+.danger:focus-visible{
+  background: radial-gradient(120% 120% at 30% 30%, rgba(255,120,120,.28), rgba(255,255,255,.14));
+  border-color: rgba(255,160,160,.5);
+}
+
+/* Mobil */
+@media (max-width: 576px){
+  .actions{ gap: 10px; }
+  .left{ min-width: 100%; }
+  .icons{ margin-left: 0; gap: 10px; }
+  .iconBtn{ width: 48px; height: 48px; }
+  .iconBtn > i{ font-size: 1.1rem; }
+}
+
+
+/* actions-bar.module.scss – modal ekleri */
 .modalBackdrop{ position:fixed; inset:0; z-index:1050; background:rgba(0,0,0,.5); display:grid; place-items:center; }
-.modal{ width:min(720px,92vw); background:rgba(20,24,30,.92); color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:14px; overflow:hidden; }
+.modal{ width:min(720px,92vw); background:rgba(20,24,30,.92); color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.4); }
 .modalHead{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.08); }
-.modalClose{ all:unset; cursor:pointer; padding:6px; border-radius:8px; }
-.modalClose:hover{ background:rgba(255,255,255,.08); }
+.modalClose{ all:unset; cursor:pointer; padding:6px; border-radius:8px; &:hover{ background:rgba(255,255,255,.08); } }
 .modalBody{ padding:14px 16px; max-height:60vh; overflow:auto; }
-.castList{ margin:0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px 14px; }
-.castList a{ color:#fff; text-decoration:underline; text-underline-offset:2px; }
-
-/* responsive */
-@media (max-width:576px){
-  .left{ min-width:100%; }
-  .icons{ gap:10px; }
-  .iconBtn{ width:48px; height:48px; }
-  .iconBtn > i{ font-size:1.1rem; }
+.castList{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px 14px; margin:0; padding:0; list-style:none;
+  li a{ color:#fff; text-decoration:underline; text-underline-offset:2px; }
 }

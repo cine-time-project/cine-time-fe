@@ -5,7 +5,6 @@ import MovieMeta from "./MovieMeta";
 import ActionsBar from "./ActionsBar";
 import styles from "./movie-hero.module.scss";
 import { useParams } from "next/navigation";
-import FavoriteController from "./FavoriteController";
 
 export default function MovieHero({ movie }) {
   const t = useTranslations("movies");
@@ -42,7 +41,7 @@ export default function MovieHero({ movie }) {
 
             {movie.summary && <p className={styles.summary}>{movie.summary}</p>}
 
-           <FavoriteController movie={movie} />
+            <ActionsBar movie={movie} />
           </div>
         </div>
       </div>

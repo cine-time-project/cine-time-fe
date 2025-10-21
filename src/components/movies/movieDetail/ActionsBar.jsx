@@ -1,63 +1,54 @@
+// src/components/movies/movieDetail/ActionsBar.jsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import styles from "./actions-bar.module.scss";
 import BiletAl from "@/components/common/button/BiletAl";
-import { useParams, useRouter, usePathname } from "next/navigation";
 
-/**
- * Props:
- *  - movie
- *  - onToggleFavorite()
- *  - isFavorite?: boolean
- *  - favBusy?: boolean
- *  - isLoggedIn?: boolean
- */
-export default function ActionsBar({
-  movie,
-  onToggleFavorite,
-  isFavorite = false,
-  favBusy = false,
-  isLoggedIn = true,
-}) {
+export default function ActionsBar({ movie, onToggleFavorite }) {
   const [castOpen, setCastOpen] = useState(false);
-  const router = useRouter();
-   const pathname = usePathname();
 
-  // SSR/CSR farkı için title/aria stabil
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
+  // i18n
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const tMovies = useTranslations("movies");
 
+  // locale'li prefix
   const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
-  const ticketHref = `${prefix}/find-showtime?movieId=${movie?.id}&movieTitle=${encodeURIComponent(
-    movie?.title || ""
-  )}`;
-const loginHref = `${prefix}/login?redirect=${encodeURIComponent(pathname)}`;
+  const ticketHref = `${prefix}/find-showtime`;
 
+  // 1) Fragman
   const playTrailer = () => {
     if (movie?.trailerUrl) window.open(movie.trailerUrl, "_blank", "noopener");
   };
-const toggleFavorite = () => {
-    if (favBusy) return;
-    if (!isLoggedIn) {
-      router.push(loginHref);   // 👈 login'e yönlendir
-      return;
+
+  // 2) Favori (placeholder)
+  const toggleFavorite = async () => {
+    try {
+      console.log("toggle favorite", movie?.id);
+      onToggleFavorite?.(movie);
+    } catch (e) {
+      console.error(e);
     }
-    onToggleFavorite?.(movie);  // girişliyse favoriyi değiştir
   };
 
+  // 4) Kamera arkası – oto YouTube araması
   const openBehindTheScenes = () => {
     const title = movie?.title || "";
-    const q = encodeURIComponent(`${title} behind the scenes OR kamera arkası OR making of`);
-    window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank", "noopener");
+    const q = encodeURIComponent(
+      `${title} behind the scenes OR kamera arkası OR making of`
+    );
+    window.open(
+      `https://www.youtube.com/results?search_query=${q}`,
+      "_blank",
+      "noopener"
+    );
   };
 
+  // 5) Paylaş
   const share = async () => {
     const url = window.location.href;
     try {
@@ -70,22 +61,10 @@ const toggleFavorite = () => {
     } catch {}
   };
 
-  // title/aria — mount öncesi sabit, sonrası gerçek metin
-  const addMsg   = tMovies("addToFavorites", { default: "Favorilere ekle" });
-  const rmMsg    = tMovies("removeFromFavorites", { default: "Favorilerden çıkar" });
-const loginMsg = tMovies("loginToFavorite", { default: "Favoriye eklemek için giriş yap" });
-const favTitle = !mounted
-  ? addMsg
-  : !isLoggedIn
-  ? loginMsg
-  : isFavorite
-  ? rmMsg
-  : addMsg;
-
-
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
+        {/* Bilet Al */}
         <BiletAl href={ticketHref} variant="hero">
           <span className="btn-bilet__text">{tNav("buy")}</span>
           <span className="btn-bilet__sub">
@@ -94,43 +73,39 @@ const favTitle = !mounted
         </BiletAl>
       </div>
 
-      <div className={styles.icons} role="group" aria-label={tMovies("actionsAria", { default: "Film işlemleri" })}>
+      {/* -- İKONLAR (sırasıyla) -- */}
+      <div
+        className={styles.icons}
+        role="group"
+        aria-label={tMovies("actionsAria", { default: "Film işlemleri" })}
+      >
         {/* 🎬 Fragman */}
-         <button
-           type="button"
-                     className={[styles.iconBtn, styles.neutral].join(" ")}
-
+        <button
+          type="button"
+          className={styles.iconBtn}
           onClick={playTrailer}
           title={tMovies("trailer", { default: "Fragman" })}
           aria-label={tMovies("trailer", { default: "Fragman" })}
-          aria-disabled={!movie?.trailerUrl}
-          data-disabled={!movie?.trailerUrl ? "1" : undefined}
+          disabled={!movie?.trailerUrl}
         >
           <i className="pi pi-video" />
         </button>
 
-        {/* ＋ Favoriler */}
+        {/* ＋ Favorilere ekle */}
         <button
           type="button"
-          className={[
-            styles.iconBtn,
-            isFavorite ? styles.favOn : styles.neutral,
-          ].join(" ")}
+          className={styles.iconBtn}
           onClick={toggleFavorite}
-          title={favTitle}
-          aria-label={favTitle}
-          aria-pressed={isFavorite}
-          aria-disabled={favBusy}
-          data-busy={favBusy ? "1" : undefined}
-          suppressHydrationWarning
+          title={tMovies("addToFavorites", { default: "Favorilere ekle" })}
+          aria-label={tMovies("addToFavorites", { default: "Favorilere ekle" })}
         >
           <i className="pi pi-plus" />
         </button>
 
-        {/* 👥 Kadro */}
+        {/* 👥 Kadro (modal aç) */}
         <button
           type="button"
-          className={[styles.iconBtn, styles.neutral].join(" ")}
+          className={styles.iconBtn}
           onClick={() => setCastOpen(true)}
           title={tMovies("cast")}
           aria-label={tMovies("cast")}
@@ -138,10 +113,10 @@ const favTitle = !mounted
           <i className="pi pi-users" />
         </button>
 
-        {/* 🎥 Kamera Arkası */}
+        {/* 🎥 Kamera Arkası (YouTube) */}
         <button
           type="button"
-          className={[styles.iconBtn, styles.neutral].join(" ")}
+          className={styles.iconBtn}
           onClick={openBehindTheScenes}
           title={tMovies("behindTheScenes", { default: "Kamera Arkası" })}
           aria-label={tMovies("behindTheScenes", { default: "Kamera Arkası" })}
@@ -152,7 +127,7 @@ const favTitle = !mounted
         {/* 🔗 Paylaş */}
         <button
           type="button"
-          className={[styles.iconBtn, styles.neutral].join(" ")}
+          className={styles.iconBtn}
           onClick={share}
           title={tMovies("share", { default: "Paylaş" })}
           aria-label={tMovies("share", { default: "Paylaş" })}
@@ -161,6 +136,7 @@ const favTitle = !mounted
         </button>
       </div>
 
+      {/* --- Kadro Modal --- */}
       {castOpen && (
         <div className={styles.modalBackdrop} onClick={() => setCastOpen(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
