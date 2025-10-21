@@ -94,8 +94,13 @@ export default function ComingSoonPage() {
 
           {!state.loading && state.error && (
             <div className="rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-white text-center">
-              <p className="font-medium">Hata</p>
+              <p className="font-medium">{t("error") || "Error"}</p>
               <p className="opacity-90">{state.error}</p>
+              <p className="text-xs mt-2 opacity-60">
+                {t("apiConnectionCheck")}{" "}
+                {process.env.NEXT_PUBLIC_API_BASE ||
+                  "http://localhost:8090/api"}
+              </p>
             </div>
           )}
 
@@ -109,78 +114,105 @@ export default function ComingSoonPage() {
                 <div className="flex justify-center">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                     {movies.map((m) => (
-                      <Link
-                        key={m.id ?? m.slug}
-                        href={`/${locale}/movies/${m.slug || m.id}`}
-                        className="link-class"
-                      >
+                      <div key={m.id ?? m.slug} className="movie-item">
                         <article style={{ position: "relative" }}>
-                          <div className="aspect-[2/3] w-full bg-zinc-900 flex items-center justify-center">
-                            <img
-                              src={getPosterUrl(m)}
-                              alt={m.title || "Poster"}
-                              className="h-full w-full object-cover rounded-t-xl"
-                              loading="lazy"
-                            />
-                          </div>
-                          <div className="p-4">
-                            <h3 className="text-lg font-semibold text-white tracking-wide mb-1 line-clamp-2">
-                              {m.title}
-                            </h3>
-                            <p className="text-xs text-yellow-300 mb-1">
-                              {m.releaseDate
-                                ? new Intl.DateTimeFormat(locale, {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  }).format(new Date(m.releaseDate))
-                                : t("releaseTBA")}
-                            </p>
-                            {m.genre && (
-                              <p className="text-xs text-gray-300">
-                                {t("genre")}:{" "}
-                                {Array.isArray(m.genre)
-                                  ? m.genre.join(", ")
-                                  : m.genre}
-                              </p>
-                            )}
-                            {m.formats?.length > 0 && (
-                              <p className="text-xs text-gray-400">
-                                {t("formats")}: {m.formats.join(", ")}
-                              </p>
+                          <Link
+                            href={`/${locale}/movies/${m.slug || m.id}`}
+                            className="link-class"
+                          >
+                            <div className="aspect-[2/3] w-full bg-zinc-900 flex items-center justify-center">
+                              <img
+                                src={getPosterUrl(m)}
+                                alt={m.title || "Poster"}
+                                className="h-full w-full object-cover rounded-t-xl"
+                                loading="lazy"
+                              />
+                            </div>
+                          </Link>
+
+                          <div className="movie-actions">
+                            <Link
+                              href={`/${locale}/movies/showtimes/${m.id}`}
+                              className="movie-buy-btn"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {t("bookNow")}
+                            </Link>
+
+                            <button
+                              className="movie-btn movie-favorite-btn"
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                // Add favorite functionality here
+                                console.log(
+                                  `Toggle favorite for movie ${m.id}`
+                                );
+                              }}
+                            >
+                              <span style={{ marginRight: 6 }}>♥</span>
+                              {t("favorite")}
+                            </button>
+
+                            {m.trailerUrl && (
+                              <button
+                                className="movie-trailer-btn"
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  window.open(m.trailerUrl, "_blank");
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    marginRight: 6,
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  ▶
+                                </span>
+                                {t("trailer")}
+                              </button>
                             )}
                           </div>
 
                           <Link
-                            href={`/${locale}/buy-ticket?movieId=${m.id}`}
-                            className="movie-buy-btn"
+                            href={`/${locale}/movies/${m.slug || m.id}`}
+                            className="link-class"
                           >
-                            {t("bookNow")}
+                            <div className="p-4">
+                              <h3 className="text-lg font-semibold text-white tracking-wide mb-1 line-clamp-2">
+                                {m.title}
+                              </h3>
+                              <p className="text-xs text-yellow-300 mb-1">
+                                {m.releaseDate
+                                  ? new Intl.DateTimeFormat(locale, {
+                                      day: "2-digit",
+                                      month: "short",
+                                      year: "numeric",
+                                    }).format(new Date(m.releaseDate))
+                                  : t("releaseTBA")}
+                              </p>
+                              {m.genre && (
+                                <p className="text-xs text-gray-300">
+                                  {t("genre")}:{" "}
+                                  {Array.isArray(m.genre)
+                                    ? m.genre.join(", ")
+                                    : m.genre}
+                                </p>
+                              )}
+                              {m.formats?.length > 0 && (
+                                <p className="text-xs text-gray-400">
+                                  {t("formats")}: {m.formats.join(", ")}
+                                </p>
+                              )}
+                            </div>
                           </Link>
-
-                          {m.trailerUrl && (
-                            <button
-                              className="movie-trailer-btn"
-                              type="button"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                window.open(m.trailerUrl, "_blank");
-                              }}
-                            >
-                              <span
-                                style={{
-                                  marginRight: 6,
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                ▶
-                              </span>
-                              {t("trailer")}
-                            </button>
-                          )}
                         </article>
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 </div>
