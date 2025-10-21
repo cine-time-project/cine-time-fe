@@ -4,8 +4,8 @@ import { Button, Card } from "react-bootstrap";
 
 const NearbyCinemaCard = ({ cinema, normalizedURL }) => {
   return (
-    <Card className="shadow-sm h-100 border-1 rounded-4 flex-row overflow-hidden">
-      <Card.Img className="bg-dark" variant="left" src={"/images/cinetime-logo.png"} width={200} height={200}  />
+    <Card className="cinemaCard h-100">
+      <Card.Img className="bg-dark" src={"/images/cinetime-logo.png"} width={200} height={200}  />
       <Card.Body className="d-flex flex-column justify-content-between">
         <Card.Title className="text-muted">{cinema.name}</Card.Title>
 

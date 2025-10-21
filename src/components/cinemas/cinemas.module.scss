@@ -1,0 +1,47 @@
+.cinemasPage {
+  /* container-level overrides if needed */
+}
+
+.gridContainer {
+  padding: 0;
+}
+
+/* Card layout */
+.cinemaCard {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  background: #1d1f24;
+  border: 1px solid #2b2e36;
+  border-radius: 14px;
+  overflow: hidden;
+  min-height: 230px;
+  position: relative;
+}
+
+/* On small screens make card stacked */
+@media (max-width: 900px) {
+  .cinemaCard {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mediaWrap {
+  position: relative;
+  min-height: 230px;
+}
+
+.cardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: start;
+  gap: 10px;
+}
+
+.title {
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+}

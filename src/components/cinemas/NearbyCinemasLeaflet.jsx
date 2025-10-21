@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
- import L from "leaflet";
+import L from "leaflet";
 import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import NearbyCinemaCard from "./NearbyCinemaCard";
 import { useTranslations } from "next-intl";
@@ -22,7 +22,7 @@ const normalizeURL = (url) =>
   url ? (url.startsWith("http") ? url : `https://${url}`) : null;
 
 export default function NearbyCinemasLeaflet() {
-  const tCinemas = useTranslations("cinemas")
+  const tCinemas = useTranslations("cinemas");
   const [coords, setCoords] = useState(null);
   const [userCoords, setUserCoords] = useState(null);
   const [userIcon, setUserIcon] = useState(null);
@@ -74,7 +74,10 @@ export default function NearbyCinemasLeaflet() {
             );
             const d = await r.json();
             const cityName =
-              d.address.city || d.address.town || d.address.state || tCinemas("noLocation");
+              d.address.city ||
+              d.address.town ||
+              d.address.state ||
+              tCinemas("noLocation");
             setCity(cityName);
             await loadNearbyCinemas(coords.latitude, coords.longitude);
           } catch {
@@ -92,7 +95,8 @@ export default function NearbyCinemasLeaflet() {
       `https://nominatim.openstreetmap.org/search?city=${cityName}&format=json&limit=1`
     );
     const data = await res.json();
-    if (data?.length > 0) return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+    if (data?.length > 0)
+      return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
     return null;
   };
 
@@ -125,7 +129,9 @@ export default function NearbyCinemasLeaflet() {
 
           const address =
             (tags["addr:street"] || "") +
-            (tags["addr:housenumber"] ? " " + tags["addr:housenumber"] : "") ||
+              (tags["addr:housenumber"]
+                ? " " + tags["addr:housenumber"]
+                : "") ||
             tags.address ||
             null;
 
@@ -167,20 +173,31 @@ export default function NearbyCinemasLeaflet() {
 
   return (
     <div className="space-y-4">
-      <InputGroup className="flex flex-col md:flex-row gap-2">
-        <Form.Control
-          type="text"
-          value={searchCity}
-          onChange={(e) => setSearchCity(e.target.value)}
-          placeholder={tCinemas("searchCity")}
-        />
-        <Button onClick={handleSearch} variant="warning" className="rounded">{tCinemas("search")}</Button>
-        <Button onClick={handleFindCurrent} variant="secondary">
-          {tCinemas("findAround")}
-        </Button>
-      </InputGroup>
+      <div
+        className="p-3 border rounded bg-light"
+        style={{
+          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+        }}
+      >
+        <InputGroup className="d-flex flex-column flex-md-row gap-2">
+          <Form.Control
+            type="text"
+            value={searchCity}
+            onChange={(e) => setSearchCity(e.target.value)}
+            placeholder={tCinemas("searchCity")}
+          />
+          <Button onClick={handleSearch} variant="warning">
+            {tCinemas("search")}
+          </Button>
+          <Button onClick={handleFindCurrent} variant="secondary">
+            {tCinemas("findAround")}
+          </Button>
+        </InputGroup>
+      </div>
 
-      <p className="mt-2">{tCinemas("location")}: <b>{city}</b></p>
+      <p className="mt-2">
+        {tCinemas("location")}: <b>{city}</b>
+      </p>
 
       {loading ? (
         <div className="text-center">
@@ -192,8 +209,11 @@ export default function NearbyCinemasLeaflet() {
       ) : (
         <Row className="g-4 mb-5">
           {cinemas.map((c) => (
-            <Col key={c.id} md={4} sm={6}>
-              <NearbyCinemaCard cinema={c} normalizedURL={normalizeURL(c.website)} />
+            <Col key={c.id} xl={3} md={4} sm={6}>
+              <NearbyCinemaCard
+                cinema={c}
+                normalizedURL={normalizeURL(c.website)}
+              />
             </Col>
           ))}
         </Row>
@@ -211,17 +231,47 @@ export default function NearbyCinemasLeaflet() {
           />
           <RecenterMap coords={coords} />
 
-          {userCoords && <Marker position={userCoords} icon={userIcon}><Popup>📍 Buradasın</Popup></Marker>}
+          {userCoords && (
+            <Marker position={userCoords} icon={userIcon}>
+              <Popup>📍 Buradasın</Popup>
+            </Marker>
+          )}
 
           {cinemas.map((c) => (
             <Marker key={c.id} position={[c.lat, c.lon]}>
               <Popup>
-                🎬 <b>{c.name}</b><br />
-                {c.address && <>🏠 {c.address}<br /></>}
-                {c.operator && <>👤 {c.operator}<br /></>}
-                {c.phone && <>📞 {c.phone}<br /></>}
+                🎬 <b>{c.name}</b>
+                <br />
+                {c.address && (
+                  <>
+                    🏠 {c.address}
+                    <br />
+                  </>
+                )}
+                {c.operator && (
+                  <>
+                    👤 {c.operator}
+                    <br />
+                  </>
+                )}
+                {c.phone && (
+                  <>
+                    📞 {c.phone}
+                    <br />
+                  </>
+                )}
                 {c.website && (
-                  <>🌐 <a href={normalizeURL(c.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Web sitesine git</a></>
+                  <>
+                    🌐{" "}
+                    <a
+                      href={normalizeURL(c.website)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      Web sitesine git
+                    </a>
+                  </>
                 )}
               </Popup>
             </Marker>

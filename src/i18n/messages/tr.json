@@ -319,7 +319,6 @@
     "addedToFavoritesToast": "Favorilere eklendi.",
     "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
     "halls": "Özel Salonlar"
-
   },
 
   "cinemas": {
@@ -330,18 +329,21 @@
     "halls": "Salonlar",
     "selectCinema": "Sinema Seç",
     "noCinemas": "Listelenecek sinema bulunamadı.",
-    "findMore" : "Daha fazlasını bulun",
-    "locating" : "Lokasyon alınıyor",
-    "noLocation" : "Konum alınamadı",
-    "noLocPermission" : "Konum izni reddedildi",
-    "noCity" : "Şehir bulunamadı!",
-    "searchCity" : "Şehir ara",
-    "findAround" : "Mevcut konumda bul",
-    "location" : "Konum",
-    "cinemasLoading" : "Sinemalar yükleniyor...",
-    "noCinemaYet" : "Henüz sinema bulunamadı..",
-    "search" :"Ara"
-
+    "findMore": "Daha fazlasını bulun",
+    "locating": "Lokasyon alınıyor",
+    "noLocation": "Konum alınamadı",
+    "noLocPermission": "Konum izni reddedildi",
+    "noCity": "Şehir bulunamadı!",
+    "searchCity": "Şehir ara",
+    "findAround": "Mevcut konumda bul",
+    "location": "Konum",
+    "cinemasLoading": "Sinemalar yükleniyor...",
+    "noCinemaYet": "Henüz sinema bulunamadı..",
+    "search": "Ara",
+    "details": "Detay",
+    "buyTicket": "Bilet Al",
+    "cinemas" : "Sinemalar",
+    "loading" : "Yükleniyor..."
   },
 
   "showtimes": {
@@ -740,9 +742,6 @@
     "trailer": "Fragman"
   },
 
-
-
-
   "experiences": {
     "shared": {
       "bookNow": "Bilet Al",
@@ -819,7 +818,3 @@
     }
   }
 }
-
-
-
-
