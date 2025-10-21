@@ -22,7 +22,7 @@ export default function ActionsBar({ movie }) {
 
   const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
-  const ticketHref = `${prefix}/find-showtime`;
+  const ticketHref = movie?.id ? `${prefix}/movies/showtimes/${movie.id}` : "#";
 
   // 🎬 Fragman — yeni sekme
   const playTrailer = () => {
@@ -40,7 +40,9 @@ export default function ActionsBar({ movie }) {
   };
 
   // ＋ Favori
+ // SSR hydration için: mount olana kadar faved'i UI'da uygulama
   const faved = movie?.id ? isFavorite(movie.id) : false;
+  const safeFaved = mounted && faved;
   const handleFavorite = () => {
     if (movie?.id) toggleFavorite(movie);
   };
@@ -68,14 +70,21 @@ export default function ActionsBar({ movie }) {
   const canOpenTrailer = !!(movie && (movie.trailerUrl || movie.id || movie.slug));
 
   // ⚠️ Hydration mismatch'i önlemek için: ilk render'da faved sınıfını uygulama.
-  const favBtnClass = [styles.iconBtn, mounted && faved && styles.faved]
+  const favBtnClass = [styles.iconBtn, safeFaved && styles.faved]
     .filter(Boolean)
     .join(" ");
+
+    // İlk render’da nötr metin; mount sonrası gerçek başlıklar
+   const neutral = tMovies("favoritesNeutral", { default: "Favoriler" });
+   const favTitle = safeFaved
+    ? tMovies("removeFromFavorites", { default: "Favoriden Çıkar" })
+    : tMovies("addToFavorites", { default: "Favorilere Ekle" });
 
   return (
     <div className={styles.actions}>
       <div className={styles.left}>
-        <BiletAl href={ticketHref} variant="hero">
+        <BiletAl href={ticketHref} variant="hero" onClick={(e) => e.stopPropagation()}
+  aria-disabled={!movie?.id}>
           <span className="btn-bilet__text">{tNav("buy")}</span>
           <span className="btn-bilet__sub">
             {tMovies("nearby", { default: "Yakındaki sinema ve seanslar" })}
@@ -106,17 +115,10 @@ export default function ActionsBar({ movie }) {
           type="button"
           className={favBtnClass}
           onClick={handleFavorite}
-          title={
-            faved
-              ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" })
-              : tMovies("addToFavorites", { default: "Favorilere ekle" })
-          }
-          aria-label={
-            faved
-              ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" })
-              : tMovies("addToFavorites", { default: "Favorilere ekle" })
-          }
-          aria-pressed={!!faved}
+          title={mounted ? favTitle : neutral}
+         aria-label={mounted ? favTitle : neutral}
+         aria-pressed={mounted ? !!faved : undefined}
+        suppressHydrationWarning
           disabled={!movie?.id}
         >
           <i className="pi pi-plus" />
