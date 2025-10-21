@@ -68,7 +68,7 @@ export default function LocationFinder() {
   return (
     <>
       <div className="location-simple" onClick={() => setShowModal(true)}>
-        <span className="location-icon">📍</span>
+        <span className="location-icon"><i className="pi pi-map-marker text-light"></i></span>
         <span className="location-text">{city}</span>
       </div>
 
