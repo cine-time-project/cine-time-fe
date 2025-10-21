@@ -2,7 +2,6 @@ import MovieHero from "@/components/movies/movieDetail/MovieHero";
 import DetailsTabs from "@/components/movies/movieDetail/DetailsTabs";
 import { notFound, redirect } from "next/navigation";
 import { getMovieById, getMovieBySlug, searchMovies } from "@/services/movie-serviceDP";
-import FavoriteController from "@/components/movies/movieDetail/FavoriteController";
 
 export const revalidate = 0;
 
@@ -28,8 +27,7 @@ async function resolveMovie(seg) {
   return page?.content?.[0] ?? null;
 }
 
-export default async function Page({ params }) {
-  const { locale, slug } = await params;
+export default async function Page({ params: { locale, slug } }) {
   const movie = await resolveMovie(slug);
   if (!movie) notFound();
 
@@ -43,7 +41,6 @@ export default async function Page({ params }) {
   return (
     <>
       <MovieHero movie={movie} />
-      
       <DetailsTabs movie={movie} />
     </>
   );

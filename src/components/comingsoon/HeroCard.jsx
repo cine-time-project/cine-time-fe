@@ -10,7 +10,7 @@ export const HeroCard = ({ movie, slideNumber }) => {
   const t = useTranslations("comingSoon");
   const locale = useLocale();
 
-  const imageUrl = getHeroUrl(movie);
+  const imageUrl = getHeroUrl(movie) || movie?.posterUrl || movie?.backdropUrl;
 
   return (
     <div
@@ -66,11 +66,23 @@ export const HeroCard = ({ movie, slideNumber }) => {
             </button>
           )}
           <Link
-            href={`/${locale}/buy-ticket?movieId=${movie.id}`}
+            href={`/${locale}/movies/showtimes/${movie.id}`}
             className="comingsoon-btn comingsoon-btn-outline"
           >
             {t("bookNow")}
           </Link>
+          <button
+            className="comingsoon-btn comingsoon-btn-favorite"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              // Add favorite functionality here
+              console.log(`Toggle favorite for movie ${movie.id}`);
+            }}
+          >
+            <span style={{ marginRight: 6 }}>♥</span>
+            {t("favorite")}
+          </button>
           <Link
             href={`/${locale}/movies/${movie.slug || movie.id}`}
             className="comingsoon-btn comingsoon-btn-solid"

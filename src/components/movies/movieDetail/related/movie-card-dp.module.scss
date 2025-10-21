@@ -50,11 +50,27 @@
   display: grid; place-items: center; cursor: pointer; color: #fff;
   border: 1px solid rgba(255,255,255,.22);
   background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.08));
-  transition: background .15s ease, border-color .15s ease, transform .04s ease;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .04s ease;
 }
+.roundBtn i { color: inherit; } /* ikon rengi buton rengini alsın */
+
 .roundBtn:hover{
   background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.26), rgba(255,255,255,.14));
   border-color: rgba(255,255,255,.32);
+}
+
+/* FAVORİYKEN: beyaz arka plan + siyah “+” (check yok) */
+.faved{
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid rgba(0,0,0,.15) !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
+}
+.faved:hover,
+.faved:focus-visible{
+  background: #fff !important;
+  color: #000 !important;
+  border-color: rgba(0,0,0,.25) !important;
 }
 
 /* trial satırı */
@@ -94,47 +110,15 @@ i.ri-clapperboard-line::before{ content:"🎬"; }
 i.ri-check-fill::before{ content:"✔"; }
 
 
-.pop { z-index: 20; } /* oklar 1000'de */
-
-
-/* yuvarlak küçük butonun tabanı */
-.roundBtn{
-  all: unset;
-  display: grid; place-items: center;
-  width: 44px; height: 44px; border-radius: 50%;
-  cursor: pointer; outline: none;
-  transition: background .18s, border-color .18s, color .18s, box-shadow .18s, transform .06s;
-  border: 1px solid transparent;
-}
-.roundBtn > i { font-size: 1.05rem; line-height: 1; }
-
-/* nötr “cam” görünüm — favori EKLİ DEĞİLKEN bunu kullanıyoruz */
-.neutral{
-  background:
-    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.20), rgba(255,255,255,.10));
-  color:#fff;
-  border-color: rgba(255,255,255,.22);
-  box-shadow: 0 10px 22px rgba(0,0,0,.22);
-  backdrop-filter: blur(4px);
-}
-.neutral:hover,
-.neutral:focus-visible{
-  background:
-    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.28), rgba(255,255,255,.14));
-  border-color: rgba(255,255,255,.30);
-  box-shadow: 0 12px 26px rgba(0,0,0,.28);
+/* Favoride görünüm: beyaz arka plan + siyah ikon */
+.roundBtn.faved{
+  background: #fff;
+  color: #000;
+  border: 1px solid rgba(0,0,0,.15);
 }
 
-/* favori EKLİ — beyaz daire */
-.favOn,
-.favOn:hover,
-.favOn:focus-visible{
-  background:#fff;
-  color:#0f1520;
-  border-color: rgba(0,0,0,.15);
-  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+/* Check ikonunu zorla “+” yap (JSX’e dokunmadan) */
+.roundBtn.faved i.pi::before{
+  content: "+";        /* check yerine plus */
+  font-weight: 900;    /* daha tok bir + */
 }
-
-/* minik geri bildirim */
-.roundBtn:active { transform: scale(.98); }
-.roundBtn[disabled]{ opacity:.7; cursor: pointer; }

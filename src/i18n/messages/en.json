@@ -319,32 +319,28 @@
     "addedToFavoritesToast": "Added to favorites.",
     "removedFromFavoritesToast": "Removed from favorites.",
     "halls": "Special halls"
-   
-
   },
 
   "cinemas": {
-  "listTitle": "Cinemas",
-  "address": "Address",
-  "phone": "Phone",
-  "features": "Features",
-  "halls": "Halls",
-  "selectCinema": "Select Cinema",
-  "noCinemas": "No cinemas found to list.",
-  "findMore": "Find more",
-  "locating": "Getting location",
-  "noLocation": "Location could not be obtained",
-  "noLocPermission": "Location permission denied",
-  "noCity": "City not found!",
-  "searchCity": "Search city",
-  "findAround": "Find near current location",
-  "location": "Location",
-  "cinemasLoading": "Cinemas loading...",
-  "noCinemaYet": "No cinema found yet...",
-  "search" :"Search"
-}
-,
-
+    "listTitle": "Cinemas",
+    "address": "Address",
+    "phone": "Phone",
+    "features": "Features",
+    "halls": "Halls",
+    "selectCinema": "Select Cinema",
+    "noCinemas": "No cinemas found to list.",
+    "findMore": "Find more",
+    "locating": "Getting location",
+    "noLocation": "Location could not be obtained",
+    "noLocPermission": "Location permission denied",
+    "noCity": "City not found!",
+    "searchCity": "Search city",
+    "findAround": "Find near current location",
+    "location": "Location",
+    "cinemasLoading": "Cinemas loading...",
+    "noCinemaYet": "No cinema found yet...",
+    "search": "Search"
+  },
   "showtimes": {
     "date": "Date",
     "time": "Time",
@@ -721,6 +717,7 @@
     "description": "Movies coming soon to theaters",
     "heading": "Coming Soon",
     "loading": "Loading…",
+    "loadingMovies": "Loading movies...",
     "noItems": "There are no movies to show.",
     "prev": "Prev",
     "next": "Next",
@@ -729,9 +726,12 @@
     "releaseTBA": "Release date: TBA",
     "bookNow": "Book Now",
     "details": "Details",
-    "trailer": "Trailer"
+    "trailer": "Trailer",
+    "favorite": "Favorite",
+    "error": "Error",
+    "apiConnectionCheck": "Please check API connection:"
   },
-  
+
   "experiences": {
     "shared": {
       "bookNow": "Buy Ticket",
@@ -808,4 +808,3 @@
     }
   }
 }
-

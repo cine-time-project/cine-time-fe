@@ -319,7 +319,6 @@
     "addedToFavoritesToast": "Favorilere eklendi.",
     "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
     "halls": "Özel Salonlar"
-
   },
 
   "cinemas": {
@@ -330,18 +329,17 @@
     "halls": "Salonlar",
     "selectCinema": "Sinema Seç",
     "noCinemas": "Listelenecek sinema bulunamadı.",
-    "findMore" : "Daha fazlasını bulun",
-    "locating" : "Lokasyon alınıyor",
-    "noLocation" : "Konum alınamadı",
-    "noLocPermission" : "Konum izni reddedildi",
-    "noCity" : "Şehir bulunamadı!",
-    "searchCity" : "Şehir ara",
-    "findAround" : "Mevcut konumda bul",
-    "location" : "Konum",
-    "cinemasLoading" : "Sinemalar yükleniyor...",
-    "noCinemaYet" : "Henüz sinema bulunamadı..",
-    "search" :"Ara"
-
+    "findMore": "Daha fazlasını bulun",
+    "locating": "Lokasyon alınıyor",
+    "noLocation": "Konum alınamadı",
+    "noLocPermission": "Konum izni reddedildi",
+    "noCity": "Şehir bulunamadı!",
+    "searchCity": "Şehir ara",
+    "findAround": "Mevcut konumda bul",
+    "location": "Konum",
+    "cinemasLoading": "Sinemalar yükleniyor...",
+    "noCinemaYet": "Henüz sinema bulunamadı..",
+    "search": "Ara"
   },
 
   "showtimes": {
@@ -729,6 +727,7 @@
     "description": "Yakında vizyona girecek filmler",
     "heading": "Yakında",
     "loading": "Yükleniyor…",
+    "loadingMovies": "Filmler yükleniyor...",
     "noItems": "Şu an listelenecek film yok.",
     "prev": "Önceki",
     "next": "Sonraki",
@@ -737,11 +736,11 @@
     "releaseTBA": "Vizyon tarihi: Bilinmiyor",
     "bookNow": "Bilet Al",
     "details": "Detaylar",
-    "trailer": "Fragman"
+    "trailer": "Fragman",
+    "favorite": "Favori",
+    "error": "Hata",
+    "apiConnectionCheck": "API bağlantısı kontrol edilsin:"
   },
-
-
-
 
   "experiences": {
     "shared": {
@@ -819,7 +818,3 @@
     }
   }
 }
-
-
-
-
