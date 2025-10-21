@@ -1,34 +1,52 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useParams, useRouter } from "next/navigation";
 import {
   fetchFavoriteMovieIds,
   addFavoriteMovie,
   removeFavoriteMovie,
 } from "@/services/favorite-service";
 
-// Basit event-bus: tüm bileşenler aynı anda güncellensin
-const bus = typeof window !== "undefined" ? window : { addEventListener(){}, removeEventListener(){}, dispatchEvent(){} };
+// Basit event bus (aynı sayfadaki bileşenleri senkronlamak için)
+const bus =
+  typeof window !== "undefined"
+    ? window
+    : { addEventListener() {}, removeEventListener() {}, dispatchEvent() {} };
 
-// Token'a bağlı lokal cache key (hızlı açılış için)
-function favKey() {
+// Token -> LS key
+function getToken() {
   try {
-    const t = localStorage.getItem("authToken") || localStorage.getItem("access_token") || localStorage.getItem("token");
-    return t ? `ct.favs.${t.slice(0,12)}` : null;
-  } catch { return null; }
+    return (
+      localStorage.getItem("authToken") ||
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("token") ||
+      ""
+    );
+  } catch {
+    return "";
+  }
 }
+function favKey() {
+  const t = getToken();
+  return t ? `ct.favs.${t.slice(0, 12)}` : "";
+}
+
 function readLS() {
   try {
-    const k = favKey(); if (!k) return [];
+    const k = favKey();
+    if (!k) return [];
     const raw = localStorage.getItem(k);
     const arr = raw ? JSON.parse(raw) : [];
     return Array.isArray(arr) ? arr.map(Number) : [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 function writeLS(ids) {
   try {
-    const k = favKey(); if (!k) return;
+    const k = favKey();
+    if (!k) return;
     localStorage.setItem(k, JSON.stringify([...new Set(ids.map(Number))]));
   } catch {}
 }
@@ -37,36 +55,43 @@ export function useFavorites() {
   const router = useRouter();
   const pathname = usePathname();
   const { locale } = useParams();
-  const loginUrl = `/${locale || "tr"}/login?redirect=${encodeURIComponent(pathname || "/")}`;
+
+  const loginUrl = `/${locale || "tr"}/login?redirect=${encodeURIComponent(
+    pathname || "/"
+  )}`;
 
   const [ids, setIds] = useState(() => readLS());
-  const isLoggedIn = useMemo(() => {
-    try {
-      return !!(localStorage.getItem("authToken") || localStorage.getItem("access_token") || localStorage.getItem("token"));
-    } catch { return false; }
-  }, []);
+  const isLoggedIn = useMemo(() => !!getToken(), []);
 
-  // İlk yüklemede: login ise DB'den çek ve LS ile senkronla
+  // İlk yüklemede: login ise DB'den listeyi çek
   useEffect(() => {
-    if (!isLoggedIn) { setIds([]); return; }
+    if (!isLoggedIn) {
+      setIds([]);
+      return;
+    }
     let cancel = false;
     (async () => {
       try {
         const dbIds = await fetchFavoriteMovieIds();
-        if (!cancel) { setIds(dbIds); writeLS(dbIds); }
+        if (!cancel) {
+          setIds(dbIds);
+          writeLS(dbIds);
+        }
       } catch (e) {
         console.error("[favorites] load error:", e?.message);
       }
     })();
-    return () => { cancel = true; };
+    return () => {
+      cancel = true;
+    };
   }, [isLoggedIn]);
 
-  // Diğer bileşenlerden değişiklikleri dinle
+  // Diğer bileşenlerden gelen değişiklikleri dinle
   useEffect(() => {
     const onFav = (e) => {
       const { type, movieId } = e.detail || {};
       if (!movieId) return;
-      setIds(prev => {
+      setIds((prev) => {
         const set = new Set(prev);
         if (type === "add") set.add(Number(movieId));
         if (type === "remove") set.delete(Number(movieId));
@@ -76,31 +101,37 @@ export function useFavorites() {
       });
     };
     const onAuth = () => setIds(readLS());
+    const onHydrated = () => setIds(readLS());
+
     bus.addEventListener("favorites-change", onFav);
     bus.addEventListener("auth-change", onAuth);
+    bus.addEventListener("favorites-hydrated", onHydrated);
+
     return () => {
       bus.removeEventListener("favorites-change", onFav);
       bus.removeEventListener("auth-change", onAuth);
+      bus.removeEventListener("favorites-hydrated", onHydrated);
     };
   }, []);
 
   const isFavorite = (movieId) => ids.includes(Number(movieId));
 
-  // Asıl toggle: ilk tıklamada ekle + buton rengi değişsin, 2. tıklamada çıkar
+  // Toggle (optimistic)
   const toggleFavorite = async (movie) => {
     const movieId = movie?.id;
     if (!movieId) return;
 
-    // login kontrolü
     if (!isLoggedIn) {
       router.push(loginUrl);
       return;
     }
 
     const already = isFavorite(movieId);
-
-    // Optimistic UI
-    bus.dispatchEvent(new CustomEvent("favorites-change", { detail: { type: already ? "remove" : "add", movieId }}));
+    bus.dispatchEvent(
+      new CustomEvent("favorites-change", {
+        detail: { type: already ? "remove" : "add", movieId },
+      })
+    );
 
     try {
       if (already) {
@@ -111,9 +142,16 @@ export function useFavorites() {
     } catch (e) {
       console.error("[favorites] toggle error:", e?.message);
       // rollback
-      bus.dispatchEvent(new CustomEvent("favorites-change", { detail: { type: already ? "add" : "remove", movieId }}));
+      bus.dispatchEvent(
+        new CustomEvent("favorites-change", {
+          detail: { type: already ? "add" : "remove", movieId },
+        })
+      );
     }
   };
 
   return { ids, isFavorite, toggleFavorite, isLoggedIn };
 }
+
+// İstersen default da ver; yanlışlıkla default import edilirse de çalışsın
+export default useFavorites;

@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as authService from "@/services/auth-service";
 import { config } from "@/helpers/config";
+import { hydrateFavoritesForToken, clearFavoriteCaches } from "@/lib/hooks/favorites-hydrate";
 
 const AuthContext = createContext();
 
@@ -23,6 +24,7 @@ export function AuthProvider({ children }) {
     setUser(authUser);
     // Dispatch event for same-tab updates
     document.dispatchEvent(new Event("auth-change"));
+    await hydrateFavoritesForToken(authUser.token);
     return authUser;
   };
 
@@ -56,6 +58,7 @@ export function AuthProvider({ children }) {
     setUser(null);
     // Dispatch event for same-tab updates
     document.dispatchEvent(new Event("auth-change"));
+    clearFavoriteCaches();
   };
 
   return (
