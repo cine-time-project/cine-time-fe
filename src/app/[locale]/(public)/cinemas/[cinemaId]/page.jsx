@@ -37,6 +37,8 @@ export default function CinemaShowtimesPage() {
   const [cinemaName, setCinemaName] = useState(null);
   const [payload, setPayload] = useState([]); // [{ movie:{...}, showtimes:[{date,startTime,...}] }]
   const [error, setError] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [dates, setDates] = useState([]);
 
   // Load page data
   useEffect(() => {
@@ -66,6 +68,18 @@ export default function CinemaShowtimesPage() {
         }
         const body = res.data?.returnBody ?? res.data;
         if (!ignore) setPayload(Array.isArray(body) ? body : []);
+        // Date filter logic
+        const uniqueDates = Array.from(
+          new Set(
+            (Array.isArray(body) ? body : [])
+              .flatMap((item) => (item.showtimes || []).map((s) => s.date))
+              .filter(Boolean)
+          )
+        ).sort();
+        setDates(uniqueDates);
+        if (!selectedDate && uniqueDates.length > 0) {
+          setSelectedDate(uniqueDates[0]);
+        }
       } catch (e) {
         if (!ignore) {
           setError("Seanslar yüklenemedi.");
@@ -107,8 +121,31 @@ export default function CinemaShowtimesPage() {
               Bu gün için seans bulunamadı.
             </div>
           ) : (
-            <div className="movie-grid">
-              {payload.map((item, idx) => {
+            <>
+              <div className="d-flex align-items-center gap-2 mb-3">
+                <label className="form-label mb-0">Date:</label>
+                <select
+                  className="form-select form-select-sm w-auto"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  disabled={dates.length === 0}
+                >
+                  <option value="">Select date…</option>
+                  {dates.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="movie-grid">
+                {payload
+                  .filter((item) =>
+                    !selectedDate
+                      ? true
+                      : (item.showtimes || []).some((s) => s.date === selectedDate)
+                  )
+                  .map((item, idx) => {
                 const m = item.movie || {};
                 const showtimes = item.showtimes || [];
 
@@ -195,8 +232,9 @@ export default function CinemaShowtimesPage() {
                     </div>
                   </article>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            </>
           )}
         </>
       )}
