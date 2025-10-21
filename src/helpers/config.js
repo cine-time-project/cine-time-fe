@@ -110,4 +110,6 @@ i18n: {
 
   // Örnek şehir/şube listesi (UI filtreleri için)
   cities: ["İstanbul", "Ankara", "İzmir", "Bursa", "Antalya"],
+
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: "217090357245-psqauf47tu2tic2c0d3hlal7llvdc3nt.apps.googleusercontent.com",
 };
