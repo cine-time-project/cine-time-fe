@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   fetchFavoriteMovieIds,
@@ -8,65 +8,94 @@ import {
   removeFavoriteMovie,
 } from "@/services/favorite-service";
 
-// Basit event-bus: tüm bileşenler aynı anda güncellensin
-const bus = typeof window !== "undefined" ? window : { addEventListener(){}, removeEventListener(){}, dispatchEvent(){} };
+// Basit bus: aynı sekmede tüm bileşenleri senkron tut
+const bus =
+  typeof window !== "undefined"
+    ? window
+    : { addEventListener() {}, removeEventListener() {}, dispatchEvent() {} };
 
-// Token'a bağlı lokal cache key (hızlı açılış için)
+// Token bazlı localStorage key (hızlı açılış için)
 function favKey() {
   try {
-    const t = localStorage.getItem("authToken") || localStorage.getItem("access_token") || localStorage.getItem("token");
-    return t ? `ct.favs.${t.slice(0,12)}` : null;
-  } catch { return null; }
+    const t =
+      localStorage.getItem("authToken") ||
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("token");
+    return t ? `ct.favs.${t.slice(0, 12)}` : null;
+  } catch {
+    return null;
+  }
 }
 function readLS() {
   try {
-    const k = favKey(); if (!k) return [];
+    const k = favKey();
+    if (!k) return [];
     const raw = localStorage.getItem(k);
     const arr = raw ? JSON.parse(raw) : [];
     return Array.isArray(arr) ? arr.map(Number) : [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 function writeLS(ids) {
   try {
-    const k = favKey(); if (!k) return;
+    const k = favKey();
+    if (!k) return;
     localStorage.setItem(k, JSON.stringify([...new Set(ids.map(Number))]));
   } catch {}
+}
+// taze token kontrolü (memo değil, her seferinde gerçek durumu okur)
+function hasToken() {
+  try {
+    return !!(
+      localStorage.getItem("authToken") ||
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("token")
+    );
+  } catch {
+    return false;
+  }
 }
 
 export function useFavorites() {
   const router = useRouter();
   const pathname = usePathname();
   const { locale } = useParams();
-  const loginUrl = `/${locale || "tr"}/login?redirect=${encodeURIComponent(pathname || "/")}`;
+  const loginUrl = `/${locale || "tr"}/login?redirect=${encodeURIComponent(
+    pathname || "/"
+  )}`;
 
   const [ids, setIds] = useState(() => readLS());
-  const isLoggedIn = useMemo(() => {
-    try {
-      return !!(localStorage.getItem("authToken") || localStorage.getItem("access_token") || localStorage.getItem("token"));
-    } catch { return false; }
-  }, []);
 
-  // İlk yüklemede: login ise DB'den çek ve LS ile senkronla
+  // İlk mount: login ise DB'den çek (LS ile senkronla)
   useEffect(() => {
-    if (!isLoggedIn) { setIds([]); return; }
+    if (!hasToken()) {
+      setIds([]);
+      return;
+    }
     let cancel = false;
     (async () => {
       try {
         const dbIds = await fetchFavoriteMovieIds();
-        if (!cancel) { setIds(dbIds); writeLS(dbIds); }
+        if (!cancel) {
+          setIds(dbIds);
+          writeLS(dbIds);
+        }
       } catch (e) {
         console.error("[favorites] load error:", e?.message);
       }
     })();
-    return () => { cancel = true; };
-  }, [isLoggedIn]);
+    return () => {
+      cancel = true;
+    };
+  }, []); // her mount'ta bir kez; token kontrolü fonksiyon içinde
 
-  // Diğer bileşenlerden değişiklikleri dinle
+  // Diğer bileşenlerden değişiklikleri + login/logout'u dinle
   useEffect(() => {
     const onFav = (e) => {
       const { type, movieId } = e.detail || {};
       if (!movieId) return;
-      setIds(prev => {
+      setIds((prev) => {
         const set = new Set(prev);
         if (type === "add") set.add(Number(movieId));
         if (type === "remove") set.delete(Number(movieId));
@@ -75,7 +104,22 @@ export function useFavorites() {
         return next;
       });
     };
-    const onAuth = () => setIds(readLS());
+
+    const onAuth = async () => {
+      if (hasToken()) {
+        // login oldu: DB'den taze liste çek
+        try {
+          const dbIds = await fetchFavoriteMovieIds();
+          setIds(dbIds);
+          writeLS(dbIds);
+        } catch {}
+      } else {
+        // logout oldu: temizle
+        setIds([]);
+        writeLS([]);
+      }
+    };
+
     bus.addEventListener("favorites-change", onFav);
     bus.addEventListener("auth-change", onAuth);
     return () => {
@@ -86,21 +130,24 @@ export function useFavorites() {
 
   const isFavorite = (movieId) => ids.includes(Number(movieId));
 
-  // Asıl toggle: ilk tıklamada ekle + buton rengi değişsin, 2. tıklamada çıkar
+  // Toggle (optimistic UI)
   const toggleFavorite = async (movie) => {
     const movieId = movie?.id;
     if (!movieId) return;
 
-    // login kontrolü
-    if (!isLoggedIn) {
+    if (!hasToken()) {
       router.push(loginUrl);
       return;
     }
 
     const already = isFavorite(movieId);
 
-    // Optimistic UI
-    bus.dispatchEvent(new CustomEvent("favorites-change", { detail: { type: already ? "remove" : "add", movieId }}));
+    // Optimistic güncelleme
+    bus.dispatchEvent(
+      new CustomEvent("favorites-change", {
+        detail: { type: already ? "remove" : "add", movieId },
+      })
+    );
 
     try {
       if (already) {
@@ -108,12 +155,22 @@ export function useFavorites() {
       } else {
         await addFavoriteMovie(movieId);
       }
+      // add/remove servisleri idempotent (409/404 başarı sayılıyor)
     } catch (e) {
       console.error("[favorites] toggle error:", e?.message);
       // rollback
-      bus.dispatchEvent(new CustomEvent("favorites-change", { detail: { type: already ? "add" : "remove", movieId }}));
+      bus.dispatchEvent(
+        new CustomEvent("favorites-change", {
+          detail: { type: already ? "add" : "remove", movieId },
+        })
+      );
     }
   };
 
-  return { ids, isFavorite, toggleFavorite, isLoggedIn };
+  return {
+    ids,
+    isFavorite,
+    toggleFavorite,
+    isLoggedIn: hasToken(),
+  };
 }

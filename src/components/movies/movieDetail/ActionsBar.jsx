@@ -78,7 +78,7 @@ export default function ActionsBar({ movie }) {
         {/* ＋/✓ Favori (favoriyken arka plan değişir) */}
         <button
           type="button"
-          className={`${styles.iconBtn} ${faved ? styles.faved : ""}`}
+          className={[styles.iconBtn, faved && styles.faved].filter(Boolean).join(" ")}
           onClick={handleFavorite}
           title={faved ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" }) : tMovies("addToFavorites", { default: "Favorilere ekle" })}
           aria-label={faved ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" }) : tMovies("addToFavorites", { default: "Favorilere ekle" })}
