@@ -1,31 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { usePathname, useParams, useRouter } from "next/navigation";
 import {
   fetchFavoriteMovieIds,
   addFavoriteMovie,
   removeFavoriteMovie,
 } from "@/services/favorite-service";
 
-// Basit bus: aynı sekmede tüm bileşenleri senkron tut
+// Basit event bus (aynı sayfadaki bileşenleri senkronlamak için)
 const bus =
   typeof window !== "undefined"
     ? window
     : { addEventListener() {}, removeEventListener() {}, dispatchEvent() {} };
 
-// Token bazlı localStorage key (hızlı açılış için)
-function favKey() {
+// Token -> LS key
+function getToken() {
   try {
-    const t =
+    return (
       localStorage.getItem("authToken") ||
       localStorage.getItem("access_token") ||
-      localStorage.getItem("token");
-    return t ? `ct.favs.${t.slice(0, 12)}` : null;
+      localStorage.getItem("token") ||
+      ""
+    );
   } catch {
-    return null;
+    return "";
   }
 }
+function favKey() {
+  const t = getToken();
+  return t ? `ct.favs.${t.slice(0, 12)}` : "";
+}
+
 function readLS() {
   try {
     const k = favKey();
@@ -44,32 +50,22 @@ function writeLS(ids) {
     localStorage.setItem(k, JSON.stringify([...new Set(ids.map(Number))]));
   } catch {}
 }
-// taze token kontrolü (memo değil, her seferinde gerçek durumu okur)
-function hasToken() {
-  try {
-    return !!(
-      localStorage.getItem("authToken") ||
-      localStorage.getItem("access_token") ||
-      localStorage.getItem("token")
-    );
-  } catch {
-    return false;
-  }
-}
 
 export function useFavorites() {
   const router = useRouter();
   const pathname = usePathname();
   const { locale } = useParams();
+
   const loginUrl = `/${locale || "tr"}/login?redirect=${encodeURIComponent(
     pathname || "/"
   )}`;
 
   const [ids, setIds] = useState(() => readLS());
+  const isLoggedIn = useMemo(() => !!getToken(), []);
 
-  // İlk mount: login ise DB'den çek (LS ile senkronla)
+  // İlk yüklemede: login ise DB'den listeyi çek
   useEffect(() => {
-    if (!hasToken()) {
+    if (!isLoggedIn) {
       setIds([]);
       return;
     }
@@ -88,9 +84,9 @@ export function useFavorites() {
     return () => {
       cancel = true;
     };
-  }, []); // her mount'ta bir kez; token kontrolü fonksiyon içinde
+  }, [isLoggedIn]);
 
-  // Diğer bileşenlerden değişiklikleri + login/logout'u dinle
+  // Diğer bileşenlerden gelen değişiklikleri dinle
   useEffect(() => {
     const onFav = (e) => {
       const { type, movieId } = e.detail || {};
@@ -104,45 +100,33 @@ export function useFavorites() {
         return next;
       });
     };
-
-    const onAuth = async () => {
-      if (hasToken()) {
-        // login oldu: DB'den taze liste çek
-        try {
-          const dbIds = await fetchFavoriteMovieIds();
-          setIds(dbIds);
-          writeLS(dbIds);
-        } catch {}
-      } else {
-        // logout oldu: temizle
-        setIds([]);
-        writeLS([]);
-      }
-    };
+    const onAuth = () => setIds(readLS());
+    const onHydrated = () => setIds(readLS());
 
     bus.addEventListener("favorites-change", onFav);
     bus.addEventListener("auth-change", onAuth);
+    bus.addEventListener("favorites-hydrated", onHydrated);
+
     return () => {
       bus.removeEventListener("favorites-change", onFav);
       bus.removeEventListener("auth-change", onAuth);
+      bus.removeEventListener("favorites-hydrated", onHydrated);
     };
   }, []);
 
   const isFavorite = (movieId) => ids.includes(Number(movieId));
 
-  // Toggle (optimistic UI)
+  // Toggle (optimistic)
   const toggleFavorite = async (movie) => {
     const movieId = movie?.id;
     if (!movieId) return;
 
-    if (!hasToken()) {
+    if (!isLoggedIn) {
       router.push(loginUrl);
       return;
     }
 
     const already = isFavorite(movieId);
-
-    // Optimistic güncelleme
     bus.dispatchEvent(
       new CustomEvent("favorites-change", {
         detail: { type: already ? "remove" : "add", movieId },
@@ -155,7 +139,6 @@ export function useFavorites() {
       } else {
         await addFavoriteMovie(movieId);
       }
-      // add/remove servisleri idempotent (409/404 başarı sayılıyor)
     } catch (e) {
       console.error("[favorites] toggle error:", e?.message);
       // rollback
@@ -167,10 +150,8 @@ export function useFavorites() {
     }
   };
 
-  return {
-    ids,
-    isFavorite,
-    toggleFavorite,
-    isLoggedIn: hasToken(),
-  };
+  return { ids, isFavorite, toggleFavorite, isLoggedIn };
 }
+
+// İstersen default da ver; yanlışlıkla default import edilirse de çalışsın
+export default useFavorites;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import styles from "./actions-bar.module.scss";
@@ -9,46 +9,68 @@ import { useFavorites } from "@/lib/hooks/useFavorites";
 
 export default function ActionsBar({ movie }) {
   const [castOpen, setCastOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // <-- hydration fix
 
+  useEffect(() => setMounted(true), []);
+
+
+  
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const tMovies = useTranslations("movies");
   const { isFavorite, toggleFavorite } = useFavorites();
 
-  // locale'li prefix
   const { locale } = useParams();
   const prefix = locale ? `/${locale}` : "";
   const ticketHref = `${prefix}/find-showtime`;
 
-  // Fragman — yeni sekme
+  // 🎬 Fragman — yeni sekme
   const playTrailer = () => {
-    if (movie?.trailerUrl && /^https?:\/\//i.test(movie.trailerUrl)) {
-      window.open(movie.trailerUrl, "_blank", "noopener,noreferrer");
+    const direct = movie?.trailerUrl;
+    if (direct && /^https?:\/\//i.test(direct)) {
+      window.open(direct, "_blank", "noopener,noreferrer");
       return;
     }
-    const details = movie?.slug ? `${prefix}/movies/${movie.slug}` : movie?.id ? `${prefix}/movies/${movie.id}` : null;
+    const details = movie?.slug
+      ? `${prefix}/movies/${movie.slug}`
+      : movie?.id
+      ? `${prefix}/movies/${movie.id}`
+      : null;
     if (details) window.open(`${details}?play=trailer`, "_blank", "noopener,noreferrer");
   };
 
-  // Favori
-  const faved = isFavorite(movie?.id);
-  const handleFavorite = () => { toggleFavorite(movie); };
+  // ＋ Favori
+  const faved = movie?.id ? isFavorite(movie.id) : false;
+  const handleFavorite = () => {
+    if (movie?.id) toggleFavorite(movie);
+  };
 
-  // Kamera arkası
+  // 🎥 Kamera arkası (YouTube araması)
   const openBehindTheScenes = () => {
-    const title = movie?.title || "";
+    const title = (movie?.title || "").trim();
     const q = encodeURIComponent(`${title} behind the scenes OR kamera arkası OR making of`);
     window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank", "noopener,noreferrer");
   };
 
-  // Paylaş
+  // 🔗 Paylaş
   const share = async () => {
     const url = window.location.href;
     try {
-      if (navigator.share) await navigator.share({ title: movie?.title, text: movie?.summary, url });
-      else { await navigator.clipboard.writeText(url); alert(tMovies("linkCopied", { default: "Bağlantı panoya kopyalandı ✅" })); }
+      if (navigator.share) {
+        await navigator.share({ title: movie?.title, text: movie?.summary, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert(tMovies("linkCopied", { default: "Bağlantı panoya kopyalandı ✅" }));
+      }
     } catch {}
   };
+
+  const canOpenTrailer = !!(movie && (movie.trailerUrl || movie.id || movie.slug));
+
+  // ⚠️ Hydration mismatch'i önlemek için: ilk render'da faved sınıfını uygulama.
+  const favBtnClass = [styles.iconBtn, mounted && faved && styles.faved]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div className={styles.actions}>
@@ -61,8 +83,12 @@ export default function ActionsBar({ movie }) {
         </BiletAl>
       </div>
 
-      {/* İKONLAR */}
-      <div className={styles.icons} role="group" aria-label={tMovies("actionsAria", { default: "Film işlemleri" })}>
+      {/* -- İKONLAR -- */}
+      <div
+        className={styles.icons}
+        role="group"
+        aria-label={tMovies("actionsAria", { default: "Film işlemleri" })}
+      >
         {/* 🎬 Fragman */}
         <button
           type="button"
@@ -70,63 +96,101 @@ export default function ActionsBar({ movie }) {
           onClick={playTrailer}
           title={tMovies("trailer", { default: "Fragman" })}
           aria-label={tMovies("trailer", { default: "Fragman" })}
-          disabled={!movie || (!movie.trailerUrl && !movie.id && !movie.slug)}
+          disabled={!canOpenTrailer}
         >
           <i className="pi pi-video" />
         </button>
 
-        {/* ＋/✓ Favori (favoriyken arka plan değişir) */}
+        {/* ＋ Favori (faved: arka plan beyaz, + siyah — CSS ile) */}
         <button
           type="button"
-          className={[styles.iconBtn, faved && styles.faved].filter(Boolean).join(" ")}
+          className={favBtnClass}
           onClick={handleFavorite}
-          title={faved ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" }) : tMovies("addToFavorites", { default: "Favorilere ekle" })}
-          aria-label={faved ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" }) : tMovies("addToFavorites", { default: "Favorilere ekle" })}
-          aria-pressed={faved}
+          title={
+            faved
+              ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" })
+              : tMovies("addToFavorites", { default: "Favorilere ekle" })
+          }
+          aria-label={
+            faved
+              ? tMovies("removeFromFavorites", { default: "Favorilerden çıkar" })
+              : tMovies("addToFavorites", { default: "Favorilere ekle" })
+          }
+          aria-pressed={!!faved}
           disabled={!movie?.id}
         >
-          <i className={faved ? "pi pi-plus" : "pi pi-plus"} />
+          <i className="pi pi-plus" />
         </button>
 
         {/* 👥 Kadro (modal) */}
-        <button type="button" className={styles.iconBtn} onClick={() => setCastOpen(true)} title={tMovies("cast")} aria-label={tMovies("cast")}>
+        <button
+          type="button"
+          className={styles.iconBtn}
+          onClick={() => setCastOpen(true)}
+          title={tMovies("cast")}
+          aria-label={tMovies("cast")}
+        >
           <i className="pi pi-users" />
         </button>
 
         {/* 🎥 Kamera Arkası */}
-        <button type="button" className={styles.iconBtn} onClick={openBehindTheScenes} title={tMovies("behindTheScenes", { default: "Kamera Arkası" })} aria-label={tMovies("behindTheScenes", { default: "Kamera Arkası" })}>
+        <button
+          type="button"
+          className={styles.iconBtn}
+          onClick={openBehindTheScenes}
+          title={tMovies("behindTheScenes", { default: "Kamera Arkası" })}
+          aria-label={tMovies("behindTheScenes", { default: "Kamera Arkası" })}
+        >
           <i className="pi pi-youtube" />
         </button>
 
         {/* 🔗 Paylaş */}
-        <button type="button" className={styles.iconBtn} onClick={share} title={tMovies("share", { default: "Paylaş" })} aria-label={tMovies("share", { default: "Paylaş" })}>
+        <button
+          type="button"
+          className={styles.iconBtn}
+          onClick={share}
+          title={tMovies("share", { default: "Paylaş" })}
+          aria-label={tMovies("share", { default: "Paylaş" })}
+        >
           <i className="pi pi-share-alt" />
         </button>
       </div>
 
-      {/* Kadro Modal */}
+      {/* --- Kadro Modal --- */}
       {castOpen && (
         <div className={styles.modalBackdrop} onClick={() => setCastOpen(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHead}>
               <h5 className="m-0">{tMovies("cast")}</h5>
-              <button className={styles.modalClose} onClick={() => setCastOpen(false)} aria-label={tCommon("close")} title={tCommon("close")}>
+              <button
+                className={styles.modalClose}
+                onClick={() => setCastOpen(false)}
+                aria-label={tCommon("close")}
+                title={tCommon("close")}
+              >
                 <i className="pi pi-times" />
               </button>
             </div>
+
             <div className={styles.modalBody}>
               {(movie?.cast || []).length ? (
                 <ul className={styles.castList}>
                   {movie.cast.map((name, i) => (
                     <li key={i}>
-                      <a href={`https://www.google.com/search?q=${encodeURIComponent(name)}`} target="_blank" rel="noreferrer">
+                      <a
+                        href={`https://www.google.com/search?q=${encodeURIComponent(name)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {name}
                       </a>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="text-muted">{tMovies("noCast", { default: "Kadro bilgisi bulunamadı." })}</div>
+                <div className="text-muted">
+                  {tMovies("noCast", { default: "Kadro bilgisi bulunamadı." })}
+                </div>
               )}
             </div>
           </div>
