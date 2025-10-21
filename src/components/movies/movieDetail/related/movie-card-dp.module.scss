@@ -50,11 +50,27 @@
   display: grid; place-items: center; cursor: pointer; color: #fff;
   border: 1px solid rgba(255,255,255,.22);
   background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.08));
-  transition: background .15s ease, border-color .15s ease, transform .04s ease;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .04s ease;
 }
+.roundBtn i { color: inherit; } /* ikon rengi buton rengini alsın */
+
 .roundBtn:hover{
   background: radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.26), rgba(255,255,255,.14));
   border-color: rgba(255,255,255,.32);
+}
+
+/* FAVORİYKEN: beyaz arka plan + siyah “+” (check yok) */
+.faved{
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid rgba(0,0,0,.15) !important;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
+}
+.faved:hover,
+.faved:focus-visible{
+  background: #fff !important;
+  color: #000 !important;
+  border-color: rgba(0,0,0,.25) !important;
 }
 
 /* trial satırı */
@@ -94,4 +110,15 @@ i.ri-clapperboard-line::before{ content:"🎬"; }
 i.ri-check-fill::before{ content:"✔"; }
 
 
-.pop { z-index: 20; } /* oklar 1000'de */
+/* Favoride görünüm: beyaz arka plan + siyah ikon */
+.roundBtn.faved{
+  background: #fff;
+  color: #000;
+  border: 1px solid rgba(0,0,0,.15);
+}
+
+/* Check ikonunu zorla “+” yap (JSX’e dokunmadan) */
+.roundBtn.faved i.pi::before{
+  content: "+";        /* check yerine plus */
+  font-weight: 900;    /* daha tok bir + */
+}

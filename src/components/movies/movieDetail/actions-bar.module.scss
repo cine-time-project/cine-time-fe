@@ -88,6 +88,7 @@
   backdrop-filter: blur(4px);
 
   transition: background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+   transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 
 .iconBtn:hover,
@@ -128,4 +129,23 @@
 .modalBody{ padding:14px 16px; max-height:60vh; overflow:auto; }
 .castList{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px 14px; margin:0; padding:0; list-style:none;
   li a{ color:#fff; text-decoration:underline; text-underline-offset:2px; }
+}
+
+.faved {
+  background: var(--brand, #0ea5e9);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Favoride görünüm: beyaz arka plan + siyah ikon */
+.iconBtn.faved{
+  background: #fff;
+  color: #000;
+  border: 1px solid rgba(0,0,0,.15);
+}
+
+/* Check ikonunu zorla “+” yap (JSX aynı kalsın) */
+.iconBtn.faved i.pi::before{
+  content: "+";        /* check yerine plus */
+  font-weight: 900;
 }

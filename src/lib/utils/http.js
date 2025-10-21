@@ -4,14 +4,19 @@ export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // örn: http://lo
 // Tarayıcıdan token'ı oku (login hangi key'i yazdıysa onu bulur)
 const TOKEN_KEYS = ["authToken", "access_token", "token"];
 
+// src/lib/utils/http.js
 export function getToken() {
   if (typeof window === "undefined") return "";
-  for (const k of TOKEN_KEYS) {
+  for (const k of ["authToken","access_token","token"]) {
     const v = localStorage.getItem(k);
-    if (v && String(v).trim()) return String(v).trim();
+    if (v && String(v).trim()) {
+      console.log("TOKEN_FROM_LS", k, String(v).slice(0,20) + "..."); 
+      return String(v).trim();
+    }
   }
   return "";
 }
+
 
 
 export function authHeaders(extra = {}) {
@@ -34,3 +39,4 @@ export function axiosAuth(extra = {}) {
 export function isLoggedIn() {
   return !!getToken();
 }
+
