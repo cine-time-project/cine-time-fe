@@ -1,8 +1,8 @@
-export default function AdminMovieNewPage({ params: { locale } }) {
+export default function AdminMovieNewPage() {
   return (
     <>
       <h1>New Movie</h1>
-      <p>Form burada olacak.</p>
+      <p>Film oluşturma formu burada.</p>
     </>
   );
 }

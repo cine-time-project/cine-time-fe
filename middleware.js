@@ -4,10 +4,10 @@ import intlConfig from "./next-intl.config.mjs";
 import { NextResponse } from "next/server";
 import { config as appConfig } from "./src/helpers/config";
 
-// i18n middleware’ı çağıracağız ama üstüne rol guard ekleyeceğiz
+// i18n middleware (locale ekleme vb.)
 const i18n = createMiddleware(intlConfig);
 
-// ---- yardımcılar ----
+/* ---------------- helpers ---------------- */
 function decodeJwtPayload(token) {
   try {
     const part = token.split(".")[1];
@@ -15,61 +15,75 @@ function decodeJwtPayload(token) {
     const base64 = part.replace(/-/g, "+").replace(/_/g, "/");
     const json = atob(base64.padEnd(base64.length + (4 - (base64.length % 4)) % 4, "="));
     return JSON.parse(json);
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
-function getRolesFromRequest(req) {
-  // 1) client set cookie: authRoles = "ADMIN,EMPLOYEE"
-  const raw = req.cookies.get("authRoles")?.value;
-  if (raw) {
-    return raw.split(/[\s,]+/).map(s => s.trim().toUpperCase()).filter(Boolean);
+function getAuthFromRequest(req) {
+  // Cookie'larda roller
+  const rawRoles = req.cookies.get("authRoles")?.value;
+  let roles = [];
+  if (rawRoles) {
+    roles = rawRoles.split(/[\s,]+/).map((s) => s.trim().toUpperCase()).filter(Boolean);
   }
 
-  // 2) JWT cookie varsa ordan
+  // JWT varsa ondan da “authenticated” say
   const jwt = req.cookies.get("authToken")?.value || req.cookies.get("token")?.value;
-  if (jwt) {
+  const authedByJwt = !!jwt;
+
+  // JWT içinden rolleri de normalize etmeyi dene (fallback)
+  if (!roles.length && jwt) {
     const p = decodeJwtPayload(jwt) || {};
-    const roles = p.roles || p.authorities || p.role || p.scopes || p.scope;
-    if (Array.isArray(roles)) return roles.map(r => String(r).toUpperCase());
-    if (typeof roles === "string") return roles.split(/[\s,]+/).map(s => s.trim().toUpperCase());
+    const r = p.roles || p.authorities || p.role || p.scopes || p.scope;
+    if (Array.isArray(r)) roles = r.map((x) => String(x).toUpperCase());
+    else if (typeof r === "string") roles = r.split(/[\s,]+/).map((s) => s.trim().toUpperCase());
   }
-  return [];
+
+  const isAuthenticated = roles.length > 0 || authedByJwt;
+  return { roles, isAuthenticated };
 }
 
 function canAccessPath(pathname, roles) {
   const rules = appConfig.userRightsOnRoutes || [];
-
   // İlgili kuralı bul
-  const rule = rules.find(r => r?.urlRegex instanceof RegExp && r.urlRegex.test(pathname));
+  const rule = rules.find((r) => r?.urlRegex instanceof RegExp && r.urlRegex.test(pathname));
 
   if (rule) {
-    return rule.roles.some(need => roles.includes(String(need).toUpperCase()));
+    return rule.roles.some((need) => roles.includes(String(need).toUpperCase()));
   }
 
   // ---- DENEY-BY-DEFAULT ----
-  // Admin alanında kural yoksa, REDDET.
+  // Admin alanında kural yoksa REDDET.
   const isAdmin = /^\/(tr|en|de|fr)\/admin(\/.*)?$/.test(pathname);
   return !isAdmin;
 }
 
-// ---- asıl middleware ----
+/* ---------------- main middleware ---------------- */
 export default function middleware(req) {
-  const res = i18n(req); // locale ekleme vb.
+  // 1) i18n işlemleri
+  const res = i18n(req);
 
   const { pathname } = req.nextUrl;
+  const isAdminPath = /^\/(tr|en|de|fr)\/admin(\/.*)?$/.test(pathname);
+  if (!isAdminPath) return res; // Sadece admin alanını koruyoruz
 
-  // Sadece admin yollarını koru (public’i bozmayalım)
-  const isAdmin = /^\/(tr|en|de|fr)\/admin(\/.*)?$/.test(pathname);
-  if (!isAdmin) return res;
-
-  const roles = getRolesFromRequest(req);
+  const { roles, isAuthenticated } = getAuthFromRequest(req);
 
   if (!canAccessPath(pathname, roles)) {
     const url = req.nextUrl.clone();
     const locale = pathname.split("/")[1] || "tr";
-    // oturum varsa ama rol yetmezse admin listeye/ya da account’a yönlendir
-    url.pathname = `/${locale}/account`;
-    url.searchParams.set("denied", "1");
+
+    if (!isAuthenticated) {
+      // Giriş yoksa → login'e
+      url.pathname = `/${locale}/login`;
+      url.searchParams.set("redirect", pathname);
+    } else {
+      // Giriş var ama rol yetersiz → account'a
+      url.pathname = `/${locale}/account`;
+      url.searchParams.set("denied", "1");
+    }
+
     return NextResponse.redirect(url);
   }
 

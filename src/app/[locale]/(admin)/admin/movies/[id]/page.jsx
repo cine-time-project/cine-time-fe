@@ -1,4 +1,4 @@
-export default function AdminMovieDetailPage({ params: { id, locale } }) {
+export default function AdminMovieDetailPage({ params: { id } }) {
   return (
     <>
       <h1>Movie: {id}</h1>
