@@ -578,9 +578,16 @@
   },
 
   "about": {
-    "title": "Hakkımızda",
-    "heroLead": "CineTime; son teknoloji projeksiyonlar, konforlu koltuklar ve seçkin büfe seçenekleriyle sinema keyfini bir üst seviyeye taşır.",
+    "title": "CineTime Hakkımızda",
+    "heroLead": "CineTime'ın temelleri 90'ların ortasında, film projeksiyonunun analogdan dijitale evrildiği dönemde atıldı. Yeniliğe açık bir vizyonla kurulan marka, sinema deneyimini yalnızca bir izleme eylemi değil, başlı başına bir atmosfer olarak tanımladı.",
+    "heroP2": "İlk salonumuz 180 koltuk kapasitesiyle kapılarını açtı. 35mm projektörlerle başlayan bu yolculukta sahne, perde ve akustik sistemlere yapılan yatırımlar sayesinde izleyici konforu her zaman öncelikli oldu.",
     "heroAlt": "Deluxe salon – geniş koltuklar ve ambiyans aydınlatma",
+
+    "stats": {
+      "locations": "Lokasyon",
+      "halls": "Salon",
+      "seats": "Koltuk"
+    },
 
     "missionTitle": "Misyonumuz",
     "missionBody": "Sinemayı herkes için erişilebilir, konforlu ve keyifli kılıyoruz. Şehrinizdeki salonları tek bir platformda topluyor, hızlı biletleme ve kişiselleştirilmiş öneriler sunuyoruz.",

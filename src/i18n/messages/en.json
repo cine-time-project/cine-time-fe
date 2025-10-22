@@ -504,8 +504,15 @@
 
   "about": {
     "title": "About CineTime",
-    "heroLead": "CineTime elevates moviegoing with cutting-edge projection, plush seating and curated concessions.",
+    "heroLead": "CineTime's foundations were laid in the mid-90s, during the era when film projection evolved from analog to digital. Built with a vision open to innovation, the brand defined the cinema experience not just as a viewing activity, but as an atmosphere in itself.",
+    "heroP2": "Our first hall opened with a capacity of 180 seats. In this journey that began with 35mm projectors, viewer comfort was always a priority thanks to investments in stage, screen and acoustic systems.",
     "heroAlt": "Deluxe auditorium – lounge seats and ambient lighting",
+
+    "stats": {
+      "locations": "Locations",
+      "halls": "Halls",
+      "seats": "Seats"
+    },
 
     "missionTitle": "Our Mission",
     "missionBody": "We make cinema accessible, comfortable and delightful. We unify theaters in your city, offer fast ticketing and personalized picks.",
@@ -808,7 +815,7 @@
       "babyFriendly": "Baby-friendly services"
     }
   },
-  
+
   "notFound": {
     "title": "Page Not Found",
     "description": "The page you’re looking for doesn’t exist or has been moved.",
