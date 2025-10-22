@@ -6,31 +6,42 @@ export default function NewsletterApp({ tFooter }) {
     <div className="footer-col">
       <h5>{tFooter("sections.newsletter.title")}</h5>
       <p>{tFooter("sections.newsletter.description")}</p>
-      <Form className="newsletter-form">
+      <Form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
         <InputGroup>
           <Form.Control
             type="email"
             placeholder={tFooter("newsletter.placeholder")}
+            aria-label="E-posta adresi"
           />
           <Button variant="danger" type="submit">
             {tFooter("newsletter.button")}
           </Button>
         </InputGroup>
       </Form>
+
       <div className="app-buttons mt-3">
-        <a href="#">
+        <a
+          href="/coming-soon/appstore"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Image
             src="/images/appstore.png"
-            alt="App Store"
+            alt="Download on the App Store"
             width={150}
             height={45}
             priority
           />
         </a>
-        <a href="#">
+
+        <a
+          href="/coming-soon/googleplay"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Image
             src="/images/googleplay.png"
-            alt="Google Play"
+            alt="Get it on Google Play"
             width={150}
             height={45}
             priority

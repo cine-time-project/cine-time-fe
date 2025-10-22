@@ -16,16 +16,36 @@ export default function ContactSocial({ L, tFooter }) {
 
       <h5 className="follow-us-title">{tFooter("sections.social.title")}</h5>
       <div className="social-icons mt-3">
-        <a href="#">
+        <a
+          href="https://www.facebook.com/CineTimeTR"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+        >
           <i className="pi pi-facebook"></i>
         </a>
-        <a href="#">
+        <a
+          href="https://www.instagram.com/cinetime.tr"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
           <i className="pi pi-instagram"></i>
         </a>
-        <a href="#">
+        <a
+          href="https://x.com/CineTimeTR"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="X (Twitter)"
+        >
           <i className="pi pi-twitter"></i>
         </a>
-        <a href="#">
+        <a
+          href="https://www.youtube.com/@CineTimeTR"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="YouTube"
+        >
           <i className="pi pi-youtube"></i>
         </a>
       </div>
