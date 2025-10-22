@@ -20,7 +20,6 @@ export default function NewsletterApp({ tFooter }) {
       </Form>
 
       <div className="app-buttons mt-3">
-        {/* App Store */}
         <a
           href="/coming-soon/appstore"
           target="_blank"
@@ -35,7 +34,6 @@ export default function NewsletterApp({ tFooter }) {
           />
         </a>
 
-        {/* Google Play */}
         <a
           href="/coming-soon/googleplay"
           target="_blank"

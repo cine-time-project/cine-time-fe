@@ -202,12 +202,12 @@ $text-light: #f8f9fa;
 .footer-dark {
   .app-buttons {
     img {
-      width: 150px; // sabit ve orantılı genişlik
-      height: auto; // orantıyı korur
-      object-fit: contain; // taşma veya sıkışma engellenir
-      image-rendering: -webkit-optimize-contrast; // net görünüm
+      width: 150px;
+      height: auto;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
-      filter: brightness(0.95) contrast(1.05); // renk netliği artırır
+      filter: brightness(0.95) contrast(1.05);
 
       &:hover {
         transform: scale(1.05);
@@ -220,9 +220,9 @@ $text-light: #f8f9fa;
 .footer-dark {
   .app-buttons {
     a {
-      display: inline-block; // sadece ikon kadar tıklanabilir
+      display: inline-block;
       width: auto;
-      line-height: 0; // resim dışındaki boşluğu sıfırlar
+      line-height: 0;
     }
   }
 }
@@ -249,14 +249,14 @@ $text-light: #f8f9fa;
     flex-direction: column;
     gap: 0.6rem;
     margin-top: 0.5rem;
-    align-items: flex-start; // ✅ eklendi: butonları sola hizala, stretch'i kapat
+    align-items: flex-start; 
 
     a {
-      display: inline-block; // ✅ sadece ikon kadar tıklanabilir
+      display: inline-block;
       width: auto;
       line-height: 0;
       text-decoration: none;
-      padding: 0; // ✅ boşlukları sıfırla
+      padding: 0;
       margin: 0;
     }
 
