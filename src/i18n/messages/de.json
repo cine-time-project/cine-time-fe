@@ -647,5 +647,11 @@
     "favorite": "Favorit",
     "error": "Fehler",
     "apiConnectionCheck": "Bitte API-Verbindung überprüfen:"
+  },
+  
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "home": "Zur Startseite"
   }
 }
