@@ -7,7 +7,6 @@ $text-light: #f8f9fa;
   color: $text-light;
   padding: 2.5rem 0 1rem 0;
   padding-bottom: 100px;
-  
 
   .footer-row {
     display: flex;
@@ -57,18 +56,18 @@ $text-light: #f8f9fa;
   }
 
   .footer-col h6 {
-  color: #ffcc00;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
+    color: #ffcc00;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
 
-.follow-us-title {
-  color: #ffcc00;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 0.8rem;
-  display: block;
-}
+  .follow-us-title {
+    color: #ffcc00;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
 
   /* Newsletter */
   .newsletter-form {
@@ -95,44 +94,44 @@ $text-light: #f8f9fa;
 
   /* Sosyal medya ikonları */
   .social-icons {
-  display: flex;
-  gap: 0.8rem;
-  margin-top: 0.8rem;
-
-  a {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.2rem !important;
-    transition: all 0.3s ease;
-    text-decoration: none;
+    gap: 0.8rem;
+    margin-top: 0.8rem;
 
-    i {
-      transition: transform 0.3s ease;
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem !important;
+      transition: all 0.3s ease;
+      text-decoration: none;
+
+      i {
+        transition: transform 0.3s ease;
+      }
+
+      &:hover i {
+        transform: scale(1.2);
+        filter: brightness(1.3);
+      }
     }
 
-    &:hover i {
-      transform: scale(1.2);
-      filter: brightness(1.3);
+    .pi-facebook {
+      color: #1877f2;
+    }
+
+    .pi-instagram {
+      color: #e4405f;
+    }
+
+    .pi-twitter {
+      color: #1da1f2;
+    }
+
+    .pi-youtube {
+      color: #ff0000;
     }
   }
-
-  .pi-facebook {
-    color: #1877f2;
-  }
-
-  .pi-instagram {
-    color: #e4405f;
-  }
-
-  .pi-twitter {
-    color: #1da1f2;
-  }
-
-  .pi-youtube {
-    color: #ff0000;
-  }
-}
 
   /* Mobil uygulama butonları */
   .app-buttons {
@@ -198,3 +197,81 @@ $text-light: #f8f9fa;
     }
   }
 }
+
+/* App Store & Google Play butonlarını optimize et */
+.footer-dark {
+  .app-buttons {
+    img {
+      width: 150px; // sabit ve orantılı genişlik
+      height: auto; // orantıyı korur
+      object-fit: contain; // taşma veya sıkışma engellenir
+      image-rendering: -webkit-optimize-contrast; // net görünüm
+      image-rendering: crisp-edges;
+      filter: brightness(0.95) contrast(1.05); // renk netliği artırır
+
+      &:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1) contrast(1.1);
+      }
+    }
+  }
+}
+
+.footer-dark {
+  .app-buttons {
+    a {
+      display: inline-block; // sadece ikon kadar tıklanabilir
+      width: auto;
+      line-height: 0; // resim dışındaki boşluğu sıfırlar
+    }
+  }
+}
+
+/* Retina ekranlarda daha net görüntü için */
+@media (min-resolution: 2dppx) {
+  .footer-dark .app-buttons img {
+    image-rendering: optimizeQuality;
+  }
+}
+
+.social-icons a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.footer-dark {
+  .app-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    align-items: flex-start; // ✅ eklendi: butonları sola hizala, stretch'i kapat
+
+    a {
+      display: inline-block; // ✅ sadece ikon kadar tıklanabilir
+      width: auto;
+      line-height: 0;
+      text-decoration: none;
+      padding: 0; // ✅ boşlukları sıfırla
+      margin: 0;
+    }
+
+    img {
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 150px;
+      height: auto;
+      object-fit: contain;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
