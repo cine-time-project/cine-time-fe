@@ -496,11 +496,87 @@
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen"
   },
+  "about": {
+    "title": "Über CineTime",
+    "heroLead": "CineTimes Grundlagen wurden Mitte der 90er Jahre gelegt, in der Zeit, als sich die Filmprojektion von analog zu digital entwickelte. Mit einer für Innovationen offenen Vision gegründet, definierte die Marke das Kinoerlebnis nicht nur als Betrachtungsaktivität, sondern als eigenständige Atmosphäre.",
+    "heroP2": "Unser erster Saal öffnete mit einer Kapazität von 180 Sitzplätzen. Auf dieser Reise, die mit 35-mm-Projektoren begann, hatte Zuschauerkomfort dank Investitionen in Bühne, Leinwand und Akustiksysteme immer Priorität.",
+    "heroAlt": "Deluxe-Saal – geräumige Sitze und Ambientebeleuchtung",
+
+    "stats": {
+      "locations": "Standorte",
+      "halls": "Säle",
+      "seats": "Sitze"
+    },
+
+    "missionTitle": "Unsere Mission",
+    "missionBody": "Wir machen Kino für alle zugänglich, komfortabel und angenehm. Wir vereinen die Kinos Ihrer Stadt auf einer einzigen Plattform und bieten schnelle Ticketbuchung und personalisierte Empfehlungen.",
+
+    "grid1": {
+      "title": "Fortschrittliche Technologie-Säle",
+      "body": "Klarheit in jeder Szene mit 4K-Projektion, HDR und ausgewogener Akustik. Sitzneignung und Betrachtungswinkel sind optimiert.",
+      "alt": "Saal mit großer Leinwand und Akustikpaneelen"
+    },
+    "grid2": {
+      "title": "Reichhaltiges Buffet",
+      "body": "Frisch gepopptes Popcorn, Gourmet-Getränke und Snacks. Online bestellen, schnell abholen.",
+      "alt": "Popcorn & Buffetbereich"
+    },
+    "grid3": {
+      "title": "Komfortabler Wartebereich",
+      "body": "Moderne Lounge für Treffen vor der Show: bequeme Sitze, Ladeeinheiten und schnelles WLAN.",
+      "alt": "Komfortable Lounge-Wartezone"
+    },
+
+    "timelineTitle": "Unsere Geschichte",
+    "timelineAria": "CineTime Geschichte",
+
+    "m1995": {
+      "title": "Gründung und erster Saal",
+      "desc": "CineTimes Grundlagen wurden Mitte der 90er Jahre gelegt, in der Zeit, als sich die Filmprojektion von analog zu digital entwickelte.",
+      "p1": "Unser erster Saal öffnete mit einer Kapazität von 180 Sitzplätzen.",
+      "p2": "Beginn mit 35-mm-Projektoren; Investition in Leinwand, Akustik und Sitzergonomie.",
+      "p3": "Lokale Kinokasse und Telefonreservierung.",
+      "p4": "Familienunternehmenskultur: Gästebeziehungen und hohe Standards bei der Sauberkeit."
+    },
+    "m2005": {
+      "title": "Digitale Transformation",
+      "desc": "Mit dem Übergang zu digitaler Projektion und Mehrsaal-Komplexen begann das Wachstum.",
+      "p1": "Erster 2K-Digitalprojektor und Infrastrukturstärkung.",
+      "p2": "Übergang zu Mehrsaal-Planungssoftware.",
+      "p3": "Erstes Treueprogramm und Kampagnenintegrationen."
+    },
+    "m2015": {
+      "title": "Online-Tickets & Mobile",
+      "desc": "Online- und Mobile-Erfahrung wurde zentralisiert; Warteschlangen verringerten sich, Auslastungsmanagement verbesserte sich.",
+      "p1": "Sitzplatzauswahl und kontaktloses E-Ticket über das Web.",
+      "p2": "iOS/Android-Apps, QR-Eingangscode.",
+      "p3": "Echtzeit-Session/Auslastungssichtbarkeit.",
+      "p4": "Betriebspanel: Berichterstattung und dynamische Preisgestaltung."
+    },
+    "m2020": {
+      "title": "Daten und Personalisierung",
+      "desc": "ML-basierte Empfehlungen und gezielte Kampagnen wurden aktiviert.",
+      "p1": "Filmempfehlungen basierend auf Präferenzen/Verlauf.",
+      "p3": "Erweiterte Betrugs-/Rückbuchungsprävention."
+    },
+    "m2025": {
+      "title": "Ökosystem & Premium-Erfahrung",
+      "desc": "Heute bieten wir End-to-End-Erfahrungen mit Premium-Sitzen, ausgewähltem Buffet und Partnernetzwerken.",
+      "p1": "60+ Säle, 4K-Projektion und Dolby-unterstützte Säle.",
+      "p2": "Partnerintegrationen mit Transport-, Lebensmittel-, Veranstaltungspaketen.",
+      "p4": "Nachhaltigkeit: Energieeffizienz und Abfallreduzierung."
+    },
+
+    "ctaTitle": "Bereit?",
+    "ctaBody": "Entdecken Sie nahegelegene Säle und holen Sie sich jetzt Ihr Ticket.",
+    "ctaBtn": "Tickets kaufen"
+  },
+
   "swal": {
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
     "deny": "Ablehnen",
-    "successTitle": "Erfolg",
+    "successTitle": "Erfolgreich",
     "errorTitle": "Fehler"
   },
   "contact": {
@@ -648,7 +724,7 @@
     "error": "Fehler",
     "apiConnectionCheck": "Bitte API-Verbindung überprüfen:"
   },
-  
+
   "notFound": {
     "title": "Seite nicht gefunden",
     "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
