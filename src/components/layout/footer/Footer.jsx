@@ -34,7 +34,6 @@ export default function Footer() {
     <>
       <footer className="footer-dark">
         <Container>
-          {/* 4 sütun tek satırda */}
           <Row className="footer-row flex-nowrap">
             <Col lg={3} md={6}>
               <FooterLinks L={L} tFooter={tFooter} />

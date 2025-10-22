@@ -825,5 +825,11 @@
       "toys": "Oyuncak ve kitaplar",
       "babyFriendly": "Bebek dostu hizmetler"
     }
+  },
+
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+    "home": "Ana sayfaya dön"
   }
 }
