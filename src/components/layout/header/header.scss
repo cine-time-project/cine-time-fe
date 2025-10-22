@@ -102,28 +102,6 @@ $text-light: #f8f9fa;
     width: 100%;
   }
 
-  .location-simple {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-right: 1rem;
-    cursor: pointer;
-    @include smooth-transition;
-
-    &:hover {
-      color: $highlight-color;
-    }
-
-    .location-icon {
-      font-size: 1rem;
-    }
-
-    .location-text {
-      font-weight: 500;
-      color: $text-light;
-    }
-  }
-
   .nav-link {
     color: $text-light !important;
     margin: 0 0.8rem;
@@ -233,74 +211,6 @@ $text-light: #f8f9fa;
   }
 }
 
-/* MODAL (Sinema Bul) */
-.modal-content {
-  background-color: #111;
-  color: #fff;
-  border-radius: 12px;
-  border: 1px solid #333;
-}
-
-.modal-header {
-  background-color: #000;
-  border-bottom: 1px solid #333;
-
-  .modal-title {
-    font-weight: 600;
-    color: $highlight-color;
-  }
-
-  .btn-close {
-    filter: invert(1);
-  }
-}
-
-.modal-body {
-  background-color: #111;
-
-  input[type="text"] {
-    background-color: #222;
-    border: 1px solid #333;
-    color: #fff;
-
-    &::placeholder {
-      color: #888;
-    }
-
-    &:focus {
-      border-color: $highlight-color;
-      box-shadow: 0 0 5px $highlight-color;
-    }
-  }
-
-  .use-location-btn {
-    display: block;
-    margin-top: 1rem;
-    color: #0dcaf0;
-    font-weight: 500;
-    text-align: center;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .cinema-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      padding: 0.6rem 0;
-      border-bottom: 1px solid #333;
-      color: #ddd;
-
-      .distance {
-        color: #999;
-      }
-    }
-  }
-}
 .search-dropdown {
   position: absolute;
   top: 100%;
@@ -349,4 +259,6 @@ $text-light: #f8f9fa;
     padding: 10px;
     color: #ccc;
   }
+
+  
 }

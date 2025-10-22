@@ -1,17 +1,25 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { useRouter } from "next/navigation";
+import styles from "./locationFinder.module.scss"; // Dark theme SCSS
+import { useTranslations } from "next-intl";
 
-export default function LocationFinder() {
-  const [city, setCity] = useState("Lokasyon Alınıyor...");
+export default function LocationFinder({ L }) {
+  const tCinemas = useTranslations("cinemas");
+  const router = useRouter();
+  const [city, setCity] = useState("Locating...");
   const [showModal, setShowModal] = useState(false);
-  const [cinemas, setCinemas] = useState([]);
   const [searchCity, setSearchCity] = useState("");
 
+  // Get user's current location
   useEffect(() => {
     if (!navigator.geolocation) {
-      setCity("Tarayıcı desteklemiyor");
+      setCity(tCinemas("browserNotSupported"));
       return;
     }
+
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
         try {
@@ -23,95 +31,106 @@ export default function LocationFinder() {
             d.address.city ||
               d.address.town ||
               d.address.state ||
-              "Bilinmeyen Konum"
+              tCinemas("noLocation")
           );
         } catch {
-          setCity("Konum alınamadı");
+          setCity(tCinemas("noLocation"));
         }
       },
-      () => setCity("Konum izni reddedildi")
+      () => setCity(tCinemas("noLocPermission"))
     );
   }, []);
 
-  const loadDummyCinemas = (cityName) => {
-    if (!cityName) return;
-    setCinemas([
-      { name: `${cityName} CineCity`, distance: "1.2 km" },
-      { name: `${cityName} MoviePark`, distance: "2.5 km" },
-      { name: `${cityName} StarCinema`, distance: "3.8 km" },
-    ]);
-  };
+  // Handle search or use current location
+  const handleFindCinemas = async (type = "search") => {
+    let cityName = searchCity;
 
-  const handleFindCinemas = (type = "search") => {
     if (type === "current") {
       if (!navigator.geolocation) return;
+
       navigator.geolocation.getCurrentPosition(async ({ coords }) => {
         try {
           const r = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
           );
           const d = await r.json();
-          const cityName =
-            d.address.city ||
-            d.address.town ||
-            d.address.state ||
-            "Bilinmeyen Konum";
-          setSearchCity(cityName);
-          loadDummyCinemas(cityName);
+          cityName =
+            d.address.city || d.address.town || d.address.state || "";
+          router.push(L(`cinemas?city=${encodeURIComponent(cityName)}`));
+          setShowModal(false);
         } catch {}
       });
       return;
     }
-    loadDummyCinemas(searchCity);
+
+    if (cityName) {
+      router.push(L(`cinemas?city=${encodeURIComponent(cityName)}`));
+      setShowModal(false);
+    }
   };
 
   return (
     <>
-      <div className="location-simple" onClick={() => setShowModal(true)}>
-        <span className="location-icon"><i className="pi pi-map-marker text-light"></i></span>
-        <span className="location-text">{city}</span>
+      {/* Header location display */}
+      <div
+        className={styles.locationSimple}
+        onClick={() => setShowModal(true)}
+      >
+        <span className={styles.locationIcon}>
+          <i className="pi pi-map-marker"></i>
+        </span>
+        <span className={styles.locationText}>{city}</span>
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      {/* Dark theme modal */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        dialogClassName={styles.modernModal}
+        backdropClassName={styles.modernModalBackdrop}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Sinema Bul</Modal.Title>
+          <Modal.Title>{tCinemas("findCinema")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={(e) => e.preventDefault()}>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleFindCinemas("search");
+            }}
+          >
+            {/* Search input */}
             <Form.Control
               type="text"
-              placeholder="Şehir, posta kodu veya sinema ara"
+              className={styles.searchInput}
+              placeholder={tCinemas("inputPlaceholder")}
               value={searchCity}
               onChange={(e) => setSearchCity(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleFindCinemas("search");
+                }
+              }}
             />
+            {/* Search button */}
             <Button
-              variant="warning"
-              className="w-100 mt-3"
+              className={styles.searchButton + " w-100 mt-3"}
               onClick={() => handleFindCinemas("search")}
             >
-              Ara
+              {tCinemas("searchCity")}
             </Button>
           </Form>
+
+          {/* Current location button */}
           <Button
             variant="link"
-            className="use-location-btn"
+            className={styles.useLocationBtn}
             onClick={() => handleFindCinemas("current")}
           >
-            📍 Mevcut Konumumu Kullan
+            {tCinemas("useCurrentLocation")}
           </Button>
-          <div className="cinema-results mt-3">
-            {cinemas.length > 0 ? (
-              <ul className="cinema-list">
-                {cinemas.map((c, i) => (
-                  <li key={i}>
-                    🎥 {c.name} <span className="distance">({c.distance})</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-muted mt-2">Henüz sinema bulunamadı.</p>
-            )}
-          </div>
         </Modal.Body>
       </Modal>
     </>

@@ -8,7 +8,7 @@ import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import NearbyCinemaCard from "./NearbyCinemaCard";
 import { useTranslations } from "next-intl";
 
-// Harita merkezini güncelleyen hook
+// Recenter map when coordinates change
 function RecenterMap({ coords }) {
   const map = useMap();
   useEffect(() => {
@@ -17,25 +17,28 @@ function RecenterMap({ coords }) {
   return null;
 }
 
-// URL normalize
+// Normalize URLs for display
 const normalizeURL = (url) =>
   url ? (url.startsWith("http") ? url : `https://${url}`) : null;
 
-export default function NearbyCinemasLeaflet() {
+export default function NearbyCinemasLeaflet({ propCity }) {
   const tCinemas = useTranslations("cinemas");
+
+  // Map and location states
   const [coords, setCoords] = useState(null);
   const [userCoords, setUserCoords] = useState(null);
   const [userIcon, setUserIcon] = useState(null);
-  const [city, setCity] = useState(tCinemas("locating"));
+
+  // Search input and cinema results
+  const [searchCity, setSearchCity] = useState(propCity || "");
   const [cinemas, setCinemas] = useState([]);
-  const [searchCity, setSearchCity] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Leaflet iconları ve kullanıcı konumu
+  // Initialize Leaflet icons and get user's coordinates
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Leaflet default marker
+    // Configure Leaflet default marker icons
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl:
@@ -46,7 +49,7 @@ export default function NearbyCinemasLeaflet() {
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
     });
 
-    // Kırmızı kullanıcı marker
+    // Red marker for user's position
     const redIcon = new L.Icon({
       iconUrl:
         "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
@@ -60,36 +63,23 @@ export default function NearbyCinemasLeaflet() {
     });
     setUserIcon(redIcon);
 
-    // Kullanıcı konumunu al
+    // Try to get user's current location (used by "Find Around" button)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        async ({ coords }) => {
-          const position = [coords.latitude, coords.longitude];
-          setUserCoords(position);
-          setCoords(position); // harita merkezi
-
-          try {
-            const r = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
-            );
-            const d = await r.json();
-            const cityName =
-              d.address.city ||
-              d.address.town ||
-              d.address.state ||
-              tCinemas("noLocation");
-            setCity(cityName);
-            await loadNearbyCinemas(coords.latitude, coords.longitude);
-          } catch {
-            setCity(tCinemas("noLocation"));
-          }
+        ({ coords }) => {
+          setUserCoords([coords.latitude, coords.longitude]);
         },
-        () => setCity(tCinemas("noLocPermission"))
+        () => console.warn("User location permission denied")
       );
     }
   }, []);
 
-  // Şehirden koordinat al
+  // Update input when propCity changes, but DO NOT trigger search
+  useEffect(() => {
+    if (propCity) setSearchCity(propCity);
+  }, [propCity]);
+
+  // Get coordinates from a city name
   const getCoordsByCity = async (cityName) => {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?city=${cityName}&format=json&limit=1`
@@ -100,7 +90,7 @@ export default function NearbyCinemasLeaflet() {
     return null;
   };
 
-  // Sinemaları yükle
+  // Fetch cinemas from Overpass API near given coordinates
   const loadNearbyCinemas = async (lat, lon) => {
     setLoading(true);
     try {
@@ -126,7 +116,6 @@ export default function NearbyCinemasLeaflet() {
             tags.facebook ||
             tags.instagram ||
             null;
-
           const address =
             (tags["addr:street"] || "") +
               (tags["addr:housenumber"]
@@ -134,10 +123,9 @@ export default function NearbyCinemasLeaflet() {
                 : "") ||
             tags.address ||
             null;
-
           return {
             id: c.id,
-            name: tags.name || "İsimsiz Sinema",
+            name: tags.name || "Unnamed Cinema",
             website,
             lat: c.lat,
             lon: c.lon,
@@ -149,35 +137,55 @@ export default function NearbyCinemasLeaflet() {
         setCinemas(found);
       } else setCinemas([]);
     } catch (err) {
-      console.error(err);
+      console.error("Overpass fetch failed:", err);
       setCinemas([]);
     } finally {
       setLoading(false);
     }
   };
 
+  // Search button or Enter key triggers this
   const handleSearch = async () => {
     if (!searchCity) return;
     const newCoords = await getCoordsByCity(searchCity);
     if (!newCoords) return alert(tCinemas("noCity"));
     setCoords(newCoords);
-    setCity(searchCity);
     await loadNearbyCinemas(newCoords[0], newCoords[1]);
   };
 
+  // "Find Around Me" button:
+  // - gets user's coordinates
+  // - reverse geocodes to find city name
+  // - sets it into input
+  // - automatically triggers search
   const handleFindCurrent = async () => {
     if (!userCoords) return;
-    setCoords(userCoords);
-    await loadNearbyCinemas(userCoords[0], userCoords[1]);
+    const [lat, lon] = userCoords;
+
+    try {
+      const r = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+      );
+      const d = await r.json();
+      const cityName =
+        d.address.city ||
+        d.address.town ||
+        d.address.state ||
+        tCinemas("noLocation");
+      setSearchCity(cityName);
+      setCoords(userCoords);
+      await loadNearbyCinemas(lat, lon);
+    } catch (e) {
+      console.error("Failed to get city from location:", e);
+    }
   };
 
   return (
     <div className="space-y-4">
+      {/* Search input & buttons */}
       <div
         className="p-3 border rounded bg-light"
-        style={{
-          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-        }}
+        style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.05)" }}
       >
         <InputGroup className="d-flex flex-column flex-md-row gap-2">
           <Form.Control
@@ -185,6 +193,12 @@ export default function NearbyCinemasLeaflet() {
             value={searchCity}
             onChange={(e) => setSearchCity(e.target.value)}
             placeholder={tCinemas("searchCity")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
           />
           <Button onClick={handleSearch} variant="warning">
             {tCinemas("search")}
@@ -195,10 +209,7 @@ export default function NearbyCinemasLeaflet() {
         </InputGroup>
       </div>
 
-      <p className="mt-2">
-        {tCinemas("location")}: <b>{city}</b>
-      </p>
-
+      {/* Loading / Empty / Results */}
       {loading ? (
         <div className="text-center">
           <Spinner animation="border" />
@@ -219,6 +230,7 @@ export default function NearbyCinemasLeaflet() {
         </Row>
       )}
 
+      {/* Leaflet Map */}
       {coords && userIcon && (
         <MapContainer
           center={coords}
@@ -233,7 +245,7 @@ export default function NearbyCinemasLeaflet() {
 
           {userCoords && (
             <Marker position={userCoords} icon={userIcon}>
-              <Popup>📍 Buradasın</Popup>
+              <Popup>📍 {tCinemas("location")}</Popup>
             </Marker>
           )}
 
@@ -269,7 +281,7 @@ export default function NearbyCinemasLeaflet() {
                       rel="noopener noreferrer"
                       className="text-blue-600 underline"
                     >
-                      Web sitesine git
+                      Website
                     </a>
                   </>
                 )}

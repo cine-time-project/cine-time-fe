@@ -342,8 +342,12 @@
     "search": "Ara",
     "details": "Detay",
     "buyTicket": "Bilet Al",
-    "cinemas" : "Sinemalar",
-    "loading" : "Yükleniyor..."
+    "cinemas": "Sinemalar",
+    "loading": "Yükleniyor...",
+    "findCinema": "Sinema Bul",
+    "inputPlaceholder": "Şehir, posta kodu veya sinema ara",
+    "useCurrentLocation": "Mevcut Konumumu Kullan",
+    "browserNotSupported": "Tarayıcı desteklemiyor"
   },
 
   "showtimes": {
