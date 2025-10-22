@@ -8,14 +8,14 @@ export const config = {
   },
 
   features: {
-    whatsapp: true, // eğitim: kapalı (true yapınca buton/bağlantı görünür)
-    liveChat: false, // Crisp/Tidio gibi script’leri eğitimde kapatalım
+    whatsapp: true,
+    liveChat: false,
   },
 
-i18n: {
-    timeZone: 'Europe/Berlin',
-},
-  
+  i18n: {
+    timeZone: "Europe/Berlin",
+  },
+
   contact: {
     info: {
       phone: {
@@ -36,48 +36,34 @@ i18n: {
     },
     website: "https://cinetime.example",
     map: {
-      // İstanbul merkez embed (örnek). Kendi konumunu eklersen değiştir.
       embed:
         "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6019.0206!2d29.006!3d41.080!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0!2s%C5%9Ei%C5%9Fli!5e0!3m2!1str!2str!4v1700000000000",
     },
     socialMedia: {
       twitter: { url: "https://x.com/cinetime", icon: "pi pi-twitter" },
-      facebook: {
-        url: "https://facebook.com/cinetime",
-        icon: "pi pi-facebook",
-      },
-      instagram: {
-        url: "https://instagram.com/cinetime",
-        icon: "pi pi-instagram",
-      },
+      facebook: { url: "https://facebook.com/cinetime", icon: "pi pi-facebook" },
+      instagram: { url: "https://instagram.com/cinetime", icon: "pi pi-instagram" },
       youtube: { url: "https://youtube.com/@cinetime", icon: "pi pi-youtube" },
-      linkedin: {
-        url: "https://linkedin.com/company/cinetime",
-        icon: "pi pi-linkedin",
-      },
+      linkedin: { url: "https://linkedin.com/company/cinetime", icon: "pi pi-linkedin" },
     },
-
-    // ---- WhatsApp ayarları (tek numara, Business’a geçince hazır) ----
     whatsapp: {
-      number: "+905555555555", // E.164 format; gerçek numaran yoksa boş bırak
+      number: "+905555555555",
       defaultText: "Merhaba, destek için yazıyorum.",
-      showHoursNote: true, // saat notu göstermek istersen
-      hoursTextKey: "contact.hours", // i18n anahtarı
+      showHoursNote: true,
+      hoursTextKey: "contact.hours",
     },
   },
 
-  // ---- API kökü: env > config fallback (tek yerden kontrol) ----
-  // Not: api-routes.js bu değeri import edip tüm endpoint’leri oradan kurmalı.
-  apiURL: (
-    process.env.NEXT_PUBLIC_API_BASE ||
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
-    "http://localhost:8090/api"
-  ).replace(/\/$/, ""),
+  // API kökü
+  apiURL:
+    (process.env.NEXT_PUBLIC_API_BASE ||
+      process.env.NEXT_PUBLIC_API_BASE_URL ||
+      "http://localhost:8100/api").replace(/\/$/, ""),
 
   locales: ["tr", "en", "de", "fr"],
   defaultLocale: "tr",
 
-  // Bilet/ürünle ilgili sabitler
+  // Bilet/ürün sabitleri
   ticketTypes: [
     { labelKey: "tickets.adult", value: "ADULT" },
     { labelKey: "tickets.student", value: "STUDENT" },
@@ -89,15 +75,10 @@ i18n: {
     { labelKey: "seats.couple", value: "COUPLE" },
   ],
   paymentProviders: [
-    {
-      value: "CREDIT_CARD",
-      labelKey: "payment.creditCard",
-      icon: "pi pi-credit-card",
-    },
+    { value: "CREDIT_CARD", labelKey: "payment.creditCard", icon: "pi pi-credit-card" },
     { value: "WALLET", labelKey: "payment.wallet", icon: "pi pi-wallet" },
   ],
 
-  // Seans/planlama için günler
   days: [
     { value: "MONDAY", labelKey: "days.mon" },
     { value: "TUESDAY", labelKey: "days.tue" },
@@ -108,8 +89,69 @@ i18n: {
     { value: "SUNDAY", labelKey: "days.sun" },
   ],
 
-  // Örnek şehir/şube listesi (UI filtreleri için)
   cities: ["İstanbul", "Ankara", "İzmir", "Bursa", "Antalya"],
 
-  NEXT_PUBLIC_GOOGLE_CLIENT_ID: "217090357245-psqauf47tu2tic2c0d3hlal7llvdc3nt.apps.googleusercontent.com",
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID:
+    "217090357245-psqauf47tu2tic2c0d3hlal7llvdc3nt.apps.googleusercontent.com",
+
+  // =========================
+  // ROLE-BASED ROUTE MATRIX
+  // DB roles: ANONYMOUS, MEMBER, EMPLOYEE, ADMIN
+  // =========================
+  userRightsOnRoutes: [
+    // Admin dashboard (özet)
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/dashboard$/, roles: ["ADMIN", "EMPLOYEE"] },
+
+    // USERS – ADMIN | EMPLOYEE
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/users$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/users\/new$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/users\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN", "EMPLOYEE"] },
+
+    // MOVIES – liste ADMIN|EMPLOYEE; new/edit sadece ADMIN
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/movies$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/movies\/new$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/movies\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
+
+    // CINEMAS – ADMIN
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/new$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/([0-9]+|[a-z0-9-]+)\/halls$/, roles: ["ADMIN"] },
+
+    // HALLS – ADMIN
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls\/new$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
+
+    // SHOWTIMES – ADMIN
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes\/new$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
+
+    // IMAGES – ADMIN
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/images$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/images\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
+
+    // CINEMA IMAGES – ADMIN
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images$/, roles: ["ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images\/([0-9]+)$/, roles: ["ADMIN"] },
+
+    // CITIES / SPECIAL HALLS / CONTACT MESSAGES / REPORTS – ADMIN | EMPLOYEE
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/cities$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/special-halls$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/contact-messages$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/tickets(\/.*)?$/, roles: ["ADMIN", "EMPLOYEE"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/admin\/reports$/, roles: ["ADMIN", "EMPLOYEE"] },
+
+    // AUTH GEREKTİREN SON KULLANICI SAYFALARI
+    { urlRegex: /^\/(tr|en|de|fr)\/account$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/account\/tickets$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/account\/tickets\/([0-9]+|[a-z0-9-]+)$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/favorites$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/checkout$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+    { urlRegex: /^\/(tr|en|de|fr)\/payment$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+
+    // Public dashboard’ı yalnızca yönetim menüsü için kullanıyoruz
+    { urlRegex: /^\/(tr|en|de|fr)\/dashboard$/, roles: ["ADMIN", "EMPLOYEE"] },
+  ],
 };
