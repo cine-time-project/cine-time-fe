@@ -644,6 +644,7 @@
     "description": "Filme, die bald in den Kinos erscheinen",
     "heading": "Demnächst im Kino",
     "loading": "Wird geladen…",
+    "loadingMovies": "Filme werden geladen...",
     "noItems": "Es gibt keine Filme zum Anzeigen.",
     "prev": "Zurück",
     "next": "Weiter",
@@ -652,6 +653,9 @@
     "releaseTBA": "Veröffentlichungsdatum: wird bekanntgegeben",
     "bookNow": "Jetzt buchen",
     "details": "Details",
-    "trailer": "Trailer"
+    "trailer": "Trailer",
+    "favorite": "Favorit",
+    "error": "Fehler",
+    "apiConnectionCheck": "Bitte API-Verbindung überprüfen:"
   }
 }

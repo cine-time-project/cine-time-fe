@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { config } from "@/helpers/config.js";
 
 // ==== CONFIG ====
@@ -12,21 +13,24 @@ const API = config.apiURL; // e.g. http://localhost:8090/api
 const PAGE_SIZE = 12;
 const DEBUG = false; // set true to log raw responses
 
-// ---- Auth header reader (localStorage/sessionStorage) ----
-function authHeaders() {
-  if (typeof window === "undefined") return {};
+// ---- Auth header with fallback (AuthProvider.user.token -> localStorage) ----
+function readTokenFallback(user) {
+  if (user?.token) return String(user.token).trim();
+  if (typeof window === "undefined") return "";
   const clean = (v) => (v ? String(v).trim().replace(/^"|"$/g, "") : "");
-  const raw =
+  return (
     clean(localStorage.getItem("authToken")) ||
     clean(localStorage.getItem("accessToken")) ||
     clean(localStorage.getItem("access_token")) ||
     clean(localStorage.getItem("token")) ||
     clean(sessionStorage.getItem("accessToken")) ||
-    "";
+    ""
+  );
+}
+function authHeadersFromAuth(user) {
+  const raw = readTokenFallback(user);
   if (!raw) return {};
-  const header = raw.toLowerCase().startsWith("bearer ")
-    ? raw
-    : `Bearer ${raw}`;
+  const header = raw.toLowerCase().startsWith("bearer ") ? raw : `Bearer ${raw}`;
   return { Authorization: header };
 }
 
@@ -186,6 +190,7 @@ function TicketCard({ ticket, locale }) {
 // ---- Page Component ----
 export default function PastTicketsPage() {
   const locale = useLocale();
+  const { user } = useAuth();
 
   // Past tickets
   const [items, setItems] = useState([]);
@@ -211,7 +216,7 @@ export default function PastTicketsPage() {
 
       const res = await axios.get(`${API}/tickets/auth/passed-tickets`, {
         validateStatus: () => true,
-        headers: { Accept: "application/json", ...authHeaders() },
+        headers: { Accept: "application/json", ...authHeadersFromAuth(user) },
         params: { page: p, size: PAGE_SIZE },
       });
 
@@ -248,7 +253,7 @@ export default function PastTicketsPage() {
 
       const res = await axios.get(`${API}/tickets/auth/current-tickets`, {
         validateStatus: () => true,
-        headers: { Accept: "application/json", ...authHeaders() },
+        headers: { Accept: "application/json", ...authHeadersFromAuth(user) },
         params: { page: p, size: PAGE_SIZE }, // fine even if backend ignores it
       });
 
@@ -278,10 +283,19 @@ export default function PastTicketsPage() {
   }
 
   useEffect(() => {
+    const token = readTokenFallback(user);
+    if (!token) {
+      // No token available: stop the spinners and show an auth error
+      setCurrentLoading(false);
+      setLoading(false);
+      setCurrentError("Sign in to view your tickets.");
+      setError("Sign in to view your tickets.");
+      return;
+    }
     fetchCurrent(0);
     fetchPast(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user?.token]);
 
   return (
     <div className="container py-4">

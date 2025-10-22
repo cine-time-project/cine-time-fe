@@ -24,6 +24,8 @@ export function getHeroUrl(movie) {
   if (movie?.heroUrl || movie?.backdropUrl || movie?.sceneUrl) {
     return movie.heroUrl || movie.backdropUrl || movie.sceneUrl;
   }
+  // Fallback to posterUrl for mock data
+  if (movie?.posterUrl) return movie.posterUrl;
   if (Array.isArray(movie?.images) && movie.images.length > 0) {
     const scene = movie.images.find((img) => img.isPoster === false);
     if (scene?.id) return imageByIdApi(scene.id);

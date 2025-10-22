@@ -318,6 +318,7 @@
     "loginToFavorite": "Favoriye eklemek için giriş yap",
     "addedToFavoritesToast": "Favorilere eklendi.",
     "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
+    "favoritesNeutral": "Favoriler",
     "halls": "Özel Salonlar"
   },
 
@@ -735,6 +736,7 @@
     "description": "Yakında vizyona girecek filmler",
     "heading": "Yakında",
     "loading": "Yükleniyor…",
+    "loadingMovies": "Filmler yükleniyor...",
     "noItems": "Şu an listelenecek film yok.",
     "prev": "Önceki",
     "next": "Sonraki",
@@ -743,7 +745,10 @@
     "releaseTBA": "Vizyon tarihi: Bilinmiyor",
     "bookNow": "Bilet Al",
     "details": "Detaylar",
-    "trailer": "Fragman"
+    "trailer": "Fragman",
+    "favorite": "Favori",
+    "error": "Hata",
+    "apiConnectionCheck": "API bağlantısı kontrol edilsin:"
   },
 
   "experiences": {

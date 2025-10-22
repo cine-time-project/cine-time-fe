@@ -635,6 +635,7 @@
     "description": "Films bientôt dans les salles de cinéma",
     "heading": "Bientôt au cinéma",
     "loading": "Chargement…",
+    "loadingMovies": "Chargement des films...",
     "noItems": "Aucun film à afficher.",
     "prev": "Précédent",
     "next": "Suivant",
@@ -643,6 +644,9 @@
     "releaseTBA": "Date de sortie : à venir",
     "bookNow": "Réserver",
     "details": "Détails",
-    "trailer": "Bande-annonce"
+    "trailer": "Bande-annonce",
+    "favorite": "Favori",
+    "error": "Erreur",
+    "apiConnectionCheck": "Veuillez vérifier la connexion API :"
   }
 }

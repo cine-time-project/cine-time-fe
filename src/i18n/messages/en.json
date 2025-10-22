@@ -318,6 +318,7 @@
     "loginToFavorite": "Sign in to add to favorites",
     "addedToFavoritesToast": "Added to favorites.",
     "removedFromFavoritesToast": "Removed from favorites.",
+    "favoritesNeutral": "Favoriler",
     "halls": "Special halls"
   },
 
@@ -728,6 +729,7 @@
     "description": "Movies coming soon to theaters",
     "heading": "Coming Soon",
     "loading": "Loading…",
+    "loadingMovies": "Loading movies...",
     "noItems": "There are no movies to show.",
     "prev": "Prev",
     "next": "Next",
@@ -736,7 +738,10 @@
     "releaseTBA": "Release date: TBA",
     "bookNow": "Book Now",
     "details": "Details",
-    "trailer": "Trailer"
+    "trailer": "Trailer",
+    "favorite": "Favorite",
+    "error": "Error",
+    "apiConnectionCheck": "Please check API connection:"
   },
 
   "experiences": {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
@@ -13,6 +14,7 @@ import { HeroCard } from "./HeroCard";
 
 export const HeroCarousel = ({ movies = [] }) => {
   const swiperRef = useRef(null);
+  const t = useTranslations("comingSoon");
 
   useEffect(() => {
     if (swiperRef.current && movies.length > 0) {
@@ -21,7 +23,30 @@ export const HeroCarousel = ({ movies = [] }) => {
     }
   }, [movies]);
 
-  if (movies.length === 0) return null;
+  console.log("HeroCarousel movies:", movies);
+
+  if (movies.length === 0) {
+    return (
+      <div className="comingsoon-hero-carousel">
+        <div
+          className="comingsoon-hero-card"
+          style={{
+            background: "linear-gradient(135deg, #1a1a1a 0%, #333 100%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div style={{ textAlign: "center", color: "#fff" }}>
+            <h2 style={{ fontSize: "24px", marginBottom: "12px" }}>
+              {t("heading")}
+            </h2>
+            <p style={{ opacity: 0.7 }}>{t("loadingMovies")}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Swiper
