@@ -1,0 +1,64 @@
+.coming-soon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #111, #000);
+  color: #fff;
+  min-height: 100vh;
+  text-align: center;
+  padding: 2rem;
+
+  .content {
+    max-width: 600px;
+
+    img {
+      width: 160px;
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #ffc107;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #ddd;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    a {
+      display: inline-block;
+      background: #e50914;
+      color: #fff;
+      padding: 0.8rem 1.8rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #ff4040;
+      }
+    }
+  }
+}
+
+/* Mobil uyum */
+@media (max-width: 600px) {
+  .coming-soon .content {
+    img {
+      width: 130px;
+    }
+    h1 {
+      font-size: 1.6rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
+}
