@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import CinemasGrid from "./CinemasGrid";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
-import { Container } from "react-bootstrap";
 import { CinemaSearchBar } from "./CinemaSearchBar";
 
 const CinemasPage = () => {
@@ -13,7 +12,10 @@ const CinemasPage = () => {
 
   // Eğer URL parametresi değişirse state’i güncelle
   useEffect(() => {
-    setCityFilter(searchParams.get("city") || "");
+    const city = searchParams.get("city");
+    if (city) {
+      setCityFilter(city);
+    }
   }, [searchParams]);
 
   const L = (rest = "") =>

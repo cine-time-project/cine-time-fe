@@ -10,10 +10,11 @@ import { useTranslations } from "next-intl";
 import CinemaCard from "./CinemaCard";
 import useCinemas from "@/components/cinemas/useCinemas";
 import useFirstDates from "@/components/cinemas/useFirstDate";
+import SectionTitle from "@/components/common/SectionTitle";
 
 export default function CinemasGrid({ cityFilter = "", L }) {
   const t = useTranslations ? useTranslations("cinemas") : () => (k) => k;
-  const { cinemas, loading, error, pagination, setPage } =
+  const { cinemas, loading, error, pagination, setPage, teaPot } =
     useCinemas(cityFilter);
   const firstDatesByCinema = useFirstDates(cinemas);
 
@@ -50,6 +51,8 @@ export default function CinemasGrid({ cityFilter = "", L }) {
       );
     }
 
+    console.log("TeaPot is " + teaPot);
+
     return (
       <Pagination className="justify-content-center mt-4">
         <Pagination.First onClick={() => setPage(0)} disabled={page === 0} />
@@ -74,6 +77,11 @@ export default function CinemasGrid({ cityFilter = "", L }) {
 
   return (
     <Container className="my-5">
+      {!teaPot ? (
+        <SectionTitle>{cityFilter}</SectionTitle>
+      ) : (
+        <SectionTitle textColor="text-secondary">All Cinemas</SectionTitle>
+      )}
       <Row xs={1} sm={2} md={3} lg={3} xl={4} className="g-4">
         {cinemas.map((c) => (
           <Col key={c.id} className="d-flex align-items-stretch">

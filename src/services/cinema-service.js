@@ -14,7 +14,7 @@ export async function listCinemas({
     validateStatus: () => true,
   });
 
-  if (res.status !== 200 || !res.data) {
+  if (res.status !== 200  || !res.data) {
     console.error("Cinema API error:", res);
     throw new Error(res.data?.message || "Failed to fetch cinemas");
   }
