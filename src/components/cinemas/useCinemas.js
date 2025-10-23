@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { config } from "@/helpers/config.js";
-
-const API = config.apiURL;
+import { listCinemas } from "@/services/cinema-service";
 
 export default function useCinemas(cityFilter = "") {
   const [cinemas, setCinemas] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,24 +15,16 @@ export default function useCinemas(cityFilter = "") {
         setLoading(true);
         setError(null);
 
-        const res = await axios.get(`${API}/cinemas/with-showtimes-and-images`, {
-          params: {
-            city: cityFilter || undefined,
-            page: 0,
-            size: 12,
-            sort: "name",
-            type: "asc",
-          },
-          validateStatus: () => true,
-        });
+        const data = await listCinemas({ cityName: cityFilter });
 
-        if (res.status >= 400) {
-          throw new Error(res.data?.message || `HTTP ${res.status}`);
+        // ✅ sinema listesi burada
+        const content = data?.returnBody?.content ?? [];
+        const pageInfo = data?.returnBody;
+
+        if (!ignore) {
+          setCinemas(content);
+          setPagination(pageInfo);
         }
-
-        const body = res.data?.returnBody ?? res.data;
-        const list = Array.isArray(body) ? body : [];
-        if (!ignore) setCinemas(list);
       } catch (e) {
         if (!ignore) {
           setError(e);
@@ -50,5 +40,5 @@ export default function useCinemas(cityFilter = "") {
     };
   }, [cityFilter]);
 
-  return { cinemas, loading, error };
+  return { cinemas, pagination, loading, error };
 }

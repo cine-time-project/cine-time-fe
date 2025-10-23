@@ -350,7 +350,8 @@
     "useCurrentLocation": "Use My Current Location",
     "browserNotSupported": "Browser not supported",
     "fetchError": "Unable to fetch location",
-    "permissionDenied": "Location permission denied"
+    "permissionDenied": "Location permission denied",
+    "nearbyCinemas": "Nearby Cinemas"
   },
 
   "showtimes": {

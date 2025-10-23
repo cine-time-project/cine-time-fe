@@ -348,7 +348,8 @@
     "findCinema": "Sinema Bul",
     "inputPlaceholder": "Şehir, posta kodu veya sinema ara",
     "useCurrentLocation": "Mevcut Konumumu Kullan",
-    "browserNotSupported": "Tarayıcı desteklemiyor"
+    "browserNotSupported": "Tarayıcı desteklemiyor",
+    "nearbyCinemas": "Yakınlardaki Sinemalar"
   },
 
   "showtimes": {

@@ -1,20 +1,25 @@
+import { config } from "@/helpers/config";
+import axios from "axios";
+
+// Fetch cinemas from backend
 export async function listCinemas({
   cityId,
   cityName,
   specialHall,
   page = 0,
-  size = 10,
+  size = 8,
 }) {
-  const params = new URLSearchParams();
-  if (cityId) params.append("cityId", cityId);
-  if (cityName) params.append("cityName", cityId);
-  if (specialHall) params.append("specialHall", specialHall);
-  params.append("page", page);
-  params.append("size", size);
+  const res = await axios.get(`${config.apiURL}/cinemas`, {
+    params: { cityId, cityName, specialHall, page, size },
+    validateStatus: () => true,
+  });
 
-  const res = await fetch(`/api/cinemas?${params.toString()}`);
-  if (!res.ok) throw new Error("Failed to fetch cinemas");
-  return res.json();
+  if (res.status !== 200 || !res.data) {
+    console.error("Cinema API error:", res);
+    throw new Error(res.data?.message || "Failed to fetch cinemas");
+  }
+
+  return res.data; // burada returnBody’yi almadık, üstte handle edeceğiz
 }
 
 // Convert city name to coordinates
@@ -27,5 +32,3 @@ export const getCoordsByCity = async (cityName) => {
     return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
   return null;
 };
-
- 
