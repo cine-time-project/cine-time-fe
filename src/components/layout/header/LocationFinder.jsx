@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, ListGroup } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import styles from "./locationFinder.module.scss"; // Dark theme SCSS
 import { useTranslations } from "next-intl";
+import { listCinemas } from "@/services/cinema-service";
 
 export default function LocationFinder({ L }) {
   const tCinemas = useTranslations("cinemas");
   const router = useRouter();
   const [city, setCity] = useState("Locating...");
   const [showModal, setShowModal] = useState(false);
+  const [cinemas, setCinemas] = useState([]);
 
   // Get user's current location
   useEffect(() => {
@@ -21,22 +23,36 @@ export default function LocationFinder({ L }) {
 
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
+        console.log("✅ Geolocation success:", coords);
         try {
           const r = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
           );
           const d = await r.json();
-          setCity(
-            d.address.city ||
-              d.address.town ||
-              d.address.state ||
-              tCinemas("noLocation")
+
+          const cityName =
+            d.address.city || d.address.town || d.address.state || "";
+
+          console.log("📍 Konum Şehri:", cityName);
+          setCity(cityName);
+
+          const cinemaData = await listCinemas({ cityName });
+          console.log("🎬 Cinema Data:", cinemaData);
+
+          setCinemas(
+            Array.isArray(cinemaData)
+              ? cinemaData
+              : cinemaData?.returnBody?.content || []
           );
-        } catch {
+        } catch (err) {
+          console.error("❌ Try-catch hatası:", err);
           setCity(tCinemas("noLocation"));
         }
       },
-      () => setCity(tCinemas("noLocPermission"))
+      (err) => {
+        console.warn("⚠️ Geolocation hata:", err);
+        setCity(tCinemas("noLocPermission"));
+      }
     );
   }, []);
 
@@ -78,19 +94,45 @@ export default function LocationFinder({ L }) {
       </div>
 
       {/* Dark theme modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{tCinemas("nearbyCinemas")}</Modal.Title>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        data-bs-theme="dark"
+        className={styles.modalOverlay}
+        dialogClassName={styles.modalDialog}
+        contentClassName={styles.modalContent}
+      >
+        <Modal.Header closeButton className={styles.modalHeader}>
+          <Modal.Title className={styles.modalTitle}>
+            {tCinemas("nearbyCinemas")}
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {/* Current location button */}
+
+        <Modal.Body className={styles.modalBody}>
+          {cinemas.length > 0 ? (
+            <div className={styles.scrollContainer}>
+              <ListGroup variant="flush" className={styles.cinemaList}>
+                {cinemas.map((cinema) => (
+                  <ListGroup.Item key={cinema.id} className={styles.cinemaItem}>
+                    {cinema?.name}
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </div>
+          ) : (
+            <div className={styles.noCinemas}>{tCinemas("noCinemas")}</div>
+          )}
+        </Modal.Body>
+
+        <div className={styles.modalFooter}>
           <Button
             className="btn btn-warning"
             onClick={() => handleFindCinemas("current")}
           >
             {tCinemas("findMore")}
           </Button>
-        </Modal.Body>
+        </div>
       </Modal>
     </>
   );
