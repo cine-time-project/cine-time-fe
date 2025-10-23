@@ -7,6 +7,7 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { config } from "@/helpers/config.js";
+import { MoviePoster, getMoviePosterUrl } from "@/lib/movies/poster";
 
 // ==== CONFIG ====
 const API = config.apiURL; // e.g. http://localhost:8090/api
@@ -56,23 +57,6 @@ function hhmm(t) {
   return (t || "").slice(0, 5);
 }
 
-// ---- Images ----
-const FALLBACK_IMG = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
-
-function resolvePoster(ticket) {
-  const raw = ticket?.moviePosterUrl;
-  if (!raw) return FALLBACK_IMG;
-  const url = String(raw).trim();
-  if (!url) return FALLBACK_IMG;
-  if (/^https?:\/\//i.test(url)) return url;
-  if (url.startsWith("/")) {
-    const base = (API || "").replace(/\/api\/?$/, "");
-    return `${base}${url}`;
-  }
-  const base = (API || "").replace(/\/$/, "");
-  return `${base}/${url}`;
-}
-
 // ---- Normalize backend shapes (paged or array) ----
 function normalizePageShape(data) {
   const body = data?.returnBody ?? data ?? {};
@@ -101,6 +85,60 @@ function normalizePageShape(data) {
   };
 }
 
+// Hydrate missing poster URLs using /movies/id/{id}
+async function hydrateMissingPosters(list, setList) {
+  try {
+    // collect distinct movieIds that are missing poster
+    const ids = Array.from(
+      new Set(
+        (list || [])
+          .filter((t) => !t?.moviePosterUrl && t?.movieId)
+          .map((t) => t.movieId)
+      )
+    );
+    if (ids.length === 0) return;
+
+    // fetch each movie once; tolerate failures
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        axios
+          .get(`${API}/movies/id/${id}`, {
+            headers: { Accept: "application/json" },
+            validateStatus: () => true,
+          })
+          .then((r) => ({
+            id,
+            body: r.data?.returnBody ?? r.data ?? null,
+          }))
+      )
+    );
+
+    const urlById = new Map();
+    for (const r of results) {
+      if (r.status === "fulfilled" && r.value?.body) {
+        const url =
+          getMoviePosterUrl(r.value.body) ||
+          r.value.body?.posterUrl ||
+          r.value.body?.images?.[0]?.url ||
+          null;
+        if (url) urlById.set(r.value.id, url);
+      }
+    }
+    if (urlById.size === 0) return;
+
+    // patch items in place via setter
+    setList((prev) =>
+      (prev || []).map((t) =>
+        !t?.moviePosterUrl && t?.movieId && urlById.has(t.movieId)
+          ? { ...t, moviePosterUrl: urlById.get(t.movieId) }
+          : t
+      )
+    );
+  } catch {
+    // silently ignore; UI will keep showing fallback image via MoviePoster
+  }
+}
+
 // ---- Small Ticket Card ----
 function TicketCard({ ticket, locale }) {
   const {
@@ -116,26 +154,17 @@ function TicketCard({ ticket, locale }) {
     price,
   } = ticket || {};
 
-  const poster = resolvePoster(ticket);
-
   return (
     <article className="ticket-card">
       <div className="ticket-card__media">
-        <Image
-          src={poster}
+        <MoviePoster
+          movie={{ posterUrl: ticket?.moviePosterUrl }}
           alt={movieName || "Movie poster"}
-          height={160}
-          width={120}
-          unoptimized
-          sizes="70px"
-          style={{ objectFit: "cover" }}
-          onError={(e) => {
-            try {
-              const img = e.currentTarget;
-              if (img && img.tagName === "IMG" && img.src !== FALLBACK_IMG) {
-                img.src = FALLBACK_IMG;
-              }
-            } catch {}
+          width={150}
+          height={150}
+          style={{
+            objectFit: "cover",
+            borderRadius: "6px",
           }}
         />
       </div>
@@ -232,6 +261,8 @@ export default function PastTicketsPage() {
       setItems((prev) =>
         isFirst ? normalized.content : [...prev, ...normalized.content]
       );
+      // try to fill in posters if backend omitted them but returns movieId
+      hydrateMissingPosters(normalized.content, setItems);
       setHasMore(!normalized.last);
       setPage(p);
     } catch (e) {
@@ -269,6 +300,8 @@ export default function PastTicketsPage() {
       setCurrentItems((prev) =>
         isFirst ? normalized.content : [...prev, ...normalized.content]
       );
+      // try to fill in posters if backend omitted them but returns movieId
+      hydrateMissingPosters(normalized.content, setCurrentItems);
       setCurrentHasMore(!normalized.last);
       setCurrentPage(p);
     } catch (e) {
@@ -379,32 +412,36 @@ export default function PastTicketsPage() {
       <style jsx>{`
         .tickets-grid {
           display: grid;
-          gap: 18px;
           grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 16px;
         }
         .ticket-card {
           display: grid;
-          grid-template-columns: 90px 1fr;
+          grid-template-columns: 56px 1fr;
+          align-items: center;
           background: #1d1f24;
           border: 1px solid #2b2e36;
-          border-radius: 14px;
+          border-radius: 12px;
           overflow: hidden;
-          min-height: 90px;
+          padding: 10px;
+          min-height: 72px;
+          transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
         }
-        @media (max-width: 880px) {
-          .ticket-card {
-            grid-template-columns: 1fr;
-          }
-          .ticket-card__media {
-            height: 150px;
-          }
+        .ticket-card:hover {
+          transform: translateY(-1px);
+          border-color: #3a3f4a;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.25);
         }
         .ticket-card__media {
           position: relative;
-          height: 140px; /* poster ~2:3 */
+          width: 50px;
+          height: 50px;
+          flex-shrink: 0;
+          border-radius: 8px;
+          overflow: hidden;
         }
         .ticket-card__body {
-          padding: 10px;
+          padding: 8px 0 8px 12px;
           display: grid;
           align-content: start;
           gap: 6px;
@@ -414,7 +451,21 @@ export default function PastTicketsPage() {
           color: #fff;
           font-weight: 700;
           font-size: 14px;
-          line-height: 1.2;
+          line-height: 1.25;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        :global(.badge) {
+          font-size: 11px;
+          padding: 0.3rem 0.5rem;
+          border: 1px solid rgba(255,255,255,0.08);
+        }
+        @media (max-width: 640px) {
+          .tickets-grid {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </div>
