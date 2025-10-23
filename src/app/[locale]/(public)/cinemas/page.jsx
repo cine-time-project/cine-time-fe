@@ -1,24 +1,29 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CinemasGrid from "./CinemasGrid";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
+import { Container } from "react-bootstrap";
+import { CinemaSearchBar } from "./CinemaSearchBar";
 
 const CinemasPage = () => {
   const locale = useLocale();
   const searchParams = useSearchParams();
+  const [cityFilter, setCityFilter] = useState("");
 
-  // 1️⃣ Get the 'city' query param from URL
-  const cityFilter = searchParams.get("city") || "";
+  // Eğer URL parametresi değişirse state’i güncelle
+  useEffect(() => {
+    setCityFilter(searchParams.get("city") || "");
+  }, [searchParams]);
 
-  // Helper to create localized URLs
   const L = (rest = "") =>
     rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`;
 
   return (
-    <div>
+    <Container>
+      <CinemaSearchBar cityFilter={cityFilter} setCityFilter={setCityFilter} />
       <CinemasGrid cityFilter={cityFilter} L={L} />
-    </div>
+    </Container>
   );
 };
 

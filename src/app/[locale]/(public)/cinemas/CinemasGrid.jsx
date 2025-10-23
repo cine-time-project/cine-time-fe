@@ -20,11 +20,19 @@ export default function CinemasGrid({ cityFilter = "", L }) {
   }
 
   if (error) {
-    return <Alert variant="danger">{t ? t("noCinemas") : "Cinemalar yüklenemedi."}</Alert>;
+    return (
+      <Alert variant="danger">
+        {t ? t("noCinemas") : "Cinemalar yüklenemedi."}
+      </Alert>
+    );
   }
 
   if (!cinemas || cinemas.length === 0) {
-    return <div className="text-secondary py-5">{t ? t("empty") : "Şu an kriterlere uyan sinema bulunamadı."}</div>;
+    return (
+      <div className="text-secondary py-5">
+        {t ? t("empty") : "Şu an kriterlere uyan sinema bulunamadı."}
+      </div>
+    );
   }
 
   return (
@@ -32,11 +40,7 @@ export default function CinemasGrid({ cityFilter = "", L }) {
       <Row xs={1} sm={2} md={3} lg={3} xl={4} className="g-4">
         {cinemas.map((c) => (
           <Col key={c.id}>
-            <CinemaCard
-              cinema={c}
-              firstDate={firstDatesByCinema[c.id]}
-              L={L}
-            />
+            <CinemaCard cinema={c} firstDate={firstDatesByCinema[c.id]} L={L} />
           </Col>
         ))}
       </Row>
