@@ -400,10 +400,59 @@ export default function MovieShowtimeCinemasPage() {
       {!loading && !error && (
         <>
           {filteredCinemas.length === 0 ? (
-            <div className="text-secondary py-5">
-              {selectedCountry && selectedCity && selectedDate
-                ? "No cinemas match your selection."
-                : "Select a country, a city, and a date to see cinemas with showtimes."}
+            <div className="cinema-grid">
+              <article className="cinema-card">
+                {/* Movie-only card shown before filters (or when no matches) */}
+                <div className="movie-mini">
+                  <div className="movie-mini__media">
+                    <Image
+                      src={
+                        (movieData?.posterUrl) ||
+                        (movieData?.images?.find((img) => img?.poster)?.url) ||
+                        (movieData?.images?.[0]?.url) ||
+                        "/no-poster.png"
+                      }
+                      alt={movieMeta.title || "Poster"}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 900px) 100vw, 140px"
+                      style={{ objectFit: "cover", borderRadius: 8 }}
+                    />
+                  </div>
+                  <div className="movie-mini__body">
+                    <div className="d-flex align-items-start justify-content-between gap-3">
+                      <div>
+                        <div className="movie-mini__title">
+                          {movieMeta.title || movieTitle || "Film"}
+                        </div>
+                        {movieMeta?.director && (
+                          <div className="text-muted small">
+                            Yönetmen: {movieMeta.director}
+                          </div>
+                        )}
+                      </div>
+                      {movieMeta?.id && (
+                        <Link
+                          className="btn btn-sm btn-outline-light"
+                          href={L(`movies/${movieMeta.id}`)}
+                        >
+                          Detay
+                        </Link>
+                      )}
+                    </div>
+
+                    <div className="showtime-row mt-2">
+                      {!selectedDate || !selectedCountry || !selectedCity ? (
+                        <span className="text-muted small">
+                          Ülke, şehir ve tarih seçtiğinizde seanslar burada görünecek.
+                        </span>
+                      ) : (
+                        <span className="text-muted">Seans yok</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
             </div>
           ) : (
             <div className="cinema-grid">
