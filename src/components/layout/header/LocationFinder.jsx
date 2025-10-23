@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import styles from "./locationFinder.module.scss"; // Dark theme SCSS
 import { useTranslations } from "next-intl";
 import { listCinemas } from "@/services/cinema-service";
+import Link from "next/link";
 
 export default function LocationFinder({ L }) {
   const tCinemas = useTranslations("cinemas");
@@ -83,6 +84,11 @@ export default function LocationFinder({ L }) {
     }
   };
 
+  const handleForwardToCinemaDetail = (cinema) => {
+    router.push(L(`cinemas/${cinema.id}`));
+    setShowModal(false);
+  }
+
   return (
     <>
       {/* Header location display */}
@@ -114,7 +120,7 @@ export default function LocationFinder({ L }) {
             <div className={styles.scrollContainer}>
               <ListGroup variant="flush" className={styles.cinemaList}>
                 {cinemas.map((cinema) => (
-                  <ListGroup.Item key={cinema.id} className={styles.cinemaItem}>
+                  <ListGroup.Item onClick={() => handleForwardToCinemaDetail(cinema)} key={cinema.id} className={styles.cinemaItem}>
                     {cinema?.name}
                   </ListGroup.Item>
                 ))}
