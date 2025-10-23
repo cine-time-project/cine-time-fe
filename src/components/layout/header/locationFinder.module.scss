@@ -60,26 +60,6 @@
   }
 }
 
-/* Use current location button */
-.useLocationBtn {
-  display: block;
-  width: 100%;
-  margin-top: 0.5rem;
-  text-align: center;
-  color: #ff9800;
-  font-weight: 500;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem 0;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #e68a00;
-    text-decoration: underline;
-  }
-}
-
 /* Location display in header */
 .locationSimple {
   display: flex;
