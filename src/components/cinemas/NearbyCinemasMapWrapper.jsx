@@ -11,12 +11,12 @@ const NearbyCinemasLeaflet = dynamic(
   { ssr: false }
 );
 
-export default function NearbyCinemasMapWrapper({city}) {
+export default function NearbyCinemasMapWrapper({coords, userCoords}) {
   const tCinema = useTranslations("cinemas");
   return (
     <div className="">
       <SectionTitle>{tCinema("findMore")}</SectionTitle>
-      <NearbyCinemasLeaflet propCity={city} />
+      <NearbyCinemasLeaflet propCoords={coords} propUserCoords={userCoords}/>
     </div>
   );
 }
