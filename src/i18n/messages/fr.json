@@ -334,7 +334,8 @@
     "useCurrentLocation": "Utiliser ma position actuelle",
     "browserNotSupported": "Navigateur non pris en charge",
     "fetchError": "Impossible de récupérer la localisation",
-    "permissionDenied": "Permission de localisation refusée"
+    "permissionDenied": "Permission de localisation refusée",
+    "nearbyCinemas": "Cinémas à proximité"
   },
 
   "showtimes": {

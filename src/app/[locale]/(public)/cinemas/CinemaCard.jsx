@@ -11,6 +11,7 @@ export default function CinemaCard({ cinema, firstDate, L }) {
   const t = useTranslations ? useTranslations("cinemas") : () => (k) => k;
 
   const imgSrc = resolveCinemaImage(cinema);
+
   const cityName =
     cinema.city?.name ||
     cinema.cityName ||

@@ -20,10 +20,10 @@ const CinemasPage = () => {
     rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`;
 
   return (
-    <Container>
+    <div className="d-flex flex-column justify-content-center">
       <CinemaSearchBar cityFilter={cityFilter} setCityFilter={setCityFilter} />
       <CinemasGrid cityFilter={cityFilter} L={L} />
-    </Container>
+    </div>
   );
 };
 

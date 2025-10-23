@@ -334,7 +334,8 @@
     "useCurrentLocation": "Meinen aktuellen Standort verwenden",
     "browserNotSupported": "Browser wird nicht unterstützt",
     "fetchError": "Standort konnte nicht ermittelt werden",
-    "permissionDenied": "Standortberechtigung verweigert"
+    "permissionDenied": "Standortberechtigung verweigert",
+    "nearbyCinemas": "Kinos in der Nähe"
   },
 
   "showtimes": {
