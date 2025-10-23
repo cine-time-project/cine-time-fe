@@ -7,11 +7,11 @@ import styles from "@/styles/dashboard.module.scss";
 
 const TILES = [
   // Admin-only
-  { key: "cinemas",   title: "Cinemas",        desc: "Şubeler ve salon eşleştirmeleri", href: "/admin/cinemas",        roles: ["ADMIN"] },
-  { key: "halls",     title: "Halls",          desc: "Salon planları, koltuk şablonları", href: "/admin/halls",        roles: ["ADMIN"] },
-  { key: "times",     title: "Showtimes",      desc: "Seans planlama ve takvim",        href: "/admin/showtimes",      roles: ["ADMIN"] },
-  { key: "images",    title: "Images",         desc: "Afiş ve görsel yönetimi",         href: "/admin/images",         roles: ["ADMIN"] },
-  { key: "cinemaimg", title: "Cinema Images",  desc: "Sinema resimleri yönetimi",       href: "/admin/cinema-images",  roles: ["ADMIN"] },
+ { key: "cinemas",   title: "Cinemas",       desc: "Şubeler ve salon eşleştirmeleri", href: "/admin/cinemas",       roles: ["ADMIN","EMPLOYEE"] },
+  { key: "halls",     title: "Halls",         desc: "Salon planları, koltuk şablonları", href: "/admin/halls",       roles: ["ADMIN","EMPLOYEE"] },
+  { key: "times",     title: "Showtimes",     desc: "Seans planlama ve takvim",        href: "/admin/showtimes",     roles: ["ADMIN","EMPLOYEE"] },
+  { key: "images",    title: "Images",        desc: "Afiş ve görsel yönetimi",         href: "/admin/images",        roles: ["ADMIN","EMPLOYEE"] },
+  { key: "cinemaimg", title: "Cinema Images", desc: "Sinema resimleri yönetimi",       href: "/admin/cinema-images", roles: ["ADMIN","EMPLOYEE"] },
 
   // Admin & Employee
   { key: "movies",  title: "Movies",           desc: "Filmler ve içerik listesi",       href: "/admin/movies",         roles: ["ADMIN","EMPLOYEE"] },
@@ -23,12 +23,14 @@ const TILES = [
   { key: "reports", title: "Reports",          desc: "Özetler ve performans raporları", href: "/admin/reports",        roles: ["ADMIN","EMPLOYEE"] },
 ];
 
-function hasAnyRole(userRoles = [], allowed = []) {
-  if (!allowed?.length) return true;
-  const set = new Set(userRoles);
-  return allowed.some(r => set.has(r));
-}
-
+function normalizeRoles(arr = []) {
+   return arr.map(r => String(r).toUpperCase().replace(/^ROLE_/, ""));
+ }
+ function hasAnyRole(userRoles = [], allowed = []) {
+   if (!allowed?.length) return true;
+   const have = new Set(normalizeRoles(userRoles));
+   return normalizeRoles(allowed).some(r => have.has(r));
+ }
 function Icon({ name }) {
   const common = { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" };
   switch (name) {
