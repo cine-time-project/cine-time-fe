@@ -58,7 +58,7 @@ export const config = {
   apiURL:
     (process.env.NEXT_PUBLIC_API_BASE ||
       process.env.NEXT_PUBLIC_API_BASE_URL ||
-      "http://localhost:8090/api").replace(/\/$/, ""),
+      "http://localhost:8100/api").replace(/\/$/, ""),
 
   locales: ["tr", "en", "de", "fr"],
   defaultLocale: "tr",
@@ -100,73 +100,100 @@ export const config = {
   // =========================
 userRightsOnRoutes: [
   // =========================
-  // ADMIN PANEL (giriş)
+  // ADMIN PANEL – giriş
   // =========================
   { urlRegex: /^\/(tr|en|de|fr)\/admin\/dashboard$/, roles: ["ADMIN", "EMPLOYEE"] },
 
   // =========================
-  // USERS — BE: ADMIN | EMPLOYEE (U08, U09, U10, U11)
+  // USERS
   // =========================
-  // Liste / arama
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/users$/, roles: ["ADMIN", "EMPLOYEE"] },
-  // Yeni kullanıcı ekranı (BE'de create endpoint'i authenticated; admin panelden açıyorsan ADMIN|EMPLOYEE makul)
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/users\/new$/, roles: ["ADMIN", "EMPLOYEE"] },
-  // Detay/Düzenleme (U10 update, U11 delete -> ADMIN|EMPLOYEE)
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/users\/([0-9]+|[a-z0-9-]+)(\/edit)?$/, roles: ["ADMIN", "EMPLOYEE"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/users$/, roles: ["ADMIN","EMPLOYEE"] },             // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/users\/new$/, roles: ["ADMIN","EMPLOYEE"] },        // create form
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/users\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN","EMPLOYEE"] }, // edit
 
   // =========================
-  // Liste: ADMIN|EMPLOYEE; new/edit: sadece ADMIN
+  // MOVIES
   // =========================
-// Movies (Admin panel)
-{ urlRegex: /^\/(tr|en|de|fr)\/admin\/movies$/, roles: ["ADMIN","EMPLOYEE"] }, // Liste
-{ urlRegex: /^\/(tr|en|de|fr)\/admin\/movies\/new$/, roles: ["ADMIN"] },            // Yeni
-{ urlRegex: /^\/(tr|en|de|fr)\/admin\/movies\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] },            // Detay/Düzenle
-
-
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/movies$/, roles: ["ADMIN","EMPLOYEE"] },            // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/movies\/new$/, roles: ["ADMIN"] },                  // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/movies\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
 
   // =========================
-  // CINEMAS / HALLS / SHOWTIMES / IMAGES vb. — (önceki matrisinle uyumlu)
-  // İstersen aynen koru:
+  // CINEMAS
   // =========================
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/new$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/([0-9]+|[a-z0-9-]+)\/halls$/, roles: ["ADMIN"] },
-
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls\/new$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
-
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes\/new$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
-
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/images$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/images\/([0-9]+|[a-z0-9-]+)$/, roles: ["ADMIN"] },
-
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images$/, roles: ["ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images\/([0-9]+)$/, roles: ["ADMIN"] },
-
-  // İzleme/okuma ağırlıklı panel sayfaları
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cities$/, roles: ["ADMIN", "EMPLOYEE"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/special-halls$/, roles: ["ADMIN", "EMPLOYEE"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/contact-messages$/, roles: ["ADMIN", "EMPLOYEE"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/tickets(\/.*)?$/, roles: ["ADMIN", "EMPLOYEE"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/admin\/reports$/, roles: ["ADMIN", "EMPLOYEE"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas$/, roles: ["ADMIN","EMPLOYEE"] },           // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/new$/, roles: ["ADMIN"] },                 // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinemas\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
 
   // =========================
-  // AUTH GEREKTİREN “KENDİ HESABI” SAYFALARI — BE: isAuthenticated
-  // U06 / U07 / U01 / Reset Password gibi akışlar buradan çalışır
+  // HALLS
   // =========================
-  { urlRegex: /^\/(tr|en|de|fr)\/account$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/account\/tickets$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/account\/tickets\/([0-9]+|[a-z0-9-]+)$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/favorites$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/checkout$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
-  { urlRegex: /^\/(tr|en|de|fr)\/payment$/, roles: ["MEMBER", "EMPLOYEE", "ADMIN"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls$/, roles: ["ADMIN","EMPLOYEE"] },             // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls\/new$/, roles: ["ADMIN"] },                   // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/halls\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
 
-  // Public dashboard’ı sadece yönetim menüsü amaçlı kullanıyorsan:
-  { urlRegex: /^\/(tr|en|de|fr)\/dashboard$/, roles: ["ADMIN", "EMPLOYEE"] },
+  // =========================
+  // SHOWTIMES
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes$/, roles: ["ADMIN","EMPLOYEE"] },         // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes\/new$/, roles: ["ADMIN"] },               // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/showtimes\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
+
+  // =========================
+  // IMAGES (GENEL)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/images$/, roles: ["ADMIN","EMPLOYEE"] },            // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/images\/new$/, roles: ["ADMIN"] },                  // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/images\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
+
+  // =========================
+  // CINEMA-IMAGES (ayrı panel kullanacaksanız)
+  // (Eğer bu route'u tutmayacaksanız, bu 3 kuralı tamamen kaldırın)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images$/, roles: ["ADMIN","EMPLOYEE"] },     // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images\/new$/, roles: ["ADMIN"] },           // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cinema-images\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
+
+  // =========================
+  // CITIES (eksikler E/K/G eklendi)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cities$/, roles: ["ADMIN","EMPLOYEE"] },            // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cities\/new$/, roles: ["ADMIN"] },                  // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/cities\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
+
+  // =========================
+  // SPECIAL HALLS (varsa)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/special-halls$/, roles: ["ADMIN","EMPLOYEE"] },     // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/special-halls\/new$/, roles: ["ADMIN"] },           // create
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/special-halls\/(?:\d+|[a-z0-9-]+)(?:\/edit)?$/, roles: ["ADMIN"] }, // edit
+
+  // =========================
+  // CONTACT MESSAGES (liste + opsiyonel detay)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/contact-messages$/, roles: ["ADMIN","EMPLOYEE"] },  // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/contact-messages\/(?:\d+|[a-z0-9-]+)$/, roles: ["ADMIN","EMPLOYEE"] }, // detail (ops.)
+
+  // =========================
+  // TICKETS & REPORTS (okuma ağırlıklı)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/tickets$/, roles: ["ADMIN","EMPLOYEE"] },           // list
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/tickets\/(?:\d+|[a-z0-9-]+)$/, roles: ["ADMIN","EMPLOYEE"] }, // detail (ops.)
+  { urlRegex: /^\/(tr|en|de|fr)\/admin\/reports$/, roles: ["ADMIN","EMPLOYEE"] },
+
+  // =========================
+  // HESABIM (AUTH)
+  // =========================
+  { urlRegex: /^\/(tr|en|de|fr)\/account$/, roles: ["MEMBER","EMPLOYEE","ADMIN"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/account\/tickets$/, roles: ["MEMBER","EMPLOYEE","ADMIN"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/account\/tickets\/(?:\d+|[a-z0-9-]+)$/, roles: ["MEMBER","EMPLOYEE","ADMIN"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/favorites$/, roles: ["MEMBER","EMPLOYEE","ADMIN"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/checkout$/, roles: ["MEMBER","EMPLOYEE","ADMIN"] },
+  { urlRegex: /^\/(tr|en|de|fr)\/payment$/, roles: ["MEMBER","EMPLOYEE","ADMIN"] },
+
+  // (Kullanıyorsanız)
+  { urlRegex: /^\/(tr|en|de|fr)\/dashboard$/, roles: ["ADMIN","EMPLOYEE"] },
 ],
+
 
 };

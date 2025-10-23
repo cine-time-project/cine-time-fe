@@ -1,8 +1,4 @@
-export default function AdminCitiesPage() {
-  return (
-    <>
-      <h1>Cities</h1>
-      <p>Şehir listesi ve filtreler burada.</p>
-    </>
-  );
+import ModuleList from "../_ModuleList";
+export default function AdminCitiesPage({ params: { locale } }) {
+  return <ModuleList title="Cities" basePath={`/${locale}/admin/cities`} showNew />;
 }
