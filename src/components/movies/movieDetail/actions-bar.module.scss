@@ -133,13 +133,13 @@
 
 .faved {
   background: var(--brand, #0ea5e9);
-  color: #fff;
+  color: #ffc303;;
   border-color: transparent;
 }
 
 /* Favoride görünüm: beyaz arka plan + siyah ikon */
 .iconBtn.faved{
-  background: #fff;
+  background: #ffc303;;
   color: #000;
   border: 1px solid rgba(0,0,0,.15);
 }
