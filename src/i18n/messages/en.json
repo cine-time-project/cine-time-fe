@@ -820,5 +820,22 @@
     "title": "Page Not Found",
     "description": "The page you’re looking for doesn’t exist or has been moved.",
     "home": "Go back to homepage"
+  },
+    "dashboard": {
+    "title": "Dashboard",
+    "tiles": {
+      "cinemas":    { "title": "Cinemas", "desc": "Branches and hall mapping" },
+      "halls":      { "title": "Halls", "desc": "Hall layouts & seat templates" },
+      "times":      { "title": "Showtimes", "desc": "Scheduling and calendar" },
+      "images":     { "title": "Images", "desc": "Posters & media management" },
+      "cinemaimg":  { "title": "Cinema Images", "desc": "Cinema images management" },
+      "movies":     { "title": "Movies", "desc": "Movie catalog" },
+      "users":      { "title": "Users", "desc": "User search & management" },
+      "tickets":    { "title": "Tickets (Admin)", "desc": "Sales & ticket operations" },
+      "cities":     { "title": "Cities", "desc": "City / region lists" },
+      "vip":        { "title": "Special Halls", "desc": "VIP / special hall types" },
+      "contact":    { "title": "Contact Messages", "desc": "Inbox messages" },
+      "reports":    { "title": "Reports", "desc": "Summaries & performance reports" }
+    }
   }
 }

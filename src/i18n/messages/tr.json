@@ -830,5 +830,22 @@
     "title": "Sayfa Bulunamadı",
     "description": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
     "home": "Ana sayfaya dön"
+  },
+ "dashboard": {
+    "title": "Dashboard",
+    "tiles": {
+      "cinemas":    { "title": "Cinemas", "desc": "Şubeler ve salon eşleştirmeleri" },
+      "halls":      { "title": "Halls", "desc": "Salon planları, koltuk şablonları" },
+      "times":      { "title": "Showtimes", "desc": "Seans planlama ve takvim" },
+      "images":     { "title": "Images", "desc": "Afiş ve görsel yönetimi" },
+      "cinemaimg":  { "title": "Cinema Images", "desc": "Sinema resimleri yönetimi" },
+      "movies":     { "title": "Movies", "desc": "Filmler ve içerik listesi" },
+      "users":      { "title": "Users", "desc": "Kullanıcı arama ve yönetim" },
+      "tickets":    { "title": "Tickets (Admin)", "desc": "Satışlar ve bilet işlemleri" },
+      "cities":     { "title": "Cities", "desc": "Şehir / bölge listeleri" },
+      "vip":        { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
+      "contact":    { "title": "Contact Messages", "desc": "İletişim kutusu mesajları" },
+      "reports":    { "title": "Reports", "desc": "Özetler ve performans raporları" }
+    }
   }
 }
