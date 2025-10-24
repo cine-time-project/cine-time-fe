@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import styles from "./login.module.scss";
 
@@ -13,9 +13,23 @@ import LoginGoogle from "./LoginGoogle";
 import LoginFooter from "./LoginFooter";
 import { useAuth } from "@/components/providers/AuthProvider";
 
+function parseRolesFromCookie() {
+  try {
+    const m = document.cookie.match(/(?:^|;\s*)authRoles=([^;]+)/);
+    if (!m) return [];
+    const raw = decodeURIComponent(m[1]);
+    return raw.split(/[\s,]+/).map(s => s.trim().toUpperCase().replace(/^ROLE_/, "")).filter(Boolean);
+  } catch { return []; }
+}
+const isStaff = (roles=[]) => {
+  const set = new Set(roles.map(r => String(r).toUpperCase()));
+  return set.has("ADMIN") || set.has("EMPLOYEE");
+};
+
 export default function LoginPage() {
   const locale = useLocale();
   const router = useRouter();
+  const sp = useSearchParams();
   const tAuth = useTranslations("auth");
   const tErrors = useTranslations("errors");
   const { login, loginWithGoogle } = useAuth(); // Centralized auth
@@ -23,35 +37,37 @@ export default function LoginPage() {
   const [alert, setAlert] = useState(null);
   const [pending, setPending] = useState(false);
 
-  /**
-   * Handle normal login form submission
-   */
+  // Ortak yönlendirme
+  const redirectAfterLogin = () => {
+    const back = sp.get("redirect");
+    if (back) {
+      router.replace(back);
+      return;
+    }
+    const roles = parseRolesFromCookie(); // AuthProvider login sonrası cookie yazıyor
+    router.replace(isStaff(roles) ? `/${locale}/dashboard` : `/${locale}/account`);
+  };
+
+  /** Normal login */
   const handleLogin = async (formData, rememberMe, setFieldErrors, resetForm) => {
     setAlert(null);
     setPending(true);
-
     try {
       const payload = {
         phoneOrEmail: formData.identifier.trim(),
         password: formData.password,
       };
-
-      // Use AuthProvider for login
-      await login(payload);
-
-      // Optionally store remember me
+      await login(payload);                         // Auth akışı
       localStorage.setItem("authRemember", rememberMe ? "1" : "0");
 
       setAlert({ type: "success", message: tAuth("successLogin") });
       resetForm();
-      router.push(`/${locale}`);
+      redirectAfterLogin();                         // <- yönlendirme
     } catch (error) {
       const status = error?.status ?? 0;
-      if (status === 401) {
-        setAlert({ type: "danger", message: tAuth("invalidCredentials") });
-      } else if (status === 423) {
-        setAlert({ type: "danger", message: tAuth("locked") });
-      } else {
+      if (status === 401) setAlert({ type: "danger", message: tAuth("invalidCredentials") });
+      else if (status === 423) setAlert({ type: "danger", message: tAuth("locked") });
+      else {
         const key = status === 400 ? "invalid" : status === 500 ? "500" : status === 0 ? "network" : "unknown";
         const serverMsg = error?.message || tErrors(key);
         setAlert({ type: "danger", message: serverMsg });
@@ -61,15 +77,13 @@ export default function LoginPage() {
     }
   };
 
-  /**
-   * Handle Google login via AuthProvider
-   */
+  /** Google login */
   const handleGoogleSuccess = async (idToken) => {
     setPending(true);
     try {
       await loginWithGoogle(idToken);
       setAlert({ type: "success", message: tAuth("successLogin") });
-      router.push(`/${locale}`);
+      redirectAfterLogin();                         // <- yönlendirme
     } catch (error) {
       setAlert({ type: "danger", message: error?.message || tAuth("googleLoginFailed") });
     } finally {
