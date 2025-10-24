@@ -6,7 +6,7 @@ import { NavDropdown } from "react-bootstrap";
 import { useLocalStorageUser } from "./useLocalStorageUser";
 
 export default function AccountDropdown({ L, tNav }) {
- // Get logout function from auth context
+  // Get logout function from auth context
   const { logout } = useAuth();
   // Get user data from localStorage hook
   const user = useLocalStorageUser();
@@ -32,7 +32,7 @@ export default function AccountDropdown({ L, tNav }) {
     >
       {!user ? (
         <>
-          {/* If user is not logged in, show login/register */}
+          {/* Not logged in: Login / Register */}
           <NavDropdown.Item as={Link} href={L("login")}>
             {tNav("login")}
           </NavDropdown.Item>
@@ -42,11 +42,19 @@ export default function AccountDropdown({ L, tNav }) {
         </>
       ) : (
         <>
-          {/* If user is logged in, show user-related links */}
+          {/* Logged in: Profile (account) */}
+          <NavDropdown.Item as={Link} href={L("account")}>
+            {/* i18n anahtarın yoksa metni sabit bırakıyoruz */}
+            Profil
+          </NavDropdown.Item>
+
+          {/* My Tickets */}
           <NavDropdown.Item as={Link} href={L("mytickets")}>
             {tNav("myTickets")}
           </NavDropdown.Item>
+
           <NavDropdown.Divider />
+
           {/* Logout triggers AuthProvider's logout */}
           <NavDropdown.Item
             onClick={() => {
