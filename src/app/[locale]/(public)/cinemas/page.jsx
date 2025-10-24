@@ -1,57 +1,45 @@
+// CinemasPage.js
 "use client";
-
-import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
-import CinemasGrid from "@/components/cinemas/CinemasGrid";
+import useCinemas from "@/components/cinemas/useCinemas";
 import { CinemaSearchBar } from "@/components/cinemas/CinemaSearchBar";
+import CinemasGrid from "@/components/cinemas/CinemasGrid";
 
-// ✅ Leaflet can only run client-side → disable SSR
-const CinemaMap = dynamic(() => import("@/components/cinemas/CinemaMap"), {
-  ssr: false,
-  loading: () => <p className="text-center my-3">Loading map...</p>,
-});
+const CinemaMap = dynamic(() => import("@/components/cinemas/CinemaMap"), { ssr: false });
 
 export default function CinemasPage() {
   const locale = useLocale();
   const searchParams = useSearchParams();
+  const cityParam = searchParams.get("city") || "";
+  const [cityFilter, setCityFilter] = useState(cityParam);
 
-  const [cityFilter, setCityFilter] = useState("");
-  const [cinemas, setCinemas] = useState([]);
+  // ✅ Fetch işlemi burada
+  const { cinemas, loading, error, pagination, setPage, teaPot } = useCinemas(cityFilter);
 
-  // If "city" param changes, update filter
-  useEffect(() => {
-    const city = searchParams.get("city");
-
-    setCityFilter(city || "");
-  }, [searchParams]);
-
-  // Helper for locale-aware URLs
   const L = (rest = "") =>
     rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`;
 
-  // Simulated backend call — replace with your API fetch logic
-  useEffect(() => {
-    const fetchCinemas = async () => {
-      // TODO: replace this mock with your backend endpoint
-      const response = await fetch(`/api/cinemas?city=${cityFilter}`);
-      const data = await response.json();
-      setCinemas(data);
-    };
-    fetchCinemas();
-  }, [cityFilter]);
-
   return (
-    <div className="flex flex-col justify-center space-y-6">
-      {/* 🔍 City search */}
+    <div className="d-flex flex-column justify-content-center space-y-4">
       <CinemaSearchBar cityFilter={cityFilter} setCityFilter={setCityFilter} />
 
-      {/* 🎬 Cinemas list */}
-      <CinemasGrid cityFilter={cityFilter} L={L} cinemas={cinemas} />
+      {/* 🎬 Grid: render-only component */}
+      <CinemasGrid
+        cinemas={cinemas}
+        loading={loading}
+        error={error}
+        pagination={pagination}
+        setPage={setPage}
+        teaPot={teaPot}
+        L={L}
+        cityFilter={cityFilter}
+      />
 
-      {/* 🗺️ Map showing cinema locations */}
+      {/* 🗺️ Map: aynı data'yı paylaşıyor */}
       <CinemaMap cinemas={cinemas} />
     </div>
   );

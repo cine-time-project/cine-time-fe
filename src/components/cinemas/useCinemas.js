@@ -45,12 +45,6 @@ export default function useCinemas(cityFilter = "", initialPage = 0) {
           });
         }
 
-        console.log("UseCinemas'dan sesleniyorum: " + data?.httpStatus);
-        console.log(
-          "UseCinemas'dan sesleniyorum: " +
-            (data?.httpStatus === "I_AM_A_TEAPOT")
-        );
-
         setTeaPot(data?.httpStatus === "I_AM_A_TEAPOT");
       } catch (e) {
         if (!ignore) {
