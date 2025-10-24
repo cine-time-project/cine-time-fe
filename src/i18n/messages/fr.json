@@ -497,6 +497,82 @@
     "closeMenu": "Fermer le menu"
   },
 
+  "about": {
+    "title": "À propos de CineTime",
+    "heroLead": "Les fondations de CineTime ont été posées au milieu des années 90, à l'époque où la projection cinématographique évoluait de l'analogique au numérique. Conçue avec une vision ouverte à l'innovation, la marque a défini l'expérience cinématographique non seulement comme une activité de visionnage, mais comme une atmosphère à part entière.",
+    "heroP2": "Notre première salle a ouvert avec une capacité de 180 sièges. Dans ce voyage qui a commencé avec des projecteurs 35 mm, le confort des spectateurs a toujours été une priorité grâce aux investissements dans la scène, l'écran et les systèmes acoustiques.",
+    "heroAlt": "Salle deluxe – sièges spacieux et éclairage d'ambiance",
+
+    "stats": {
+      "locations": "Emplacements",
+      "halls": "Salles",
+      "seats": "Sièges"
+    },
+
+    "missionTitle": "Notre Mission",
+    "missionBody": "Nous rendons le cinéma accessible, confortable et agréable pour tous. Nous rassemblons les cinémas de votre ville sur une seule plateforme, offrant une billetterie rapide et des recommandations personnalisées.",
+
+    "grid1": {
+      "title": "Salles de technologie avancée",
+      "body": "Clarté dans chaque scène avec projection 4K, HDR et acoustique équilibrée. L'inclinaison des sièges et l'angle de vision sont optimisés.",
+      "alt": "Salle avec grand écran et panneaux acoustiques"
+    },
+    "grid2": {
+      "title": "Buffet riche",
+      "body": "Pop-corn fraîchement éclaté, boissons gastronomiques et collations. Commandez en ligne, récupérez rapidement.",
+      "alt": "Zone pop-corn et buffet"
+    },
+    "grid3": {
+      "title": "Espace d'attente confortable",
+      "body": "Salon moderne pour les rencontres avant le spectacle : sièges confortables, unités de charge et Wi-Fi rapide.",
+      "alt": "Espace d'attente salon confortable"
+    },
+
+    "timelineTitle": "Notre Histoire",
+    "timelineAria": "Histoire de CineTime",
+
+    "m1995": {
+      "title": "Fondation et première salle",
+      "desc": "Les fondations de CineTime ont été posées au milieu des années 90, à l'époque où la projection cinématographique évoluait de l'analogique au numérique.",
+      "p1": "Notre première salle a ouvert avec une capacité de 180 sièges.",
+      "p2": "Début avec des projecteurs 35 mm ; investissement dans l'écran, l'acoustique et l'ergonomie des sièges.",
+      "p3": "Billetterie locale et réservation téléphonique.",
+      "p4": "Culture d'entreprise familiale : relations avec les invités et normes élevées de propreté."
+    },
+    "m2005": {
+      "title": "Transformation numérique",
+      "desc": "Avec la transition vers la projection numérique et les complexes multi-salles, l'échelle a commencé à croître.",
+      "p1": "Premier projecteur numérique 2K et renforcement de l'infrastructure.",
+      "p2": "Transition vers les logiciels de planification multi-salles.",
+      "p3": "Premier programme de fidélité et intégrations de campagne."
+    },
+    "m2015": {
+      "title": "Billets en ligne et mobile",
+      "desc": "L'expérience en ligne et mobile a été centrée ; les files d'attente ont diminué, la gestion de l'occupation s'est améliorée.",
+      "p1": "Sélection de siège et e-billet sans contact via le web.",
+      "p2": "Applications iOS/Android, code d'entrée QR.",
+      "p3": "Visibilité en temps réel des sessions/occupation.",
+      "p4": "Panneau d'opération : rapports et tarification dynamique."
+    },
+    "m2020": {
+      "title": "Données et personnalisation",
+      "desc": "Les recommandations basées sur ML et les campagnes ciblées ont été activées.",
+      "p1": "Recommandations de films basées sur les préférences/historique.",
+      "p3": "Prévention avancée de la fraude/rétrofacturation."
+    },
+    "m2025": {
+      "title": "Écosystème et expérience premium",
+      "desc": "Aujourd'hui, nous offrons une expérience de bout en bout avec des sièges premium, un buffet sélectionné et des réseaux de partenaires.",
+      "p1": "60+ salles, projection 4K et salles compatibles Dolby.",
+      "p2": "Intégrations partenaires avec transport, nourriture, forfaits événements.",
+      "p4": "Durabilité : efficacité énergétique et réduction des déchets."
+    },
+
+    "ctaTitle": "Prêt ?",
+    "ctaBody": "Découvrez les salles à proximité et obtenez votre billet maintenant.",
+    "ctaBtn": "Acheter des billets"
+  },
+
   "swal": {
     "confirm": "Confirmer",
     "cancel": "Annuler",
@@ -650,7 +726,7 @@
     "error": "Erreur",
     "apiConnectionCheck": "Veuillez vérifier la connexion API :"
   },
-  
+
   "notFound": {
     "title": "Page non trouvée",
     "description": "La page que vous recherchez n’existe pas ou a été déplacée.",

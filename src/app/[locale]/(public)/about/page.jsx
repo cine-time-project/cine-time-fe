@@ -2,12 +2,11 @@ import Image from "next/image";
 import "./about.scss";
 import { getTranslations } from "next-intl/server";
 import ZoomableGrid from "./ZoomableGrid";
-
-
+import Component from "@/components/tickets/TicketSelector";
 
 export default async function AboutPage({ params }) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "about" }); 
+  const t = await getTranslations({ locale, namespace: "about" });
 
   const gridItems = [
     {
@@ -71,41 +70,31 @@ export default async function AboutPage({ params }) {
             <Image
               src="/images/cinetime-logo.png"
               alt="CineTime Logo"
-              width={120}
-              height={120}
+              width={300}
+              height={150}
               className="brand__logo"
               priority
             />
-            <h1 className="brand__title">CINETIME HAKKIMIZDA</h1>
+            <h1 className="brand__title">{t("title").toUpperCase()}</h1>
           </div>
 
-          <p>
-            <strong>CineTime</strong>’ın temelleri 90’ların ortasında, film
-            projeksiyonunun analogdan dijitale evrildiği dönemde atıldı.
-            Yeniliğe açık bir vizyonla kurulan marka, sinema deneyimini yalnızca
-            bir izleme eylemi değil, başlı başına bir atmosfer olarak tanımladı.
-          </p>
+          <p>{t("heroLead")}</p>
 
-          <p>
-            İlk salonumuz 180 koltuk kapasitesiyle kapılarını açtı. 35mm
-            projektörlerle başlayan bu yolculukta sahne, perde ve akustik
-            sistemlere yapılan yatırımlar sayesinde izleyici konforu her zaman
-            öncelikli oldu.
-          </p>
+          <p>{t("heroP2")}</p>
 
           {/* mini istatistikler */}
           <div className="introHero__stats">
             <div className="stat">
               <span className="v">25</span>
-              <span className="l">Lokasyon</span>
+              <span className="l">{t("stats.locations")}</span>
             </div>
             <div className="stat">
               <span className="v">84</span>
-              <span className="l">Salon</span>
+              <span className="l">{t("stats.halls")}</span>
             </div>
             <div className="stat">
               <span className="v">8K+</span>
-              <span className="l">Koltuk</span>
+              <span className="l">{t("stats.seats")}</span>
             </div>
             <div className="stat">
               <span className="v">Dolby</span>
@@ -159,7 +148,7 @@ export default async function AboutPage({ params }) {
       <section className="about__cta">
         <h3>{t("ctaTitle")}</h3>
         <p>{t("ctaBody")}</p>
-        <a className="btn-cta" href={`/${locale}/buy-ticket`}>
+        <a className="btn-cta" href={`/${locale}/find-showtime`}>
           {t("ctaBtn")}
         </a>
       </section>

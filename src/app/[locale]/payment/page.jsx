@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Form, Button, Alert, Spinner, Badge } from "react-bootstrap";
 import { loadPendingOrder, clearPendingOrder } from "@/lib/utils/checkout";
 import { API_BASE as API, authHeaders } from "@/lib/utils/http";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 // --- UI helpers ---
 const fmtDateLong = (dateStr) => {
@@ -243,27 +244,12 @@ export default function PaymentPage() {
         <h4 className="text-warning mb-3">Ödeme Yapınız</h4>
 
         {error && <Alert variant="danger">{error}</Alert>}
-        {success && (
-          <Alert variant="success">
-            <div className="fw-bold mb-2">✅ Ödeme Başarılı</div>
-            <pre
-              className="bg-dark text-light p-2 rounded"
-              style={{ whiteSpace: "pre-wrap" }}
-            >
-              {JSON.stringify(success, null, 2)}
-            </pre>
-            <Button variant="warning" onClick={() => router.push(basePath)}>
-              Ana Sayfaya Dön
-            </Button>
-          </Alert>
-        )}
-
-        {!success && (
-          <div className="row g-3">
-            {/* Left summary (ticket look) */}
-            <div className="col-lg-4">
-              <div className="ticket-summary p-3 rounded">
-                <div className="d-flex justify-content-between align-items-center mb-2">
+        <div className="row g-3">
+          {/* Left summary (ticket look) */}
+          <div className="col-lg-4">
+            <div className="ticket-summary p-3 rounded">
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                {!success ? (
                   <Button
                     variant="link"
                     className="p-0 link-light link-underline-opacity-0"
@@ -271,94 +257,99 @@ export default function PaymentPage() {
                   >
                     Cancel My Reservation
                   </Button>
-                </div>
+                ) : (
+                  <span className="text-success fw-semibold">
+                    ✔ Ödeme Onaylandı
+                  </span>
+                )}
+              </div>
 
-                {/* QR placeholder */}
-                <div className="d-flex justify-content-center my-3">
-                  <div className="qr-circle">
-                    <div className="qr-inner">QR</div>
+              {/* QR placeholder */}
+              <div className="d-flex justify-content-center my-3">
+                <div className="qr-circle">
+                  <div className="qr-inner">QR</div>
+                </div>
+              </div>
+
+              <div className="ticket-field">
+                <div className="label">TICKETS</div>
+                <div className="value">
+                  {order.seats.length} Adult{order.seats.length > 1 ? "s" : ""}
+                </div>
+              </div>
+
+              <div className="ticket-field">
+                <div className="label">AUDITORIUM</div>
+                <div className="value">{order.hall}</div>
+              </div>
+
+              <div className="ticket-field">
+                <div className="label">SEATS</div>
+                <div className="value">{seatBadges}</div>
+              </div>
+
+              <div className="ticket-field">
+                <div className="label">THEATRE</div>
+                <div className="value">{order.cinemaName}</div>
+              </div>
+
+              <div className="ticket-field">
+                <div className="label">DATE</div>
+                <div className="value d-grid gap-1">
+                  <div className="fw-semibold">{fmtDateLong(order.date)}</div>
+                  <div className="text-muted small">
+                    at {fmtTime(order.time)}
                   </div>
-                </div>
-
-                <div className="ticket-field">
-                  <div className="label">TICKETS</div>
-                  <div className="value">
-                    {order.seats.length} Adult
-                    {order.seats.length > 1 ? "s" : ""}
-                  </div>
-                </div>
-
-                <div className="ticket-field">
-                  <div className="label">AUDITORIUM</div>
-                  <div className="value">{order.hall}</div>
-                </div>
-
-                <div className="ticket-field">
-                  <div className="label">SEATS</div>
-                  <div className="value">{seatBadges}</div>
-                </div>
-
-                <div className="ticket-field">
-                  <div className="label">THEATRE</div>
-                  <div className="value">{order.cinemaName}</div>
-                </div>
-
-                <div className="ticket-field">
-                  <div className="label">DATE</div>
-                  <div className="value d-grid gap-1">
-                    <div className="fw-semibold">{fmtDateLong(order.date)}</div>
-                    <div className="text-muted small">
-                      at {fmtTime(order.time)}
-                    </div>
-                    <div>
-                      <Button
-                        size="sm"
-                        variant="link"
-                        className="p-0 link-warning"
-                        onClick={() => {
-                          const start = new Date(
-                            `${order.date}T${fmtTime(order.time)}:00`
-                          );
-                          const end = new Date(
-                            start.getTime() + 2 * 60 * 60 * 1000
-                          ); // +2h
-                          const blob = buildCalendarICS({
-                            title: order.movieTitle,
-                            description: `${order.cinemaName} — ${order.hall}`,
-                            startISO: start.toISOString(),
-                            endISO: end.toISOString(),
-                            location: order.cinemaName,
-                          });
-                          const url = URL.createObjectURL(blob);
-                          const a = document.createElement("a");
-                          a.href = url;
-                          a.download = `${order.movieTitle.replace(
-                            /[^a-z0-9]+/gi,
-                            "-"
-                          )}.ics`;
-                          document.body.appendChild(a);
-                          a.click();
-                          a.remove();
-                          URL.revokeObjectURL(url);
-                        }}
-                      >
-                        Add to calendar
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="ticket-field mt-3">
-                  <div className="label">PAYMENT</div>
-                  <div className="value fw-bold">
-                    {formatUSD(order.pricing.total)}
+                  <div>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      className="p-0 link-warning"
+                      onClick={() => {
+                        const start = new Date(
+                          `${order.date}T${fmtTime(order.time)}:00`
+                        );
+                        const end = new Date(
+                          start.getTime() + 2 * 60 * 60 * 1000
+                        ); // +2h
+                        const blob = buildCalendarICS({
+                          title: order.movieTitle,
+                          description: `${order.cinemaName} — ${order.hall}`,
+                          startISO: start.toISOString(),
+                          endISO: end.toISOString(),
+                          location: order.cinemaName,
+                        });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `${order.movieTitle.replace(
+                          /[^a-z0-9]+/gi,
+                          "-"
+                        )}.ics`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        URL.revokeObjectURL(url);
+                      }}
+                    >
+                      Add to calendar
+                    </Button>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Right form */}
-            <div className="col-lg-8">
+              <div className="ticket-field mt-3">
+                <div className="label">PAYMENT</div>
+                <div className="value fw-bold">
+                  {formatUSD(order.pricing.total)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right side: form OR success panel */}
+          <div className="col-lg-8">
+            {!success ? (
               <Form onSubmit={onSubmit}>
                 <h6 className="text-warning mt-2">Kişi Bilgileri</h6>
                 <div className="row g-2 mb-2">
@@ -474,9 +465,31 @@ export default function PaymentPage() {
                   )}
                 </Button>
               </Form>
-            </div>
+            ) : (
+              <div className="p-4 bg-dark rounded border border-success-subtle">
+                <h5 className="text-success mb-2">✅ Ödeme Başarılı</h5>
+                <p className="text-secondary mb-3">
+                  Biletleriniz hazır. Aşağıdaki buton ile ana sayfaya dönebilir
+                  veya soldaki karttan etkinliği takviminize ekleyebilirsiniz.
+                </p>
+                <div className="d-flex gap-2">
+                  <Button
+                    variant="warning"
+                    onClick={() => router.push(`${basePath}/mytickets`)}
+                  >
+                    Biletlerim'e Git
+                  </Button>
+                  <Button
+                    variant="warning"
+                    onClick={() => router.push(basePath)}
+                  >
+                    Ana Sayfaya Dön
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
       <style jsx>{`
         .ticket-summary {
