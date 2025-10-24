@@ -349,7 +349,11 @@
     "inputPlaceholder": "Şehir, posta kodu veya sinema ara",
     "useCurrentLocation": "Mevcut Konumumu Kullan",
     "browserNotSupported": "Tarayıcı desteklemiyor",
-    "nearbyCinemas": "Yakınlardaki Sinemalar"
+    "nearbyCinemas": "Yakınlardaki Sinemalar",
+    "aroundCinemas": "{city} Şehrindeki Sinemalar",
+    "aroundNoCinemas": "{city} şehrinde sinema bulunamadı.",
+    "allCinemas": "Tüm Sinemalar"
+    
   },
 
   "showtimes": {

@@ -1,6 +1,13 @@
 // CinemasGrid.jsx
-import { Container, Row, Col, Alert, Spinner, Pagination } from "react-bootstrap";
-import { useTranslations } from "next-intl";
+import {
+  Container,
+  Row,
+  Col,
+  Alert,
+  Spinner,
+  Pagination,
+} from "react-bootstrap";
+import { useLocale, useTranslations } from "next-intl";
 import CinemaCard from "./CinemaCard";
 import useFirstDates from "@/components/cinemas/useFirstDate";
 import SectionTitle from "@/components/common/SectionTitle";
@@ -16,6 +23,7 @@ export default function CinemasGrid({
   L,
 }) {
   const t = useTranslations("cinemas");
+  const locale = useLocale;
   const firstDatesByCinema = useFirstDates(cinemas);
 
   if (loading)
@@ -27,7 +35,8 @@ export default function CinemasGrid({
     );
 
   if (error) return <Alert variant="danger">{t("noCinemas")}</Alert>;
-  if (!cinemas.length) return <div className="text-secondary py-5">{t("empty")}</div>;
+  if (!cinemas.length)
+    return <div className="text-secondary py-5">{t("empty")}</div>;
 
   const { page, totalPages } = pagination || {};
   const maxButtons = 5;
@@ -45,10 +54,16 @@ export default function CinemasGrid({
 
   return (
     <Container className="my-5">
-      <SectionTitle>
-        {isWhole ? "All Cinemas" : cityFilter}
-      </SectionTitle>
-
+      {!isWhole ? (
+        <SectionTitle>{t("aroundCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}</SectionTitle>
+      ) : cityFilter.toLocaleUpperCase(locale) ? (
+        <Alert variant="danger">
+          {t("aroundNoCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}
+          <SectionTitle>{t("allCinemas")}</SectionTitle>
+        </Alert>
+      ) : (
+        <SectionTitle>{t("allCinemas")}</SectionTitle>
+      )}
       <Row xs={1} sm={2} md={3} lg={3} xl={4} className="g-4">
         {cinemas.map((c) => (
           <Col key={c.id} className="d-flex align-items-stretch">
