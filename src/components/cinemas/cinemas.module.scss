@@ -1,21 +1,19 @@
-.cinemasPage {
-  /* container-level overrides if needed */
-}
+// .cinemasPage {
+//   /* container-level overrides if needed */
+// }
 
-.gridContainer {
-  padding: 0;
-}
+// .gridContainer {
+  
+// }
 
 /* Card layout */
 .cinemaCard {
-  display: grid;
-  grid-template-columns: 1fr 0.8fr;
-  background: #1d1f24;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
   border: 1px solid #2b2e36;
   border-radius: 14px;
-  overflow: hidden;
-  min-height: 230px;
-  position: relative;
 }
 
 /* On small screens make card stacked */
@@ -37,6 +35,7 @@
   justify-content: space-between;
   align-content: start;
   gap: 10px;
+  flex-grow: 1;
 }
 
 .title {
