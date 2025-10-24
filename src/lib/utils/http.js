@@ -1,42 +1,90 @@
+import axios from "axios";
+import { config } from "@/helpers/config";
 
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL; // örn: http://localhost:8090/api
+/** -----------------------------
+ *  API BASE (absolute)
+ *  Öncelik: .env (NEXT_PUBLIC_API_BASE_URL | NEXT_PUBLIC_API_BASE) → config.apiURL
+ *  config.apiURL zaten kendi içinde default’u yönetiyor.
+ *  ----------------------------- */
+const ENV_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  "";
 
-// Tarayıcıdan token'ı oku (login hangi key'i yazdıysa onu bulur)
+const CONFIG_BASE = (config?.apiURL || "").trim();
+
+export const API_BASE = (ENV_BASE || CONFIG_BASE).replace(/\/$/, "");
+
+/** -----------------------------
+ *  TOKEN YÖNETİMİ
+ *  ----------------------------- */
 const TOKEN_KEYS = ["authToken", "access_token", "token"];
+let inMemoryToken = "";
 
-// src/lib/utils/http.js
+/** Tarayıcıdan (ve varsa bellekten) token’ı getirir */
 export function getToken() {
+  if (inMemoryToken) return inMemoryToken;
   if (typeof window === "undefined") return "";
-  for (const k of ["authToken","access_token","token"]) {
-    const v = localStorage.getItem(k);
-    if (v && String(v).trim()) {
-      console.log("TOKEN_FROM_LS", k, String(v).slice(0,20) + "..."); 
-      return String(v).trim();
-    }
+  for (const k of TOKEN_KEYS) {
+    const v = window.localStorage?.getItem(k);
+    if (v && String(v).trim()) return String(v).trim();
   }
   return "";
 }
 
+/** Manuel token set (örn. login sonrası hafızaya almak için) */
+export function setAuthToken(token) {
+  inMemoryToken = token || "";
+}
 
-
+/** Authorization + ek header’ları birleştirir */
 export function authHeaders(extra = {}) {
-  const token = getToken();
-  const base = token ? { Authorization: `Bearer ${token}` } : {};
+  const t = getToken();
+  const base = t ? { Authorization: `Bearer ${t}` } : {};
   return { ...base, ...extra };
 }
 
-/**
- * Axios config döndürür: { headers: { Authorization: ... } }
- * Yeni yazacağınız servislerde BUNU kullanın:
- *   axios.get(url, axiosAuth())
- *   axios.post(url, data, axiosAuth())
- */
+/** Axios çağrılarında kolaylık: axios.get(url, axiosAuth()) */
 export function axiosAuth(extra = {}) {
   return { headers: authHeaders(extra) };
 }
 
-// İsteğe bağlı: hızlı kontrol
+/** Kullanıcı oturumda mı? */
 export function isLoggedIn() {
   return !!getToken();
 }
 
+/** -----------------------------
+ *  AXIOS INSTANCE (ORTAK)
+ *  ----------------------------- */
+export const http = axios.create({
+  baseURL: API_BASE, // her zaman absolute
+  // timeout: 15000, // istersen aç
+});
+
+// Request interceptor: otomatik Authorization ekle
+http.interceptors.request.use((cfg) => {
+  if (!cfg.headers) cfg.headers = {};
+  if (!cfg.headers.Authorization) {
+    const token = getToken();
+    if (token) cfg.headers.Authorization = `Bearer ${token}`;
+  }
+  return cfg;
+});
+
+// Response interceptor (opsiyonel global 401 handling için açılabilir)
+// http.interceptors.response.use(
+//   (res) => res,
+//   (err) => {
+//     if (err?.response?.status === 401) {
+//       // örn. logout veya /login yönlendirmesi
+//     }
+//     return Promise.reject(err);
+//   }
+// );
+
+/** Mutlak API URL üretme yardımcıları */
+export function apiUrl(path = "") {
+  const p = String(path || "");
+  return p.startsWith("http") ? p : `${API_BASE}/${p.replace(/^\/+/, "")}`;
+}
