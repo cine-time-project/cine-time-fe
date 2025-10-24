@@ -1,8 +1,20 @@
-export default function AdminDashboardPage({ params: { locale } }) {
-  return (
-    <>
-      <h1>Admin Dashboard</h1>
-      <p>Yönetim özet ekranı. Modüllere soldaki / üstteki menülerden veya /{locale}/dashboard’dan ulaş.</p>
-    </>
-  );
+"use client";
+import { useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/lib/auth/useAuth";
+
+export default function AdminDashboardPage() {
+  const { roles = [], loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "tr";
+
+  useEffect(() => {
+    if (!loading && roles.length === 0) {
+      router.replace(`/${locale}/login?redirect=${pathname}`);
+    }
+  }, [loading, roles, locale, pathname, router]);
+
+  if (loading) return null;
+  // ...
 }

@@ -56,13 +56,19 @@ export default function AccountDropdown({ L, tNav }) {
           <NavDropdown.Divider />
 
           {/* Logout triggers AuthProvider's logout */}
-          <NavDropdown.Item
-            onClick={() => {
-              logout();
-            }}
-          >
-            {tNav("logout")}
-          </NavDropdown.Item>
+              <NavDropdown.Item
+                   onClick={async () => {
+            try {
+              await logout(); // AuthProvider: token/cookie/localStorage temizliği
+            } finally {
+              // LOGIN yerine ANASAYFA:
+              // L("") veya L() — senin helper’ına bağlı; ikisi de /{locale} üretmeli.
+              window.location.replace(L(""));   
+            }
+          }}
+        >
+          {tNav("logout")}
+        </NavDropdown.Item>
         </>
       )}
     </NavDropdown>
