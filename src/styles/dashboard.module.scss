@@ -1,0 +1,116 @@
+// ---------- tokens ----------
+$bg: #0f172a; // slate-900 (koyu temada gradient)
+$surface: #ffffff;
+$text: #0b1220;
+$muted: #5b6473;
+$ring: #2563eb;
+
+$radius: 18px;
+$shadow: 0 6px 22px rgba(2, 6, 23, 0.08);
+$shadow-hover: 0 10px 28px rgba(2, 6, 23, 0.12);
+
+// ---------- layout ----------
+.wrapper {
+  padding: clamp(24px, 2.5vw, 36px);
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.title {
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: .2px;
+  margin: 4px 0 22px;
+}
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(1, minmax(0,1fr));
+  @media (min-width: 768px) { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  @media (min-width: 1120px) { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+// ---------- card ----------
+.card {
+  display: grid;
+  grid-template-columns: 48px 1fr 24px;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 18px;
+  border-radius: $radius;
+  text-decoration: none;
+  color: inherit;
+  background:
+    linear-gradient(180deg, rgba($ring, .06), rgba($ring, .02)) padding-box,
+    linear-gradient(180deg, rgba($surface, .96), rgba($surface, .86)) border-box;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: $shadow;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $shadow-hover;
+    border-color: rgba($ring, .35);
+    background:
+      linear-gradient(180deg, rgba($ring, .10), rgba($ring, .04)) padding-box,
+      linear-gradient(180deg, rgba($surface, .98), rgba($surface, .9)) border-box;
+
+    .chevron { transform: translateX(3px); }
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba($ring, .35);
+    outline-offset: 2px;
+  }
+}
+
+.iconWrap {
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  color: $ring;
+  background: rgba($ring, .1);
+  border: 1px solid rgba($ring, .25);
+}
+.meta {
+  min-width: 0;
+}
+.cardTitle {
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  color: $text;
+}
+.cardDesc {
+  margin-top: 4px;
+  font-size: 13.5px;
+  color: $muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chevron {
+  font-size: 28px;
+  line-height: 1;
+  color: $ring;
+  justify-self: end;
+  transition: transform .18s ease;
+}
+
+// Dark scheme ince ayarları
+@media (prefers-color-scheme: dark) {
+  $surfaceD: #0b1220;
+  $borderD: rgba(255,255,255,.06);
+  $textD: #e6eaf2;
+  $mutedD: #9aa3b2;
+
+  .card {
+    background:
+      linear-gradient(180deg, rgba($ring,.12), rgba($ring,.06)) padding-box,
+      linear-gradient(180deg, rgba($surfaceD,.85), rgba($surfaceD,.75)) border-box;
+    border-color: $borderD;
+
+    .cardTitle { color: $textD; }
+    .cardDesc { color: $mutedD; }
+  }
+  .iconWrap { background: rgba($ring,.14); border-color: rgba($ring,.35); }
+}
