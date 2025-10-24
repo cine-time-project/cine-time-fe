@@ -11,7 +11,7 @@ export default function CinemasGrid({
   error,
   pagination,
   setPage,
-  teaPot,
+  isWhole,
   cityFilter,
   L,
 }) {
@@ -45,8 +45,8 @@ export default function CinemasGrid({
 
   return (
     <Container className="my-5">
-      <SectionTitle textColor={teaPot ? "text-secondary" : "text-primary"}>
-        {teaPot ? "All Cinemas" : cityFilter}
+      <SectionTitle>
+        {isWhole ? "All Cinemas" : cityFilter}
       </SectionTitle>
 
       <Row xs={1} sm={2} md={3} lg={3} xl={4} className="g-4">

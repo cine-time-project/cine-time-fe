@@ -11,7 +11,7 @@ export default function useCinemas(cityFilter = "", initialPage = 0) {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [teaPot, setTeaPot] = useState(false);
+  const [isWhole, setIsWhole] = useState(false);
 
   // cityFilter değişirse page sıfırla
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function useCinemas(cityFilter = "", initialPage = 0) {
           });
         }
 
-        setTeaPot(data?.httpStatus === "I_AM_A_TEAPOT");
+        setIsWhole(data?.httpStatus === "I_AM_A_TEAPOT");
       } catch (e) {
         if (!ignore) {
           setError(e);
@@ -64,5 +64,5 @@ export default function useCinemas(cityFilter = "", initialPage = 0) {
   const setPage = (newPage) =>
     setPagination((prev) => ({ ...prev, page: newPage }));
 
-  return { cinemas, pagination, setPage, loading, error, teaPot };
+  return { cinemas, pagination, setPage, loading, error, isWhole };
 }

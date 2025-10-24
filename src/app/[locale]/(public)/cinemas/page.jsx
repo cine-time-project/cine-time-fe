@@ -18,7 +18,7 @@ export default function CinemasPage() {
   const [cityFilter, setCityFilter] = useState(cityParam);
 
   // ✅ Fetch işlemi burada
-  const { cinemas, loading, error, pagination, setPage, teaPot } = useCinemas(cityFilter);
+  const { cinemas, loading, error, pagination, setPage, isWhole } = useCinemas(cityFilter);
 
   const L = (rest = "") =>
     rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`;
@@ -34,7 +34,7 @@ export default function CinemasPage() {
         error={error}
         pagination={pagination}
         setPage={setPage}
-        teaPot={teaPot}
+        isWhole={isWhole}
         L={L}
         cityFilter={cityFilter}
       />
