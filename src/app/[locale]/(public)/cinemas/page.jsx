@@ -39,8 +39,8 @@ export default function CinemasPage() {
         cityFilter={cityFilter}
       />
 
-      {/* 🗺️ Map: aynı data'yı paylaşıyor */}
-      <CinemaMap cinemas={cinemas} />
+      {/* TODO: Cinema'lar district datasına sahip olunca düzenlenecek */}
+      {/* <CinemaMap cinemas={cinemas} /> */}
     </div>
   );
 }
