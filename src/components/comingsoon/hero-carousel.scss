@@ -204,9 +204,20 @@
   border-color: #ff8c00;
 
   &:hover {
-    background: #ff4757;
-    color: #fff;
-    border-color: #ff3742;
+    background: rgba(255, 140, 0, 0.2);
+    border-color: #ffa500;
+    transform: translateY(-2px);
+  }
+}
+
+.comingsoon-btn-favorite-active {
+  color: #fff;
+  background: #000000;
+  border-color: #ff8c00;
+
+  &:hover {
+    background: rgba(255, 140, 0, 0.2);
+    border-color: #ffa500;
     transform: translateY(-2px);
   }
 }
