@@ -3,9 +3,6 @@
 import Card from "react-bootstrap/Card";
 import styles from "./movie-card.module.scss";
 import { Button } from "react-bootstrap";
-import React, { useCallback } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { useTranslations } from "next-intl";
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -22,9 +19,8 @@ import { useFavorites } from "@/lib/hooks/useFavorites";
 function MovieCard({ movie }) {
   const t = useTranslations(); // Translation hook
   const router = useRouter(); // Next.js router
-  const { locale } = useParams(); // Current locale segment from URL
   const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
- const locale = useLocale(); // Current locale segment
+  const locale = useLocale(); // Current locale segment
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
@@ -61,7 +57,6 @@ function MovieCard({ movie }) {
       toggleFavorite(movie);
     },
     [movie, toggleFavorite]
-    []
   );
 
   /**
@@ -75,9 +70,6 @@ function MovieCard({ movie }) {
       }
     },
     [movie.id, movie.status, prefix, router]
-      router.push(showtimesHref);
-    },
-    [showtimesHref, router]
   );
 
   return (

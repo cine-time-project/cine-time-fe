@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useTranslations } from "next-intl";
 import styles from "./register.module.scss";
@@ -7,7 +7,7 @@ function sanitizePhone(value = "") {
   return value.replace(/[^\d+]/g, "");
 }
 
-export default function RegisterForm({ onRegister, pending }) {
+export default function RegisterForm({ onRegister, pending, preUser }) {
   const tForms = useTranslations("forms");
   const tPlaceholders = useTranslations("placeholders");
   const tAuth = useTranslations("auth");
@@ -26,7 +26,7 @@ export default function RegisterForm({ onRegister, pending }) {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => String(currentYear - i));
 
-  const [formData, setFormData] = useState({
+   const [formData, setFormData] = useState({
     name: "",
     surname: "",
     email: "",
@@ -40,6 +40,19 @@ export default function RegisterForm({ onRegister, pending }) {
     marketingSms: false,
     marketingEmail: false,
   });
+
+  // 🔹 preUser değiştiğinde formu güncelle
+  useEffect(() => {
+    if (preUser) {
+      setFormData((prev) => ({
+        ...prev,
+        name: preUser.name || "",
+        surname: preUser.surname || "",
+        email: preUser.email || "",
+      }));
+    }
+  }, [preUser]);
+
   const [fieldErrors, setFieldErrors] = useState({});
 
   const updateField = (name) => (e) => {
@@ -121,6 +134,7 @@ export default function RegisterForm({ onRegister, pending }) {
           <Form.Control
             type="email"
             value={formData.email}
+            disabled={!!preUser?.email}
             onChange={updateField("email")}
             placeholder={tPlaceholders("enterEmail")}
             isInvalid={!!fieldErrors.email}
