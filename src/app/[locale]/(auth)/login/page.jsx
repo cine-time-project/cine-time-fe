@@ -110,12 +110,12 @@ export default function LoginPage() {
       const res = await loginWithGoogle(idToken);
 
       if (res?.preRegister) {
-        router.push(`/${locale}/register`, {
-          state: { preUser: res.user }, // JSON state olarak taşınıyor 🎯
-        });
-        return;
+        // Save pre-register user in sessionStorage
+        sessionStorage.setItem("preUser", JSON.stringify(res.user));
+        router.push(`/${locale}/register`);
+        return
       }
-      
+
       setAlert({ type: "success", message: tAuth("successLogin") });
       redirectAfterLogin(); // <- yönlendirme
     } catch (error) {

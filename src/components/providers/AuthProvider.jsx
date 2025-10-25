@@ -95,10 +95,10 @@ export function AuthProvider({ children }) {
   const loginWithGoogle = async (idToken) => {
   // 1️⃣ Backend çağrısı
   const data = await authService.googleLogin(idToken);
-  console.log("DönenResponse", data?.returnBody);
+  console.log("DönenResponse", data);
 
   // 2️⃣ Status kontrolü
-  if (data?.httpStatus === 418) {
+  if (data?.httpStatus === "I_AM_A_TEAPOT") {
     // Yeni kullanıcı, pre-register
     return { preRegister: true, user: data.returnBody };
   }
