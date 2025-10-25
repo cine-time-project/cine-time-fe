@@ -877,7 +877,13 @@
       "reports": {
         "title": "Reports",
         "desc": "Summaries & performance reports"
-      }
+      },
+
+    "countries":   { "title": "Countries",        "desc": "Country lists" },
+    "districts":   { "title": "Districts",        "desc": "District / neighborhood lists" },
+    "payments":    { "title": "Payments",         "desc": "Payment records" },
+    "favorites":   { "title": "Favorites",        "desc": "User favorites" },
+    "roles":       { "title": "Roles",            "desc": "Roles & permissions" }
     }
   }
 }
