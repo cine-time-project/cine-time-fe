@@ -35,8 +35,6 @@ export default function RegisterPage() {
     }
   }, []);
 
-  console.log("Pre-register user:", preUser);
-
   const handleRegister = async (formData, setFieldErrors, resetForm) => {
     setAlert(null);
     setPending(true);

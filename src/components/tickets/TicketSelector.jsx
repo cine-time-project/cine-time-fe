@@ -25,7 +25,7 @@ const TicketSelector = ({ onFindTickets }) => {
   const basePath =
     localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
 
-  console.log("API_BASE", config.apiURL); // should log http://localhost:8090/api
+  //console.log("API_BASE", config.apiURL); // should log http://localhost:8090/api
   // Load countries (only those that have showtimes)
   useEffect(() => {
     axios
