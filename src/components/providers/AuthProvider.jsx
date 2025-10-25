@@ -8,12 +8,16 @@ import {
 
 const AuthContext = createContext();
 
+export { AuthContext }; // Export AuthContext so other components can use it
+
 /* ------------ helpers ------------- */
-const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+const isHttps =
+  typeof window !== "undefined" && window.location.protocol === "https:";
 const cookieBase = `Path=/; SameSite=Lax${isHttps ? "; Secure" : ""}`;
 
 function setCookie(name, value, maxAgeSeconds) {
-  const ttl = typeof maxAgeSeconds === "number" ? `; Max-Age=${maxAgeSeconds}` : "";
+  const ttl =
+    typeof maxAgeSeconds === "number" ? `; Max-Age=${maxAgeSeconds}` : "";
   document.cookie = `${name}=${encodeURIComponent(value)}; ${cookieBase}${ttl}`;
 }
 function deleteCookie(name) {
@@ -27,11 +31,11 @@ function normalizeRoles(raw) {
   if (typeof list === "string") list = list.split(/[\s,]+/);
   if (Array.isArray(list)) {
     return list
-      .map(r => (typeof r === "object" ? (r.role || r.roleName || r.name) : r))
+      .map((r) => (typeof r === "object" ? r.role || r.roleName || r.name : r))
       .filter(Boolean)
-      .map(r => String(r).toUpperCase())
-      .map(r => (r.startsWith("ROLE_") ? r.slice(5) : r)) // ROLE_ADMIN -> ADMIN
-      .map(r => (r === "USER" ? "MEMBER" : r));           // USER -> MEMBER eşleme
+      .map((r) => String(r).toUpperCase())
+      .map((r) => (r.startsWith("ROLE_") ? r.slice(5) : r)) // ROLE_ADMIN -> ADMIN
+      .map((r) => (r === "USER" ? "MEMBER" : r)); // USER -> MEMBER eşleme
   }
   return [];
 }
@@ -40,7 +44,9 @@ function decodeJwtPayload(token) {
   try {
     const p = token.split(".")[1];
     const base64 = p.replace(/-/g, "+").replace(/_/g, "/");
-    const json = atob(base64.padEnd(base64.length + (4 - (base64.length % 4)) % 4, "="));
+    const json = atob(
+      base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=")
+    );
     return JSON.parse(json);
   } catch {
     return {};
@@ -62,7 +68,11 @@ export function AuthProvider({ children }) {
     const rolesFromUser = normalizeRoles(user?.roles || user?.authorities);
     const payload = decodeJwtPayload(token);
     const rolesFromJwt = normalizeRoles(
-      payload?.roles || payload?.authorities || payload?.role || payload?.scopes || payload?.scope
+      payload?.roles ||
+        payload?.authorities ||
+        payload?.role ||
+        payload?.scopes ||
+        payload?.scope
     );
     const roles = rolesFromUser.length ? rolesFromUser : rolesFromJwt;
 
@@ -108,10 +118,10 @@ export function AuthProvider({ children }) {
   const user = data?.returnBody?.user || data?.returnBody;
   if (!token || !user) throw new Error("Missing token/user from backend");
 
-  // 4️⃣ State, localStorage, cookie persist
-  persistAuth({ user, token, remember: true });
-  return { user, token };
-};
+    persistAuth({ user, token, remember: true });
+    await hydrateFavoritesForToken(token);
+    return { user, token };
+  };
 
   const logout = () => {
     authService.logout(); // localStorage temizler
