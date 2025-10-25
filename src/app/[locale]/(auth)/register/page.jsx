@@ -43,6 +43,10 @@ export default function RegisterPage() {
 
     try {
       const payload = {
+        googleId: preUser?.googleId,
+        picture: preUser?.picture,
+        provider: preUser?.provider,
+
         firstName: formData.name.trim(),
         lastName: formData.surname.trim(),
         email: formData.email.trim(),
@@ -101,6 +105,7 @@ export default function RegisterPage() {
             <RegisterTabs />
             <RegisterAlert alert={alert} setAlert={setAlert} />
             <RegisterForm
+              preUser={preUser}
               pending={pending}
               onRegister={handleRegister}
               setAlert={setAlert}
