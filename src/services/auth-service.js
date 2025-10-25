@@ -45,6 +45,8 @@ export async function register({ signal, ...payload } = {}) {
     signal,
   });
 
+  console.log("payload", payload);
+
   const raw = await response.text();
   const data = parseJSONSafely(raw);
   if (!response.ok) {

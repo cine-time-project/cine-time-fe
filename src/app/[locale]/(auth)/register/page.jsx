@@ -43,10 +43,11 @@ export default function RegisterPage() {
 
     try {
       const payload = {
-        googleId: preUser?.googleId,
-        picture: preUser?.picture,
-        provider: preUser?.provider,
-
+        ...(preUser && {
+          googleId: preUser.googleId,
+          picture: preUser.picture,
+        }),
+        provider: preUser ? "GOOGLE" : "LOCAL", //provider property is important, because type of registerRequestDTO is decided according to this.
         firstName: formData.name.trim(),
         lastName: formData.surname.trim(),
         email: formData.email.trim(),
