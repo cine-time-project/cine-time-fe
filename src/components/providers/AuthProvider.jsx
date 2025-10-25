@@ -1,7 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import * as authService from "@/services/auth-service";
-import { config } from "@/helpers/config";
 import {
   hydrateFavoritesForToken,
   clearFavoriteCaches,
@@ -94,21 +93,25 @@ export function AuthProvider({ children }) {
 
   // Google login
   const loginWithGoogle = async (idToken) => {
-    const response = await fetch(`${config.apiURL}/google`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idToken }),
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data?.message || "Google login failed");
+  // 1️⃣ Backend çağrısı
+  const data = await authService.googleLogin(idToken);
+  console.log("DönenResponse", data?.returnBody);
 
-    const token = data?.returnBody?.token;
-    const user = data?.returnBody?.user || data?.returnBody;
-    if (!token || !user) throw new Error("Missing token/user from Google backend");
+  // 2️⃣ Status kontrolü
+  if (data?.httpStatus === 418) {
+    // Yeni kullanıcı, pre-register
+    return { preRegister: true, user: data.returnBody };
+  }
 
-    persistAuth({ user, token, remember: true });
-    return { user, token };
-  };
+  // 3️⃣ Kayıtlı kullanıcı, token ve user al
+  const token = data?.returnBody?.token;
+  const user = data?.returnBody?.user || data?.returnBody;
+  if (!token || !user) throw new Error("Missing token/user from backend");
+
+  // 4️⃣ State, localStorage, cookie persist
+  persistAuth({ user, token, remember: true });
+  return { user, token };
+};
 
   const logout = () => {
     authService.logout(); // localStorage temizler

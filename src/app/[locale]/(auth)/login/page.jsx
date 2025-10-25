@@ -18,11 +18,21 @@ function parseRolesFromCookie() {
     const m = document.cookie.match(/(?:^|;\s*)authRoles=([^;]+)/);
     if (!m) return [];
     const raw = decodeURIComponent(m[1]);
-    return raw.split(/[\s,]+/).map(s => s.trim().toUpperCase().replace(/^ROLE_/, "")).filter(Boolean);
-  } catch { return []; }
+    return raw
+      .split(/[\s,]+/)
+      .map((s) =>
+        s
+          .trim()
+          .toUpperCase()
+          .replace(/^ROLE_/, "")
+      )
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
 }
-const isStaff = (roles=[]) => {
-  const set = new Set(roles.map(r => String(r).toUpperCase()));
+const isStaff = (roles = []) => {
+  const set = new Set(roles.map((r) => String(r).toUpperCase()));
   return set.has("ADMIN") || set.has("EMPLOYEE");
 };
 
@@ -45,11 +55,18 @@ export default function LoginPage() {
       return;
     }
     const roles = parseRolesFromCookie(); // AuthProvider login sonrası cookie yazıyor
-    router.replace(isStaff(roles) ? `/${locale}/dashboard` : `/${locale}/account`);
+    router.replace(
+      isStaff(roles) ? `/${locale}/dashboard` : `/${locale}/account`
+    );
   };
 
   /** Normal login */
-  const handleLogin = async (formData, rememberMe, setFieldErrors, resetForm) => {
+  const handleLogin = async (
+    formData,
+    rememberMe,
+    setFieldErrors,
+    resetForm
+  ) => {
     setAlert(null);
     setPending(true);
     try {
@@ -57,18 +74,27 @@ export default function LoginPage() {
         phoneOrEmail: formData.identifier.trim(),
         password: formData.password,
       };
-      await login(payload);                         // Auth akışı
+      await login(payload); // Auth akışı
       localStorage.setItem("authRemember", rememberMe ? "1" : "0");
 
       setAlert({ type: "success", message: tAuth("successLogin") });
       resetForm();
-      redirectAfterLogin();                         // <- yönlendirme
+      redirectAfterLogin(); // <- yönlendirme
     } catch (error) {
       const status = error?.status ?? 0;
-      if (status === 401) setAlert({ type: "danger", message: tAuth("invalidCredentials") });
-      else if (status === 423) setAlert({ type: "danger", message: tAuth("locked") });
+      if (status === 401)
+        setAlert({ type: "danger", message: tAuth("invalidCredentials") });
+      else if (status === 423)
+        setAlert({ type: "danger", message: tAuth("locked") });
       else {
-        const key = status === 400 ? "invalid" : status === 500 ? "500" : status === 0 ? "network" : "unknown";
+        const key =
+          status === 400
+            ? "invalid"
+            : status === 500
+            ? "500"
+            : status === 0
+            ? "network"
+            : "unknown";
         const serverMsg = error?.message || tErrors(key);
         setAlert({ type: "danger", message: serverMsg });
       }
@@ -81,11 +107,22 @@ export default function LoginPage() {
   const handleGoogleSuccess = async (idToken) => {
     setPending(true);
     try {
-      await loginWithGoogle(idToken);
+      const res = await loginWithGoogle(idToken);
+
+      if (res?.preRegister) {
+        router.push(`/${locale}/register`, {
+          state: { preUser: res.user }, // JSON state olarak taşınıyor 🎯
+        });
+        return;
+      }
+      
       setAlert({ type: "success", message: tAuth("successLogin") });
-      redirectAfterLogin();                         // <- yönlendirme
+      redirectAfterLogin(); // <- yönlendirme
     } catch (error) {
-      setAlert({ type: "danger", message: error?.message || tAuth("googleLoginFailed") });
+      setAlert({
+        type: "danger",
+        message: error?.message || tAuth("googleLoginFailed"),
+      });
     } finally {
       setPending(false);
     }
@@ -102,7 +139,10 @@ export default function LoginPage() {
                 <LoginTabs />
                 <LoginAlert alert={alert} setAlert={setAlert} />
                 <LoginForm onLogin={handleLogin} pending={pending} />
-                <LoginGoogle onSuccess={handleGoogleSuccess} pending={pending} />
+                <LoginGoogle
+                  onSuccess={handleGoogleSuccess}
+                  pending={pending}
+                />
                 <LoginFooter />
               </Card.Body>
             </Card>

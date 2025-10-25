@@ -59,25 +59,17 @@ export async function register({ signal, ...payload } = {}) {
 }
 
 export async function googleLogin(idToken) {
-  // BE: POST /api/google
-  const response = await fetch(`${config.apiURL}/google`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    credentials: "omit",
-    body: JSON.stringify({ idToken }),
-  });
-
-  const raw = await response.text();
-  const data = parseJSONSafely(raw);
-  if (!response.ok) {
-    const err = new Error(
-      data?.message || response.statusText || "Request failed"
-    );
-    err.status = response.status;
-    err.data = data;
-    throw err;
+  try {
+    const { data } = await api.post("/google", { idToken });
+    return data; // ResponseMessage<Object> döner
+  } catch (error) {
+    const status = error?.response?.status ?? 0;
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Google login failed";
+    throw { status, message, data: error?.response?.data };
   }
-  return data;
 }
 
 export async function logout() {

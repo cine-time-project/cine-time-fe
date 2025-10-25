@@ -1,6 +1,11 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  useRouter,
+  useSearchParams,
+  usePathname,
+  useNavigation,
+} from "next/navigation";
 import { Container, Card } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
 import { register as registerRequest } from "@/services/auth-service";
@@ -18,9 +23,24 @@ export default function RegisterPage() {
   const router = useRouter();
   const tAuth = useTranslations("auth");
   const tErrors = useTranslations("errors");
-
+  const navigation = useNavigation();
+  const [preUser, setPreUser] = useState(null);
   const [alert, setAlert] = useState(null);
   const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    if (navigation?.state?.preUser) {
+      setPreUser(navigation.state.preUser);
+    }
+  }, [navigation?.state]);
+
+  useEffect(() => {
+    if (preUser) {
+      console.log("Google pre-register verisi:", preUser);
+      // örnek: form alanlarını otomatik doldur
+      // setFormData({ email: preUser.email, name: preUser.name, ... })
+    }
+  }, [preUser]);
 
   const handleRegister = async (formData, setFieldErrors, resetForm) => {
     setAlert(null);
