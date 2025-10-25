@@ -92,7 +92,9 @@
     "success": "Başarılı",
     "empty": "Kayıt bulunamadı",
     "showMore": "Daha Fazla Göster",
-    "showLess": "Daha Az Göster"
+    "showLess": "Daha Az Göster",
+    "retry": "Tekrar Dene",
+    "minutes": "dakika"
   },
 
   "status": {
@@ -174,6 +176,7 @@
   },
 
   "auth": {
+    "loginRequired": "Giriş gerekli",
     "loginEyebrow": "CineTime",
     "loginWelcome": "CineTime'a Hoş Geldiniz",
     "titleLogin": "Giriş Yap",
@@ -300,6 +303,7 @@
     "nearby": "Yakındaki sinema ve seanslar",
     "buyTicket": "Bilet Al",
     "trailer": "Fragman",
+    "trailerAvailable": "Fragman mevcut - önizleme için fare ile üzerine gelin",
     "behindTheScenes": "Kamera Arkası",
     "share": "Paylaş",
     "statusLabel": "Gösterim durumu",
@@ -315,6 +319,12 @@
     "invalidDate": "Geçersiz Tarih",
     "retry": "Tekrar Dene",
     "failed": "Filmler yüklenemedi",
+    "status": {
+      "in_theaters": "Gösterimde",
+      "coming_soon": "Pek Yakında",
+      "ended": "Gösterim Sona Erdi",
+      "presale": "Ön Satış"
+    },
     "loginToFavorite": "Favoriye eklemek için giriş yap",
     "addedToFavoritesToast": "Favorilere eklendi.",
     "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
@@ -410,11 +420,16 @@
 
   "favorites": {
     "title": "Favorilerim",
+    "description": "Beğendiğiniz filmler burada",
     "moviesTab": "Filmler",
     "cinemasTab": "Sinemalar",
-    "empty": "Favori eklenmemiş.",
+    "empty": "Henüz hiç favori filminiz yok.",
+    "emptyDescription": "Beğendiğiniz filmleri favorilerinize ekleyerek kolayca takip edebilirsiniz.",
     "added": "Favorilere eklendi.",
-    "removed": "Favorilerden çıkarıldı."
+    "removed": "Favorilerden çıkarıldı.",
+    "loginToView": "Favorilerinizi görmek için giriş yapın.",
+    "browseMovies": "Film Ara",
+    "totalCount": "Toplam {count} favori filminiz var."
   },
 
   "checkout": {
@@ -759,6 +774,11 @@
     "details": "Detaylar",
     "trailer": "Fragman",
     "favorite": "Favori",
+    "favorited": "Favorilerde",
+    "addToFavorites": "Favorilere Ekle",
+    "removeFromFavorites": "Favorilerden Çıkar",
+    "unfavorite": "Favoriden Çıkar",
+    "loginToFavorite": "Favoriye eklemek için giriş yap",
     "error": "Hata",
     "apiConnectionCheck": "API bağlantısı kontrol edilsin:"
   },

@@ -3,10 +3,14 @@
 import Card from "react-bootstrap/Card";
 import styles from "./movie-card.module.scss";
 import { Button } from "react-bootstrap";
+import React, { useCallback } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
+import { useFavorites } from "@/lib/hooks/useFavorites";
 
 /**
  * MovieCard Component
@@ -18,11 +22,15 @@ import Image from "next/image";
 function MovieCard({ movie }) {
   const t = useTranslations(); // Translation hook
   const router = useRouter(); // Next.js router
+  const { locale } = useParams(); // Current locale segment from URL
+  const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
  const locale = useLocale(); // Current locale segment
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
-  const [favorite, setFavorite] = useState(false);
+
+  // Check if this movie is in favorites
+  const isMovieFavorite = isFavorite(movie.id);
 
   // Prefix the URL with locale if available
   const prefix = locale ? `/${locale}` : "";
@@ -45,16 +53,14 @@ function MovieCard({ movie }) {
   };
 
   /**
-   * Toggle favorite state without triggering card click
+   * Toggle favorite state using the global favorites hook
    */
   const handleFavorite = useCallback(
     (e) => {
       e.stopPropagation();
-      setFavorite((prev) => !prev);
-      console.log(
-        `${movie.title} ${!favorite ? "added to" : "removed from"} favorites`
-      );
+      toggleFavorite(movie);
     },
+    [movie, toggleFavorite]
     []
   );
 
@@ -64,6 +70,11 @@ function MovieCard({ movie }) {
   const handleBuyTicket = useCallback(
     (e) => {
       e.stopPropagation();
+      if (movie.status === "IN_THEATERS") {
+        router.push(`${prefix}/movies/showtimes/${movie.id}`);
+      }
+    },
+    [movie.id, movie.status, prefix, router]
       router.push(showtimesHref);
     },
     [showtimesHref, router]
@@ -98,10 +109,24 @@ function MovieCard({ movie }) {
         type="button"
         className={`${styles["movie-card__icon-button"]} ${styles["movie-card__favorite-button"]}`}
         onClick={handleFavorite}
-        title={t("movies.addToFavorites", { default: "Add to Favorites" })}
-        aria-label={t("movies.addToFavorites")}
+        title={
+          !isLoggedIn
+            ? t("movies.loginToFavorite")
+            : isMovieFavorite
+            ? t("movies.removeFromFavorites")
+            : t("movies.addToFavorites")
+        }
+        aria-label={
+          !isLoggedIn
+            ? t("movies.loginToFavorite")
+            : isMovieFavorite
+            ? t("movies.removeFromFavorites")
+            : t("movies.addToFavorites")
+        }
       >
-        {favorite ? (
+        {!isLoggedIn ? (
+          <i className="pi pi-heart" style={{ color: "#888" }}></i>
+        ) : isMovieFavorite ? (
           <i className="pi pi-heart-fill" style={{ color: "#ff4081" }}></i>
         ) : (
           <i className="pi pi-heart" style={{ color: "#220514ff" }}></i>

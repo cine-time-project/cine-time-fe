@@ -1,0 +1,51 @@
+/* Favorite Button Styles */
+.favorite-button {
+  transition: all 0.3s ease;
+
+  &.favorite-active {
+    background-color: var(--red-500);
+    border-color: var(--red-500);
+    color: white;
+
+    &:hover {
+      background-color: var(--red-600);
+      border-color: var(--red-600);
+    }
+  }
+
+  &:not(.favorite-active) {
+    &:hover {
+      background-color: var(--red-50);
+      border-color: var(--red-500);
+      color: var(--red-500);
+    }
+  }
+
+  .pi-heart-fill {
+    color: var(--red-500);
+  }
+
+  .pi-heart {
+    color: var(--surface-500);
+  }
+}
+
+/* Override PrimeReact button styles for favorites */
+.p-button.favorite-button.p-button-outlined:not(.p-disabled):not(
+    .p-button-plain
+  ):hover {
+  background: var(--red-50);
+  color: var(--red-500);
+  border-color: var(--red-500);
+}
+
+.p-button.favorite-button.favorite-active {
+  background: var(--red-500);
+  color: white;
+  border-color: var(--red-500);
+}
+
+.p-button.favorite-button.favorite-active:hover {
+  background: var(--red-600);
+  border-color: var(--red-600);
+}

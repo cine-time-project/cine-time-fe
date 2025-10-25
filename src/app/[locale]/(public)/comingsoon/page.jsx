@@ -7,6 +7,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { getComingSoonMovies } from "@/services/movie-serviceDP";
 import { getPosterUrl } from "@/services/coming-soon-service";
 import { HeroCarousel } from "@/components/comingsoon/HeroCarousel";
+import { useFavorites } from "@/lib/hooks/useFavorites";
 import "./comingsoon.scss";
 
 function usePageAndSize() {
@@ -23,6 +24,7 @@ export default function ComingSoonPage() {
   const t = useTranslations("comingSoon");
   const locale = useLocale();
   const { page, size } = usePageAndSize();
+  const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
 
   const [allMovies, setAllMovies] = useState([]);
   const [state, setState] = useState({
@@ -140,19 +142,40 @@ export default function ComingSoonPage() {
                             </Link>
 
                             <button
-                              className="movie-btn movie-favorite-btn"
+                              className={`movie-btn movie-favorite-btn ${
+                                isFavorite(m.id) ? "favorite-active" : ""
+                              }`}
                               type="button"
+                              title={
+                                !isLoggedIn
+                                  ? t("loginToFavorite")
+                                  : isFavorite(m.id)
+                                  ? t("unfavorite")
+                                  : t("favorite")
+                              }
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                // Add favorite functionality here
-                                console.log(
-                                  `Toggle favorite for movie ${m.id}`
-                                );
+                                toggleFavorite(m);
                               }}
                             >
-                              <span style={{ marginRight: 6 }}>♥</span>
-                              {t("favorite")}
+                              <span style={{ marginRight: 6 }}>
+                                {!isLoggedIn ? (
+                                  <i className="pi pi-plus" />
+                                ) : isFavorite(m.id) ? (
+                                  <i
+                                    className="pi pi-check"
+                                    style={{ color: "#ffee01ff" }}
+                                  />
+                                ) : (
+                                  <i className="pi pi-plus" />
+                                )}
+                              </span>
+                              {!isLoggedIn
+                                ? t("loginToFavorite")
+                                : isFavorite(m.id)
+                                ? t("unfavorite")
+                                : t("favorite")}
                             </button>
 
                             {m.trailerUrl && (

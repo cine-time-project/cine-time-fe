@@ -1,9 +1,12 @@
-@use 'sweetalert2/src/sweetalert2.scss' as *;
+// All @use rules must come first
 @use "bootstrap/scss/bootstrap" as *;
 @use "./variables" as *;
+@use "../components/common/favorite-button.scss" as *;
+
+// All @import rules come after @use rules
 @import "primeicons/primeicons.css";
 @import "primereact/resources/themes/saga-orange/theme.css";
-
+@import "sweetalert2/dist/sweetalert2.min.css";
 
 html,
 body {
@@ -28,4 +31,3 @@ body {
 .content {
   flex: 1;
 }
-

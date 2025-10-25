@@ -92,7 +92,9 @@
     "success": "Succès",
     "empty": "Aucun enregistrement trouvé",
     "showMore": "Afficher plus",
-    "showLess": "Afficher moins"
+    "showLess": "Afficher moins",
+    "retry": "Réessayer",
+    "minutes": "min"
   },
 
   "status": {
@@ -256,8 +258,9 @@
     "loginAgain": "Se reconnecter",
     "redirecting": "Redirection dans un instant…",
     "login": "Se connecter",
-    "register": "S’inscrire",
-    "error": "Une erreur est survenue lors de la déconnexion."
+    "register": "S'inscrire",
+    "error": "Une erreur est survenue lors de la déconnexion.",
+    "loginRequired": "Connexion requise"
   },
 
   "account": {
@@ -303,7 +306,13 @@
     "apply": "Appliquer",
     "invalidDate": "Date invalide",
     "retry": "Réessayer",
-    "failed": "Échec du chargement des films"
+    "failed": "Échec du chargement des films",
+    "status": {
+      "in_theaters": "Au cinéma",
+      "coming_soon": "Bientôt",
+      "ended": "Terminé",
+      "presale": "Prévente"
+    }
   },
 
   "cinemas": {
@@ -392,12 +401,17 @@
   },
 
   "favorites": {
-    "title": "Favoris",
+    "title": "Mes Favoris",
+    "description": "Vos films préférés sont ici",
     "moviesTab": "Films",
     "cinemasTab": "Cinémas",
-    "empty": "Aucun favori ajouté.",
+    "empty": "Vous n'avez pas encore de films favoris.",
+    "emptyDescription": "Vous pouvez facilement suivre les films que vous aimez en les ajoutant à vos favoris.",
     "added": "Ajouté aux favoris.",
-    "removed": "Retiré des favoris."
+    "removed": "Retiré des favoris.",
+    "loginToView": "Connectez-vous pour voir vos favoris.",
+    "browseMovies": "Parcourir les Films",
+    "totalCount": "Vous avez un total de {count} films préférés."
   },
 
   "checkout": {
@@ -723,7 +737,13 @@
     "bookNow": "Réserver",
     "details": "Détails",
     "trailer": "Bande-annonce",
+    "trailerAvailable": "Bande-annonce disponible - survolez pour un aperçu",
     "favorite": "Favori",
+    "favorited": "Favori ajouté",
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris",
+    "unfavorite": "Retirer des favoris",
+    "loginToFavorite": "Connectez-vous pour ajouter aux favoris",
     "error": "Erreur",
     "apiConnectionCheck": "Veuillez vérifier la connexion API :"
   },
