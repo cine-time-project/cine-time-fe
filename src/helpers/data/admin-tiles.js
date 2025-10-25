@@ -56,12 +56,12 @@ export const ADMIN_TILES = [
   { key: "tickets",   title: "Tickets (Admin)",desc: "Satışlar ve bilet işlemleri",     href: "/admin/tickets",       roles: ["ADMIN","EMPLOYEE"] },
   { key: "cities",    title: "Cities",         desc: "Şehir / bölge listeleri",         href: "/admin/cities",        roles: ["ADMIN","EMPLOYEE"] },
   { key: "vip",       title: "Special Halls",  desc: "VIP / özel salon tipleri",        href: "/admin/special-halls", roles: ["ADMIN","EMPLOYEE"] },
-  { key: "contact",   title: "Contact Messages", desc: "İletişim kutusu mesajları",    href: "/admin/contact-messages", roles: ["ADMIN","EMPLOYEE"] },
+  { key: "contact",   title: "Contact Messages", desc: "İletişim kutusu mesajları",     href: "/admin/contact-messages", roles: ["ADMIN","EMPLOYEE"] },
   { key: "reports",   title: "Reports",        desc: "Özetler ve performans raporları", href: "/admin/reports",       roles: ["ADMIN","EMPLOYEE"] },
-  { key: "countries", title: "Countries", desc: "Ülke listeleri", href: "/admin/countries", roles:["ADMIN"] },
-{ key: "districts", title: "Districts", desc: "İlçe / semt listeleri", href: "/admin/districts", roles:["ADMIN"] },
-{ key: "payments",  title: "Payments",  desc: "Ödeme kayıtları", href: "/admin/payments", roles:["ADMIN"] },
-{ key: "favorites", title: "Favorites", desc: "Favori kayıtları", href: "/admin/favorites", roles:["ADMIN"] },
-{ key: "roles",     title: "Roles",     desc: "Rol ve yetkiler", href: "/admin/roles", roles:["ADMIN"] }
+  { key: "countries", title: "Countries",      desc: "Ülke listeleri",                  href: "/admin/countries",       roles:["ADMIN","EMPLOYEE"] },
+{ key: "districts",   title: "Districts",      desc: "İlçe / semt listeleri",           href: "/admin/districts",       roles:["ADMIN","EMPLOYEE"] },
+{ key: "payments",    title: "Payments",       desc: "Ödeme kayıtları",                 href: "/admin/payments",         roles:["ADMIN","EMPLOYEE"] },
+{ key: "favorites",   title: "Favorites",      desc: "Favori kayıtları",                href: "/admin/favorites",        roles:["ADMIN","EMPLOYEE"] },
+{ key: "roles",       title: "Roles",          desc: "Rol ve yetkiler",                 href: "/admin/roles",            roles:["ADMIN","EMPLOYEE"] }
 
 ];
