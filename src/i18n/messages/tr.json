@@ -350,7 +350,20 @@
     "location": "Konum",
     "cinemasLoading": "Sinemalar yükleniyor...",
     "noCinemaYet": "Henüz sinema bulunamadı..",
-    "search": "Ara"
+    "search": "Ara",
+    "details": "Detay",
+    "buyTicket": "Bilet Al",
+    "cinemas": "Sinemalar",
+    "loading": "Yükleniyor...",
+    "findCinema": "Sinema Bul",
+    "inputPlaceholder": "Şehir, posta kodu veya sinema ara",
+    "useCurrentLocation": "Mevcut Konumumu Kullan",
+    "browserNotSupported": "Tarayıcı desteklemiyor",
+    "nearbyCinemas": "Yakınlardaki Sinemalar",
+    "aroundCinemas": "{city} Şehrindeki Sinemalar",
+    "aroundNoCinemas": "{city} şehrinde sinema bulunamadı.",
+    "allCinemas": "Tüm Sinemalar"
+    
   },
 
   "showtimes": {

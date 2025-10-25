@@ -59,7 +59,7 @@ export default function Header() {
       {/* --- MENU BAR --- Main navigation + location finder */}
       <Navbar expand="lg" className="menu-dark" collapseOnSelect>
         <Container>
-          <LocationFinder />
+          <LocationFinder L={L}/>
 
           <Navbar.Toggle
             aria-controls="offcanvasNavbar-expand-lg"

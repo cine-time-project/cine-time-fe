@@ -6,6 +6,9 @@ import { Button } from "react-bootstrap";
 import React, { useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import React, { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 
@@ -21,6 +24,7 @@ function MovieCard({ movie }) {
   const router = useRouter(); // Next.js router
   const { locale } = useParams(); // Current locale segment from URL
   const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
+ const locale = useLocale(); // Current locale segment
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
@@ -34,7 +38,12 @@ function MovieCard({ movie }) {
   // Construct detail page URL using movie ID
   const detailsHref = movie?.slug
     ? `${prefix}/movies/${movie.slug}`
-    : movie?.id ?? `${prefix}/movies/${movie.id}`;
+    : `${prefix}/movies/${movie.id}`;
+
+  // Construct showtimes page URL using movie ID
+  const showtimesHref = movie?.id
+    ? `${prefix}/movies/showtimes/${movie.id}`
+    : "#";
 
   /**
    * Navigate to movie detail page
@@ -52,6 +61,7 @@ function MovieCard({ movie }) {
       toggleFavorite(movie);
     },
     [movie, toggleFavorite]
+    []
   );
 
   /**
@@ -65,6 +75,9 @@ function MovieCard({ movie }) {
       }
     },
     [movie.id, movie.status, prefix, router]
+      router.push(showtimesHref);
+    },
+    [showtimesHref, router]
   );
 
   return (
