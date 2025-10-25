@@ -34,7 +34,7 @@ export default function AdminSidebar({ locale, onNavigate }) {
     <nav>
       <ListGroup variant="flush" className="mb-3">
         {/* EN BAŞA DASHBOARD */}
-        <Item href={L("admin/dashboard")} icon={ICONS.reports}>Dashboard</Item>
+        <Item href={L("/dashboard")} icon={ICONS.reports}>Dashboard</Item>
 
         {tiles.map((t) => (
           <Item key={t.key} href={L(t.href)} icon={ICONS[t.key]}>

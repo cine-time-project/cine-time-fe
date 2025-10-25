@@ -1,9 +1,65 @@
+/* ================= Admin Offcanvas ================= */
 
+/* Tema + list-group görünümü */
 .admin-offcanvas {
-  &.offcanvas-start {
-    left: 0 !important;
-    right: auto !important;
-    transform: translateX(-100%);
-    &.show { transform: none; }
+  --admin-accent:      #f5c518;   /* sarı */
+  --admin-accent-soft: #fff7cc;   /* hover sarısı */
+  --admin-bg-active:   #1f2937;   /* aktif arka plan */
+  --admin-strip:       2px;       /* sol şerit kalınlığı */
+
+  /* list-group active override */
+  --bs-list-group-active-bg: var(--admin-bg-active);
+  --bs-list-group-active-color: #fff;
+  --bs-list-group-active-border-color: var(--admin-bg-active);
+
+  .list-group-item {
+    border-left: var(--admin-strip) solid transparent;
+    transition: background-color .15s, border-color .15s, color .15s;
+
+    .text-muted { color: #6b7280 !important; }
+
+    &:hover {
+      background-color: var(--admin-accent-soft);
+      border-left-color: var(--admin-accent);
+    }
+    &.active {
+      background-color: var(--admin-bg-active) !important;
+      color: var(--admin-accent) !important;
+      border-color: var(--admin-bg-active) !important;
+      border-left-color: var(--admin-accent) !important;
+      .text-muted { color: var(--admin-accent) !important; }
+      svg { stroke: currentColor; }
+    }
   }
 }
+
+/* ← BURASI KRİTİK: panelin kendisi. Sağdaki siyah şerit buradan geliyordu. */
+.admin-offcanvas.offcanvas-start,
+.admin-offcanvas.offcanvas {
+  /* panel beyaz; kenarlık ve gölge yok; köşe yuvarlama yok; iç padding yok */
+  background-color: #fff !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  --bs-offcanvas-border-width: 0;
+  --bs-offcanvas-border-color: transparent;
+  --bs-offcanvas-box-shadow: none;
+  --bs-offcanvas-padding-x: 0;
+  --bs-offcanvas-padding-y: 0;
+  --bs-offcanvas-width: 360px; /* istersen ayarla */
+
+  /* scrollbar’ı tamamen gizle (panel + body) */
+  overflow: hidden; /* kökten kapat */
+}
+
+.admin-offcanvas .offcanvas-body {
+  /* İçeride yine kaydır ama scrollbar görünmesin */
+  overflow-y: auto;
+  scrollbar-width: none;                 /* Firefox */
+}
+.admin-offcanvas .offcanvas-body::-webkit-scrollbar { display: none; } /* Chrome/Edge */
+
+/* (opsiyonel) backdrop opaklığını yumuşatmak istersen: */
+/*
+.offcanvas-backdrop.show { opacity: .55; }
+*/

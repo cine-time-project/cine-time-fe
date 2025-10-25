@@ -34,7 +34,7 @@ export default function AdminShell({ children, locale = "tr" }) {
     const dashboardItem = {
       key: "dashboard-link",
       title: "Dashboard",
-      href: `/${locale}/admin/dashboard`,
+      href: `/${locale}/dashboard`,
       icon: ICONS.reports, // function component
       _type: "link",
     };
