@@ -18,8 +18,9 @@ export const HeroCard = ({ movie }) => {
   const imageUrl = scene?.url || "https://via.placeholder.com/600x400"; // ekstra güvenlik
 
   const prefix = locale ? `/${locale}` : "";
-  const showtimesHref = movie?.id ? `${prefix}/movies/showtimes/${movie.id}` : "#";
-
+  const showtimesHref = movie?.id
+    ? `${prefix}/movies/showtimes/${movie.id}`
+    : "#";
 
   // 1) Fragman
   const handlePlayTrailer = useCallback((e) => {
@@ -44,10 +45,12 @@ export const HeroCard = ({ movie }) => {
         <h2 className="hero-title">{movie.title}</h2>
         <p className="hero-summary">{movie.summary}</p>
         <div className="hero-buttons">
-          <BiletAl href={showtimesHref}
-       variant="hero"
-       onClick={(e) => e.stopPropagation()}
-       aria-disabled={!movie?.id} >
+          <BiletAl
+            href={showtimesHref}
+            variant="hero"
+            onClick={(e) => e.stopPropagation()}
+            aria-disabled={!movie?.id}
+          >
             <span className="btn-bilet__text">{tNav("buy")}</span>
             <span className="btn-bilet__sub">
               {tMovies("nearby", { default: "Yakındaki sinema ve seanslar" })}

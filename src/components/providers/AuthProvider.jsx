@@ -2,7 +2,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as authService from "@/services/auth-service";
 import { config } from "@/helpers/config";
-import { hydrateFavoritesForToken, clearFavoriteCaches } from "@/lib/hooks/favorites-hydrate";
+import {
+  hydrateFavoritesForToken,
+  clearFavoriteCaches,
+} from "@/lib/hooks/favorites-hydrate";
 
 const AuthContext = createContext();
 

@@ -332,16 +332,29 @@
     "noCinemas": "No cinemas found to list.",
     "findMore": "Find more",
     "locating": "Getting location",
-    "noLocation": "Location could not be obtained",
+    "noLocation": "Location not available",
     "noLocPermission": "Location permission denied",
     "noCity": "City not found!",
     "searchCity": "Search city",
-    "findAround": "Find near current location",
+    "findAround": "Find near me",
     "location": "Location",
-    "cinemasLoading": "Cinemas loading...",
-    "noCinemaYet": "No cinema found yet...",
-    "search": "Search"
+    "cinemasLoading": "Loading cinemas...",
+    "noCinemaYet": "No cinemas found yet..",
+    "search": "Search",
+    "details": "Details",
+    "buyTicket": "Buy Ticket",
+    "cinemas": "Cinemas",
+    "loading": "Loading...",
+    "findCinema": "Find Cinema",
+    "inputPlaceholder": "Search city, postal code or cinema",
+    "useCurrentLocation": "Use My Current Location",
+    "browserNotSupported": "Browser not supported",
+    "nearbyCinemas": "Nearby Cinemas",
+    "aroundCinemas": "Cinemas in {city}",
+    "aroundNoCinemas": "No cinemas found in {city}",
+    "allCinemas": "All Cinemas"
   },
+
   "showtimes": {
     "date": "Date",
     "time": "Time",
@@ -821,21 +834,30 @@
     "description": "The page you’re looking for doesn’t exist or has been moved.",
     "home": "Go back to homepage"
   },
-    "dashboard": {
+  "dashboard": {
     "title": "Dashboard",
     "tiles": {
-      "cinemas":    { "title": "Cinemas", "desc": "Branches and hall mapping" },
-      "halls":      { "title": "Halls", "desc": "Hall layouts & seat templates" },
-      "times":      { "title": "Showtimes", "desc": "Scheduling and calendar" },
-      "images":     { "title": "Images", "desc": "Posters & media management" },
-      "cinemaimg":  { "title": "Cinema Images", "desc": "Cinema images management" },
-      "movies":     { "title": "Movies", "desc": "Movie catalog" },
-      "users":      { "title": "Users", "desc": "User search & management" },
-      "tickets":    { "title": "Tickets (Admin)", "desc": "Sales & ticket operations" },
-      "cities":     { "title": "Cities", "desc": "City / region lists" },
-      "vip":        { "title": "Special Halls", "desc": "VIP / special hall types" },
-      "contact":    { "title": "Contact Messages", "desc": "Inbox messages" },
-      "reports":    { "title": "Reports", "desc": "Summaries & performance reports" }
+      "cinemas": { "title": "Cinemas", "desc": "Branches and hall mapping" },
+      "halls": { "title": "Halls", "desc": "Hall layouts & seat templates" },
+      "times": { "title": "Showtimes", "desc": "Scheduling and calendar" },
+      "images": { "title": "Images", "desc": "Posters & media management" },
+      "cinemaimg": {
+        "title": "Cinema Images",
+        "desc": "Cinema images management"
+      },
+      "movies": { "title": "Movies", "desc": "Movie catalog" },
+      "users": { "title": "Users", "desc": "User search & management" },
+      "tickets": {
+        "title": "Tickets (Admin)",
+        "desc": "Sales & ticket operations"
+      },
+      "cities": { "title": "Cities", "desc": "City / region lists" },
+      "vip": { "title": "Special Halls", "desc": "VIP / special hall types" },
+      "contact": { "title": "Contact Messages", "desc": "Inbox messages" },
+      "reports": {
+        "title": "Reports",
+        "desc": "Summaries & performance reports"
+      }
     }
   }
 }
