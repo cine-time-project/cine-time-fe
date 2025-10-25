@@ -211,6 +211,18 @@
   }
 }
 
+.comingsoon-btn-favorite-active {
+  color: #fff;
+  background: #ff4757;
+  border-color: #ff3742;
+
+  &:hover {
+    background: #ff3742;
+    border-color: #ff2233;
+    transform: translateY(-2px);
+  }
+}
+
 // Slide number indicator (bottom left, outside card)
 .comingsoon-slide-number {
   position: absolute;

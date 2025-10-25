@@ -92,7 +92,9 @@
     "success": "Erfolgreich",
     "empty": "Keine Einträge gefunden",
     "showMore": "Mehr anzeigen",
-    "showLess": "Weniger anzeigen"
+    "showLess": "Weniger anzeigen",
+    "retry": "Erneut versuchen",
+    "minutes": "Min"
   },
 
   "status": {
@@ -257,7 +259,8 @@
     "redirecting": "Sie werden in Kürze weitergeleitet…",
     "login": "Anmelden",
     "register": "Registrieren",
-    "error": "Beim Abmelden ist ein Fehler aufgetreten."
+    "error": "Beim Abmelden ist ein Fehler aufgetreten.",
+    "loginRequired": "Anmeldung erforderlich"
   },
 
   "account": {
@@ -303,7 +306,13 @@
     "apply": "Anwenden",
     "invalidDate": "Ungültiges Datum",
     "retry": "Erneut versuchen",
-    "failed": "Filme konnten nicht geladen werden"
+    "failed": "Filme konnten nicht geladen werden",
+    "status": {
+      "in_theaters": "Im Kino",
+      "coming_soon": "Demnächst",
+      "ended": "Beendet",
+      "presale": "Vorverkauf"
+    }
   },
 
   "cinemas": {
@@ -380,12 +389,17 @@
   },
 
   "favorites": {
-    "title": "Favoriten",
+    "title": "Meine Favoriten",
+    "description": "Ihre Lieblingsfilme sind hier",
     "moviesTab": "Filme",
     "cinemasTab": "Kinos",
-    "empty": "Keine Favoriten hinzugefügt.",
+    "empty": "Sie haben noch keine Lieblingsfilme.",
+    "emptyDescription": "Sie können Filme, die Ihnen gefallen, einfach verfolgen, indem Sie sie zu Ihren Favoriten hinzufügen.",
     "added": "Zu Favoriten hinzugefügt.",
-    "removed": "Aus Favoriten entfernt."
+    "removed": "Aus Favoriten entfernt.",
+    "loginToView": "Melden Sie sich an, um Ihre Favoriten zu sehen.",
+    "browseMovies": "Filme durchsuchen",
+    "totalCount": "Insgesamt {count} Lieblingsfilme"
   },
 
   "checkout": {
@@ -720,7 +734,13 @@
     "bookNow": "Jetzt buchen",
     "details": "Details",
     "trailer": "Trailer",
+    "trailerAvailable": "Trailer verfügbar - für Vorschau überfahren",
     "favorite": "Favorit",
+    "favorited": "Favorisiert",
+    "addToFavorites": "Zu Favoriten hinzufügen",
+    "removeFromFavorites": "Aus Favoriten entfernen",
+    "unfavorite": "Aus Favoriten entfernen",
+    "loginToFavorite": "Zum Hinzufügen zu Favoriten anmelden",
     "error": "Fehler",
     "apiConnectionCheck": "Bitte API-Verbindung überprüfen:"
   },

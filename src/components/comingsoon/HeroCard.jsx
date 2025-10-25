@@ -4,13 +4,32 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { getHeroUrl } from "@/services/coming-soon-service";
 import { FaPlayCircle } from "react-icons/fa";
+import { useFavorites } from "@/lib/hooks/useFavorites";
 import "./hero-carousel.scss";
 
 export const HeroCard = ({ movie, slideNumber }) => {
   const t = useTranslations("comingSoon");
   const locale = useLocale();
+  const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
 
   const imageUrl = getHeroUrl(movie) || movie?.posterUrl || movie?.backdropUrl;
+  const isMovieFavorite = isFavorite(movie.id);
+
+  const handleFavoriteClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent event bubbling
+
+    if (!isLoggedIn) {
+      console.log("User must be logged in to add favorites");
+      return;
+    }
+
+    try {
+      await toggleFavorite(movie);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
+  };
 
   return (
     <div
@@ -71,18 +90,25 @@ export const HeroCard = ({ movie, slideNumber }) => {
           >
             {t("bookNow")}
           </Link>
-          <button
-            className="comingsoon-btn comingsoon-btn-favorite"
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              // Add favorite functionality here
-              console.log(`Toggle favorite for movie ${movie.id}`);
-            }}
-          >
-            <span style={{ marginRight: 6 }}>♥</span>
-            {t("favorite")}
-          </button>
+          {isLoggedIn && (
+            <button
+              className={`comingsoon-btn ${
+                isMovieFavorite
+                  ? "comingsoon-btn-favorite-active"
+                  : "comingsoon-btn-favorite"
+              }`}
+              type="button"
+              onClick={handleFavoriteClick}
+              aria-label={
+                isMovieFavorite ? t("removeFromFavorites") : t("addToFavorites")
+              }
+            >
+              <span style={{ marginRight: 6 }}>
+                {isMovieFavorite ? "❤️" : "♡"}
+              </span>
+              {isMovieFavorite ? t("favorited") : t("favorite")}
+            </button>
+          )}
           <Link
             href={`/${locale}/movies/${movie.slug || movie.id}`}
             className="comingsoon-btn comingsoon-btn-solid"

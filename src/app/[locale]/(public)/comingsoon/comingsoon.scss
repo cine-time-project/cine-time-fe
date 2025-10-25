@@ -127,6 +127,18 @@
     color: #fff;
     border-color: #ff3742;
   }
+
+  &.favorite-active {
+    background: #ff4757;
+    color: #fff;
+    border-color: #ff3742;
+
+    &:hover {
+      background: #ff3742;
+      color: #fff;
+      border-color: #ff2f3a;
+    }
+  }
 }
 
 .movie-item {

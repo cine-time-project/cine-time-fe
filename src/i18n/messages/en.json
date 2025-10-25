@@ -92,7 +92,9 @@
     "success": "Success",
     "empty": "No records found",
     "showMore": "Show more",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "retry": "Retry",
+    "minutes": "min"
   },
 
   "status": {
@@ -204,6 +206,7 @@
     "successRegister": "Registration completed successfully.",
     "accountExists": "An account with this email already exists.",
     "registerMarketingSms": "I want to receive SMS notifications.",
+    "loginRequired": "Login required",
     "registerMarketingEmail": "I want to receive email notifications.",
     "registerPrivacy": "CineTime Digital Services Inc. processes my personal data in accordance with <lawLink>Law No. 6698 on the Protection of Personal Data</lawLink> with my consent.",
     "birthDate": "Date of Birth",
@@ -299,6 +302,7 @@
     "nearby": "Nearby cinemas and showtimes",
     "buyTicket": "Buy Ticket",
     "trailer": "Trailer",
+    "trailerAvailable": "Trailer available - hover to preview",
     "behindTheScenes": "Behind the Scenes",
     "share": "Share",
     "statusLabel": "Show Status",
@@ -318,8 +322,14 @@
     "loginToFavorite": "Sign in to add to favorites",
     "addedToFavoritesToast": "Added to favorites.",
     "removedFromFavoritesToast": "Removed from favorites.",
-    "favoritesNeutral": "Favoriler",
-    "halls": "Special halls"
+    "favoritesNeutral": "Favorites",
+    "halls": "Special halls",
+    "status": {
+      "in_theaters": "In Theaters",
+      "coming_soon": "Coming Soon",
+      "ended": "Ended",
+      "presale": "Presale"
+    }
   },
 
   "cinemas": {
@@ -395,12 +405,17 @@
   },
 
   "favorites": {
-    "title": "Favorites",
+    "title": "My Favorites",
+    "description": "Your favorite movies are here",
     "moviesTab": "Movies",
     "cinemasTab": "Cinemas",
-    "empty": "No favorites added.",
+    "empty": "You don't have any favorite movies yet.",
+    "emptyDescription": "You can easily track movies you like by adding them to your favorites.",
     "added": "Added to favorites.",
-    "removed": "Removed from favorites."
+    "removed": "Removed from favorites.",
+    "loginToView": "Login to view your favorites.",
+    "browseMovies": "Browse Movies",
+    "totalCount": "Total {count} favorite movies"
   },
 
   "checkout": {
@@ -736,6 +751,11 @@
     "details": "Details",
     "trailer": "Trailer",
     "favorite": "Favorite",
+    "favorited": "Favorited",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "unfavorite": "Remove from Favorites",
+    "loginToFavorite": "Login to add to favorites",
     "error": "Error",
     "apiConnectionCheck": "Please check API connection:"
   },
