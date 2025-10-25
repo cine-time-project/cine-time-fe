@@ -1,7 +1,10 @@
-export default function AdminLayout({ children }) {
-  return (
-    <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 16px" }}>
-      {children}
-    </main>
-  );
+import {setRequestLocale} from "next-intl/server";
+import AdminShell from "@/components/admin/AdminShell";
+
+export default function AdminLayout({children, params}) {
+  const {locale} = params;
+  // v3 API
+  setRequestLocale(locale);
+
+  return <AdminShell locale={locale}>{children}</AdminShell>;
 }

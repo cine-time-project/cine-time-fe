@@ -1,0 +1,9 @@
+
+.admin-offcanvas {
+  &.offcanvas-start {
+    left: 0 !important;
+    right: auto !important;
+    transform: translateX(-100%);
+    &.show { transform: none; }
+  }
+}
