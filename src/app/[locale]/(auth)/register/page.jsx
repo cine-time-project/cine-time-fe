@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Container, Card } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
@@ -21,6 +21,19 @@ export default function RegisterPage() {
 
   const [alert, setAlert] = useState(null);
   const [pending, setPending] = useState(false);
+  const [preUser, setPreUser] = useState(null);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("preUser");
+    if (stored) {
+      try {
+        setPreUser(JSON.parse(stored));
+      } catch {
+        setPreUser(null);
+      }
+      sessionStorage.removeItem("preUser"); // temizle
+    }
+  }, []);
 
   const handleRegister = async (formData, setFieldErrors, resetForm) => {
     setAlert(null);
@@ -28,6 +41,11 @@ export default function RegisterPage() {
 
     try {
       const payload = {
+        ...(preUser && {
+          googleId: preUser.googleId,
+          picture: preUser.picture,
+        }),
+        provider: preUser ? "GOOGLE" : "LOCAL", //provider property is important, because type of registerRequestDTO is decided according to this.
         firstName: formData.name.trim(),
         lastName: formData.surname.trim(),
         email: formData.email.trim(),
@@ -86,6 +104,7 @@ export default function RegisterPage() {
             <RegisterTabs />
             <RegisterAlert alert={alert} setAlert={setAlert} />
             <RegisterForm
+              preUser={preUser}
               pending={pending}
               onRegister={handleRegister}
               setAlert={setAlert}

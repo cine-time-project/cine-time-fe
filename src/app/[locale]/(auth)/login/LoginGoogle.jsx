@@ -2,7 +2,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useRef } from "react";
-import styles from "./login.module.scss";
 
 export default function LoginGoogle({ onSuccess, pending }) {
   const { loginWithGoogle } = useAuth();

@@ -24,7 +24,7 @@ export default function LocationFinder({ L }) {
 
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
-        console.log("✅ Geolocation success:", coords);
+    
         try {
           const r = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${coords.latitude}&lon=${coords.longitude}&format=json`
@@ -34,11 +34,10 @@ export default function LocationFinder({ L }) {
           const cityName =
             d.address.city || d.address.town || d.address.state || "";
 
-          console.log("📍 Konum Şehri:", cityName);
+          
           setCity(cityName);
 
           const cinemaData = await listCinemas({ cityName });
-          console.log("🎬 Cinema Data:", cinemaData);
 
           setCinemas(
             Array.isArray(cinemaData)
