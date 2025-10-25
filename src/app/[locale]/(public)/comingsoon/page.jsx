@@ -160,11 +160,16 @@ export default function ComingSoonPage() {
                               }}
                             >
                               <span style={{ marginRight: 6 }}>
-                                {!isLoggedIn
-                                  ? "♡"
-                                  : isFavorite(m.id)
-                                  ? "♥"
-                                  : "♡"}
+                                {!isLoggedIn ? (
+                                  <i className="pi pi-plus" />
+                                ) : isFavorite(m.id) ? (
+                                  <i
+                                    className="pi pi-check"
+                                    style={{ color: "#ffee01ff" }}
+                                  />
+                                ) : (
+                                  <i className="pi pi-plus" />
+                                )}
                               </span>
                               {!isLoggedIn
                                 ? t("loginToFavorite")

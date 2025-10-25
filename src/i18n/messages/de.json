@@ -399,7 +399,7 @@
     "removed": "Aus Favoriten entfernt.",
     "loginToView": "Melden Sie sich an, um Ihre Favoriten zu sehen.",
     "browseMovies": "Filme durchsuchen",
-    "totalCount": "Insgesamt {count} Lieblingsfilme"
+    "totalCount": "Sie haben insgesamt {count} Lieblingsfilme."
   },
 
   "checkout": {

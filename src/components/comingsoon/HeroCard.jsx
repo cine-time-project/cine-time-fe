@@ -104,7 +104,11 @@ export const HeroCard = ({ movie, slideNumber }) => {
               }
             >
               <span style={{ marginRight: 6 }}>
-                {isMovieFavorite ? "❤️" : "♡"}
+                {isMovieFavorite ? (
+                  <i className="pi pi-check" style={{ color: "#ffee01ff" }} />
+                ) : (
+                  <i className="pi pi-plus" style={{ color: "#fff" }} />
+                )}
               </span>
               {isMovieFavorite ? t("favorited") : t("favorite")}
             </button>

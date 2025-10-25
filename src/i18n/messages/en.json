@@ -415,7 +415,7 @@
     "removed": "Removed from favorites.",
     "loginToView": "Login to view your favorites.",
     "browseMovies": "Browse Movies",
-    "totalCount": "Total {count} favorite movies"
+    "totalCount": "You have a total of {count} favorite movies."
   },
 
   "checkout": {

@@ -23,9 +23,17 @@ export default function MyFavoritesPage() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Add hydration check to prevent SSR mismatch
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   // Eğer kullanıcı giriş yapmamışsa login sayfasına yönlendir
   useEffect(() => {
+    if (!isHydrated) return; // Wait for hydration
+
     if (!isLoggedIn) {
       router.push(
         `/${locale}/login?redirect=${encodeURIComponent(
@@ -34,7 +42,7 @@ export default function MyFavoritesPage() {
       );
       return;
     }
-  }, [isLoggedIn, locale, router]);
+  }, [isLoggedIn, locale, router, isHydrated]);
 
   // Favori filmlerini yükle
   useEffect(() => {
@@ -74,6 +82,31 @@ export default function MyFavoritesPage() {
       window.removeEventListener("favorites-hydrated", handleFavoritesChange);
     };
   }, [isLoggedIn]);
+
+  // Show loading during hydration to prevent SSR mismatch
+  if (!isHydrated) {
+    return (
+      <div className="container py-4">
+        <div className="row">
+          <div className="col-12">
+            <div className="row">
+              {[...Array(8)].map((_, index) => (
+                <div key={index} className="col-lg-3 col-md-4 col-sm-6 mb-4">
+                  <div className="card h-100">
+                    <Skeleton height="300px" className="mb-2"></Skeleton>
+                    <div className="card-body">
+                      <Skeleton height="1.5rem" className="mb-2"></Skeleton>
+                      <Skeleton height="1rem" width="70%"></Skeleton>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Giriş yapmamış kullanıcı için erken dönüş
   if (!isLoggedIn) {
@@ -181,9 +214,19 @@ export default function MyFavoritesPage() {
           {/* Favori sayısı bilgisi */}
           {!loading && !error && movies.length > 0 && (
             <div className="text-center mt-4">
-              <small className="text-muted">
+              <p
+                className="fs-4 fw-bold text-warning mb-0"
+                style={{
+                  background: "linear-gradient(45deg, #ff8c00, #ffd700)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+                  fontSize: "1.5rem",
+                  fontWeight: "900",
+                }}
+              >
                 {t("favorites.totalCount", { count: movies.length })}
-              </small>
+              </p>
             </div>
           )}
         </div>
