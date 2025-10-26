@@ -11,8 +11,23 @@ import { SubmitButton } from "../common/FormControls/SubmitButton";
 import { createContactMessageAction } from "@/action/contact-actions";
 import { makeContactSchema } from "@/helpers/schemas/contact-schema";
 
-/* ---------- Yardımcılar ---------- */
+/* ---------- Telefon maskesi ---------- */
+const PHONE_MASK = "(XXX) XXX-XXXX";
+const phonePattern = /^\(\d{3}\) \d{3}-\d{4}$/;
 
+function formatPhoneDigitsToMask(digits) {
+  // Sadece 0-9 kalsın, 10 rakamı geçmesin
+  const d = String(digits || "").replace(/\D/g, "").slice(0, 10);
+  const p1 = d.slice(0, 3);
+  const p2 = d.slice(3, 6);
+  const p3 = d.slice(6, 10);
+
+  if (d.length <= 3) return p1 ? `(${p1}` : "";
+  if (d.length <= 6) return `(${p1}) ${p2}`;
+  return `(${p1}) ${p2}-${p3}`;
+}
+
+/* ---------- Yardımcılar ---------- */
 const fieldLabels = (t) => ({
   fullName:    t("form.fullName"),
   email:       t("form.email"),
@@ -49,12 +64,11 @@ function focusFirstInvalid(form, errors) {
 }
 
 /* ---------- Bileşen ---------- */
-
 export const ContactForm = () => {
   const t = useTranslations("contact");
   const tswal = useTranslations("swal");
 
-  // ✅ Şema: t hazırken, bileşenin İÇİNDE üret
+  // ✅ Yup şemasını t hazırken üret
   const schema = useMemo(() => makeContactSchema(t), [t]);
 
   const [state, formAction, isPending] = useActionState(createContactMessageAction, null);
@@ -63,6 +77,48 @@ export const ContactForm = () => {
   const [localErrors, setLocalErrors] = useState({});
   const [activeReason, setActiveReason] = useState(null);
   const handledRef = useRef(null);
+
+  //  Telefon input'una yazarken maske uygula + fazla rakamı kırp
+  useEffect(() => {
+    const form = refForm.current;
+    if (!form) return;
+    const input = form.querySelector('input[name="phoneNumber"]');
+    if (!input) return;
+
+    const onInput = (e) => {
+      const val = e.target.value;
+      const formatted = formatPhoneDigitsToMask(val);
+      if (formatted !== val) {
+        const pos = formatted.length;
+        e.target.value = formatted;
+        // caret sona
+        requestAnimationFrame(() => {
+          try { e.target.setSelectionRange(pos, pos); } catch {}
+        });
+      }
+    };
+
+    // Yapıştırma durumunda da aynı
+    const onPaste = (e) => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData("text") || "";
+      const formatted = formatPhoneDigitsToMask(text);
+      input.value = formatted;
+      const pos = formatted.length;
+      requestAnimationFrame(() => {
+        try { input.setSelectionRange(pos, pos); } catch {}
+      });
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+
+    input.addEventListener("input", onInput);
+    input.addEventListener("paste", onPaste);
+    return () => {
+      input.removeEventListener("input", onInput);
+      input.removeEventListener("paste", onPaste);
+    };
+  }, []);
 
   // Submit: önce Yup, geçerse server action
   const onSubmit = async (e) => {
@@ -75,8 +131,8 @@ export const ContactForm = () => {
       await schema.validate(data, { abortEarly: false });
       setLocalErrors({});
       startTransition(() => {
-   formAction(fd);
- });
+        formAction(fd);
+      });
     } catch (err) {
       if (err?.name === "ValidationError") {
         const map = {};
@@ -160,6 +216,7 @@ export const ContactForm = () => {
 
   return (
     <form className="contact-form" ref={refForm} noValidate onSubmit={onSubmit}>
+      {/* Hızlı nedenler */}
       <Row className="align-items-center g-3 mb-2">
         <Col xs={12} md="auto">
           <small className="text-muted">{t("reasons.title")}</small>
@@ -202,6 +259,7 @@ export const ContactForm = () => {
             iconBefore="envelope"
             type="email"
             inputMode="email"
+            autoComplete="email"
             required
             placeholder={t("form.placeholders.email")}
             errorMessage={localErrors.email || state?.errors?.email}
@@ -215,8 +273,14 @@ export const ContactForm = () => {
             label={t("form.phoneNumber")}
             iconBefore="phone"
             inputMode="tel"
+            autoComplete="tel"
             required
-            placeholder={t("form.placeholders.phoneNumber")}
+
+            /*  FE ipuçları: BE pattern ile uyumlu */
+            placeholder={PHONE_MASK}
+            maxLength={14}                    // "(123) 456-7890"  => 14 karakter
+            pattern={phonePattern.source}     // tarayıcı tarafı doğrulama
+
             helperText={t("form.helper.phoneMask")}
             errorMessage={localErrors.phoneNumber || state?.errors?.phoneNumber}
           />
