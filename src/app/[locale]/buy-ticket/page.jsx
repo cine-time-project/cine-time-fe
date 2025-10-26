@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 import { Form, Button, Spinner, Alert, Badge } from "react-bootstrap";
 import SeatPickerRemote from "@/components/tickets/SeatMap";
- import { authHeaders } from "@/lib/utils/http";
- import {
-   cinemaByIdApi,
-   movieByIdApi,
-   cinemaHallsApi,
- } from "@/helpers/api-routes";
+import { authHeaders } from "@/lib/utils/http";
+import {
+  cinemaByIdApi,
+  movieByIdApi,
+  cinemaHallsApi,
+} from "@/helpers/api-routes";
 import { savePendingOrder } from "@/lib/utils/checkout"; // <-- handoff to payment
 
 export default function BuyTicketPage() {
@@ -25,6 +26,14 @@ export default function BuyTicketPage() {
   const cinemaId = params.get("cinemaId");
   const date = params.get("date"); // YYYY-MM-DD
   const movieId = params.get("movieId");
+  const timeFromUrlRaw = params.get("time"); // "20:00" from previous page
+
+  // normalize ?time=20:00 -> "20:00:00"
+  const timeFromUrl = timeFromUrlRaw
+    ? timeFromUrlRaw.length === 5
+      ? timeFromUrlRaw + ":00"
+      : timeFromUrlRaw
+    : "";
 
   // --- page state ---
   const [loading, setLoading] = useState(true);
@@ -35,18 +44,38 @@ export default function BuyTicketPage() {
   const [movie, setMovie] = useState(null); // { id, title }
 
   // halls+showtimes payload (from /show-times/cinema/{cinemaId})
-  const [halls, setHalls] = useState([]); // [{ name, movies:[{movie:{id,title}, times:[ISO...]}], ... }]
+  // shape from backend:
+  // [
+  //   {
+  //     name: "Hall 1",
+  //     movies: [
+  //       {
+  //         movie: { id: 2063, title: "Avatar..." },
+  //         times: ["2025-10-26T20:00:00", "2025-10-26T22:00:00"]
+  //       }
+  //     ]
+  //   },
+  //   ...
+  // ]
+  const [halls, setHalls] = useState([]);
 
   // user selections
-  const [selectedHall, setSelectedHall] = useState(""); // "Hall 2"
+  const [selectedHall, setSelectedHall] = useState(""); // "Hall 1"
   const [selectedTime, setSelectedTime] = useState(""); // "HH:mm:ss"
   const [selectedSeats, setSelectedSeats] = useState([]); // ["A1","A2",...]
 
-  // SeatMap grid config (change to match your halls if needed)
+  // after we auto-fill from URL the first time, we mark it so we don't instantly wipe it
+  const didAutoSelectRef = useRef(false);
+
+  // refs that hold the initial guess for hall/time so they survive remounts / hydration mismatch
+  const initialHallRef = useRef("");
+  const initialTimeRef = useRef("");
+
+  // SeatMap grid config
   const ROWS = 8; // A..H
   const COLS = 12; // 1..12
 
-  // --- PRICING (simple flat price for now) -------------------------------
+  // --- PRICING -------------------------------------------------
   const getUnitPrice = () => 9.99; // USD
   const unitPrice = getUnitPrice();
 
@@ -66,7 +95,7 @@ export default function BuyTicketPage() {
   const seatCount = selectedSeats.length;
   const totalPrice = seatCount * unitPrice;
 
-  // --- fetch basics ---
+  // --- fetch basics (cinema, movie, halls/showtimes) -----------
   useEffect(() => {
     if (!cinemaId || !movieId || !date) {
       setError(
@@ -81,24 +110,24 @@ export default function BuyTicketPage() {
         setLoading(true);
         setError(null);
 
-        // cinema name (C03)
-       const cRes = await axios.get(cinemaByIdApi(cinemaId), {
-    headers: authHeaders(),
-  });
+        // cinema name
+        const cRes = await axios.get(cinemaByIdApi(cinemaId), {
+          headers: authHeaders(),
+        });
         const cBody = cRes.data?.returnBody ?? cRes.data;
         setCinema({ id: cinemaId, name: cBody?.name });
 
-        // movie title (M09)
-    const mRes = await axios.get(movieByIdApi(movieId), {
-    headers: authHeaders(),
-  });
+        // movie title
+        const mRes = await axios.get(movieByIdApi(movieId), {
+          headers: authHeaders(),
+        });
         const mBody = mRes.data?.returnBody ?? mRes.data;
         setMovie({ id: movieId, title: mBody?.title });
 
-        // halls + showtimes (S01)
+        // halls + showtimes
         const sRes = await axios.get(cinemaHallsApi(cinemaId), {
-    headers: authHeaders(),
-  });
+          headers: authHeaders(),
+        });
         const sBody = sRes.data?.returnBody ?? sRes.data;
         setHalls(Array.isArray(sBody) ? sBody : []);
       } catch (e) {
@@ -111,62 +140,118 @@ export default function BuyTicketPage() {
   }, [cinemaId, movieId, date]);
 
   // --- sessions available for this date + movie (group by hall) ---
+  // we flatten backend shape into:
+  // [
+  //   { hallName: "Hall 1", times: ["20:00:00","22:00:00"] },
+  //   { hallName: "Hall 2", times: ["18:30:00"] }
+  // ]
   const sessions = useMemo(() => {
     if (!halls?.length || !date || !movieId) return [];
-    // shape: [{ hallName, times: ["HH:mm:ss", ...] }]
     return halls
       .map((h) => {
         const times = (h.movies || [])
           .filter((mm) => String(mm?.movie?.id) === String(movieId))
           .flatMap((mm) => mm.times || [])
           .filter((iso) => String(iso).slice(0, 10) === date)
-          .map((iso) => String(iso).slice(11, 19)); // HH:mm:ss
+          .map((iso) => String(iso).slice(11, 19)); // "HH:mm:ss"
         return { hallName: h.name, times: [...new Set(times)] };
       })
       .filter((x) => x.times.length > 0);
   }, [halls, movieId, date]);
 
-  // keep selections valid if data changes
+  // --- PREFILL hall/time from URL ---
+  // 1. When sessions load, try to match the ?time= param to a hall
+  // 2. Store that in both state AND refs
+  // 3. Refs survive hot reload / hydration mismatch so dropdown still shows correct default visually
   useEffect(() => {
-    if (!sessions.some((s) => s.hallName === selectedHall)) {
+    if (!sessions.length) return;
+    if (!timeFromUrl) return;
+
+    // if we already stored an initial guess, don't redo it
+    if (initialHallRef.current && initialTimeRef.current) return;
+
+    const match = sessions.find((s) => s.times.includes(timeFromUrl));
+    if (match) {
+      initialHallRef.current = match.hallName;
+      initialTimeRef.current = timeFromUrl;
+
+      setSelectedHall(match.hallName);
+      setSelectedTime(timeFromUrl);
+      didAutoSelectRef.current = true;
+    }
+  }, [sessions, timeFromUrl]);
+
+  // --- keep selections valid if sessions change after initial load ---
+  useEffect(() => {
+    // If nothing is chosen at all, don't touch anything
+    if (
+      !didAutoSelectRef.current &&
+      !selectedHall &&
+      !selectedTime &&
+      !initialHallRef.current &&
+      !initialTimeRef.current
+    ) {
+      return;
+    }
+
+    // figure out what hall/time we're "showing" right now:
+    const effectiveHall = selectedHall || initialHallRef.current || "";
+    const effectiveTime = selectedTime || initialTimeRef.current || "";
+
+    // check hall still exists
+    const hallStillValid = sessions.some((s) => s.hallName === effectiveHall);
+
+    if (!hallStillValid) {
+      // wipe everything because that hall isn't in sessions anymore
+      initialHallRef.current = "";
+      initialTimeRef.current = "";
       setSelectedHall("");
       setSelectedTime("");
-    } else if (selectedHall) {
-      const hall = sessions.find((s) => s.hallName === selectedHall);
-      if (hall && !hall.times.includes(selectedTime)) {
-        setSelectedTime("");
-      }
+      setSelectedSeats([]);
+      return;
     }
-    // anytime hall/time changes → clear seat picks
+
+    // hall exists. does that hall still have this time?
+    const hallObj = sessions.find((s) => s.hallName === effectiveHall);
+    if (hallObj && !hallObj.times.includes(effectiveTime)) {
+      // time is gone, keep hall but drop time
+      initialTimeRef.current = "";
+      setSelectedTime("");
+      setSelectedSeats([]);
+      return;
+    }
+
+    // If hall/time changed, always clear seats
     setSelectedSeats([]);
   }, [sessions, selectedHall, selectedTime]);
 
-
-  // ---- CONTINUE TO PAYMENT (save order -> navigate) ----------------------
+  // ---- CONTINUE TO PAYMENT (save order -> navigate) ----
   const continueToPayment = () => {
     setError(null);
+
+    const effectiveHall = selectedHall || initialHallRef.current || "";
+    const effectiveTime = selectedTime || initialTimeRef.current || "";
 
     if (
       !movie?.title ||
       !cinema?.name ||
-      !selectedHall ||
+      !effectiveHall ||
       !date ||
-      !selectedTime ||
+      !effectiveTime ||
       selectedSeats.length === 0
     ) {
       setError("Lütfen salon, seans ve koltuk seçin.");
       return;
     }
 
-    // Build order snapshot for the payment page
     const order = {
       cinemaId,
       movieId,
       cinemaName: cinema.name,
       movieTitle: movie.title,
       date,
-      time: selectedTime,
-      hall: selectedHall,
+      time: effectiveTime,
+      hall: effectiveHall,
       seats: [...selectedSeats],
       pricing: {
         unitPrice,
@@ -180,8 +265,10 @@ export default function BuyTicketPage() {
     router.push(`${basePath}/payment`);
   };
 
-  // ✅ compute once per render, NOT inside JSX
-  const canPickSeats = Boolean(selectedHall && selectedTime);
+  // seat picker is only active if we have a hall+time picked
+  const effectiveHall = selectedHall || initialHallRef.current || "";
+  const effectiveTime = selectedTime || initialTimeRef.current || "";
+  const canPickSeats = Boolean(effectiveHall && effectiveTime);
 
   if (loading)
     return (
@@ -218,8 +305,18 @@ export default function BuyTicketPage() {
         <Form.Group className="mb-3">
           <Form.Label className="text-muted">Salon</Form.Label>
           <Form.Select
-            value={selectedHall}
-            onChange={(e) => setSelectedHall(e.target.value)}
+            value={selectedHall || initialHallRef.current || ""}
+            onChange={(e) => {
+              // user manually changed hall, so from now on we trust state, not ref
+              const newHall = e.target.value;
+              initialHallRef.current = newHall;
+              setSelectedHall(newHall);
+
+              // when hall changes, reset time + seats
+              initialTimeRef.current = "";
+              setSelectedTime("");
+              setSelectedSeats([]);
+            }}
           >
             <option value="">Salon Seçiniz</option>
             {sessions.map((s) => (
@@ -234,13 +331,24 @@ export default function BuyTicketPage() {
         <Form.Group className="mb-3">
           <Form.Label className="text-muted">Seans</Form.Label>
           <Form.Select
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            disabled={!selectedHall}
+            value={selectedTime || initialTimeRef.current || ""}
+            onChange={(e) => {
+              // user manually changed time, so trust state, not ref
+              const newTime = e.target.value;
+              initialTimeRef.current = newTime;
+              setSelectedTime(newTime);
+
+              // when time changes, reset seats
+              setSelectedSeats([]);
+            }}
+            disabled={!(selectedHall || initialHallRef.current)}
           >
             <option value="">Saat Seçiniz</option>
             {(
-              sessions.find((s) => s.hallName === selectedHall)?.times ?? []
+              sessions.find(
+                (s) =>
+                  s.hallName === (selectedHall || initialHallRef.current || "")
+              )?.times ?? []
             ).map((t) => (
               <option key={t} value={t}>
                 {t}
@@ -298,14 +406,15 @@ export default function BuyTicketPage() {
             rows={ROWS}
             cols={COLS}
             movieName={movie?.title || ""}
-            hall={selectedHall}
+            hall={effectiveHall}
             cinema={cinema?.name || ""}
             dateISO={date}
-            timeISO={selectedTime}
+            timeISO={effectiveTime}
             value={selectedSeats}
             onChange={setSelectedSeats}
-            // Automatically locks until all identifiers exist
             lockWhenMissingFields={true}
+            // SeatPickerRemote should already ignore clicks if hall/time missing,
+            // but we also computed canPickSeats if you want to gray it out, etc.
           />
         </div>
 
@@ -313,7 +422,7 @@ export default function BuyTicketPage() {
           variant="warning"
           className="w-100"
           disabled={
-            !selectedHall || !selectedTime || selectedSeats.length === 0
+            !effectiveHall || !effectiveTime || selectedSeats.length === 0
           }
           onClick={continueToPayment}
         >
