@@ -81,7 +81,7 @@ export default function ExperienceView({ t, locale, content, showImages = true }
 
       {/* CTA */}
       <section className="exp__cta">
-        <Link className="btn-cta" href={`/${locale}/buy-ticket`}>
+        <Link className="btn-cta" href={`/${locale}/find-showtime`}>
           {t(ctaKey)}
         </Link>
       </section>
