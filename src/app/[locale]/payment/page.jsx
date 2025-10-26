@@ -267,7 +267,11 @@ export default function PaymentPage() {
               {/* QR placeholder */}
               <div className="d-flex justify-content-center my-3">
                 <div className="qr-circle">
-                  <div className="qr-inner">QR</div>
+                  <img
+                    src="/images/qr-placeholder.png"
+                    alt="QR Code"
+                    className="qr-img"
+                  />
                 </div>
               </div>
 
@@ -530,6 +534,13 @@ export default function PaymentPage() {
           display: grid;
           place-items: center;
           font-weight: 800;
+        }
+        .qr-img {
+          width: 104px;
+          height: 104px;
+          border-radius: 8px;
+          object-fit: cover;
+          background: #fff;
         }
       `}</style>
     </div>
