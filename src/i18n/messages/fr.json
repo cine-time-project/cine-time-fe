@@ -752,5 +752,14 @@
     "title": "Page non trouvée",
     "description": "La page que vous recherchez n’existe pas ou a été déplacée.",
     "home": "Retour à l'accueil"
+  },
+  "buybar": {
+    "title": "🎟️ Acheter un billet",
+    "countryPlaceholder": "Sélectionnez un pays",
+    "cityPlaceholder": "Sélectionnez une ville",
+    "cinemaPlaceholder": "Sélectionnez un cinéma",
+    "datePlaceholder": "Sélectionnez une date",
+    "moviePlaceholder": "Sélectionnez un film",
+    "findTickets": "Rechercher des billets"
   }
 }

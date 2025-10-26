@@ -761,5 +761,14 @@
     "title": "Seite nicht gefunden",
     "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
     "home": "Zur Startseite"
+  },
+  "buybar": {
+    "title": "🎟️ Ticket kaufen",
+    "countryPlaceholder": "Land auswählen",
+    "cityPlaceholder": "Stadt auswählen",
+    "cinemaPlaceholder": "Kino auswählen",
+    "datePlaceholder": "Datum auswählen",
+    "moviePlaceholder": "Film auswählen",
+    "findTickets": "Tickets finden"
   }
 }

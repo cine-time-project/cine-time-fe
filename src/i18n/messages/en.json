@@ -879,11 +879,23 @@
         "desc": "Summaries & performance reports"
       },
 
-    "countries":   { "title": "Countries",        "desc": "Country lists" },
-    "districts":   { "title": "Districts",        "desc": "District / neighborhood lists" },
-    "payments":    { "title": "Payments",         "desc": "Payment records" },
-    "favorites":   { "title": "Favorites",        "desc": "User favorites" },
-    "roles":       { "title": "Roles",            "desc": "Roles & permissions" }
+      "countries": { "title": "Countries", "desc": "Country lists" },
+      "districts": {
+        "title": "Districts",
+        "desc": "District / neighborhood lists"
+      },
+      "payments": { "title": "Payments", "desc": "Payment records" },
+      "favorites": { "title": "Favorites", "desc": "User favorites" },
+      "roles": { "title": "Roles", "desc": "Roles & permissions" }
     }
+  },
+  "buybar": {
+    "title": "🎟️ Buy Ticket",
+    "countryPlaceholder": "Select Country",
+    "cityPlaceholder": "Select City",
+    "cinemaPlaceholder": "Select Cinema",
+    "datePlaceholder": "Select Date",
+    "moviePlaceholder": "Select Movie",
+    "findTickets": "Find Tickets"
   }
 }
