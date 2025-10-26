@@ -878,7 +878,12 @@
       "cities":     { "title": "Cities", "desc": "Şehir / bölge listeleri" },
       "vip":        { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
       "contact":    { "title": "Contact Messages", "desc": "İletişim kutusu mesajları" },
-      "reports":    { "title": "Reports", "desc": "Özetler ve performans raporları" }
+      "reports":    { "title": "Reports", "desc": "Özetler ve performans raporları" },
+       "countries":   { "title": "Countries",        "desc": "Ülke listeleri" },
+    "districts":   { "title": "Districts",        "desc": "İlçe / semt listeleri" },
+    "payments":    { "title": "Payments",         "desc": "Ödeme kayıtları" },
+    "favorites":   { "title": "Favorites",        "desc": "Favori kayıtları" },
+    "roles":       { "title": "Roles",            "desc": "Rol ve yetkiler" }
     }
   }
 }

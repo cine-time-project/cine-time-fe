@@ -4,6 +4,8 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import Link from "next/link";
 import { NavDropdown } from "react-bootstrap";
 import { useLocalStorageUser } from "./useLocalStorageUser";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
 /* ---- helpers ---- */
 const norm = (arr = []) =>
@@ -29,7 +31,7 @@ function getAllRoles(prefRoles) {
   if (fromLS.length) return norm(fromLS);
   return norm(readRolesFromCookie());
 }
-const isStaff = (roles=[]) => {
+const isStaff = (roles = []) => {
   const have = new Set(norm(roles));
   return have.has("ADMIN") || have.has("EMPLOYEE");
 };
@@ -37,18 +39,36 @@ const isStaff = (roles=[]) => {
 
 export default function AccountDropdown({ L, tNav }) {
   const { logout, roles: ctxRoles = [] } = useAuth();
-  const roles = getAllRoles(ctxRoles);               
+  const roles = getAllRoles(ctxRoles);
   const user = useLocalStorageUser();
+  const pathname = usePathname() || "";
+
+  // /{locale}/admin altında mıyız?
+  const inAdmin = useMemo(() => /^\/[^/]+\/admin(\/|$)/.test(pathname), [pathname]);
+
+  // Hydration-safe label: ilk render’da daima "Hesabım", mount sonrası varsa user.name
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const label = mounted && user?.name ? user.name : tNav("account");
+
+  // Admin alanında ve staff ise: title tıklanınca offcanvas'ı aç; diğer sayfalarda dropdown normal
+  const handleTitleClick = (e) => {
+    if (inAdmin && isStaff(roles)) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.dispatchEvent(new Event("admin-sidebar-toggle"));
+    }
+  };
 
   return (
     <NavDropdown
       title={
-        <span className="account-title">
+        <span className="account-title" onClick={handleTitleClick}>
           <svg className="account-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
             <path d="M12 2a5 5 0 1 0 5 5 5.006 5.006 0 0 0-5-5Zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3Z" />
             <path d="M12 13a9 9 0 0 0-9 9 1 1 0 0 0 1 1h16a1 1 0 0 0 1-1 9 9 0 0 0-9-9Zm-6.93 8a7 7 0 0 1 13.86 0Z" />
           </svg>{" "}
-          {user?.name || tNav("account")}
+          {label}
         </span>
       }
       id="user-dropdown"

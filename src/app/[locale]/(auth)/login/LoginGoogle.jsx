@@ -5,10 +5,9 @@ import { useRef } from "react";
 
 export default function LoginGoogle({ onSuccess, pending }) {
   const { loginWithGoogle } = useAuth();
-  const hasHandled = useRef(false); // ✅ Tek seferlik flag
-
+  const hasHandled = useRef(false); 
   const handleGoogleSuccess = async (credentialResponse) => {
-    if (hasHandled.current) return; // Eğer zaten çalıştıysa çık
+    if (hasHandled.current) return; 
     hasHandled.current = true;
 
     const idToken = credentialResponse?.credential;
@@ -29,16 +28,25 @@ export default function LoginGoogle({ onSuccess, pending }) {
   };
 
   return (
-    <div className="text-center mt-4">
-      <GoogleLogin
-        shape="pill"
-        text="continue_with"
-        size="large"
-        logo_alignment="center"
-        theme="outline"
-        onSuccess={handleGoogleSuccess}
-        onError={() => alert("Google login başarısız oldu.")}
-      />
-    </div>
+    
+      <div
+  className="google-btn-outer"
+  onMouseEnter={(e) => e.currentTarget.classList.add("is-hover")}
+  onMouseLeave={(e) => e.currentTarget.classList.remove("is-hover")}
+>
+  <div className="google-btn-bg" />
+  <div className="google-btn-inner">
+    <GoogleLogin
+      shape="pill"
+      text="continue_with"
+      size="large"
+      logo_alignment="center"
+      theme="outline"
+      onSuccess={handleGoogleSuccess}
+      onError={() => alert("Google login başarısız oldu.")}
+      containerProps={{ style: { width: "auto" } }}
+    />
+  </div>
+</div>
   );
 }
