@@ -1,0 +1,41 @@
+.google-btn-outer {
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.google-btn-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #fff;
+  border: 1px solid #dadce0;
+  box-shadow: 0 6px 18px rgba(0,0,0,.14);
+  pointer-events: none;
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+  z-index: 0;                   
+}
+
+.google-btn-inner {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  min-height: 52px;
+  z-index: 1;                     
+}
+
+/* Google container’ı ortaya al */
+.google-btn-inner > div {
+  margin-inline: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+/* Hover/focus renkleri — sınıfla tetikliyoruz */
+.google-btn-outer.is-hover .google-btn-bg,
+.google-btn-outer:focus-within .google-btn-bg {
+  background: #f0f5fe;   /* Google hover zemini */
+  border-color: #d2e3fc; /* Google hover kenarı */
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+}

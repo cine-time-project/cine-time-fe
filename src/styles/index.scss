@@ -8,6 +8,7 @@
 @import "primereact/resources/themes/saga-orange/theme.css";
 @import "sweetalert2/dist/sweetalert2.min.css";
 @import "@/styles/admin-offcanvas.scss";
+@import "./google-login.scss";
 
 html,
 body {
@@ -32,3 +33,4 @@ body {
 .content {
   flex: 1;
 }
+
