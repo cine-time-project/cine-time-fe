@@ -244,6 +244,12 @@
       "submit": "Kodu Doğrula",
       "processing": "Doğrulanıyor...",
       "success": "Kod doğrulandı! Yeni şifre belirleme sayfasına yönlendiriliyorsunuz..."
+    },
+
+    "errors": {
+      "email": {
+        "already_in_use": "E-posta zaten kullanımda."
+      }
     }
   },
 

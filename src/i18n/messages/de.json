@@ -243,6 +243,12 @@
       "submit": "Code bestätigen",
       "processing": "Wird überprüft...",
       "success": "Code bestätigt! Weiterleitung zur Seite zum Zurücksetzen des Passworts..."
+    },
+
+    "errors": {
+      "email": {
+        "already_in_use": "Die E-Mail-Adresse wird bereits verwendet."
+      }
     }
   },
 
