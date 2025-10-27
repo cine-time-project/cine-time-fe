@@ -840,7 +840,10 @@
       "service": "Service",
       "serviceDesc": "Snacks and drinks delivered to your seat so you never miss a moment.",
       "welcomeDrink": "Welcome drink",
-      "extraComfort": "Extra comfort"
+      "extraComfort": "Extra comfort",
+      "priorityEntry": "Priority entry",
+      "priorityEntryDesc": "With a dedicated entrance and fast track, you enter without queues and settle into your seat comfortably."
+
     },
 
     "family": {

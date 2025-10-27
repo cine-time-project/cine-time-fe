@@ -66,7 +66,8 @@ export const EXPERIENCES = {
     tiles: [
       { titleKey: "vip.recliners", descKey: "vip.reclinersDesc" },
       { titleKey: "vip.lounge",    descKey: "vip.loungeDesc"    },
-      { titleKey: "vip.service",   descKey: "vip.serviceDesc"   }
+      { titleKey: "vip.service",   descKey: "vip.serviceDesc"   },
+      { titleKey: "vip.priorityEntry",   descKey: "vip.priorityEntryDesc"   }
     ],
     // PrimeIcons
     features: [

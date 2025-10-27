@@ -849,7 +849,10 @@
       "service": "Servis",
       "serviceDesc": "Atıştırmalıklar ve içecekler koltuğunuza kadar gelir; böylece film aralarında sıraya girmeden deneyiminizi sürdürebilirsiniz.",
       "welcomeDrink": "Hoş geldin içeceği",
-      "extraComfort": "Ekstra konfor"
+      "extraComfort": "Ekstra konfor",
+      "priorityEntry": "Öncelikli giriş",
+      "priorityEntryDesc": "Ayrı giriş ve hızlı geçiş sayesinde salona sıra beklemeden girer, koltuğunuza rahatça yerleşirsiniz."
+
     },
 
     "family": {
