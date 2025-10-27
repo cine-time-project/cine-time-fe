@@ -22,6 +22,7 @@
     "search": "Search",
     "about": "About"
   },
+
   "footer": {
     "sections": {
       "quickLinks": {
@@ -244,6 +245,12 @@
       "submit": "Verify Code",
       "processing": "Verifying...",
       "success": "Code verified! Redirecting to the password reset page..."
+    },
+
+    "errors": {
+      "email": {
+        "already_in_use": "Email already in use."
+      }
     }
   },
 

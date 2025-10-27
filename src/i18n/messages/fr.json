@@ -243,6 +243,12 @@
       "submit": "Vérifier le code",
       "processing": "Vérification...",
       "success": "Code vérifié ! Redirection vers la page de réinitialisation du mot de passe..."
+    },
+
+    "errors": {
+      "email": {
+        "already_in_use": "L'adresse e-mail est déjà utilisée."
+      }
     }
   },
 
