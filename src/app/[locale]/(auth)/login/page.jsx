@@ -47,18 +47,31 @@ export default function LoginPage() {
   const [alert, setAlert] = useState(null);
   const [pending, setPending] = useState(false);
 
-  // Ortak yönlendirme
-  const redirectAfterLogin = () => {
-    const back = sp.get("redirect");
-    if (back) {
+// Ortak yönlendirme
+const redirectAfterLogin = () => {
+  const roles = parseRolesFromCookie();
+  const staff = isStaff(roles); // ADMIN veya EMPLOYEE
+
+  const back = sp.get("redirect");
+  if (back && typeof back === "string") {
+    // Sadece site içi path'e izin ver (open redirect güvenliği)
+    const safe = back.startsWith("/");
+    // Admin path mi?
+    const adminRe = /^\/(tr|en|de|fr)\/admin(\/.*)?$/i;
+    const isAdminPath = adminRe.test(back);
+
+    // Staff ise admin dâhil 'back'e gidebilir, Member admin'e gidemez
+    if (safe && (!isAdminPath || (isAdminPath && staff))) {
       router.replace(back);
       return;
     }
-    const roles = parseRolesFromCookie(); // AuthProvider login sonrası cookie yazıyor
-    router.replace(
-      isStaff(roles) ? `/${locale}/dashboard` : `/${locale}/account`
-    );
-  };
+  }
+
+  // Varsayılan hedef:
+  // Staff → /{locale}/dashboard
+  // Member → /{locale}
+  router.replace(staff ? `/${locale}/dashboard` : `/${locale}`);
+};
 
   /** Normal login */
   const handleLogin = async (

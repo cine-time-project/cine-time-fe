@@ -7,21 +7,26 @@ import {
 } from "@/lib/hooks/favorites-hydrate";
 
 const AuthContext = createContext();
-
-export { AuthContext }; // Export AuthContext so other components can use it
+export { AuthContext };
 
 /* ------------ helpers ------------- */
-const isHttps =
-  typeof window !== "undefined" && window.location.protocol === "https:";
+const isBrowser = typeof window !== "undefined";
+const isHttps = isBrowser && window.location.protocol === "https:";
 const cookieBase = `Path=/; SameSite=Lax${isHttps ? "; Secure" : ""}`;
 
 function setCookie(name, value, maxAgeSeconds) {
-  const ttl =
-    typeof maxAgeSeconds === "number" ? `; Max-Age=${maxAgeSeconds}` : "";
-  document.cookie = `${name}=${encodeURIComponent(value)}; ${cookieBase}${ttl}`;
+  if (!isBrowser) return;
+  try {
+    const ttl =
+      typeof maxAgeSeconds === "number" ? `; Max-Age=${maxAgeSeconds}` : "";
+    document.cookie = `${name}=${encodeURIComponent(value)}; ${cookieBase}${ttl}`;
+  } catch {}
 }
 function deleteCookie(name) {
-  document.cookie = `${name}=; ${cookieBase}; Max-Age=0`;
+  if (!isBrowser) return;
+  try {
+    document.cookie = `${name}=; ${cookieBase}; Max-Age=0`;
+  } catch {}
 }
 
 // Roller çeşitli formatlarda gelebilir
@@ -42,15 +47,36 @@ function normalizeRoles(raw) {
 
 function decodeJwtPayload(token) {
   try {
-    const p = token.split(".")[1];
+    const p = token?.split(".")[1];
+    if (!p) return {};
     const base64 = p.replace(/-/g, "+").replace(/_/g, "/");
-    const json = atob(
-      base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=")
-    );
-    return JSON.parse(json);
+    const json = atob(base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "="));
+    return JSON.parse(json || "{}");
   } catch {
     return {};
   }
+}
+
+/* --------- public helpers (redirecti LoginPage yönetsin) --------- */
+export function getLandingPath(locale, roles = []) {
+  const R = roles.map((r) => String(r).toUpperCase());
+  const isStaff = R.includes("ADMIN") || R.includes("EMPLOYEE");
+  // İSTEDİĞİN KURAL:
+  // Staff -> /{locale}/dashboard, Member -> /{locale}
+  return isStaff ? `/${locale}/dashboard` : `/${locale}`;
+}
+
+export function sanitizeRedirect(redirect, locale, roles = []) {
+  if (!redirect || typeof redirect !== "string") return getLandingPath(locale, roles);
+  if (!redirect.startsWith("/")) return getLandingPath(locale, roles); // sadece site içi path
+  const adminRe = /^\/(tr|en|de|fr)\/admin(\/.*)?$/i;
+  const R = roles.map((r) => String(r).toUpperCase());
+  const isStaff = R.includes("ADMIN") || R.includes("EMPLOYEE");
+  if (adminRe.test(redirect) && !isStaff) {
+    // Member admin path'e dönmesin
+    return `/${locale}`;
+  }
+  return redirect;
 }
 
 /* ------------- provider ------------- */
@@ -59,12 +85,16 @@ export function AuthProvider({ children }) {
 
   // Mount: UI için user'ı localStorage'dan yükle
   useEffect(() => {
-    const storedUser = localStorage.getItem("authUser");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (!isBrowser) return;
+    try {
+      const storedUser = localStorage.getItem("authUser");
+      if (storedUser) setUser(JSON.parse(storedUser));
+    } catch {}
   }, []);
 
-  // Ortak persist: cookie + localStorage + state
+  // Ortak persist: cookie + localStorage + state (redirect YOK)
   function persistAuth({ user, token, remember = true }) {
+    // 1) Roller
     const rolesFromUser = normalizeRoles(user?.roles || user?.authorities);
     const payload = decodeJwtPayload(token);
     const rolesFromJwt = normalizeRoles(
@@ -76,20 +106,26 @@ export function AuthProvider({ children }) {
     );
     const roles = rolesFromUser.length ? rolesFromUser : rolesFromJwt;
 
-    // 1) Cookies → middleware bunları okur
+    // 2) Cookies (middleware/BE okuyorsa)
     const maxAge = remember ? 60 * 60 * 24 * 7 : undefined; // 7 gün
-    setCookie("authToken", token, maxAge);
+    if (token) setCookie("authToken", token, maxAge);
     if (roles.length) setCookie("authRoles", roles.join(","), maxAge);
 
-    // 2) UI için localStorage
-    localStorage.setItem("authUser", JSON.stringify(user));
-    localStorage.setItem("authToken", token);
+    // 3) UI için localStorage
+    try {
+      localStorage.setItem("authUser", JSON.stringify(user));
+      if (token) localStorage.setItem("authToken", token);
+    } catch {}
 
-    // 3) state
+    // 4) state
     setUser({ ...user, roles, token });
 
-    // olaylar & favoriler
-    document.dispatchEvent(new Event("auth-change"));
+    // 5) olaylar & favoriler
+    if (isBrowser) {
+      try {
+        document.dispatchEvent(new Event("auth-change"));
+      } catch {}
+    }
   }
 
   // Normal login
@@ -103,20 +139,17 @@ export function AuthProvider({ children }) {
 
   // Google login
   const loginWithGoogle = async (idToken) => {
-  // 1️⃣ Backend çağrısı
-  const data = await authService.googleLogin(idToken);
-  console.log("DönenResponse", data);
+    const data = await authService.googleLogin(idToken);
 
-  // 2️⃣ Status kontrolü
-  if (data?.httpStatus === "I_AM_A_TEAPOT") {
-    // Yeni kullanıcı, pre-register
-    return { preRegister: true, user: data.returnBody };
-  }
+    // Pre-register senaryosu
+    if (data?.httpStatus === "I_AM_A_TEAPOT") {
+      return { preRegister: true, user: data.returnBody };
+    }
 
-  // 3️⃣ Kayıtlı kullanıcı, token ve user al
-  const token = data?.returnBody?.token;
-  const user = data?.returnBody?.user || data?.returnBody;
-  if (!token || !user) throw new Error("Missing token/user from backend");
+    // Kayıtlı kullanıcı
+    const token = data?.returnBody?.token;
+    const user = data?.returnBody?.user || data?.returnBody;
+    if (!token || !user) throw new Error("Missing token/user from backend");
 
     persistAuth({ user, token, remember: true });
     await hydrateFavoritesForToken(token);
@@ -124,11 +157,17 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    authService.logout(); // localStorage temizler
+    try {
+      authService.logout(); // localStorage temizler
+    } catch {}
     deleteCookie("authToken");
     deleteCookie("authRoles");
     setUser(null);
-    document.dispatchEvent(new Event("auth-change"));
+    if (isBrowser) {
+      try {
+        document.dispatchEvent(new Event("auth-change"));
+      } catch {}
+    }
     clearFavoriteCaches();
   };
 
