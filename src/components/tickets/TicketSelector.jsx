@@ -3,9 +3,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Form, Button } from "react-bootstrap";
 import { useRouter, usePathname } from "next/navigation";
+import { useTranslations } from "use-intl";
 import { config } from "@/helpers/config.js";
 
 const TicketSelector = ({ onFindTickets }) => {
+  const t = useTranslations(); // same root namespace
+
   const [cities, setCities] = useState([]);
   const [cinemas, setCinemas] = useState([]);
   const [dates, setDates] = useState([]);
@@ -20,12 +23,12 @@ const TicketSelector = ({ onFindTickets }) => {
 
   const router = useRouter();
   const pathname = usePathname();
+
   // derive locale segment if the app is under /[locale]/...
   const localeSegment = pathname?.split("/")?.[1] || "";
   const basePath =
     localeSegment && !localeSegment.startsWith("(") ? `/${localeSegment}` : "";
 
-  //console.log("API_BASE", config.apiURL); // should log http://localhost:8090/api
   // Load countries (only those that have showtimes)
   useEffect(() => {
     axios
@@ -65,7 +68,7 @@ const TicketSelector = ({ onFindTickets }) => {
           ? res.data.returnBody
           : [];
         setCities(arr);
-        // Clear selected city if it's not in the returned list
+
         if (
           selectedCity &&
           !arr.some((c) => String(c.id) === String(selectedCity))
@@ -98,8 +101,8 @@ const TicketSelector = ({ onFindTickets }) => {
       axios
         .get(`${config.apiURL}/cinemas?cityId=${selectedCity}`)
         .then((res) => {
-          const page = res.data?.returnBody; // ResponseMessage<Page<...>>
-          setCinemas(page?.content ?? []); // <-- unwrap Page content
+          const page = res.data?.returnBody;
+          setCinemas(page?.content ?? []);
         });
     } else {
       setCinemas([]);
@@ -107,7 +110,7 @@ const TicketSelector = ({ onFindTickets }) => {
     }
   }, [selectedCity]);
 
-  // When cinema changes → fetch available dates (from times[])
+  // When cinema changes → fetch available dates
   useEffect(() => {
     if (!selectedCinema) {
       setDates([]);
@@ -118,22 +121,19 @@ const TicketSelector = ({ onFindTickets }) => {
     axios
       .get(`${config.apiURL}/show-times/cinema/${selectedCinema}`)
       .then((res) => {
-        // unwrap ResponseMessage<List<HallWithShowtimesResponse>>
         const body = res.data?.returnBody ?? res.data;
         const halls = Array.isArray(body) ? body : [];
 
-        // Flatten all times strings across all halls & movies
         const allTimes = halls.flatMap((h) =>
           (h.movies || []).flatMap((m) => m.times || [])
         );
 
-        // Normalize to YYYY-MM-DD, unique & sorted
         const uniqueDates = [
           ...new Set(allTimes.map((t) => String(t).slice(0, 10))),
         ].sort();
 
         setDates(uniqueDates);
-        // Clear invalid selectedDate if needed
+
         if (selectedDate && !uniqueDates.includes(selectedDate)) {
           setSelectedDate("");
         }
@@ -175,6 +175,7 @@ const TicketSelector = ({ onFindTickets }) => {
         });
 
         setMovies(moviesForDate);
+
         if (
           selectedMovie &&
           !moviesForDate.some((m) => m.id === +selectedMovie)
@@ -197,10 +198,8 @@ const TicketSelector = ({ onFindTickets }) => {
         movieId: String(selectedMovie),
       }).toString();
 
-      // Navigate to Buy Ticket page, preserving locale segment if present
       router.push(`${basePath}/buy-ticket?${q}`);
 
-      // still call parent callback if provided
       if (typeof onFindTickets === "function") {
         onFindTickets({
           cityId: selectedCity,
@@ -214,7 +213,8 @@ const TicketSelector = ({ onFindTickets }) => {
 
   return (
     <div className="p-3 bg-dark text-light rounded">
-      <h4 className="mb-3 text-warning">🎟️ Bilet Al</h4>
+      {/* Title - hidden in sticky bar CSS on desktop anyway */}
+      <h4 className="mb-3 text-warning">{t("buybar.title")}</h4>
 
       {/* Country */}
       <Form.Select
@@ -222,7 +222,7 @@ const TicketSelector = ({ onFindTickets }) => {
         value={selectedCountry}
         onChange={(e) => setSelectedCountry(e.target.value)}
       >
-        <option value="">Ülke Seçiniz</option>
+        <option value="">{t("buybar.countryPlaceholder")}</option>
         {countries.map((country) => (
           <option key={country.id} value={String(country.id)}>
             {country.name}
@@ -237,7 +237,7 @@ const TicketSelector = ({ onFindTickets }) => {
         onChange={(e) => setSelectedCity(e.target.value)}
         disabled={!selectedCountry}
       >
-        <option value="">Şehir Seçiniz</option>
+        <option value="">{t("buybar.cityPlaceholder")}</option>
         {cities.map((city) => (
           <option key={city.id} value={String(city.id)}>
             {city.name}
@@ -252,7 +252,7 @@ const TicketSelector = ({ onFindTickets }) => {
         onChange={(e) => setSelectedCinema(e.target.value)}
         disabled={!selectedCity}
       >
-        <option value="">Sinema Seçiniz</option>
+        <option value="">{t("buybar.cinemaPlaceholder")}</option>
         {cinemas.map((cinema) => (
           <option key={cinema.id} value={cinema.id}>
             {cinema.name}
@@ -267,7 +267,7 @@ const TicketSelector = ({ onFindTickets }) => {
         onChange={(e) => setSelectedDate(e.target.value)}
         disabled={!selectedCinema}
       >
-        <option value="">Tarih Seçiniz</option>
+        <option value="">{t("buybar.datePlaceholder")}</option>
         {dates.map((d) => (
           <option key={d} value={d}>
             {d}
@@ -282,7 +282,7 @@ const TicketSelector = ({ onFindTickets }) => {
         onChange={(e) => setSelectedMovie(e.target.value)}
         disabled={!selectedDate}
       >
-        <option value="">Film Seçiniz</option>
+        <option value="">{t("buybar.moviePlaceholder")}</option>
         {movies.map((m) => (
           <option key={m.id} value={m.id}>
             {m.title}
@@ -297,7 +297,7 @@ const TicketSelector = ({ onFindTickets }) => {
         onClick={handleFindTickets}
         disabled={!selectedMovie}
       >
-        Biletleri Bul
+        {t("buybar.findTickets")}
       </Button>
     </div>
   );

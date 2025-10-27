@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "use-intl";
 import TicketSelector from "@/components/tickets/TicketSelector";
 
 /**
@@ -10,6 +11,7 @@ import TicketSelector from "@/components/tickets/TicketSelector";
  */
 export default function StickyTicketBar() {
   const pathname = usePathname();
+  const t = useTranslations(); // default namespace is root of the JSON
 
   // Only show on main dashboard/home routes
   // Adjust this list based on your locales
@@ -33,7 +35,7 @@ export default function StickyTicketBar() {
     <>
       <div className="sticky-buybar">
         <div className="sticky-buybar__inner container">
-          <div className="sticky-buybar__title">🎟️ Bilet Al</div>
+          <div className="sticky-buybar__title">{t("buybar.title")}</div>
           <div className="sticky-buybar__selector">
             <TicketSelector />
           </div>

@@ -244,6 +244,12 @@
       "submit": "Kodu Doğrula",
       "processing": "Doğrulanıyor...",
       "success": "Kod doğrulandı! Yeni şifre belirleme sayfasına yönlendiriliyorsunuz..."
+    },
+
+    "errors": {
+      "email": {
+        "already_in_use": "E-posta zaten kullanımda."
+      }
     }
   },
 
@@ -868,25 +874,50 @@
     "home": "Ana sayfaya dön"
   },
  "dashboard": {
-    "title": "Dashboard",
-    "tiles": {
-      "cinemas":    { "title": "Cinemas", "desc": "Şubeler ve salon eşleştirmeleri" },
-      "halls":      { "title": "Halls", "desc": "Salon planları, koltuk şablonları" },
-      "times":      { "title": "Showtimes", "desc": "Seans planlama ve takvim" },
-      "images":     { "title": "Images", "desc": "Afiş ve görsel yönetimi" },
-      "cinemaimg":  { "title": "Cinema Images", "desc": "Sinema resimleri yönetimi" },
-      "movies":     { "title": "Movies", "desc": "Filmler ve içerik listesi" },
-      "users":      { "title": "Users", "desc": "Kullanıcı arama ve yönetim" },
-      "tickets":    { "title": "Tickets (Admin)", "desc": "Satışlar ve bilet işlemleri" },
-      "cities":     { "title": "Cities", "desc": "Şehir / bölge listeleri" },
-      "vip":        { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
-      "contact":    { "title": "Contact Messages", "desc": "İletişim kutusu mesajları" },
-      "reports":    { "title": "Reports", "desc": "Özetler ve performans raporları" },
-       "countries":   { "title": "Countries",        "desc": "Ülke listeleri" },
-    "districts":   { "title": "Districts",        "desc": "İlçe / semt listeleri" },
-    "payments":    { "title": "Payments",         "desc": "Ödeme kayıtları" },
-    "favorites":   { "title": "Favorites",        "desc": "Favori kayıtları" },
-    "roles":       { "title": "Roles",            "desc": "Rol ve yetkiler" }
-    }
+   "title": "Dashboard",
+   "tiles": {
+     "cinemas": {
+       "title": "Cinemas",
+       "desc": "Şubeler ve salon eşleştirmeleri"
+     },
+     "halls": { "title": "Halls", "desc": "Salon planları, koltuk şablonları" },
+     "times": { "title": "Showtimes", "desc": "Seans planlama ve takvim" },
+     "images": { "title": "Images", "desc": "Afiş ve görsel yönetimi" },
+     "cinemaimg": {
+       "title": "Cinema Images",
+       "desc": "Sinema resimleri yönetimi"
+     },
+     "movies": { "title": "Movies", "desc": "Filmler ve içerik listesi" },
+     "users": { "title": "Users", "desc": "Kullanıcı arama ve yönetim" },
+     "tickets": {
+       "title": "Tickets (Admin)",
+       "desc": "Satışlar ve bilet işlemleri"
+     },
+     "cities": { "title": "Cities", "desc": "Şehir / bölge listeleri" },
+     "vip": { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
+     "contact": {
+       "title": "Contact Messages",
+       "desc": "İletişim kutusu mesajları"
+     },
+     "reports": {
+       "title": "Reports",
+       "desc": "Özetler ve performans raporları"
+     },
+     "countries": { "title": "Countries", "desc": "Ülke listeleri" },
+     "districts": { "title": "Districts", "desc": "İlçe / semt listeleri" },
+     "payments": { "title": "Payments", "desc": "Ödeme kayıtları" },
+     "favorites": { "title": "Favorites", "desc": "Favori kayıtları" },
+     "roles": { "title": "Roles", "desc": "Rol ve yetkiler" }
+   }
+ },
+  "buybar": {
+    "title": "🎟️ Bilet Al",
+    "countryPlaceholder": "Ülke Seçiniz",
+    "cityPlaceholder": "Şehir Seçiniz",
+    "cinemaPlaceholder": "Sinema Seçiniz",
+    "datePlaceholder": "Tarih Seçiniz",
+    "moviePlaceholder": "Film Seçiniz",
+    "findTickets": "Biletleri Bul"
   }
+
 }

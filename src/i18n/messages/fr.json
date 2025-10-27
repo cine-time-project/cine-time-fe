@@ -243,6 +243,12 @@
       "submit": "Vérifier le code",
       "processing": "Vérification...",
       "success": "Code vérifié ! Redirection vers la page de réinitialisation du mot de passe..."
+    },
+
+    "errors": {
+      "email": {
+        "already_in_use": "L'adresse e-mail est déjà utilisée."
+      }
     }
   },
 
@@ -752,5 +758,14 @@
     "title": "Page non trouvée",
     "description": "La page que vous recherchez n’existe pas ou a été déplacée.",
     "home": "Retour à l'accueil"
+  },
+  "buybar": {
+    "title": "🎟️ Acheter un billet",
+    "countryPlaceholder": "Sélectionnez un pays",
+    "cityPlaceholder": "Sélectionnez une ville",
+    "cinemaPlaceholder": "Sélectionnez un cinéma",
+    "datePlaceholder": "Sélectionnez une date",
+    "moviePlaceholder": "Sélectionnez un film",
+    "findTickets": "Rechercher des billets"
   }
 }
