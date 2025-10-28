@@ -12,7 +12,7 @@ export default async function ExperiencePage({ params }) {
 
   const t = await getTranslations({ locale, namespace: "experiences" });
 
-  // Kartlarda görsel istemiyorsanız false yapın:
+  // Kartlarda görsel olsun
   const showImages = true;
 
   return (
