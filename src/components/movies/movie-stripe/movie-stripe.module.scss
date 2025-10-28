@@ -1,0 +1,50 @@
+/* ===============================
+   CineTime Swiper Navigation Styling
+   =============================== */
+
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45px;
+  height: 120px;
+  padding: 8px;
+  background-color: rgba(17, 17, 17, 0.4);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.swiper-button-next {
+  right: 0 !important;
+  border-radius: 8px 0 0 8px;
+}
+
+.swiper-button-prev {
+  left: 0 !important;
+  border-radius: 0 8px 8px 0;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+}
+
+.swiper-button-next:active,
+.swiper-button-prev:active {
+  background-color: rgba(255, 193, 7, 0.35);
+  transform: translateY(-50%) scale(1.12);
+}
+
+.swiper-button-disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+
