@@ -4,14 +4,16 @@
   position: relative;
   border: none;
   overflow: visible;
-  color: #fff;
-  border-radius: 10px;
+  color: #f8f9fa;
+  border-radius: 12px;
   min-height: 400px;
-  background-color: rgb(0, 5, 13);
+  background-color: #111; // 🎬 CineTime koyu arka plan
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: scale(1.05);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(255, 193, 7, 0.35); // ✨ CineTime sarı parıltı
   }
 
   &__image-wrapper {
@@ -21,7 +23,6 @@
     overflow: hidden;
     border-radius: inherit;
 
-    // Video preview styles
     .video-preview {
       position: absolute;
       top: 0;
@@ -48,12 +49,12 @@
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    filter: brightness(0.9);
+    filter: brightness(0.85);
   }
 
   &:hover .movie-card__image {
-    transform: scale(1.08);
-    filter: brightness(1.1);
+    transform: scale(1.06);
+    filter: brightness(1.05);
   }
 
   &__overlay {
@@ -64,14 +65,10 @@
     pointer-events: none;
     background: linear-gradient(
       to top,
-      rgb(0, 0, 0) 0%,
-      rgb(0, 0, 0) 15%,
-      rgba(0, 0, 0, 0.8) 30%,
-      rgba(0, 0, 0, 0.42) 40%,
-      rgba(0, 0, 0, 0.18) 55%,
-      rgba(0, 0, 0, 0) 70%,
-      rgba(0, 0, 0, 0) 82%,
-      rgba(0, 0, 0, 0) 92%
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.7) 30%,
+      rgba(0, 0, 0, 0.3) 60%,
+      rgba(0, 0, 0, 0) 100%
     );
   }
 
@@ -81,7 +78,6 @@
     width: 100%;
     height: 35%;
     padding: 1rem;
-
     z-index: 4;
     display: flex;
     flex-direction: column;
@@ -91,7 +87,8 @@
   &__title {
     font-size: 1.25rem;
     font-weight: 600;
-    /* ✅ Başlık sadece 1 satır */
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -99,15 +96,11 @@
 
   &__summary {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
-
+    color: rgba(255, 255, 255, 0.85);
     display: -webkit-box;
     -webkit-box-orient: vertical;
-
-    /* ✅ Modern ve eski tarayıcı uyumlu */
-    line-clamp: 2; /* yeni standard */
-    -webkit-line-clamp: 2; /* Safari ve eski Chromium */
-
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -119,18 +112,20 @@
 
     &__releaseDate {
       font-size: 0.8rem;
-      color: $color2;
-      background-color: $color3;
-      padding: 2px 5px;
-      border-radius: 5px;
+      color: #111;
+      background-color: #ffc107; // 🎫 CineTime gold
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 600;
     }
 
     &__rating {
       font-size: 0.8rem;
-      color: $color2;
-      background-color: $color1;
-      padding: 2px 5px;
-      border-radius: 5px;
+      color: #111;
+      background-color: #f8f9fa;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 600;
 
       &__text {
         font-size: 0.8rem;
@@ -138,7 +133,6 @@
     }
   }
 
-  // Top buttons (absolute)
   &__icon-button {
     position: absolute;
     z-index: 5;
@@ -148,41 +142,34 @@
   }
 
   &__favorite-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 30%;
-    top: -10;
-    left: -10;
-    background-color: white;
-
-    transition: transform 0.3s ease;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 
     &:hover {
+      background-color: #ffc107;
       transform: scale(1.1);
     }
 
-    &:active {
-      transform: scale(1.3);
-    }
-
     i {
-      font-size: 2rem;
-      filter: drop-shadow(1 1 1px 1px rgba(0, 0, 0, 0.25));
+      font-size: 1.6rem;
+      color: #fff;
     }
   }
 
   &__buy-button {
-    top: -10;
-    right: -10;
-    transform: rotate(-45deg);
+    top: 10px;
+    right: 10px;
+    transform: rotate(-15deg);
     transition: all 0.3s ease;
 
     &:hover {
-      transform: scale(1.1);
-    }
-
-    &:active {
-      transform: scale(1.2);
+      transform: rotate(0deg) scale(1.1);
     }
   }
 
@@ -193,13 +180,14 @@
     z-index: 6;
 
     .badge {
-      font-size: 0.7rem;
-      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
       border-radius: 0.5rem;
       backdrop-filter: blur(10px);
-      background-color: rgba(0, 0, 0, 0.7) !important;
-      color: white !important;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 193, 7, 0.9) !important;
+      color: #111 !important;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-weight: 600;
     }
   }
 }
