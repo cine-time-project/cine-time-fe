@@ -1,14 +1,14 @@
 .center-container {
+  background: linear-gradient(180deg, #2b2b2b 0%, #343434 60%, #272727 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000000;
 }
 
 .h1-title {
-  background: #000000;
+  background: linear-gradient(180deg, #2b2b2b 0%, #343434 60%, #272727 100%);
   font-size: 3.5rem;
   font-weight: bold;
   text-align: center;

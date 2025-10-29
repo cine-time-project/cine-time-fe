@@ -192,8 +192,10 @@ export default function MyFavoritesPage() {
                 className="pi pi-heart"
                 style={{ fontSize: "4rem", color: "var(--surface-400)" }}
               ></i>
-              <h3 className="mt-3 text-muted">{t("favorites.empty")}</h3>
-              <p className="text-muted mb-4">
+              <h3 className="mt-3" style={{ color: "#ff8c00" }}>
+                {t("favorites.empty")}
+              </h3>
+              <p className="mb-4" style={{ color: "#bbb1b1ff" }}>
                 {t("favorites.emptyDescription")}
               </p>
               <Button
