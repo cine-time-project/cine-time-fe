@@ -1,10 +1,8 @@
 import {setRequestLocale} from "next-intl/server";
 import AdminShell from "@/components/admin/AdminShell";
 
-export default function AdminLayout({children, params}) {
-  const {locale} = params;
-  // v3 API
+export default async function AdminLayout({ children, params }) {
+  const { locale } = await params;     // ← Next.js uyarısını çözer
   setRequestLocale(locale);
-
   return <AdminShell locale={locale}>{children}</AdminShell>;
 }
