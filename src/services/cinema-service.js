@@ -8,7 +8,7 @@ export async function listCinemas({
   specialHall,
   page = 0,
   size = 8,
-}) {
+}={}) {
   const res = await axios.get(`${config.apiURL}/cinemas`, {
     params: { cityId, cityName, specialHall, page, size },
     validateStatus: () => true,
