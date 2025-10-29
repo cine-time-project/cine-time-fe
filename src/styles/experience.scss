@@ -45,7 +45,7 @@
   font-size:1rem; line-height:1.5; font-weight:900;
 }
 .exp--dark .exp__featureItem{ color: var(--text-strong); } /* koyu bölümde aç */
-.exp__featureText{ color:inherit; }
+.exp__featureText{ color: var(--text-strong); }
 
 /* PrimeIcons / emoji */
 .exp__pi{ font-size:1.15rem; color:var(--brand-yellow); }
@@ -67,8 +67,8 @@
 .btn-cta{ background:var(--brand-yellow); color:#000; font-weight:800; padding:10px 20px; border-radius:999px; }
 .btn-cta:hover{ filter:brightness(.95); }
 
-
 .exp__lead--inHero {
   margin-top: 8px;           /* başlıkla arayı aç */
   max-width: 60ch;           /* satır uzunluğu kontrol */
+  color: var(--text-strong) !important;  /* açık renk */
 }
