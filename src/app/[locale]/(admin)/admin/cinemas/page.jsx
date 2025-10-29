@@ -1,4 +1,5 @@
 import ModuleList from "../_ModuleList";
-export default function AdminCinemasPage({ params: { locale } }) {
+export default async function AdminCinemasPage({ params }) {
+  const { locale } = await params;
   return <ModuleList title="Cinemas" basePath={`/${locale}/admin/cinemas`} showNew />;
 }
