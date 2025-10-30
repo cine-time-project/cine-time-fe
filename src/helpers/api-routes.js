@@ -76,10 +76,15 @@ export const imageUploadForMovieApi = (movieId) => `${API}/images/${movieId}`; /
 
 // -------------------- Show Times --------------------
 export const SHOWTIME_CREATE_API = `${API}/show-times`;           // POST
+export const SHOWTIMES_LIST_API  = `${API}/show-times`;  
 export const showTimeByIdApi = (id) => `${API}/show-times/${id}`; // GET/PUT/DELETE
 export const SHOWTIME_UNAVAILABLE_SEATS_API = `${API}/show-times/unavailable-seats`; // GET
 export const showTimesByMovieIdApi = (movieId) => `${API}/show-times/movie/${movieId}`;   // GET
 export const showTimesByCinemaIdApi = (cinemaId) => `${API}/show-times/cinema/${cinemaId}`; // GET
+export const SHOWTIMES_CITIES_WITH_API    = `${API}/show-times/cities-with-showtimes`;
+export const SHOWTIMES_COUNTRIES_WITH_API = `${API}/show-times/countries-with-showtimes`;
+
+
 
 // -------------------- Tickets --------------------
 export const TICKET_RESERVE_API = `${API}/tickets/reserve`;                // POST
