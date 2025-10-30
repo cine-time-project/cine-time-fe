@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Card, Form, Button } from "react-bootstrap";
 import {
@@ -27,11 +27,10 @@ export default function EditUserPage() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // --- Kullanıcı verisini yükle ---
+  // --- Kullanıcı bilgilerini getir ---
   useEffect(() => {
     (async () => {
       try {
-        setErr("");
         const res = await searchUsers({ q: id, page: 0, size: 1 });
         const u = res?.returnBody?.content?.[0] || res?.content?.[0];
 
@@ -59,7 +58,7 @@ export default function EditUserPage() {
     })();
   }, [id]);
 
-  // --- Güncelleme işlemi ---
+  // --- Kaydet ---
   const save = async (e) => {
     e.preventDefault();
     setMsg("");
@@ -67,7 +66,7 @@ export default function EditUserPage() {
     setLoading(true);
     try {
       await adminUpdateUser(id, form);
-      setMsg("Kullanıcı başarıyla güncellendi ✅");
+      setMsg("✅ Kullanıcı başarıyla güncellendi!");
     } catch (e) {
       console.error(e);
       setErr(e.response?.data?.message || e.message || "Güncelleme hatası");
@@ -76,11 +75,12 @@ export default function EditUserPage() {
     }
   };
 
-  // --- Silme işlemi ---
+  // --- Sil ---
   const del = async () => {
-    if (!confirm("Kullanıcı silinsin mi?")) return;
+    if (!confirm("Bu kullanıcı silinsin mi?")) return;
     setMsg("");
     setErr("");
+    setLoading(true);
     try {
       await adminDeleteUser(id);
       router.replace(`/${locale}/admin/users`);
@@ -89,6 +89,8 @@ export default function EditUserPage() {
       setErr(
         e.response?.data?.message || e.message || "Silme işlemi başarısız"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -179,7 +181,8 @@ export default function EditUserPage() {
             </Form.Select>
           </Form.Group>
 
-          <div className="d-flex justify-content-between">
+          {/* 🔹 Butonlar */}
+          <div className="d-flex justify-content-between mt-4">
             <Button
               type="button"
               variant="outline-danger"
@@ -188,10 +191,15 @@ export default function EditUserPage() {
             >
               Sil
             </Button>
+
             <Button
               type="submit"
-              style={{ backgroundColor: "var(--brand)", border: "none" }}
-              disabled={loading}
+              style={{
+                backgroundColor: "#f26522",
+                border: "none",
+                padding: "6px 20px",
+                borderRadius: "6px",
+              }}
             >
               {loading ? "Kaydediliyor..." : "Kaydet"}
             </Button>
