@@ -1,4 +1,6 @@
 // src/action/showtimes-actions.js
+"use client";
+
 import { http } from "@/lib/utils/http";
 import {
   // Showtimes
@@ -79,6 +81,48 @@ const mapShowtimeRow = (s = {}) => ({
   movieId: s.movieId ?? s.movie?.id,
 });
 
+/* ---------- Client-side tarih + id filtre yardımcıları ---------- */
+const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
+const pad2 = (n) => String(n).padStart(2, "0");
+const toISODate = (v) => {
+  if (!v) return "";
+  if (DATE_RX.test(v)) return v;
+  const d = new Date(v);
+  if (Number.isNaN(d)) return "";
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+};
+function normalizeRange(from, to) {
+  const f = toISODate(from) || "";
+  const t = toISODate(to) || "";
+  if (f && t && f > t) return [t, f]; // ters girildiyse düzelt
+  return [f, t];
+}
+function filterByDate(items = [], from, to) {
+  const [f, t] = normalizeRange(from, to);
+  if (!f && !t) return items;
+  return items.filter((r) => {
+    const d = toISODate(r?.date);
+    if (!d) return false;
+    if (f && d < f) return false;
+    if (t && d > t) return false;
+    return true;
+  });
+}
+/** AND mantığıyla (hallId && movieId && tarih) filtre */
+function filterRowsAND(rows = [], { hallId, movieId, dateFrom, dateTo } = {}) {
+  const hid = Number(hallId);
+  const mid = Number(movieId);
+  let out = filterByDate(rows, dateFrom, dateTo); // gün-dahil
+
+  if (Number.isFinite(hid) && hid > 0) {
+    out = out.filter((r) => Number(r.hallId) === hid);
+  }
+  if (Number.isFinite(mid) && mid > 0) {
+    out = out.filter((r) => Number(r.movieId) === mid);
+  }
+  return out;
+}
+
 // Kayıt/Update/Delete sonrası listeyi yeniletmek için global event
 function emitChanged() {
   if (typeof window !== "undefined") {
@@ -88,23 +132,34 @@ function emitChanged() {
 
 /* ======================= LIST ======================= */
 /**
- * params: { page, size, cinemaId?, movieId?, dateFrom?, dateTo?, ... }
+ * params: { page, size, cinemaId?, movieId?, hallId?, dateFrom?, dateTo?, ... }
+ * NOT: hallId/movieId/tarih sadece FE’de filtrelenir (AND).
  */
 export async function listShowtimes(params = {}) {
   const { page = 0, size = 60, cinemaId: rc, movieId: rm, ...rest } = params;
   const cinemaId = parseId(rc);
-  const movieId = parseId(rm);
+  const routeMovieId = parseId(rm); // endpoint seçimi için
+
+  // FE filtre paramlarını BE paramlarından ayır
+  const {
+    hallId: fHallId,
+    movieId: fMovieId,
+    dateFrom,
+    dateTo,
+    ...queryToBE // BE’ye gönderilecek kalan (sayfa vb.)
+  } = rest;
 
   try {
     // 1) cinemaId -> /show-times/cinema/{id}
     if (isPos(cinemaId)) {
-      const res = await http.get(showTimesByCinemaIdApi(cinemaId), { params: rest });
+      const res = await http.get(showTimesByCinemaIdApi(cinemaId), { params: queryToBE });
       const body = unwrap(res) ?? [];
-      const content = (Array.isArray(body) ? body : []).flatMap((h) =>
+      const rows = (Array.isArray(body) ? body : []).flatMap((h) =>
         (h?.showtimes ?? h?.showTimes ?? []).map((s) =>
           mapShowtimeRow({ ...s, hallName: h?.hallName ?? h?.name })
         )
       );
+      const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
       return {
         content,
         pageable: { pageNumber: 0, pageSize: content.length || size },
@@ -114,59 +169,60 @@ export async function listShowtimes(params = {}) {
     }
 
     // 2) movieId -> /show-times/movie/{id} (paginated)
-    if (isPos(movieId)) {
-      const res = await http.get(showTimesByMovieIdApi(movieId), {
-        params: { page, size, ...rest },
+    if (isPos(routeMovieId)) {
+      const res = await http.get(showTimesByMovieIdApi(routeMovieId), {
+        params: { page, size, ...queryToBE },
       });
       const pg = unwrap(res) ?? {};
-      const items = Array.isArray(pg.content) ? pg.content : [];
+      const rows = (Array.isArray(pg.content) ? pg.content : []).map(mapShowtimeRow);
+      const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
       return {
-        content: items.map(mapShowtimeRow),
+        content,
         pageable: pg.pageable ?? { pageNumber: page, pageSize: size },
-        totalElements: pg.totalElements ?? items.length,
-        totalPages: pg.totalPages ?? 1,
+        totalElements: content.length,
+        totalPages: 1,
       };
     }
 
-    // 3) genel liste (paginated)
-    const res = await http.get(SHOWTIMES_LIST_API, { params: { page, size, ...rest } });
+    // 3) genel liste (paginated) – tarih/id filtreleri BE’ye GÖNDERİLMEZ
+    const res = await http.get(SHOWTIMES_LIST_API, {
+      params: { page, size, ...queryToBE },
+    });
     const pg = unwrap(res) ?? {};
-    const items = Array.isArray(pg.content) ? pg.content : [];
+    const rows = (Array.isArray(pg.content) ? pg.content : []).map(mapShowtimeRow);
+    const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
     return {
-      content: items.map(mapShowtimeRow),
+      content,
       pageable: pg.pageable ?? { pageNumber: page, pageSize: size },
-      totalElements: pg.totalElements ?? items.length,
-      totalPages: pg.totalPages ?? 1,
+      totalElements: content.length,
+      totalPages: 1,
     };
   } catch (e) {
     const sc = e?.response?.status;
     console.error("SHOWTIMES LIST ERROR:", sc, e?.response?.data || e);
-    if ([400, 401, 403, 404].includes(sc)) {
-      return {
-        content: [],
-        pageable: { pageNumber: 0, pageSize: 0 },
-        totalElements: 0,
-        totalPages: 0,
-      };
-    }
-    throw e;
+    // 5xx geldiğinde sayfayı patlatma; boş liste dön.
+    return {
+      content: [],
+      pageable: { pageNumber: 0, pageSize: 0 },
+      totalElements: 0,
+      totalPages: 0,
+      error: pickMsg(e),
+    };
   }
 }
 
 /* ======================= GET ONE ======================= */
 export async function getShowtime(id) {
-  // id'yi güvenli parse et
   const sid = Number(String(id).trim());
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
 
   try {
-    const res = await http.get(showTimeByIdApi(sid)); // GET /api/show-times/{id}
+    const res = await http.get(showTimeByIdApi(sid));
     const data = unwrap(res);
     return mapShowtimeRow(data ?? {});
   } catch (e) {
     const data = e?.response?.data;
     const status = e?.response?.status;
-    // Spring validasyon / hata gövdesinden okunabilir mesaj çıkar
     const buckets = [data?.validationErrors, data?.errors, data?.fieldErrors, data?.details].filter(Boolean);
     let vMsg = "";
     for (const b of buckets) {
@@ -186,7 +242,6 @@ export async function getShowtime(id) {
     throw new Error(msg);
   }
 }
-
 
 /* ======================= CREATE / UPDATE / DELETE ======================= */
 export async function createShowtime(payload) {
@@ -212,8 +267,6 @@ export async function createShowtime(payload) {
   }
 }
 
-
-
 export async function updateShowtime(id, payload) {
   const sid = Number(id);
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
@@ -231,7 +284,6 @@ export async function updateShowtime(id, payload) {
     emitChanged();
     return unwrap(res);
   } catch (e) {
-    // validasyon/hata mesajını yüzeye çıkar
     const data = e?.response?.data;
     const buckets = [data?.validationErrors, data?.errors, data?.fieldErrors, data?.details].filter(Boolean);
     let vMsg = "";
@@ -246,7 +298,6 @@ export async function updateShowtime(id, payload) {
     throw new Error(msg);
   }
 }
-
 
 export async function deleteShowtime(id) {
   const sid = Number(id);
