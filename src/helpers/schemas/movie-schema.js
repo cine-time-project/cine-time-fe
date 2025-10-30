@@ -47,18 +47,7 @@ export const MovieSchema = Yup.object().shape({
       }
     }),
 
-  cast: Yup.string()
-    .required("Cast list is required")
-    .test("is-json", "Cast must be a valid JSON array", (value) => {
-      try {
-        const parsed = JSON.parse(value);
-        return (
-          Array.isArray(parsed) && parsed.every((v) => typeof v === "string")
-        );
-      } catch {
-        return false;
-      }
-    }),
+  cast: Yup.string().nullable(),
 
   formats: Yup.string()
     .required("Formats list is required")

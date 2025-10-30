@@ -1,8 +1,8 @@
 "use client";
 
-import { Calendar } from "primereact/calendar";
-import { useEffect, useState } from "react";
-import { FloatingLabel, Form, FormControl, InputGroup } from "react-bootstrap";
+import { FloatingLabel, Form, InputGroup } from "react-bootstrap";
+import { useState, useEffect } from "react";
+
 export const DateInput = ({
   name,
   label,
@@ -13,13 +13,19 @@ export const DateInput = ({
   value,
   ...rest
 }) => {
-  const [date, setDate] = useState("");
+  const [dateValue, setDateValue] = useState("");
 
   useEffect(() => {
-    if(value){
-        setDate(new Date(value));
+    // Date'i formatla (YYYY-MM-DD)
+    if (value) {
+      const formatted = value.length > 10 ? value.split("T")[0] : value;
+      setDateValue(formatted);
     }
   }, [value]);
+
+  const handleChange = (e) => {
+    setDateValue(e.target.value);
+  };
 
   return (
     <InputGroup className={`${className} ${errorMessage ? "mb-5" : ""}`}>
@@ -29,18 +35,24 @@ export const DateInput = ({
         </InputGroup.Text>
       )}
 
+      {/* Floating Label */}
       <FloatingLabel controlId={name} label={label}>
-        <Calendar
-          {...rest}
+        <Form.Control
+          //id={name}
           name={name}
-          style={{width: "100%"}}
-          className={`w-100 ${errorMessage ? "is-invalid" : ""}`}
-          value={date}
-          onChange={(e) => setDate(e.value)}
+          type="date"
+          value={dateValue}
+          onChange={handleChange}
+          isInvalid={!!errorMessage}
+          style={{
+            paddingTop: "1.5rem", // Label için boşluk bırak
+            paddingBottom: "0.5rem",
+          }}
+          {...rest}
         />
-        <FormControl.Feedback type="invalid" style={{ position: "absolute" }}>
+        <Form.Control.Feedback type="invalid">
           {errorMessage}
-        </FormControl.Feedback>
+        </Form.Control.Feedback>
       </FloatingLabel>
 
       {!!iconAfter && (
