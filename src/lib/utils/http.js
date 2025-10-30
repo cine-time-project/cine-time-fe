@@ -1,6 +1,9 @@
 import axios from "axios";
 import { config } from "@/helpers/config";
 
+/** -----------------------------
+ *  API BASE (absolute)
+ *  ----------------------------- */
 const ENV_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   process.env.NEXT_PUBLIC_API_BASE ||
@@ -12,17 +15,37 @@ const TOKEN_KEYS = ["authToken", "access_token", "token"];
 let inMemoryToken = "";
 
 export function getToken() {
-  if (inMemoryToken) return inMemoryToken;
-  if (typeof window === "undefined") return "";
-  for (const k of TOKEN_KEYS) {
-    const v = window.localStorage?.getItem(k);
-    if (v && String(v).trim()) return String(v).trim();
-  }
+  try {
+    if (inMemoryToken) return inMemoryToken;
+    if (typeof window === "undefined") return "";
+
+    for (const key of TOKEN_KEYS) {
+      const val =
+        window.localStorage?.getItem(key) ||
+        document.cookie
+          ?.split("; ")
+          ?.find((row) => row.startsWith(key + "="))
+          ?.split("=")[1];
+
+      if (val && String(val).trim()) {
+        const token = decodeURIComponent(val.trim());
+        inMemoryToken = token; // 💾 cache token in memory
+        return token;
+      }
+    }
+  } catch {}
   return "";
 }
 
 export function setAuthToken(token) {
   inMemoryToken = token || "";
+  if (typeof window !== "undefined" && token) {
+    // localStorage senkronizasyonu
+    try {
+      window.localStorage.setItem("authToken", token);
+      window.localStorage.setItem("token", token);
+    } catch {}
+  }
 }
 
 export function authHeaders(extra = {}) {
@@ -39,7 +62,13 @@ export function isLoggedIn() {
   return !!getToken();
 }
 
-export const http = axios.create({ baseURL: API_BASE });
+/** -----------------------------
+ *  AXIOS INSTANCE (ORTAK)
+ *  ----------------------------- */
+export const http = axios.create({
+  baseURL: API_BASE,
+  // timeout: 15000, // istersen aç
+});
 
 http.interceptors.request.use((cfg) => {
   if (!cfg.headers) cfg.headers = {};
@@ -50,6 +79,7 @@ http.interceptors.request.use((cfg) => {
   return cfg;
 });
 
+/** Mutlak API URL üretme yardımcıları */
 export function apiUrl(path = "") {
   const p = String(path || "");
   return p.startsWith("http") ? p : `${API_BASE}/${p.replace(/^\/+/, "")}`;
