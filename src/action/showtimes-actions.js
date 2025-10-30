@@ -1,4 +1,3 @@
-// src/action/showtimes-actions.js
 "use client";
 
 import { http } from "@/lib/utils/http";
