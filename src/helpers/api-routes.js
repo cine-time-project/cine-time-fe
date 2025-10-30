@@ -105,6 +105,8 @@ export const CITY_LIST_ALL_API = `${API}/cities/listAllCities`; // GET (with cou
 export const CITY_ADD_API = `${API}/cities`; // POST { name, countryId }
 export const cityUpdateApi = (cityId) => `${API}/cities/${cityId}`; // PUT { name, countryId }
 export const cityDeleteApi = (cityId) => `${API}/cities/${cityId}`; // DELETE
+export const CITY_WITH_ITS_DISTRICT = (cityId) =>
+  `${API}/cities/listCityWithItsDistrict/${cityId}`;
 
 
 // -------------------- Districts --------------------

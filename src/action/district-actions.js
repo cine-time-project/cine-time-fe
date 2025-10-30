@@ -1,92 +1,57 @@
-"use server";
+"use client";
 
-import { revalidatePath } from "next/cache";
+import axios from "axios";
+import { authHeaders } from "@/lib/utils/http";
 import {
+  DISTRICT_LIST_API,
   DISTRICT_ADD_API,
   districtUpdateApi,
   districtDeleteApi,
+  CITY_LIST_API,
+  CITY_WITH_ITS_DISTRICT, // NOTE: use as a function: CITY_WITH_ITS_DISTRICT(cityId)
 } from "@/helpers/api-routes";
 
-const ok = (message = "OK", data = null) => ({ ok: true, message, data });
-const fail = (message = "Failed", data = null) => ({
-  ok: false,
-  message,
-  data,
-});
-
-const authHeaders = (token) => ({
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${token}`,
-});
-
-export async function addDistrictAction({
-  name,
-  cityId,
-  token,
-  revalidate = null,
-}) {
-  if (!token) return fail("Missing token");
-  if (!name?.trim()) return fail("District name is required");
-  if (!cityId) return fail("cityId is required");
-
-  try {
-    const res = await fetch(DISTRICT_ADD_API, {
-      method: "POST",
-      headers: authHeaders(token),
-      body: JSON.stringify({ name: name.trim(), cityId: Number(cityId) }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) return fail(data?.message || "Failed to add district", data);
-    if (revalidate) revalidatePath(revalidate);
-    return ok(data?.message || "District added", data);
-  } catch (e) {
-    return fail(e.message);
-  }
+/** Load all districts (generic list). */
+export async function listDistricts() {
+  const res = await axios.get(DISTRICT_LIST_API, { headers: authHeaders() });
+  return res.data || [];
 }
 
-export async function updateDistrictAction({
-  id,
-  name,
-  cityId,
-  token,
-  revalidate = null,
-}) {
-  if (!token) return fail("Missing token");
-  if (!id) return fail("District id is required");
-  if (!name?.trim()) return fail("District name is required");
-  if (!cityId) return fail("cityId is required");
-
-  try {
-    const res = await fetch(districtUpdateApi(id), {
-      method: "PUT",
-      headers: authHeaders(token),
-      body: JSON.stringify({ name: name.trim(), cityId: Number(cityId) }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok)
-      return fail(data?.message || "Failed to update district", data);
-    if (revalidate) revalidatePath(revalidate);
-    return ok(data?.message || "District updated", data);
-  } catch (e) {
-    return fail(e.message);
-  }
+/** Add a district. Params: { name, cityId } */
+export function addDistrict({ name, cityId }) {
+  return axios.post(
+    DISTRICT_ADD_API,
+    { name: String(name || "").trim(), cityId: Number(cityId) },
+    { headers: authHeaders({ "Content-Type": "application/json" }) }
+  );
 }
 
-export async function deleteDistrictAction({ id, token, revalidate = null }) {
-  if (!token) return fail("Missing token");
-  if (!id) return fail("District id is required");
+/** Update a district. Params: { id, name, cityId } */
+export function updateDistrict({ id, name, cityId }) {
+  return axios.put(
+    districtUpdateApi(id),
+    { name: String(name || "").trim(), cityId: Number(cityId) },
+    { headers: authHeaders({ "Content-Type": "application/json" }) }
+  );
+}
 
-  try {
-    const res = await fetch(districtDeleteApi(id), {
-      method: "DELETE",
-      headers: authHeaders(token),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok)
-      return fail(data?.message || "Failed to delete district", data);
-    if (revalidate) revalidatePath(revalidate);
-    return ok(data?.message || "District deleted", data);
-  } catch (e) {
-    return fail(e.message);
-  }
+/** Delete a district by id */
+export function deleteDistrict(id) {
+  return axios.delete(districtDeleteApi(id), { headers: authHeaders() });
+}
+
+/** Fetch cities for dropdown (id + name) */
+export async function listCities() {
+  const res = await axios.get(CITY_LIST_API, { headers: authHeaders() });
+  return res.data || [];
+}
+
+/** Get a specific city WITH its districts using your util method. */
+export async function getCityWithDistricts(cityId) {
+  if (cityId == null) throw new Error("cityId is required");
+  // IMPORTANT: call the helper as a function (no curly braces / no manual string)
+  const url = CITY_WITH_ITS_DISTRICT(cityId);
+  const res = await axios.get(url, { headers: authHeaders() });
+  // Expected: { id, name, districtMiniResponses: [...] }
+  return res.data || null;
 }
