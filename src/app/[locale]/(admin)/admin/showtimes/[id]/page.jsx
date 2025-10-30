@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import ShowtimesForm from "@/components/dashboard/showtimes/ShowtimesForm";
 import { getShowtime } from "@/action/showtimes-actions";
+import SectionTitle from "@/components/common/SectionTitle";
 
 export default function ShowtimeEditPage() {
   const { id } = useParams();
@@ -39,8 +40,10 @@ export default function ShowtimeEditPage() {
 
   return (
     <div className="container-fluid">
-      <h1 className="mb-4">Showtime Düzenle</h1>
+    
+      <SectionTitle align = "start" textColor="text-light">Showtime Düzenle</SectionTitle>
       <ShowtimesForm mode="edit" initial={initial} onSaved={handleSaved} />
+      
     </div>
   );
 }

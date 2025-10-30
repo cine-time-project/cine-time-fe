@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import ShowtimesForm from "@/components/dashboard/showtimes/ShowtimesForm";
+import SectionTitle from "@/components/common/SectionTitle";
 
 export default function ShowtimeNewPage() {
   const router = useRouter();
@@ -16,7 +17,8 @@ export default function ShowtimeNewPage() {
   return (
     <div className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1 className="m-0">Yeni Showtime</h1>
+         <SectionTitle align = "center" textColor="text-light">Yeni Showtime</SectionTitle>
+        <h1 className="m-0"></h1>
       </div>
       <ShowtimesForm mode="create" onSaved={handleSaved} />
     </div>

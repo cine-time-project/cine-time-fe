@@ -207,7 +207,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
 
       <div className="row g-3">
         <div className="col-md-4">
-          <label className="form-label">Tarih</label>
+         <label className="form-label text-white">Tarih</label>
           {/* Tarih */}
 <input
   type="date"
@@ -219,7 +219,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
 />
         </div>
         <div className="col-md-4">
-          <label className="form-label">Başlangıç (HH:mm)</label>
+          <label className="form-label text-white">Başlangıç (HH:mm)</label>
          <input
   type="time"
   step="60"
@@ -231,7 +231,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
 />
         </div>
         <div className="col-md-4">
-          <label className="form-label">Bitiş (HH:mm)</label>
+          <label className="form-label text-white">Bitiş (HH:mm)</label>
          {/* Bitiş (HH:mm) */}
 <input
   type="time"
@@ -251,7 +251,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Salon</label>
+          <label className="form-label text-white">Salon</label>
           <select
             className="form-select"
             name="hallId"
@@ -268,7 +268,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Film</label>
+          <label className="form-label text-white">Film</label>
           <select
             className="form-select"
             name="movieId"
