@@ -1,10 +1,12 @@
 "use client";
+import { use } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { searchUsers } from "@/services/users-service";
 import { useAuth } from "@/lib/auth/useAuth";
 
-export default function AdminUsersPage({ params: { locale } }) {
+export default function AdminUsersPage({ params }) {
+  const { locale } = use(params); // ✅ Promise unwrap edildi
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const { roles } = useAuth();

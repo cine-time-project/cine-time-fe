@@ -1,4 +1,5 @@
 // src/app/[locale]/layout.jsx
+import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Bootstrap stilleri
 import { notFound } from "next/navigation";
 import Footer from "@/components/layout/footer/Footer";
 import ClientProviders from "@/components/providers/ClientProviders";
@@ -15,7 +16,6 @@ const dict = {
 };
 
 export default async function LocaleLayout({ children, params }) {
-  // Next 15 ile uyumlu: params Promise olabilir
   const p = await Promise.resolve(params);
   const raw = p?.locale;
   const locale = (raw ?? "tr").toLowerCase().split("-")[0];

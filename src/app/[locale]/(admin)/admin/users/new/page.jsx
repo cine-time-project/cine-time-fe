@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Button, Form, Card, Alert } from "react-bootstrap";
+import { Button, Form, Card } from "react-bootstrap";
 
 export default function AdminUserNewPage() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-
-  // .env.local’daki backend URL
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
   const [form, setForm] = useState({
     name: "",
@@ -22,40 +19,32 @@ export default function AdminUserNewPage() {
     gender: "OTHER",
   });
 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
     setSuccess("");
-    setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE}/users/auth`, {
+      const res = await fetch("http://localhost:8080/api/users/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-        body: JSON.stringify({
-          ...form,
-          role: "MEMBER",
-          builtIn: false,
-        }),
+        body: JSON.stringify({ ...form, role: "MEMBER" }),
       });
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || `Hata: ${res.status}`);
-      }
+      if (!res.ok) throw new Error("Kullanıcı kaydedilemedi!");
 
-      setSuccess("Kullanıcı başarıyla oluşturuldu ✅");
-      setTimeout(() => router.push(`/${locale}/admin/users`), 1000);
+      setSuccess("Kullanıcı başarıyla eklendi ✅");
+      setTimeout(() => router.push(`/${locale}/admin/users`), 1200);
     } catch (err) {
-      console.error(err);
-      setError(err.message);
+      setError(err.message || "Bir hata oluştu!");
     } finally {
       setLoading(false);
     }
@@ -64,9 +53,6 @@ export default function AdminUserNewPage() {
   return (
     <div className="page" style={{ maxWidth: 600 }}>
       <h1 className="section-title mb-3">Yeni Kullanıcı Ekle</h1>
-
-      {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
 
       <Card className="p-3 shadow-sm">
         <Form onSubmit={handleSubmit}>
@@ -106,9 +92,7 @@ export default function AdminUserNewPage() {
               onChange={(e) =>
                 setForm({ ...form, phoneNumber: e.target.value })
               }
-              required
             />
-            <Form.Text className="text-muted">Format: (555) 123-4567</Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -119,9 +103,6 @@ export default function AdminUserNewPage() {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
             />
-            <Form.Text className="text-muted">
-              En az 8 karakter, 1 büyük, 1 küçük, 1 rakam, 1 özel karakter.
-            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -130,7 +111,6 @@ export default function AdminUserNewPage() {
               type="date"
               value={form.birthDate}
               onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
-              required
             />
           </Form.Group>
 
@@ -146,18 +126,23 @@ export default function AdminUserNewPage() {
             </Form.Select>
           </Form.Group>
 
-          <div className="d-flex justify-content-between">
+          {error && <p className="text-danger">{error}</p>}
+          {success && <p className="text-success">{success}</p>}
+
+          <div className="d-flex justify-content-between mt-4">
             <Button
               variant="secondary"
-              disabled={loading}
               onClick={() => router.push(`/${locale}/admin/users`)}
+              disabled={loading}
             >
               Geri
             </Button>
+
             <Button
               type="submit"
+              variant="primary"
+              style={{ backgroundColor: "#f26522", border: "none" }}
               disabled={loading}
-              style={{ backgroundColor: "var(--brand)", border: "none" }}
             >
               {loading ? "Kaydediliyor..." : "Kaydet"}
             </Button>
