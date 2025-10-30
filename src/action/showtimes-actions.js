@@ -22,10 +22,40 @@ const unwrap = (r) => r?.data?.returnBody ?? r?.data ?? null;
 
 const toHHMMSS = (t = "") => {
   const [hh = "00", mm = "00", ss = "00"] = String(t).split(":");
-  return `${String(hh).padStart(2,"0")}:${String(mm).padStart(2,"0")}:${String(ss ?? "00").padStart(2,"0")}`;
+  return `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}:${String(
+    ss ?? "00"
+  ).padStart(2, "0")}`;
 };
 
+function extractSpringErrors(respData) {
+  if (!respData) return "";
+  const buckets = [
+    respData.validationErrors,
+    respData.errors,
+    respData.fieldErrors,
+    respData.details,
+  ].filter(Boolean);
+
+  for (const b of buckets) {
+    if (Array.isArray(b) && b.length) {
+      return b
+        .map(
+          (e) =>
+            `${e.field || e.name || e.objectName || "field"}: ${
+              e.defaultMessage || e.message || e.code || "Geçersiz"
+            }`
+        )
+        .join("\n");
+    }
+  }
+  if (typeof respData.returnBody === "string") return respData.returnBody;
+  if (typeof respData.message === "string") return respData.message;
+  if (typeof respData.error === "string") return respData.error;
+  return "";
+}
+
 const pickMsg = (e) =>
+  extractSpringErrors(e?.response?.data) ||
   e?.response?.data?.message ||
   e?.response?.data?.error ||
   e?.response?.data?.returnBody ||
@@ -49,17 +79,24 @@ const mapShowtimeRow = (s = {}) => ({
   movieId: s.movieId ?? s.movie?.id,
 });
 
+// Kayıt/Update/Delete sonrası listeyi yeniletmek için global event
+function emitChanged() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("showtimes:changed"));
+  }
+}
+
 /* ======================= LIST ======================= */
 /**
  * params: { page, size, cinemaId?, movieId?, dateFrom?, dateTo?, ... }
  */
 export async function listShowtimes(params = {}) {
-  const { page = 0, size = 50, cinemaId: rc, movieId: rm, ...rest } = params;
+  const { page = 0, size = 60, cinemaId: rc, movieId: rm, ...rest } = params;
   const cinemaId = parseId(rc);
-  const movieId  = parseId(rm);
+  const movieId = parseId(rm);
 
   try {
-    // 1) cinemaId verilirse: /show-times/cinema/{id} (genelde hall + showtimes döner)
+    // 1) cinemaId -> /show-times/cinema/{id}
     if (isPos(cinemaId)) {
       const res = await http.get(showTimesByCinemaIdApi(cinemaId), { params: rest });
       const body = unwrap(res) ?? [];
@@ -76,9 +113,11 @@ export async function listShowtimes(params = {}) {
       };
     }
 
-    // 2) movieId verilirse: /show-times/movie/{id} (paginated)
+    // 2) movieId -> /show-times/movie/{id} (paginated)
     if (isPos(movieId)) {
-      const res = await http.get(showTimesByMovieIdApi(movieId), { params: { page, size, ...rest } });
+      const res = await http.get(showTimesByMovieIdApi(movieId), {
+        params: { page, size, ...rest },
+      });
       const pg = unwrap(res) ?? {};
       const items = Array.isArray(pg.content) ? pg.content : [];
       return {
@@ -103,7 +142,12 @@ export async function listShowtimes(params = {}) {
     const sc = e?.response?.status;
     console.error("SHOWTIMES LIST ERROR:", sc, e?.response?.data || e);
     if ([400, 401, 403, 404].includes(sc)) {
-      return { content: [], pageable: { pageNumber: 0, pageSize: 0 }, totalElements: 0, totalPages: 0 };
+      return {
+        content: [],
+        pageable: { pageNumber: 0, pageSize: 0 },
+        totalElements: 0,
+        totalPages: 0,
+      };
     }
     throw e;
   }
@@ -129,10 +173,15 @@ export async function createShowtime(payload) {
   };
   try {
     const res = await http.post(SHOWTIME_CREATE_API, body);
+    emitChanged();
     return unwrap(res);
   } catch (e) {
-    const sc = e?.response?.status;
-    console.error("CREATE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
+    console.error(
+      "CREATE SHOWTIME ERROR:",
+      e?.response?.status,
+      e?.response?.config?.url,
+      e?.response?.data || e
+    );
     throw new Error(pickMsg(e));
   }
 }
@@ -149,10 +198,15 @@ export async function updateShowtime(id, payload) {
   };
   try {
     const res = await http.put(showTimeByIdApi(sid), body);
+    emitChanged();
     return unwrap(res);
   } catch (e) {
-    const sc = e?.response?.status;
-    console.error("UPDATE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
+    console.error(
+      "UPDATE SHOWTIME ERROR:",
+      e?.response?.status,
+      e?.response?.config?.url,
+      e?.response?.data || e
+    );
     throw new Error(pickMsg(e));
   }
 }
@@ -162,12 +216,19 @@ export async function deleteShowtime(id) {
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
   try {
     const res = await http.delete(showTimeByIdApi(sid));
-    return res?.status === 204 ? true : (res?.data?.returnBody ?? true);
+    emitChanged();
+    return res?.status === 204 ? true : res?.data?.returnBody ?? true;
   } catch (e) {
     const sc = e?.response?.status;
-    console.error("DELETE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
+    console.error(
+      "DELETE SHOWTIME ERROR:",
+      sc,
+      e?.response?.config?.url,
+      e?.response?.data || e
+    );
     if (sc === 404) throw new Error("Kayıt bulunamadı.");
-    if (sc === 409) throw new Error("Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.");
+    if (sc === 409)
+      throw new Error("Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.");
     throw new Error(pickMsg(e) || "Sunucu hatası. Bağlı kayıt olabilir.");
   }
 }
@@ -178,18 +239,21 @@ export async function listHalls() {
   try {
     const r = await http.get(HALL_LIST_API, { params: { page: 0, size: 1000 } });
     const page = unwrap(r) ?? {};
-    const items = Array.isArray(page.content) ? page.content : (Array.isArray(page) ? page : []);
-    return items.map(h => ({
+    const items = Array.isArray(page.content) ? page.content : Array.isArray(page) ? page : [];
+    return items.map((h) => ({
       id: h?.id ?? h?.hallId,
       name: h?.name ?? h?.hallName ?? `Hall ${h?.id ?? ""}`,
     }));
   } catch (e1) {
-    console.warn("HALLS /api/hall failed, fallback via cinemas...", e1?.response?.status, e1?.response?.data);
+    console.warn(
+      "HALLS /api/hall failed, fallback via cinemas...",
+      e1?.response?.status,
+      e1?.response?.data
+    );
     try {
       const cr = await http.get(CINEMA_LIST_API, { params: { page: 0, size: 1000 } });
       const cBody = unwrap(cr) ?? {};
-      const cinemas = Array.isArray(cBody?.content) ? cBody.content :
-                      (Array.isArray(cBody) ? cBody : []);
+      const cinemas = Array.isArray(cBody?.content) ? cBody.content : Array.isArray(cBody) ? cBody : [];
       const all = [];
       for (const c of cinemas) {
         const cid = c?.id ?? c?.cinemaId;
@@ -207,7 +271,7 @@ export async function listHalls() {
           console.warn("cinemaHalls fallback failed for cinema", cid, e2?.response?.status);
         }
       }
-      const uniq = Object.values(all.reduce((acc, h) => (acc[h.id] = h, acc), {}));
+      const uniq = Object.values(all.reduce((acc, h) => ((acc[h.id] = h), acc), {}));
       return uniq;
     } catch (e3) {
       console.error("HALLS fallback via cinemas failed:", e3?.response?.status, e3?.response?.data);
@@ -221,19 +285,23 @@ export async function listMoviesAdmin(params = { page: 0, size: 1000 }) {
   try {
     const res = await http.get(MOVIES_ADMIN_LIST_API, { params });
     const body = unwrap(res);
-    const items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
-    return items.map(m => ({
+    const items = Array.isArray(body?.content) ? body.content : Array.isArray(body) ? body : [];
+    return items.map((m) => ({
       id: m?.id,
       title: m?.title ?? m?.movieTitle ?? `Movie #${m?.id ?? ""}`,
     }));
   } catch (e1) {
-    console.warn("MOVIES /admin failed, falling back to /search…", e1?.response?.status, e1?.response?.data);
+    console.warn(
+      "MOVIES /admin failed, falling back to /search…",
+      e1?.response?.status,
+      e1?.response?.data
+    );
     const res = await http.get(MOVIE_SEARCH_API, {
       params: { q: "", page: params.page ?? 0, size: params.size ?? 1000 },
     });
     const pg = unwrap(res) ?? {};
-    const items = Array.isArray(pg.content) ? pg.content : (Array.isArray(pg) ? pg : []);
-    return items.map(m => ({
+    const items = Array.isArray(pg.content) ? pg.content : Array.isArray(pg) ? pg : [];
+    return items.map((m) => ({
       id: m?.id,
       title: m?.title ?? m?.movieTitle ?? `Movie #${m?.id ?? ""}`,
     }));

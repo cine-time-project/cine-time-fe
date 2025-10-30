@@ -1,29 +1,24 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useLocale } from "next-intl";
 import ShowtimesForm from "@/components/dashboard/showtimes/ShowtimesForm";
-import { createShowtime } from "@/action/showtimes-actions";
 
 export default function ShowtimeNewPage() {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
 
-  const initial = { date: "", startTime: "", endTime: "", hallId: "", movieId: "" };
-
-  const handleSaved = () => router.push("../"); // listeye dön
-
-  const onSubmit = (values) => startTransition(async () => {
-    await createShowtime(values);
-    handleSaved();
-  });
+  const handleSaved = () => {
+    // Göreli yerine locale'li absolute path
+    router.replace(`/${locale}/admin/showtimes`);
+  };
 
   return (
     <div className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="m-0">Yeni Showtime</h1>
       </div>
-      <ShowtimesForm mode="create" initial={initial} onSaved={handleSaved} submitting={isPending} onSubmit={onSubmit}/>
+      <ShowtimesForm mode="create" onSaved={handleSaved} />
     </div>
   );
 }
