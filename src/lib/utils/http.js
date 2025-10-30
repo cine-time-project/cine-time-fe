@@ -87,4 +87,38 @@ http.interceptors.request.use((cfg) => {
 export function apiUrl(path = "") {
   const p = String(path || "");
   return p.startsWith("http") ? p : `${API_BASE}/${p.replace(/^\/+/, "")}`;
+ 
+}
+
+/** -----------------------------
+ *  USER / ROLE HELPERS
+ *  ----------------------------- */
+
+/** Get full user info from localStorage */
+export function getAuthUser() {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage?.getItem("authUser");
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+/** Get array of roles from user object */
+export function getUserRoles() {
+  const user = getAuthUser();
+  if (!user || !Array.isArray(user.roles)) return [];
+  return user.roles;
+}
+
+/** Check if user has a specific role */
+export function hasRole(role) {
+  return getUserRoles().includes(role);
+}
+
+/** Check if current user is admin */
+export function isAdmin() {
+  return hasRole("ADMIN");
 }

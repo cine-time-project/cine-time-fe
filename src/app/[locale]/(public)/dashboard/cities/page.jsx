@@ -1,8 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { authHeaders } from "@/lib/utils/http";
+import {
+  listAllCities,
+  groupCitiesByCountry,
+  listCountries,
+  addCity,
+  updateCity,
+  deleteCity,
+  addCountry,
+} from "@/action/city-actions";
 
 export default function CitiesPage() {
   const [countriesMap, setCountriesMap] = useState({}); // { countryName: [{id,name}, ...] }
@@ -34,16 +41,12 @@ export default function CitiesPage() {
 
   const handleUpdateCity = async () => {
     if (!editCityId || !editCityName.trim() || !editCityCountryId) return;
-
     try {
-      await axios.put(
-        `http://localhost:8090/api/cities/${editCityId}`,
-        {
-          name: editCityName.trim(),
-          countryId: Number(editCityCountryId),
-        },
-        { headers: authHeaders() }
-      );
+      await updateCity({
+        id: editCityId,
+        name: editCityName.trim(),
+        countryId: Number(editCityCountryId),
+      });
 
       setFeedbackMsg("City updated.");
       setFeedbackType("success");
@@ -56,7 +59,7 @@ export default function CitiesPage() {
       await fetchCities();
       await fetchCountries();
     } catch (err) {
-      console.error("Failed to update city:", err);
+      console.error("Failed to update city:");
       const backendMsg =
         err?.response?.data?.message ||
         err?.response?.data?.error ||
@@ -69,26 +72,8 @@ export default function CitiesPage() {
   // fetch cities for listing and grouping
   const fetchCities = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8090/api/cities/listAllCities",
-        { headers: authHeaders() }
-      );
-
-      const list = res.data || [];
-
-      // Build grouping by country name
-      const map = {};
-
-      list.forEach((c) => {
-        const countryName = c.countryMiniResponse?.name || "Unknown Country";
-
-        if (!map[countryName]) {
-          map[countryName] = [];
-        }
-        map[countryName].push({ id: c.id, name: c.name });
-      });
-
-      setCountriesMap(map);
+      const list = await listAllCities();
+      setCountriesMap(groupCitiesByCountry(list));
     } catch (err) {
       console.error("Failed to load cities:", err);
     }
@@ -97,16 +82,9 @@ export default function CitiesPage() {
   // fetch countries for dropdowns
   const fetchCountries = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8090/api/countries",
-        { headers: authHeaders() }
-      );
-
-      // expecting: [{ id, name }, ...]
-      const list = res.data || [];
+      const list = await listCountries();
       setCountryOptions(list);
 
-      // set default selection for viewing list
       if (!selectedViewCountryId && list.length > 0) {
         setSelectedViewCountryId(String(list[0].id));
       }
@@ -117,18 +95,12 @@ export default function CitiesPage() {
 
   // add city
   const handleAddCity = async () => {
-    // must have both
     if (!selectedCountryId || !newCityName.trim()) return;
-
     try {
-      await axios.post(
-        "http://localhost:8090/api/cities",
-        {
-          name: newCityName.trim(),
-          countryId: Number(selectedCountryId),
-        },
-        { headers: authHeaders() }
-      );
+      await addCity({
+        name: newCityName.trim(),
+        countryId: Number(selectedCountryId),
+      });
 
       setFeedbackMsg("City added successfully.");
       setFeedbackType("success");
@@ -151,12 +123,8 @@ export default function CitiesPage() {
   // delete city
   const handleDeleteCity = async (id) => {
     if (!window.confirm("Are you sure you want to delete this city?")) return;
-
     try {
-      await axios.delete(
-        `http://localhost:8090/api/cities/${id}`,
-        { headers: authHeaders() }
-      );
+      await deleteCity(id);
 
       setFeedbackMsg("City deleted.");
       setFeedbackType("success");
@@ -176,22 +144,14 @@ export default function CitiesPage() {
   // add country
   const handleAddCountry = async () => {
     if (!newCountryName.trim()) return;
-
     try {
-      await axios.post(
-        "http://localhost:8090/api/countries/add",
-        {
-          name: newCountryName.trim(),
-        },
-        { headers: authHeaders() }
-      );
+      await addCountry({ name: newCountryName.trim() });
 
       setFeedbackMsg("Country added successfully.");
       setFeedbackType("success");
 
       setNewCountryName("");
 
-      // refresh cities so dropdown & view update with new country
       await fetchCities();
       await fetchCountries();
     } catch (err) {
