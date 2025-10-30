@@ -18,8 +18,8 @@ export const getAllMoviesByPage = async (
   size = 10,
   sort = "title",
   type = "asc",
-  q = "", // optional search term
-  status = "" // 🔥 optional status filter (IN_THEATERS, COMING_SOON, etc.)
+  q = "",
+  status = ""
 ) => {
   const params = new URLSearchParams({
     q: q || "",
@@ -104,8 +104,6 @@ export const updateMovieAction = async (prevState, formData) => {
     formats: formatsArray,
     cast: castArray,
   };
-
-  console.log("✅ Final payload sent to backend:", payload);
 
   const res = await fetch(movieUpdateApi(payload.id), {
     method: "PUT",

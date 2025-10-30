@@ -9,10 +9,9 @@ export default function AdminMoviesPage({ params }) {
   const { locale } = React.use(params);
   const [data, setData] = useState(null);
   const [page, setPage] = useState(0);
-  const [query, setQuery] = useState(""); // 🔍 search bar değeri
-  const [status, setStatus] = useState(""); // 🎞️ filter bar değeri
+  const [query, setQuery] = useState(""); 
+  const [status, setStatus] = useState("");
 
-  // 🎬 Veri çekme fonksiyonu
   const fetchMovies = async () => {
     try {
       const result = await getAllMoviesByPage(
@@ -31,7 +30,7 @@ export default function AdminMoviesPage({ params }) {
 
   useEffect(() => {
     fetchMovies();
-  }, [page, query, status]); // page, arama veya filtre değişince tekrar çağır
+  }, [page, query, status]);
 
   return (
     <>
@@ -41,8 +40,8 @@ export default function AdminMoviesPage({ params }) {
         data={data}
         locale={locale}
         onPageChange={(nextPage) => setPage(nextPage)}
-        onSearch={(value) => setQuery(value)} // 🔍 search event
-        onFilter={(value) => setStatus(value)} // 🎞️ filter event
+        onSearch={(value) => setQuery(value)}
+        onFilter={(value) => setStatus(value)}
       />
       <Spacer />
     </>

@@ -20,7 +20,6 @@ export const MovieCreateForm = ({ locale }) => {
   const [actorOptions, setActorOptions] = useState([]);
 
   useEffect(() => {
-    // 🟢 Türleri ve aktörleri ayrı ayrı güvenli şekilde yükle
     const loadData = async () => {
       try {
         const [genresData, actorsData] = await Promise.allSettled([
@@ -78,7 +77,6 @@ export const MovieCreateForm = ({ locale }) => {
           errorMessage={state?.errors?.duration}
         />
 
-        {/* 🎭 Oyuncular */}
         <MultipleSelect
           name="cast"
           label="Cast *"
@@ -150,7 +148,6 @@ export const MovieCreateForm = ({ locale }) => {
           errorMessage={state?.errors?.trailerUrl}
         />
 
-        {/* Butonlar */}
         <BackButton className="me-2" />
         <SubmitButton title="Create" pending={isPending} />
       </form>

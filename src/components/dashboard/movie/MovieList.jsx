@@ -27,13 +27,13 @@ export const MovieList = ({
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    onSearch?.(value); // parent çağrısı varsa
+    onSearch?.(value);
   };
 
   const handleFilterChange = (e) => {
     const value = e.target.value;
     setStatusFilter(value);
-    onFilter?.(value); // parent çağrısı varsa
+    onFilter?.(value);
   };
 
   const page = data?.returnBody ?? data ?? {};

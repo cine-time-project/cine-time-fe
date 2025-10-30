@@ -65,7 +65,6 @@ export const createMovieAction = async (prevState, formData) => {
 };
 
 export const updateMovieAction = async (prevState, formData) => {
-  console.log("✅ updateMovieAction called");
 
   if (!formData.get("id")) throw new Error("Movie ID is missing");
   let isSuccess = false;
@@ -73,13 +72,12 @@ export const updateMovieAction = async (prevState, formData) => {
   try {
     // --- 1. Transform and validate ---
     const fields = transformFormDataToJSON(formData);
-    console.log("Fields before validation:", fields);
 
     MovieSchema.validateSync(fields, { abortEarly: false });
 
     // --- 2. Prepare payload ---
     const castRaw = fields.cast || "";
-    const token = formData.get("token"); // 🔑 optional if you pass it from form
+    const token = formData.get("token");
 
     const payload = {
       ...fields,
@@ -96,17 +94,14 @@ export const updateMovieAction = async (prevState, formData) => {
       locale: fields.locale,
     };
 
-    console.log("📦 update movie payload:", payload);
-
     // --- 3. Call backend ---
-    const data = await updateMovie(payload, token); // ✅ server-safe version
-    console.log("🎬 Backend response:", data);
+    const data = await updateMovie(payload, token);
 
     // --- 4. Check response (our updateMovie now returns data directly) ---
     isSuccess = true;
     return response(true, "Movie updated successfully", null);
   } catch (error) {
-    console.error("❌ updateMovieAction error:", error);
+    console.error(" updateMovieAction error:", error);
     if (error instanceof YupValidationError) {
       return transformYupErrors(error.inner);
     }
