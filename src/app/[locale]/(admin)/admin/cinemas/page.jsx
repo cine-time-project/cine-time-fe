@@ -1,25 +1,43 @@
-//import ModuleList from "../_ModuleList";
-"use client"
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { CinemaTable } from "./CinemaTable";
 import { listCinemas } from "@/services/cinema-service";
 
 export default function AdminCinemasPage({ params }) {
   const { locale } = React.use(params);
   const [cinemas, setCinemas] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // 0-indexed backend
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 8; // listCinemas default size
+
+  const fetchCinemas = async (page = 0) => {
+    try {
+      const data = await listCinemas({ page, size: pageSize });
+      const cinemasFromBE = data?.returnBody?.content || [];
+      const totalPagesFromBE = data?.returnBody?.totalPages || 1;
+
+      setCinemas(cinemasFromBE);
+      setTotalPages(totalPagesFromBE);
+      setCurrentPage(page);
+    } catch (err) {
+      console.error("Failed to fetch cinemas:", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchCinemas = async () => {
-      const data = await listCinemas();
-      const extractedCinemaArray = data?.returnBody?.content || [];
-      console.log(extractedCinemaArray);
-      setCinemas(extractedCinemaArray);
-    };
-    fetchCinemas();
-  }, []);
+    fetchCinemas(currentPage);
+  }, [currentPage]);
 
-  return(
-  <CinemaTable data={cinemas}/>
-  //<ModuleList title="Cinemas" basePath={`/${locale}/admin/cinemas`} showNew />;
-  )
+  const handlePageChange = (newPage) => {
+    fetchCinemas(newPage);
+  };
+
+  return (
+    <CinemaTable
+      data={cinemas}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      onPageChange={handlePageChange}
+    />
+  );
 }
