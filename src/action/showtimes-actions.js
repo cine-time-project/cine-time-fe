@@ -323,6 +323,7 @@ export async function deleteShowtime(id) {
 
 /* ======================= AUX: Halls & Movies ======================= */
 // Halls: önce /api/hall (pageable), olmazsa sinemalardan fallback
+// src/action/showtimes-actions.js  içinde SADECE bu fonksiyonu değiştir
 export async function listHalls() {
   try {
     const r = await http.get(HALL_LIST_API, { params: { page: 0, size: 1000 } });
@@ -331,6 +332,8 @@ export async function listHalls() {
     return items.map((h) => ({
       id: h?.id ?? h?.hallId,
       name: h?.name ?? h?.hallName ?? `Hall ${h?.id ?? ""}`,
+      // ↴ mümkünse bağlı sinema adını da taşı
+      cinemaName: h?.cinema?.name ?? h?.cinemaName ?? h?.theatreName ?? "",
     }));
   } catch (e1) {
     console.warn(
@@ -353,6 +356,7 @@ export async function listHalls() {
             all.push({
               id: h?.id ?? h?.hallId,
               name: h?.name ?? h?.hallName ?? `Hall ${h?.id ?? ""}`,
+              cinemaName: c?.name ?? c?.cinemaName ?? "", // ↴ sinema adını buradan al
             });
           }
         } catch (e2) {
@@ -367,6 +371,7 @@ export async function listHalls() {
     }
   }
 }
+
 
 // Movies: önce /movies/admin, olmazsa /movies/search
 export async function listMoviesAdmin(params = { page: 0, size: 1000 }) {
