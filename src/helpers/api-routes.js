@@ -1,4 +1,4 @@
-// src/helpers/api-routes.js
+import { authHeaders } from "@/lib/utils/http";
 import { config } from "./config";
 const API = config.apiURL;
 
@@ -32,8 +32,7 @@ export const revokeUserAdminApi = (userId) => `${API}/${userId}/admin`;  // DELE
 // -------------------- Contact Messages --------------------
 export const CONTACT_CREATE_API = `${API}/contactmessages`; // POST
 
-// -------------------- Cities --------------------
-export const CITY_LIST_API = `${API}/cities`; // GET
+
 
 // -------------------- Cinemas --------------------
 export const CINEMA_LIST_API = `${API}/cinemas`;            // GET
@@ -91,3 +90,25 @@ export const TICKET_RESERVE_API = `${API}/tickets/reserve`;                // PO
 export const TICKET_BUY_API = `${API}/tickets/buy-ticket`;                 // POST
 export const TICKETS_AUTH_PASSED_API = `${API}/tickets/auth/passed-tickets`;   // GET
 export const TICKETS_AUTH_CURRENT_API = `${API}/tickets/auth/current-tickets`; // GET
+
+
+// -------------------- Countries --------------------
+
+export const COUNTRY_LIST_API = `${API}/countries`; // GET
+export const COUNTRY_ADD_API = `${API}/countries/add`; // POST
+export const COUNTRY_DELETE_API = (countryId) => `${API}/countries/delete/${countryId}`; // DELETE
+export const COUNTRY_EDIT_API = (countryId) => `${API}/countries/update/${countryId}`; // PUT
+
+// -------------------- Cities --------------------
+export const CITY_LIST_API = `${API}/cities`; // GET (basic list)
+export const CITY_LIST_ALL_API = `${API}/cities/listAllCities`; // GET (with countryMiniResponse)
+export const CITY_ADD_API = `${API}/cities`; // POST { name, countryId }
+export const cityUpdateApi = (cityId) => `${API}/cities/${cityId}`; // PUT { name, countryId }
+export const cityDeleteApi = (cityId) => `${API}/cities/${cityId}`; // DELETE
+
+
+// -------------------- Districts --------------------
+export const DISTRICT_LIST_API = `${API}/districts`; // GET
+export const DISTRICT_ADD_API = `${API}/districts`; // POST { name, cityId }
+export const districtUpdateApi = (districtId) => `${API}/districts/${districtId}`; // PUT { name, cityId }
+export const districtDeleteApi = (districtId) => `${API}/districts/${districtId}`; // DELETE
