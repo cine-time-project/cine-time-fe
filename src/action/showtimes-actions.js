@@ -1,22 +1,43 @@
 // src/action/showtimes-actions.js
 import { http } from "@/lib/utils/http";
 import {
-  SHOWTIMES_LIST_API,                 // GET /show-times (page,size,...)
-  SHOWTIME_CREATE_API,                // POST /show-times
-  showTimeByIdApi,                    // /show-times/{id}
-  showTimesByCinemaIdApi,             // /show-times/cinema/{cinemaId}
-  showTimesByMovieIdApi,              // /show-times/movie/{movieId}
+  // Showtimes
+  SHOWTIMES_LIST_API,
+  SHOWTIME_CREATE_API,
+  showTimeByIdApi,
+  showTimesByCinemaIdApi,
+  showTimesByMovieIdApi,
+  // Halls
+  HALL_LIST_API,
+  // Movies
+  MOVIES_ADMIN_LIST_API,
+  MOVIE_SEARCH_API,
+  // Cinemas (halls fallback için)
+  CINEMA_LIST_API,
+  cinemaHallsApi,
 } from "@/helpers/api-routes";
 
-import { HALL_LIST_API, MOVIES_ADMIN_LIST_API } from "@/helpers/api-routes";
-
-/* ---------------- helpers ---------------- */
+/* ======================= Helpers ======================= */
 const unwrap = (r) => r?.data?.returnBody ?? r?.data ?? null;
+
+const toHHMMSS = (t = "") => {
+  const [hh = "00", mm = "00", ss = "00"] = String(t).split(":");
+  return `${String(hh).padStart(2,"0")}:${String(mm).padStart(2,"0")}:${String(ss ?? "00").padStart(2,"0")}`;
+};
+
+const pickMsg = (e) =>
+  e?.response?.data?.message ||
+  e?.response?.data?.error ||
+  e?.response?.data?.returnBody ||
+  e?.message ||
+  "İşlem başarısız.";
+
 const isPos = (v) => Number.isInteger(v) && v > 0;
 const parseId = (v) => {
   const n = Number(String(v ?? "").trim());
   return Number.isFinite(n) && n > 0 ? Math.trunc(n) : null;
 };
+
 const mapShowtimeRow = (s = {}) => ({
   id: s.id,
   date: s.date ?? "",
@@ -28,15 +49,17 @@ const mapShowtimeRow = (s = {}) => ({
   movieId: s.movieId ?? s.movie?.id,
 });
 
-
-/* ---------------- LIST ---------------- */
+/* ======================= LIST ======================= */
+/**
+ * params: { page, size, cinemaId?, movieId?, dateFrom?, dateTo?, ... }
+ */
 export async function listShowtimes(params = {}) {
-  const { page = 0, size = 50, cinemaId: rawCinemaId, movieId: rawMovieId, ...rest } = params;
-  const cinemaId = parseId(rawCinemaId);
-  const movieId = parseId(rawMovieId);
+  const { page = 0, size = 50, cinemaId: rc, movieId: rm, ...rest } = params;
+  const cinemaId = parseId(rc);
+  const movieId  = parseId(rm);
 
   try {
-    // 1) cinemaId -> halls + showtimes (Page değil)
+    // 1) cinemaId verilirse: /show-times/cinema/{id} (genelde hall + showtimes döner)
     if (isPos(cinemaId)) {
       const res = await http.get(showTimesByCinemaIdApi(cinemaId), { params: rest });
       const body = unwrap(res) ?? [];
@@ -53,28 +76,28 @@ export async function listShowtimes(params = {}) {
       };
     }
 
-    // 2) movieId -> Page
+    // 2) movieId verilirse: /show-times/movie/{id} (paginated)
     if (isPos(movieId)) {
       const res = await http.get(showTimesByMovieIdApi(movieId), { params: { page, size, ...rest } });
-      const pageData = unwrap(res) ?? {};
-      const items = Array.isArray(pageData.content) ? pageData.content : [];
+      const pg = unwrap(res) ?? {};
+      const items = Array.isArray(pg.content) ? pg.content : [];
       return {
         content: items.map(mapShowtimeRow),
-        pageable: pageData.pageable ?? { pageNumber: page, pageSize: size },
-        totalElements: pageData.totalElements ?? items.length,
-        totalPages: pageData.totalPages ?? 1,
+        pageable: pg.pageable ?? { pageNumber: page, pageSize: size },
+        totalElements: pg.totalElements ?? items.length,
+        totalPages: pg.totalPages ?? 1,
       };
     }
 
-    // 3) genel sayfalı liste
+    // 3) genel liste (paginated)
     const res = await http.get(SHOWTIMES_LIST_API, { params: { page, size, ...rest } });
-    const pageData = unwrap(res) ?? {};
-    const items = Array.isArray(pageData.content) ? pageData.content : [];
+    const pg = unwrap(res) ?? {};
+    const items = Array.isArray(pg.content) ? pg.content : [];
     return {
       content: items.map(mapShowtimeRow),
-      pageable: pageData.pageable ?? { pageNumber: page, pageSize: size },
-      totalElements: pageData.totalElements ?? items.length,
-      totalPages: pageData.totalPages ?? 1,
+      pageable: pg.pageable ?? { pageNumber: page, pageSize: size },
+      totalElements: pg.totalElements ?? items.length,
+      totalPages: pg.totalPages ?? 1,
     };
   } catch (e) {
     const sc = e?.response?.status;
@@ -86,52 +109,133 @@ export async function listShowtimes(params = {}) {
   }
 }
 
-/* ---------------- GET ONE ---------------- */
+/* ======================= GET ONE ======================= */
 export async function getShowtime(id) {
   const sid = Number(id);
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
-  const res = await http.get(showTimeByIdApi(sid));       // GET /api/show-times/{id}
-  const data = unwrap(res);                                // ResponseMessage<ShowtimeResponse>
-  return mapShowtimeRow(data ?? {});                       // form için uygun obje
+  const res = await http.get(showTimeByIdApi(sid));
+  const data = unwrap(res);
+  return mapShowtimeRow(data ?? {});
 }
 
-/* ---------------- CREATE / UPDATE / DELETE ---------------- */
+/* ======================= CREATE / UPDATE / DELETE ======================= */
 export async function createShowtime(payload) {
-  const res = await http.post(SHOWTIME_CREATE_API, payload);
-  return unwrap(res);
+  const body = {
+    date: payload?.date,
+    startTime: toHHMMSS(payload?.startTime),
+    endTime: toHHMMSS(payload?.endTime),
+    hallId: Number(payload?.hallId),
+    movieId: Number(payload?.movieId),
+  };
+  try {
+    const res = await http.post(SHOWTIME_CREATE_API, body);
+    return unwrap(res);
+  } catch (e) {
+    const sc = e?.response?.status;
+    console.error("CREATE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
+    throw new Error(pickMsg(e));
+  }
 }
+
 export async function updateShowtime(id, payload) {
   const sid = Number(id);
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
-  const res = await http.put(showTimeByIdApi(sid), payload);
-  return unwrap(res);
+  const body = {
+    date: payload?.date,
+    startTime: toHHMMSS(payload?.startTime),
+    endTime: toHHMMSS(payload?.endTime),
+    hallId: Number(payload?.hallId),
+    movieId: Number(payload?.movieId),
+  };
+  try {
+    const res = await http.put(showTimeByIdApi(sid), body);
+    return unwrap(res);
+  } catch (e) {
+    const sc = e?.response?.status;
+    console.error("UPDATE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
+    throw new Error(pickMsg(e));
+  }
 }
+
 export async function deleteShowtime(id) {
   const sid = Number(id);
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
-  const res = await http.delete(showTimeByIdApi(sid));
-  return unwrap(res) ?? true;
+  try {
+    const res = await http.delete(showTimeByIdApi(sid));
+    return res?.status === 204 ? true : (res?.data?.returnBody ?? true);
+  } catch (e) {
+    const sc = e?.response?.status;
+    console.error("DELETE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
+    if (sc === 404) throw new Error("Kayıt bulunamadı.");
+    if (sc === 409) throw new Error("Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.");
+    throw new Error(pickMsg(e) || "Sunucu hatası. Bağlı kayıt olabilir.");
+  }
 }
 
-
-
+/* ======================= AUX: Halls & Movies ======================= */
+// Halls: önce /api/hall (pageable), olmazsa sinemalardan fallback
 export async function listHalls() {
-  const res = await http.get(HALL_LIST_API);
-  const arr = unwrap(res) || [];
-  // -> [{ id, name }]
-  return (Array.isArray(arr) ? arr : []).map(h => ({
-    id: h?.id ?? h?.hallId,
-    name: h?.name ?? h?.hallName ?? `Hall ${h?.id ?? ""}`,
-  }));
+  try {
+    const r = await http.get(HALL_LIST_API, { params: { page: 0, size: 1000 } });
+    const page = unwrap(r) ?? {};
+    const items = Array.isArray(page.content) ? page.content : (Array.isArray(page) ? page : []);
+    return items.map(h => ({
+      id: h?.id ?? h?.hallId,
+      name: h?.name ?? h?.hallName ?? `Hall ${h?.id ?? ""}`,
+    }));
+  } catch (e1) {
+    console.warn("HALLS /api/hall failed, fallback via cinemas...", e1?.response?.status, e1?.response?.data);
+    try {
+      const cr = await http.get(CINEMA_LIST_API, { params: { page: 0, size: 1000 } });
+      const cBody = unwrap(cr) ?? {};
+      const cinemas = Array.isArray(cBody?.content) ? cBody.content :
+                      (Array.isArray(cBody) ? cBody : []);
+      const all = [];
+      for (const c of cinemas) {
+        const cid = c?.id ?? c?.cinemaId;
+        if (!cid) continue;
+        try {
+          const hr = await http.get(cinemaHallsApi(cid));
+          const halls = unwrap(hr) ?? [];
+          for (const h of (Array.isArray(halls) ? halls : [])) {
+            all.push({
+              id: h?.id ?? h?.hallId,
+              name: h?.name ?? h?.hallName ?? `Hall ${h?.id ?? ""}`,
+            });
+          }
+        } catch (e2) {
+          console.warn("cinemaHalls fallback failed for cinema", cid, e2?.response?.status);
+        }
+      }
+      const uniq = Object.values(all.reduce((acc, h) => (acc[h.id] = h, acc), {}));
+      return uniq;
+    } catch (e3) {
+      console.error("HALLS fallback via cinemas failed:", e3?.response?.status, e3?.response?.data);
+      return [];
+    }
+  }
 }
 
+// Movies: önce /movies/admin, olmazsa /movies/search
 export async function listMoviesAdmin(params = { page: 0, size: 1000 }) {
-  const res = await http.get(MOVIES_ADMIN_LIST_API, { params });
-  const body = unwrap(res);
-  const items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
-  // -> [{ id, title }]
-  return items.map(m => ({
-    id: m?.id,
-    title: m?.title ?? m?.movieTitle ?? `Movie #${m?.id ?? ""}`,
-  }));
+  try {
+    const res = await http.get(MOVIES_ADMIN_LIST_API, { params });
+    const body = unwrap(res);
+    const items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
+    return items.map(m => ({
+      id: m?.id,
+      title: m?.title ?? m?.movieTitle ?? `Movie #${m?.id ?? ""}`,
+    }));
+  } catch (e1) {
+    console.warn("MOVIES /admin failed, falling back to /search…", e1?.response?.status, e1?.response?.data);
+    const res = await http.get(MOVIE_SEARCH_API, {
+      params: { q: "", page: params.page ?? 0, size: params.size ?? 1000 },
+    });
+    const pg = unwrap(res) ?? {};
+    const items = Array.isArray(pg.content) ? pg.content : (Array.isArray(pg) ? pg : []);
+    return items.map(m => ({
+      id: m?.id,
+      title: m?.title ?? m?.movieTitle ?? `Movie #${m?.id ?? ""}`,
+    }));
+  }
 }
