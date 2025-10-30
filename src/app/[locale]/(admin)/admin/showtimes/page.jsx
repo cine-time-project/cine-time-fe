@@ -88,29 +88,29 @@ export default function ShowtimesListPage() {
         </button>
       </div>
 
-      <form className="row g-2 align-items-end mb-3" onSubmit={onSearch}>
+      <form className={`row g-2 align-items-end mb-3 whiteLabels`} onSubmit={onSearch}>
         <div className="col-12 col-md-2">
-          <label className="form-label">Cinema Id</label>
+         <label className="form-label text-white">Cinema Id</label>
           <input className="form-control" placeholder="örn: 1" value={cinemaId}
                  onChange={e => setCinemaId(e.target.value)} />
         </div>
         <div className="col-12 col-md-2">
-          <label className="form-label">Hall Id</label>
+          <label className="form-label text-white">Hall Id</label>
           <input className="form-control" placeholder="örn: 5" value={hallId}
                  onChange={e => setHallId(e.target.value)} />
         </div>
         <div className="col-12 col-md-2">
-          <label className="form-label">Movie Id</label>
+         <label className="form-label text-white">Movie Id</label>
           <input className="form-control" placeholder="örn: 9" value={movieId}
                  onChange={e => setMovieId(e.target.value)} />
         </div>
         <div className="col-12 col-md-2">
-          <label className="form-label">Başlangıç</label>
+          <label className="form-label text-white">Başlangıç</label>
           <input type="date" className="form-control" value={dateFrom}
                  onChange={e => setDateFrom(e.target.value)} />
         </div>
         <div className="col-12 col-md-2">
-          <label className="form-label">Bitiş</label>
+          <label className="form-label text-white">Bitiş</label>
           <input type="date" className="form-control" value={dateTo}
                  onChange={e => setDateTo(e.target.value)} />
         </div>
