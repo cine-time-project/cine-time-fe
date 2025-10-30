@@ -1,0 +1,36 @@
+.iconBtn {
+  /* ikonlu kare buton */
+  --size: 40px;
+  width: var(--size);
+  height: var(--size);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .75rem; /* yumuşak köşe */
+  background: #6c757d;      /* normal: secondary gri */
+  border-color: #6c757d;
+  color: #fff;
+  transition: transform .06s ease, background-color .12s ease, border-color .12s ease, color .12s ease;
+
+  i { font-size: 1.1rem; }
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+
+  /* TIKLANINCA SARI (Bootstrap warning) */
+  &:active,
+  &.active {
+    background: #ffc107 !important;
+    border-color: #ffc107 !important;
+    color: #212529 !important;
+    transform: translateY(1px);
+  }
+
+  /* odak görünürlüğü */
+  &:focus-visible {
+    outline: 2px solid #ffc107;
+    outline-offset: 2px;
+  }
+}

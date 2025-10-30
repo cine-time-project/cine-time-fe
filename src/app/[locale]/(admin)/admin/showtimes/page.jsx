@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import ShowtimesTable from "@/components/dashboard/showtimes/ShowtimesTable";
 import { listShowtimes, deleteShowtime } from "@/action/showtimes-actions";
+import SectionTitle from "@/components/common/SectionTitle";
 
 export default function ShowtimesListPage() {
   const router = useRouter();
@@ -77,9 +78,9 @@ export default function ShowtimesListPage() {
   return (
     <div className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1 className="m-0">Showtimes</h1>
+        <SectionTitle align = "center" textColor="text-light">Showtimes</SectionTitle>
         <button
-          className="btn btn-primary"
+          className="btn btn-warning"
           onClick={() => router.push(`/${locale}/admin/showtimes/new`)}
           disabled={isPending}
         >
@@ -114,8 +115,10 @@ export default function ShowtimesListPage() {
                  onChange={e => setDateTo(e.target.value)} />
         </div>
         <div className="col-12 col-md-2">
-          <button className="btn btn-primary w-100" disabled={isPending}>Ara</button>
-        </div>
+<button className="btn btn-primary w-100" disabled={isPending}>
+  <i className="pi pi-search me-2" />
+  Search
+</button>        </div>
       </form>
 
       <ShowtimesTable rows={rows} loading={isPending} onEdit={onEdit} onDelete={onDelete} />
