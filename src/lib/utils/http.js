@@ -3,8 +3,6 @@ import { config } from "@/helpers/config";
 
 /** -----------------------------
  *  API BASE (absolute)
- *  Öncelik: .env (NEXT_PUBLIC_API_BASE_URL | NEXT_PUBLIC_API_BASE) → config.apiURL
- *  config.apiURL zaten kendi içinde default’u yönetiyor.
  *  ----------------------------- */
 const ENV_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
@@ -12,7 +10,6 @@ const ENV_BASE =
   "";
 
 const CONFIG_BASE = (config?.apiURL || "").trim();
-
 export const API_BASE = (ENV_BASE || CONFIG_BASE).replace(/\/$/, "");
 
 /** -----------------------------
@@ -23,18 +20,38 @@ let inMemoryToken = "";
 
 /** Tarayıcıdan (ve varsa bellekten) token’ı getirir */
 export function getToken() {
-  if (inMemoryToken) return inMemoryToken;
-  if (typeof window === "undefined") return "";
-  for (const k of TOKEN_KEYS) {
-    const v = window.localStorage?.getItem(k);
-    if (v && String(v).trim()) return String(v).trim();
-  }
+  try {
+    if (inMemoryToken) return inMemoryToken;
+    if (typeof window === "undefined") return "";
+
+    for (const key of TOKEN_KEYS) {
+      const val =
+        window.localStorage?.getItem(key) ||
+        document.cookie
+          ?.split("; ")
+          ?.find((row) => row.startsWith(key + "="))
+          ?.split("=")[1];
+
+      if (val && String(val).trim()) {
+        const token = decodeURIComponent(val.trim());
+        inMemoryToken = token; // 💾 cache token in memory
+        return token;
+      }
+    }
+  } catch {}
   return "";
 }
 
 /** Manuel token set (örn. login sonrası hafızaya almak için) */
 export function setAuthToken(token) {
   inMemoryToken = token || "";
+  if (typeof window !== "undefined" && token) {
+    // localStorage senkronizasyonu
+    try {
+      window.localStorage.setItem("authToken", token);
+      window.localStorage.setItem("token", token);
+    } catch {}
+  }
 }
 
 /** Authorization + ek header’ları birleştirir */
@@ -58,7 +75,7 @@ export function isLoggedIn() {
  *  AXIOS INSTANCE (ORTAK)
  *  ----------------------------- */
 export const http = axios.create({
-  baseURL: API_BASE, // her zaman absolute
+  baseURL: API_BASE,
   // timeout: 15000, // istersen aç
 });
 
@@ -71,17 +88,6 @@ http.interceptors.request.use((cfg) => {
   }
   return cfg;
 });
-
-// Response interceptor (opsiyonel global 401 handling için açılabilir)
-// http.interceptors.response.use(
-//   (res) => res,
-//   (err) => {
-//     if (err?.response?.status === 401) {
-//       // örn. logout veya /login yönlendirmesi
-//     }
-//     return Promise.reject(err);
-//   }
-// );
 
 /** Mutlak API URL üretme yardımcıları */
 export function apiUrl(path = "") {
