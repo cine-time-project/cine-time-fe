@@ -1,5 +1,6 @@
 // src/app/layout.jsx
 import "../styles/index.scss";
+import "@/helpers/axios-setup";
 
 export const metadata = {
   title: "CineTime",
