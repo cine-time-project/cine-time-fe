@@ -18,7 +18,7 @@ export default function LoginGoogle({ onSuccess, pending }) {
 
     try {
       const authUser = await loginWithGoogle(idToken);
-      console.log("✅ Google login başarılı:", authUser);
+      console.log(" Google login başarılı:", authUser);
 
       if (onSuccess) onSuccess(idToken);
     } catch (error) {
