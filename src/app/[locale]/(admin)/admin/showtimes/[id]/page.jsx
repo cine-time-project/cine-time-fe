@@ -1,18 +1,21 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import ShowtimesForm from "@/components/dashboard/showtimes/ShowtimesForm";
-import { getShowtime, updateShowtime } from "@/action/showtimes-actions";
+import { getShowtime } from "@/action/showtimes-actions";
 
 export default function ShowtimeEditPage() {
   const { id } = useParams();
   const router = useRouter();
+  const locale = useLocale();
+
   const [initial, setInitial] = useState(null);
-  const [pending, startTransition] = useTransition();
+  const [err, setErr] = useState("");
 
   useEffect(() => {
-    startTransition(async () => {
+    (async () => {
       try {
         const data = await getShowtime(id);
         setInitial({
@@ -23,20 +26,21 @@ export default function ShowtimeEditPage() {
           hallId: data.hallId,
           movieId: data.movieId,
         });
-      } catch {
-        router.replace("../");
+      } catch (e) {
+        setErr(e?.message || "Kayıt bulunamadı.");
       }
-    });
-  }, [id, router]);
+    })();
+  }, [id]);
 
-  const handleSaved = () => router.replace("../");
+  const handleSaved = () => router.replace(`/${locale}/admin/showtimes`);
 
+  if (err) return <div className="alert alert-warning m-3" style={{ whiteSpace: "pre-line" }}>{err}</div>;
   if (!initial) return <div className="p-3">Yükleniyor…</div>;
 
   return (
     <div className="container-fluid">
       <h1 className="mb-4">Showtime Düzenle</h1>
-      <ShowtimesForm mode="edit" initial={initial} onSaved={handleSaved} submitting={pending} />
+      <ShowtimesForm mode="edit" initial={initial} onSaved={handleSaved} />
     </div>
   );
 }

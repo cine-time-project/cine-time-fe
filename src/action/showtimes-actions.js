@@ -155,12 +155,38 @@ export async function listShowtimes(params = {}) {
 
 /* ======================= GET ONE ======================= */
 export async function getShowtime(id) {
-  const sid = Number(id);
+  // id'yi güvenli parse et
+  const sid = Number(String(id).trim());
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
-  const res = await http.get(showTimeByIdApi(sid));
-  const data = unwrap(res);
-  return mapShowtimeRow(data ?? {});
+
+  try {
+    const res = await http.get(showTimeByIdApi(sid)); // GET /api/show-times/{id}
+    const data = unwrap(res);
+    return mapShowtimeRow(data ?? {});
+  } catch (e) {
+    const data = e?.response?.data;
+    const status = e?.response?.status;
+    // Spring validasyon / hata gövdesinden okunabilir mesaj çıkar
+    const buckets = [data?.validationErrors, data?.errors, data?.fieldErrors, data?.details].filter(Boolean);
+    let vMsg = "";
+    for (const b of buckets) {
+      if (Array.isArray(b) && b.length) {
+        vMsg = b.map(x => `${x.field || x.name || "field"}: ${x.defaultMessage || x.message || x.code || "Geçersiz"}`).join("\n");
+        break;
+      }
+    }
+    const msg =
+      vMsg ||
+      data?.message ||
+      data?.error ||
+      data?.returnBody ||
+      (status === 401 ? "Yetkisiz (401)" : status === 403 ? "Erişim yok (403)" : status === 404 ? "Kayıt bulunamadı (404)" : "Sunucu hatası");
+
+    console.error("GET SHOWTIME ERROR:", status, e?.response?.config?.url, data || e);
+    throw new Error(msg);
+  }
 }
+
 
 /* ======================= CREATE / UPDATE / DELETE ======================= */
 export async function createShowtime(payload) {
@@ -186,30 +212,41 @@ export async function createShowtime(payload) {
   }
 }
 
+
+
 export async function updateShowtime(id, payload) {
   const sid = Number(id);
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
+
   const body = {
-    date: payload?.date,
-    startTime: toHHMMSS(payload?.startTime),
-    endTime: toHHMMSS(payload?.endTime),
-    hallId: Number(payload?.hallId),
-    movieId: Number(payload?.movieId),
+    date: payload?.date,                         // "YYYY-MM-DD"
+    startTime: toHHMMSS(payload?.startTime),     // "HH:mm" -> "HH:mm:ss"
+    endTime:   toHHMMSS(payload?.endTime),
+    hallId:    Number(payload?.hallId),
+    movieId:   Number(payload?.movieId),
   };
+
   try {
     const res = await http.put(showTimeByIdApi(sid), body);
     emitChanged();
     return unwrap(res);
   } catch (e) {
-    console.error(
-      "UPDATE SHOWTIME ERROR:",
-      e?.response?.status,
-      e?.response?.config?.url,
-      e?.response?.data || e
-    );
-    throw new Error(pickMsg(e));
+    // validasyon/hata mesajını yüzeye çıkar
+    const data = e?.response?.data;
+    const buckets = [data?.validationErrors, data?.errors, data?.fieldErrors, data?.details].filter(Boolean);
+    let vMsg = "";
+    for (const b of buckets) {
+      if (Array.isArray(b) && b.length) {
+        vMsg = b.map(x => `${x.field || x.name || "field"}: ${x.defaultMessage || x.message || x.code || "Geçersiz"}`).join("\n");
+        break;
+      }
+    }
+    const msg = vMsg || data?.message || data?.error || data?.returnBody || e?.message || "Güncelleme başarısız.";
+    console.error("UPDATE SHOWTIME ERROR:", e?.response?.status, e?.response?.config?.url, data || e);
+    throw new Error(msg);
   }
 }
+
 
 export async function deleteShowtime(id) {
   const sid = Number(id);
