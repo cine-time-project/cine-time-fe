@@ -53,14 +53,12 @@ function extractSpringErrors(respData) {
   if (typeof respData.error === "string") return respData.error;
   return "";
 }
-
 const pickMsg = (e) =>
   extractSpringErrors(e?.response?.data) ||
   e?.response?.data?.message ||
   e?.response?.data?.error ||
-  e?.response?.data?.returnBody ||
   e?.message ||
-  "İşlem başarısız.";
+  "İşlem sırasında beklenmeyen bir hata.";
 
 const isPos = (v) => Number.isInteger(v) && v > 0;
 const parseId = (v) => {
@@ -358,20 +356,26 @@ export async function updateShowtime(id, payload) {
 }
 
 export async function deleteShowtime(id) {
-  const sid = Number(id);
-  if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
   try {
-    const res = await http.delete(showTimeByIdApi(sid));
-    emitChanged();
-    return res?.status === 204 ? true : res?.data?.returnBody ?? true;
+    const r = await http.delete(showTimeByIdApi(id));
+    return { ok: true, status: r?.status ?? 200 };
   } catch (e) {
     const sc = e?.response?.status;
-    console.error("DELETE SHOWTIME ERROR:", sc, e?.response?.config?.url, e?.response?.data || e);
-    if (sc === 404) throw new Error("Kayıt bulunamadı.");
-    if (sc === 409) throw new Error("Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.");
-    throw new Error(pickMsg(e) || "Sunucu hatası. Bağlı kayıt olabilir.");
+
+    if (sc === 404)
+      return { ok: false, status: 404, message: "Kayıt bulunamadı." };
+
+    if (sc === 409) {
+      const beMsg =
+        e?.response?.data?.message ||
+        "Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.";
+      return { ok: false, status: 409, message: beMsg };
+    }
+
+    return { ok: false, status: sc ?? 0, message: pickMsg(e) || "Sunucu hatası." };
   }
 }
+
 
 /* ======================= AUX: Halls & Movies ======================= */
 // Halls: önce /api/hall (pageable), olmazsa sinemalardan fallback

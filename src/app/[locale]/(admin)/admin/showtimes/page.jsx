@@ -78,17 +78,19 @@ export default function ShowtimesListPage() {
     router.push(`/${locale}/admin/showtimes/${row.id}`);
   };
 
-  const onDelete = async (row) => {
-    if (!row?.id) return;
-    const ok = window.confirm(`#${row.id} numaralı gösterim silinsin mi?`);
-    if (!ok) return;
-    try {
-      await deleteShowtime(row.id);
-      fetchData(query);
-    } catch (err) {
-      alert(err?.message || "Silme sırasında hata oluştu.");
-    }
-  };
+ const onDelete = async (row) => {
+  if (!row?.id) return;
+  const ok = window.confirm(`#${row.id} numaralı gösterim silinsin mi?`);
+  if (!ok) return;
+
+  const res = await deleteShowtime(row.id);
+  if (!res.ok) {
+    alert(res.message || "Silme sırasında hata oluştu.");
+    return;
+  }
+  fetchData(query);
+};
+
 
   return (
     <div className="container-fluid">
