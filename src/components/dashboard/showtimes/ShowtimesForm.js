@@ -8,6 +8,8 @@ import {
   listMoviesAdmin,
   listShowtimes, // overlap için
 } from "@/action/showtimes-actions";
+import { BackButton } from "@/components/common/form-fields/BackButton";
+import SubmitButton from "@/components/common/FormControls/SubmitButton";
 
 /* --------------------- yardımcılar --------------------- */
 const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
@@ -207,7 +209,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
 
       <div className="row g-3">
         <div className="col-md-4">
-          <label className="form-label">Tarih</label>
+         <label className="form-label text-white">Tarih</label>
           {/* Tarih */}
 <input
   type="date"
@@ -219,7 +221,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
 />
         </div>
         <div className="col-md-4">
-          <label className="form-label">Başlangıç (HH:mm)</label>
+          <label className="form-label text-white">Başlangıç (HH:mm)</label>
          <input
   type="time"
   step="60"
@@ -231,7 +233,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
 />
         </div>
         <div className="col-md-4">
-          <label className="form-label">Bitiş (HH:mm)</label>
+          <label className="form-label text-white">Bitiş (HH:mm)</label>
          {/* Bitiş (HH:mm) */}
 <input
   type="time"
@@ -251,7 +253,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Salon</label>
+          <label className="form-label text-white">Salon</label>
           <select
             className="form-select"
             name="hallId"
@@ -268,7 +270,7 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Film</label>
+          <label className="form-label text-white">Film</label>
           <select
             className="form-select"
             name="movieId"
@@ -286,9 +288,10 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
       </div>
 
       <div className="d-flex gap-2 justify-content-end pt-2">
-        <button type="submit" className="btn btn-primary" disabled={!canSubmit}>
-          {busy ? "Kaydediliyor…" : mode === "edit" ? "Güncelle" : "Oluştur"}
-        </button>
+        <BackButton></BackButton>
+        <SubmitButton disabled={!canSubmit}>
+          {busy ? "Kaydediliyor…" : mode === "edit" ? "Güncelle" : "Oluştur"}</SubmitButton>
+       
       </div>
     </form>
   );

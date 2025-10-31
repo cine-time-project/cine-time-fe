@@ -18,21 +18,33 @@ export const getAllMoviesByPage = async (
   size = 10,
   sort = "title",
   type = "asc",
-  q = "" // optional search term
+  q = "",
+  status = ""
 ) => {
-  const qs = `q=${encodeURIComponent(
-    q
-  )}&page=${page}&size=${size}&sort=${sort},${type}`;
+  const params = new URLSearchParams({
+    q: q || "",
+    page: page,
+    size: size,
+    sort: sort,
+    type: type,
+  });
+
+  if (status) {
+    params.append("status", status);
+  }
 
   const headers = {
     "Content-Type": "application/json",
     ...authHeaders(),
   };
 
-  const response = await fetch(`${MOVIES_ADMIN_LIST_API}?${qs}`, {
-    method: "GET",
-    headers,
-  });
+  const response = await fetch(
+    `${MOVIES_ADMIN_LIST_API}?${params.toString()}`,
+    {
+      method: "GET",
+      headers,
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch movies: ${response.statusText}`);
@@ -64,17 +76,46 @@ export const getMovieById = async (id) => {
   });
 };
 
-export const updateMovie = async (payload) => {
+export const updateMovieAction = async (prevState, formData) => {
+  const token = formData.get("token");
   const headers = {
     "Content-Type": "application/json",
-    ...authHeaders(),
+    Authorization: token ? `Bearer ${token}` : "",
   };
-  if (!payload.id) throw new Error("Id is missing");
-  return fetch(movieUpdateApi(payload.id), {
+
+  // Convert all form fields to an object
+  const fields = transformFormDataToJSON(formData);
+
+  // Convert comma-separated cast string to array
+  const castArray = (fields.cast || "")
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean);
+
+  // If your MultipleSelect inputs send JSON strings, parse them
+  const genreArray = JSON.parse(fields.genre || "[]");
+  const formatsArray = JSON.parse(fields.formats || "[]");
+
+  const payload = {
+    ...fields,
+    id: parseInt(fields.id),
+    duration: parseInt(fields.duration),
+    genre: genreArray,
+    formats: formatsArray,
+    cast: castArray,
+  };
+
+  const res = await fetch(movieUpdateApi(payload.id), {
     method: "PUT",
     headers,
     body: JSON.stringify(payload),
   });
+
+  const data = await res.json();
+
+  if (!res.ok) return response(false, data?.message);
+  revalidatePath(`/${formData.get("locale")}/admin/movies`);
+  redirect(`/${formData.get("locale")}/admin/movies`);
 };
 
 export const deleteMovie = async (id) => {

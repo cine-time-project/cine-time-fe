@@ -82,6 +82,8 @@ export const showTimesByMovieIdApi = (movieId) => `${API}/show-times/movie/${mov
 export const showTimesByCinemaIdApi = (cinemaId) => `${API}/show-times/cinema/${cinemaId}`; // GET
 export const SHOWTIMES_CITIES_WITH_API    = `${API}/show-times/cities-with-showtimes`;
 export const SHOWTIMES_COUNTRIES_WITH_API = `${API}/show-times/countries-with-showtimes`;
+export const showTimesByCinemaIdFlatApi = (id) => `${API}/show-times/cinema/${id}/flat`;
+ 
 
 
 

@@ -96,3 +96,13 @@ export async function filterMovies(filters = {}, page = 0, size = 10) {
   const { data } = await axios.get(`${MOVIE_FILTER_API}?${params.toString()}`);
   return data.returnBody;
 }
+
+export const getActors = async () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const res = await fetch(`${baseUrl}/movies/actors`, { cache: "no-store" });
+
+  if (!res.ok) throw new Error(`Failed to fetch actors: ${res.status}`);
+  const data = await res.json();
+  return data.returnBody || [];
+};
+

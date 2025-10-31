@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { updateMovieAction } from "@/action/movie-actions";
 import { FormContainer } from "@/components/common/form-fields/FormContainer";
 import { TextInput } from "@/components/common/form-fields/TextInput";
@@ -10,86 +10,83 @@ import { MultipleSelect } from "@/components/common/form-fields/MultipleSelect";
 import { BackButton } from "@/components/common/form-fields/BackButton";
 import { SubmitButton } from "@/components/common/form-fields/SubmitButton";
 import { swAlert } from "@/helpers/sweetalert";
+import { getToken } from "@/lib/utils/http";
+import { ALL_GENRES } from "@/helpers/data/genres";
 
-export const MovieEditForm = ({ movie, genres = [], cinemas = [] }) => {
-  const [state, action, isPending] = useActionState(updateMovieAction);
+export const MovieEditForm = ({ movie, genres = [] }) => {
+  const [state, formAction, isPending] = useActionState(
+    updateMovieAction,
+    null
+  );
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    setToken(getToken());
+  }, []);
+
+  const selectedGenres = (movie.genre || []).filter((g) =>
+    ALL_GENRES.some((opt) => opt.value === g)
+  );
 
   if (state?.message) swAlert(state.message, state.ok ? "success" : "error");
 
   return (
     <FormContainer>
-      <form action={action}>
+      <form action={formAction}>
         <input type="hidden" name="id" value={movie.id} />
+        <input type="hidden" name="locale" value="tr" />
+        <input type="hidden" name="token" value={token} />
 
+        {/* Required fields */}
         <TextInput
           name="title"
-          label="Title"
+          label="Title *"
           className="mb-3"
           defaultValue={movie.title}
           errorMessage={state?.errors?.title}
         />
+        <TextInput
+          name="summary"
+          label="Summary *"
+          className="mb-3"
+          defaultValue={movie.summary}
+          errorMessage={state?.errors?.summary}
+        />
 
         <TextInput
           name="slug"
-          label="Slug"
+          label="Slug *"
           className="mb-3"
           defaultValue={movie.slug}
-          readOnly
+          errorMessage={state?.errors?.slug}
         />
-
-        <TextInput
-          name="summary"
-          label="Summary"
-          className="mb-3"
-          defaultValue={movie.summary}
-        />
-
         <DateInput
           name="releaseDate"
-          label="Release Date"
+          label="Release Date *"
           className="mb-3"
           value={movie.releaseDate}
+          errorMessage={state?.errors?.releaseDate}
         />
-
         <TextInput
           name="duration"
-          label="Duration (minutes)"
+          label="Duration (minutes) *"
           className="mb-3"
           defaultValue={movie.duration}
+          errorMessage={state?.errors?.duration}
         />
 
         <TextInput
-          name="rating"
-          label="Rating (0–10)"
-          className="mb-3"
-          defaultValue={movie.rating}
-        />
-
-        <TextInput
-          name="director"
-          label="Director"
-          className="mb-3"
-          defaultValue={movie.director}
-        />
-
-        <TextInput
-          name="specialHalls"
-          label="Special Halls"
-          className="mb-3"
-          defaultValue={movie.specialHalls}
-        />
-
-        <MultipleSelect
           name="cast"
-          label="Cast"
-          values={movie.cast}
-          options={[]}
+          label="Cast (comma separated)"
           className="mb-3"
+          defaultValue={movie.cast?.join(", ") || ""}
+          errorMessage={state?.errors?.cast}
         />
 
         <MultipleSelect
           name="formats"
-          label="Formats"
+          label="Formats *"
           values={movie.formats}
           options={[
             { label: "2D", value: "2D" },
@@ -97,50 +94,59 @@ export const MovieEditForm = ({ movie, genres = [], cinemas = [] }) => {
             { label: "IMAX", value: "IMAX" },
           ]}
           className="mb-3"
+          errorMessage={state?.errors?.formats}
         />
 
         <MultipleSelect
           name="genre"
-          label="Genres"
-          values={movie.genre}
-          options={genres}
+          label="Genres *"
+          values={selectedGenres} 
+          options={ALL_GENRES} 
+          optionLabel="label"
+          optionValue="value"
           className="mb-3"
+          errorMessage={state?.errors?.genre}
         />
-
         <SelectInput
           name="status"
-          label="Status"
+          label="Status *"
+          className="mb-3"
           defaultValue={movie.status}
+          errorMessage={state?.errors?.status}
           options={[
             { label: "In Theaters", value: "IN_THEATERS" },
             { label: "Coming Soon", value: "COMING_SOON" },
             { label: "Presale", value: "PRESALE" },
           ]}
-          className="mb-3"
+          optionLabel="label"
+          optionValue="value"
         />
 
+        {/* Optional fields */}
+        <TextInput
+          name="rating"
+          label="Rating (0–10)"
+          className="mb-3"
+          defaultValue={movie.rating}
+        />
+        <TextInput
+          name="director"
+          label="Director"
+          className="mb-3"
+          defaultValue={movie.director}
+        />
         <TextInput
           name="posterUrl"
           label="Poster URL"
-          defaultValue={movie.posterUrl}
           className="mb-3"
+          defaultValue={movie.posterUrl}
         />
-
         <TextInput
           name="trailerUrl"
           label="Trailer URL"
+          className="mb-3"
           defaultValue={movie.trailerUrl}
-          className="mb-3"
         />
-
-        <MultipleSelect
-          name="cinemaIds"
-          label="Cinemas"
-          values={movie.cinemaIds}
-          options={cinemas}
-          className="mb-3"
-        />
-
         <BackButton className="me-2" />
         <SubmitButton title="Update" pending={isPending} />
       </form>
