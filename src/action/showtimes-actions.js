@@ -1,4 +1,3 @@
-// ./src/action/showtimes-actions.js
 "use client";
 
 import { http } from "@/lib/utils/http";
@@ -177,9 +176,9 @@ function flattenCinemaBody(body = []) {
 }
 
 export async function listShowtimes(params = {}) {
-  const { page = 0, size = 60, cinemaId: rc, movieId: rm, ...rest } = params;
+  const { page = 0, size = 60, cinemaId: rc, ...rest } = params;   // movieId'i rest'te bırak
   const cinemaId = parseId(rc);
-  const routeMovieId = parseId(rm);
+  const routeMovieId = parseId(params.movieId);                     // route amaçlı okuma
   const { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo, ...queryToBE } = rest;
 
   try {
@@ -443,5 +442,91 @@ export async function listMoviesAdmin(params = { page: 0, size: 1000 }) {
       id: m?.id,
       title: m?.title ?? m?.movieTitle ?? `Movie #${m?.id ?? ""}`,
     }));
+  }
+}
+
+
+/* ======================= AUTOCOMPLETE (name ile arama) ======================= */
+
+const _mem = { cinemas: null, hallsByCinema: new Map() }; // basit cache
+const toOptions = (arr = [], labelKey = "name") =>
+  (Array.isArray(arr) ? arr : []).map(x => ({
+    value: x?.id,
+    label: x?.[labelKey] ?? x?.name ?? x?.title ?? `#${x?.id ?? ""}`,
+    raw: x,
+  }));
+
+function _includes(hay = "", needle = "") {
+  return String(hay || "").toLocaleLowerCase("tr").includes(String(needle || "").toLocaleLowerCase("tr"));
+}
+
+/** Cinema: isimle ara (BE q destekliyorsa server-side; yoksa FE’de filtre) */
+export async function searchCinemasByName(q = "", { size = 10 } = {}) {
+  const params = { page: 0, size, q: String(q || "").trim() };
+  try {
+    const res = await http.get(CINEMA_LIST_API, { params });     // /cinemas[?q=]
+    const body = unwrap(res);
+    let items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
+
+    // BE q desteklemiyorsa FE’de filtrele (ilk çağrıyı cache’le)
+    if (!params.q) {
+      _mem.cinemas = items;
+    } else if (Array.isArray(body?.content) === false && !_mem.cinemas) {
+      // q gönderip içerik dönmediyse (q yok sayıldıysa) tümünü çekip FE’de filtrele
+      const all = await http.get(CINEMA_LIST_API, { params: { page: 0, size: 1000 } });
+      _mem.cinemas = Array.isArray(unwrap(all)?.content) ? unwrap(all).content : unwrap(all);
+    }
+    if (_mem.cinemas && params.q) {
+      items = _mem.cinemas.filter(c => _includes(c?.name, params.q)).slice(0, size);
+    }
+
+    return toOptions(items, "name");
+  } catch (e) {
+    console.error("searchCinemasByName:", e?.response?.status, e?.response?.data || e);
+    return [];
+  }
+}
+
+/** Hall: seçilen cinemaId altında isimle ara (server q varsa onu kullan, yoksa FE’de filtre) */
+export async function searchHallsByName(cinemaId, q = "", { size = 20 } = {}) {
+  const cid = Number(cinemaId);
+  if (!Number.isFinite(cid) || cid <= 0) return [];
+
+  const params = { page: 0, size, q: String(q || "").trim() };
+  try {
+    const res = await http.get(cinemaHallsApi(cid), { params }); // /cinemas/{id}/halls[?q=]
+    const body = unwrap(res);
+    let items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
+
+    // FE fallback + cache
+    const key = String(cid);
+    if (!params.q) {
+      _mem.hallsByCinema.set(key, items);
+    } else if (Array.isArray(body?.content) === false && !_mem.hallsByCinema.get(key)) {
+      const all = await http.get(cinemaHallsApi(cid), { params: { page: 0, size: 1000 } });
+      const allItems = Array.isArray(unwrap(all)?.content) ? unwrap(all).content : unwrap(all);
+      _mem.hallsByCinema.set(key, allItems || []);
+    }
+    if (_mem.hallsByCinema.get(key) && params.q) {
+      items = _mem.hallsByCinema.get(key).filter(h => _includes(h?.name, params.q)).slice(0, size);
+    }
+
+    return toOptions(items, "name");
+  } catch (e) {
+    console.error("searchHallsByName:", e?.response?.status, e?.response?.data || e);
+    return [];
+  }
+}
+
+/** Movie: başlıkla ara (zaten /movies/search mevcut) */
+export async function searchMoviesByTitle(q = "", { page = 0, size = 10 } = {}) {
+  try {
+    const r = await http.get(MOVIE_SEARCH_API, { params: { q: String(q || "").trim(), page, size } });
+    const pg = unwrap(r) ?? {};
+    const items = Array.isArray(pg.content) ? pg.content : (Array.isArray(pg) ? pg : []);
+    return toOptions(items, "title");
+  } catch (e) {
+    console.error("searchMoviesByTitle:", e?.response?.status, e?.response?.data || e);
+    return [];
   }
 }
