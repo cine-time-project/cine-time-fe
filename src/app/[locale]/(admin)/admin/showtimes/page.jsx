@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
@@ -21,7 +20,7 @@ export default function ShowtimesListPage() {
   const router = useRouter();
   const locale = useLocale();
 
-  // --- HYDRATION-FRIENDLY ADMIN CHECK ---
+  // --- Admin check (hydration-safe)
   const [isAdmin, setIsAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -35,23 +34,28 @@ export default function ShowtimesListPage() {
         arr.map((r) => String(r.name ?? r).replace(/^ROLE_/, "").toUpperCase())
       );
       setIsAdmin(roles.has("ADMIN"));
-    } catch {
-      /* ignore */
-    }
+    } catch {}
   }, []);
 
-  // --- STATE ---
+  // --- State
   const [rows, setRows] = useState([]);
   const [isPending, startTransition] = useTransition();
   const [pageInfo, setPageInfo] = useState({ page: 0, size: 60, total: 0 });
 
-  // Filtreler
+  // Filters
   const [cinemaId, setCinemaId] = useState("");
   const [hallId, setHallId] = useState("");
   const [movieId, setMovieId] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-  const [version, setVersion] = useState(0); // select’leri remount etmek için
+  const [version, setVersion] = useState(0);
+
+  // react-select yüksekliğini Bootstrap input ile eşitle
+  const selectStyles = {
+    control: (b) => ({ ...b, minHeight: 38, height: 38 }),
+    indicatorsContainer: (b) => ({ ...b, height: 38 }),
+    valueContainer: (b) => ({ ...b, height: 38, paddingTop: 4, paddingBottom: 4 }),
+  };
 
   // Query
   const query = useMemo(
@@ -67,7 +71,7 @@ export default function ShowtimesListPage() {
     [cinemaId, hallId, movieId, dateFrom, dateTo, pageInfo.page, pageInfo.size]
   );
 
-  // Data fetch
+  // Fetch
   const fetchData = (q = query) =>
     startTransition(async () => {
       const res = await listShowtimes(q);
@@ -86,6 +90,7 @@ export default function ShowtimesListPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Handlers
   const onSearch = (e) => {
     e?.preventDefault();
     fetchData(query);
@@ -97,7 +102,7 @@ export default function ShowtimesListPage() {
     setMovieId("");
     setDateFrom("");
     setDateTo("");
-    setVersion((v) => v + 1); // select’leri görsel olarak da boşalt
+    setVersion((v) => v + 1);
     fetchData({ page: pageInfo.page, size: pageInfo.size });
   };
 
@@ -110,7 +115,6 @@ export default function ShowtimesListPage() {
     if (!row?.id) return;
     const ok = window.confirm(`#${row.id} numaralı gösterim silinsin mi?`);
     if (!ok) return;
-
     const res = await deleteShowtime(row.id);
     if (!res.ok) {
       alert(res.message || "Silme sırasında hata oluştu.");
@@ -126,7 +130,6 @@ export default function ShowtimesListPage() {
           Showtimes
         </SectionTitle>
 
-        {/* + New: hydration farkı olmaması için mounted && isAdmin */}
         {mounted && isAdmin && (
           <button
             className="btn btn-warning"
@@ -138,10 +141,10 @@ export default function ShowtimesListPage() {
         )}
       </div>
 
-      {/* FİLTRE BAR – isimle seçim, ID göndeririz */}
-      <form className={`row g-2 align-items-end mb-3 whiteLabels`} onSubmit={onSearch}>
-        {/* Cinema */}
-        <div className="col-12 col-lg-3">
+      {/* Filter bar – aynı satırda: 3 + 2 + 3 + 2 + 2 + auto */}
+      <form className="row g-2 align-items-end mb-3 whiteLabels" onSubmit={onSearch}>
+        {/* Cinema (3) */}
+        <div className="col-12 col-md-6 col-xl-3">
           <label className="form-label text-white">Cinema</label>
           <AsyncSelect
             key={`cinema-${version}`}
@@ -150,26 +153,28 @@ export default function ShowtimesListPage() {
             cacheOptions
             defaultOptions
             isClearable
+            styles={selectStyles}
             loadOptions={(q) => searchCinemasByName(q)}
             placeholder="Cinema adıyla ara…"
             onChange={(opt) => {
               setCinemaId(opt?.value ? String(opt.value) : "");
-              setHallId(""); // cinema değişince hall sıfırlansın
+              setHallId("");
             }}
           />
         </div>
 
-        {/* Hall (Cinema'ya bağlı) */}
-        <div className="col-12 col-lg-3">
+        {/* Hall (2) */}
+        <div className="col-12 col-md-6 col-xl-2">
           <label className="form-label text-white">Hall</label>
           <AsyncSelect
-            key={`hall-${version}-${cinemaId || "no"}`} // cinema değişince remount
+            key={`hall-${version}-${cinemaId || "no"}`}
             instanceId="hall-select"
             inputId="hall-select-input"
             isDisabled={!cinemaId}
             cacheOptions
             defaultOptions
             isClearable
+            styles={selectStyles}
             loadOptions={(q) =>
               cinemaId ? searchHallsByName(cinemaId, q) : Promise.resolve([])
             }
@@ -178,8 +183,8 @@ export default function ShowtimesListPage() {
           />
         </div>
 
-        {/* Movie */}
-        <div className="col-12 col-lg-3">
+        {/* Movie (3) */}
+        <div className="col-12 col-md-6 col-xl-3">
           <label className="form-label text-white">Movie</label>
           <AsyncSelect
             key={`movie-${version}`}
@@ -188,14 +193,15 @@ export default function ShowtimesListPage() {
             cacheOptions
             defaultOptions
             isClearable
+            styles={selectStyles}
             loadOptions={(q) => searchMoviesByTitle(q)}
             placeholder="Film adıyla ara…"
             onChange={(opt) => setMovieId(opt?.value ? String(opt.value) : "")}
           />
         </div>
 
-        {/* Tarihler – aynı kalsın */}
-        <div className="col-6 col-lg-1">
+        {/* Başlangıç (2) */}
+        <div className="col-6 col-md-3 col-xl-2">
           <label className="form-label text-white">Başlangıç</label>
           <input
             type="date"
@@ -204,7 +210,9 @@ export default function ShowtimesListPage() {
             onChange={(e) => setDateFrom(e.target.value)}
           />
         </div>
-        <div className="col-6 col-lg-1">
+
+        {/* Bitiş (2) */}
+        <div className="col-6 col-md-3 col-xl-2">
           <label className="form-label text-white">Bitiş</label>
           <input
             type="date"
@@ -214,12 +222,16 @@ export default function ShowtimesListPage() {
           />
         </div>
 
-        <div className="col-12 col-lg-2 d-flex gap-2">
-          <button className="btn btn-primary flex-fill" disabled={isPending}>
-            <i className="pi pi-search me-2" />
-            Search
+        {/* Buttons – sağa */}
+        <div className="col-12 col-xl-auto d-flex gap-2 ms-xl-auto">
+          <button className="btn btn-primary px-3" disabled={isPending}>
+            <i className="pi pi-search me-2" /> Search
           </button>
-          <button type="button" className="btn btn-outline-light" onClick={clearFilters}>
+          <button
+            type="button"
+            className="btn btn-outline-light px-3"
+            onClick={clearFilters}
+          >
             Temizle
           </button>
         </div>
