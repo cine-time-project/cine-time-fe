@@ -2,8 +2,8 @@
 import React from "react";
 import { useAuth } from "@/lib/auth/useAuth";
 
-import { CinemaTable } from "./CinemaTable";
-import { useCinemas } from "./useCinemas";
+import { CinemaTable } from "@/components/dashboard/cinema/CinemaTable";
+import { useCinemas } from "@/components/dashboard/cinema/useCinemas";
 
 /**
  * AdminCinemasPage
