@@ -84,7 +84,7 @@ export function useAuth() {
         const storedUser = localStorage.getItem("authUser");
         if (storedUser) {
           user = JSON.parse(storedUser);
-          token = user.token || null;
+          token = localStorage.getItem("authToken");
           if (user.roles) roles = normalizeRoles(user.roles);
         }
       } catch {
