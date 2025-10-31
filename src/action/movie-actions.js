@@ -8,22 +8,22 @@ import {
 } from "@/helpers/data/form-validation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createMovie, deleteMovie } from "@/service/movie-service";
+import { createMovie } from "@/service/movie-service";
 import { MovieSchema } from "@/helpers/schemas/movie-schema";
-import { updateMovie } from "@/service/movie-service.server";
+import { updateMovie, deleteMovieServer } from "@/service/movie-service.server";
 
-export const deleteMovieAction = async (id, locale) => {
+export const deleteMovieAction = async (id, locale, token) => {
   if (!id) throw new Error("Id is missing");
 
   try {
-    const res = await deleteMovie(id);
-    const data = await res.json();
+    const res = await deleteMovieServer(id, token);
 
-    if (!res.ok) return response(false, data?.message, null);
+    if (!res) return response(false, "Failed to delete movie", null);
 
     revalidatePath(`/${locale}/admin/movies`);
-    return response(true, data?.message, null);
+    return response(true, "Movie deleted successfully", null);
   } catch (error) {
+    console.error("Delete Error:", error);
     return response(false, error.message, null);
   }
 };
@@ -48,7 +48,6 @@ export const createMovieAction = async (prevState, formData) => {
     const data = await res.json();
 
     if (!res.ok) return response(false, data?.message, data?.validations);
-
     isSuccess = true;
     return response(true, data?.message, null);
   } catch (error) {
@@ -65,17 +64,13 @@ export const createMovieAction = async (prevState, formData) => {
 };
 
 export const updateMovieAction = async (prevState, formData) => {
-
   if (!formData.get("id")) throw new Error("Movie ID is missing");
   let isSuccess = false;
 
   try {
-    // --- 1. Transform and validate ---
     const fields = transformFormDataToJSON(formData);
-
     MovieSchema.validateSync(fields, { abortEarly: false });
 
-    // --- 2. Prepare payload ---
     const castRaw = fields.cast || "";
     const token = formData.get("token");
 
@@ -94,20 +89,16 @@ export const updateMovieAction = async (prevState, formData) => {
       locale: fields.locale,
     };
 
-    // --- 3. Call backend ---
-    const data = await updateMovie(payload, token);
-
-    // --- 4. Check response (our updateMovie now returns data directly) ---
+    await updateMovie(payload, token);
     isSuccess = true;
     return response(true, "Movie updated successfully", null);
   } catch (error) {
-    console.error(" updateMovieAction error:", error);
+    console.error("updateMovieAction error:", error);
     if (error instanceof YupValidationError) {
       return transformYupErrors(error.inner);
     }
     return response(false, error.message || "Unexpected error occurred");
   } finally {
-    // --- 5. Revalidate and redirect on success ---
     if (isSuccess) {
       const locale = formData.get("locale") || "en";
       revalidatePath(`/${locale}/admin/movies`);
