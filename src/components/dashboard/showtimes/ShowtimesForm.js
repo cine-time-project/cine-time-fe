@@ -8,6 +8,8 @@ import {
   listMoviesAdmin,
   listShowtimes, // overlap için
 } from "@/action/showtimes-actions";
+import { BackButton } from "@/components/common/form-fields/BackButton";
+import SubmitButton from "@/components/common/FormControls/SubmitButton";
 
 /* --------------------- yardımcılar --------------------- */
 const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
@@ -286,9 +288,10 @@ export default function ShowtimesForm({ mode = "create", initial = null, onSaved
       </div>
 
       <div className="d-flex gap-2 justify-content-end pt-2">
-        <button type="submit" className="btn btn-primary" disabled={!canSubmit}>
-          {busy ? "Kaydediliyor…" : mode === "edit" ? "Güncelle" : "Oluştur"}
-        </button>
+        <BackButton></BackButton>
+        <SubmitButton disabled={!canSubmit}>
+          {busy ? "Kaydediliyor…" : mode === "edit" ? "Güncelle" : "Oluştur"}</SubmitButton>
+       
       </div>
     </form>
   );
