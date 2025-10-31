@@ -45,7 +45,7 @@ export const DateInput = ({
           onChange={handleChange}
           isInvalid={!!errorMessage}
           style={{
-            paddingTop: "1.5rem", // Label için boşluk bırak
+            paddingTop: "1.5rem",
             paddingBottom: "0.5rem",
           }}
           {...rest}

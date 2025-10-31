@@ -1,5 +1,5 @@
 // src/app/[locale]/layout.jsx
-import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Bootstrap stilleri
+import "bootstrap/dist/css/bootstrap.min.css";
 import { notFound } from "next/navigation";
 import Footer from "@/components/layout/footer/Footer";
 import ClientProviders from "@/components/providers/ClientProviders";

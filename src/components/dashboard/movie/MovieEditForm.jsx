@@ -22,7 +22,7 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    setToken(getToken()); // ✅ browser token
+    setToken(getToken());
   }, []);
 
   const selectedGenres = (movie.genre || []).filter((g) =>

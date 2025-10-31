@@ -4,23 +4,13 @@ import React from "react";
 import { ChevronRight } from "lucide-react";
 import styles from "./page-header.module.scss";
 
-/**
- * CineTime PageHeader Component
- *
- * Props:
- * - title: string (required)
- * - subtitle?: string
- * - breadcrumbs?: array of { label: string, href?: string }
- * - actions?: ReactNode (optional)
- * - align?: "left" | "center" (default: "center")
- */
 
 export const PageHeader = ({
   title,
   subtitle,
   breadcrumbs = [],
   actions,
-  align = "center", // default: center alignment for all pages
+  align = "center",
 }) => {
   return (
     <header
