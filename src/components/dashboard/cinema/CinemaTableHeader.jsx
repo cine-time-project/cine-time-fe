@@ -13,9 +13,7 @@ export const CinemaTableHeader = ({
   canDelete,
 }) => (
   <div className="d-flex flex-wrap align-items-center justify-content-between">
-    <div className="text-dark h3 mb-2 mb-md-0">Cinemas</div>
-
-    <div className="d-flex gap-2">
+  
       {canDelete && (
         <Button
           variant="danger"
@@ -37,5 +35,5 @@ export const CinemaTableHeader = ({
         </OverlayTrigger>
       )}
     </div>
-  </div>
+ 
 );

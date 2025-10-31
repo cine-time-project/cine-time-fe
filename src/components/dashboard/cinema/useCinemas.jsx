@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { listCinemas } from "@/services/cinema-service";
 import { deleteCinemas } from "@/service/cinema-service";
+import { swAlert, swConfirm } from "@/helpers/sweetalert";
 
 /**
  * useCinemas
@@ -59,10 +60,13 @@ export function useCinemas(token, pageSize = 10) {
   const handleDelete = useCallback(
     async (ids) => {
       try {
+        const answer = await swConfirm(`Delete Cinema(s) with ID: "${ids}"?`);
+        if (!answer.isConfirmed) return;
+
         const idsArray = Array.isArray(ids) ? ids : [ids];
         const result = await deleteCinemas(idsArray, token);
         setCinemas((prev) => prev.filter((c) => !idsArray.includes(c.id)));
-        alert(result.message || "Cinema(s) deleted.");
+        swAlert(res.message, res.ok ? "success" : "error");
       } catch (err) {
         console.error("❌ Delete error:", err);
         alert("Error deleting cinema(s): " + err.message);

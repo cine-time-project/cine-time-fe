@@ -4,6 +4,8 @@ import { useAuth } from "@/lib/auth/useAuth";
 
 import { CinemaTable } from "@/components/dashboard/cinema/CinemaTable";
 import { useCinemas } from "@/components/dashboard/cinema/useCinemas";
+import { PageHeader } from "@/components/common/page-header/PageHeader";
+import Spacer from "@/components/common/Spacer";
 
 /**
  * AdminCinemasPage
@@ -12,7 +14,8 @@ import { useCinemas } from "@/components/dashboard/cinema/useCinemas";
  * - Initializes permissions
  * - Delegates all data handling to `useCinemas`
  */
-export default function AdminCinemasPage() {
+export default function AdminCinemasPage({ params }) {
+  const { locale } = React.use(params);
   const { roles, token } = useAuth();
 
   // Backend page size (used for pagination and numbering)
@@ -37,6 +40,8 @@ export default function AdminCinemasPage() {
 
   return (
     <div className="p-3">
+      <PageHeader title="Cinemas" />
+      <Spacer />
       <CinemaTable
         data={cinemas}
         currentPage={currentPage}
@@ -47,6 +52,7 @@ export default function AdminCinemasPage() {
         canDelete={canDelete}
         canDetail={canDetail}
         rows={pageSize}
+        locale={locale}
       />
     </div>
   );

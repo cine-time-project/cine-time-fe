@@ -5,6 +5,7 @@ import { CinemaTableHeader } from "./CinemaTableHeader";
 import { CinemaImage } from "./CinemaImage";
 import { CinemaRowActions } from "./CinemaRowActions";
 import { CinemaPagination } from "./CinemaPagination";
+import { useRouter } from "next/navigation";
 
 /**
  * CinemaTable
@@ -24,15 +25,19 @@ export const CinemaTable = ({
   canCreate,
   canDetail,
   canDelete,
+  locale,
   rows = 10,
 }) => {
   const [selectedCinemas, setSelectedCinemas] = useState([]);
   const first = currentPage * rows;
+  const router = useRouter();
 
   const handleBatchDelete = async () => {
     await onDelete(selectedCinemas.map((c) => c.id));
     setSelectedCinemas([]);
   };
+
+  const handleEdit = (id) => router.push(`/${locale}/admin/cinemas/${id}`);
 
   const indexBody = (_, { rowIndex }) => first + rowIndex + 1;
 
@@ -57,12 +62,25 @@ export const CinemaTable = ({
       >
         <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
         <Column header="#" body={indexBody} style={{ width: "4rem" }} />
-        <Column header="Image" body={(row) => <CinemaImage url={row.imageUrl} />} />
+        <Column
+          header="Image"
+          body={(row) => <CinemaImage url={row.imageUrl} />}
+        />
         <Column field="id" header="ID" sortable />
         <Column field="name" header="Name" sortable />
         <Column body={(r) => r.city?.name || "-"} header="City" sortable />
-        <Column body={(r) => r.country?.name || "-"} header="Country" sortable />
-        {canDetail && <Column body={(r) => <CinemaRowActions cinema={r} />} />}
+        <Column
+          body={(r) => r.country?.name || "-"}
+          header="Country"
+          sortable
+        />
+        {canDetail && (
+          <Column
+            body={(r) => (
+              <CinemaRowActions cinema={r} handleEdit={handleEdit} />
+            )}
+          />
+        )}
       </DataTable>
 
       <CinemaPagination
