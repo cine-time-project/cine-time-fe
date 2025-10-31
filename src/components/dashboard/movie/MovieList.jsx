@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { MovieToolbar } from "./MovieToolbar";
 
 export const MovieList = ({
@@ -18,22 +18,16 @@ export const MovieList = ({
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [showButton, setShowButton] = useState(false);
 
   const handlePage = (e) => {
     const nextPage = e.page;
     onPageChange?.(nextPage);
   };
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    onSearch?.(value);
-  };
-
-  const handleFilterChange = (e) => {
-    const value = e.target.value;
-    setStatusFilter(value);
-    onFilter?.(value);
+  const onClick = (search) => {
+    setShowButton(true);
+    onSearch(search);
   };
 
   const page = data?.returnBody ?? data ?? {};
@@ -86,6 +80,15 @@ export const MovieList = ({
   const ratingTemplate = (row) =>
     row.rating != null ? row.rating.toFixed(1) : "-";
 
+  const handleClear = () => {
+    setSearchTerm("");
+    setStatusFilter("");
+    onSearch?.(""); // tüm filmleri getir
+    onFilter?.(""); // filtreyi sıfırla
+    onPageChange?.(0); // sayfa 0
+    setShowButton(false);
+  };
+
   return (
     <div className="bg-white p-4 rounded shadow-sm">
       <Container>
@@ -99,31 +102,29 @@ export const MovieList = ({
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                onSearch?.(searchTerm);
+                onClick(searchTerm);
               }
             }}
             style={{ flex: "1 1 300px", minWidth: "250px" }}
           />
 
-          <Form.Select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            style={{ width: "200px", minWidth: "180px" }}
-          >
-            <option value="">Filter by status</option>
-            <option value="IN_THEATERS">In Theaters</option>
-            <option value="COMING_SOON">Coming Soon</option>
-            <option value="PRESALE">Presale</option>
-          </Form.Select>
-
           {/* Search button */}
           <button
             type="button"
             className="btn btn-primary fw-semibold"
-            onClick={() => onSearch?.(searchTerm)}
+            onClick={() => onClick(searchTerm)}
+            disabled={searchTerm === "" ? true : false}
           >
             <i className="pi pi-search me-2"></i>Search
           </button>
+
+          <Col md="auto">
+            {showButton && (
+              <Button variant="outline-secondary" onClick={handleClear}>
+                <i className="pi pi-times"></i> Show All Movies
+              </Button>
+            )}
+          </Col>
         </div>
 
         {/* Movie Table */}

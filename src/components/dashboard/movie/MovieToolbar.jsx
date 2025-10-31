@@ -4,7 +4,7 @@ import { deleteMovieAction } from "@/action/movie-actions";
 import { swAlert, swConfirm } from "@/helpers/sweetalert";
 import { useRouter } from "next/navigation";
 import { Button } from "react-bootstrap";
-import { getToken } from "@/lib/utils/http"; // ✅ TOKEN ALMAK İÇİN EKLENDİ
+import { getToken } from "@/lib/utils/http"; //token almak için eklendi
 
 export const MovieToolbar = ({ row, locale }) => {
   const router = useRouter();
@@ -14,10 +14,9 @@ export const MovieToolbar = ({ row, locale }) => {
     const answer = await swConfirm(`Delete movie "${title}"?`);
     if (!answer.isConfirmed) return;
 
-    const token = getToken(); // ✅ token client tarafında alınır
-    console.log("Client token:", token); // test için bakabilirsin
+    const token = getToken(); //token client tarafında alınır
 
-    const res = await deleteMovieAction(id, locale, token); // ✅ token parametre olarak gönderilir
+    const res = await deleteMovieAction(id, locale, token); //token parametre olarak gönderilir
     swAlert(res.message, res.ok ? "success" : "error");
   };
 
