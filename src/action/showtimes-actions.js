@@ -7,14 +7,13 @@ import {
   showTimeByIdApi,
   showTimesByCinemaIdApi,
   showTimesByMovieIdApi,
-  showTimesByCinemaIdFlatApi,   
+  showTimesByCinemaIdFlatApi,
   HALL_LIST_API,
   MOVIES_ADMIN_LIST_API,
   MOVIE_SEARCH_API,
   CINEMA_LIST_API,
   cinemaHallsApi,
 } from "@/helpers/api-routes";
-
 
 /* ======================= Helpers ======================= */
 const unwrap = (r) => r?.data?.returnBody ?? r?.data ?? null;
@@ -106,20 +105,18 @@ function filterRowsAND(rows = [], { hallId, movieId, dateFrom, dateTo } = {}) {
   return out;
 }
 
-/* ---------- ISO parçalama (tekil tanım!) ---------- */
+/* ---------- ISO parçalama ---------- */
 const timeFromIso = (iso = "") => {
   if (!iso) return ["", ""];
   const [d, t] = String(iso).split("T");
   return [d || "", (t || "").slice(0, 8)];
 };
 
-/* ---------- Tekil ve dayanıklı mapper ---------- */
+/* ---------- Mapper ---------- */
 const mapShowtimeRow = (s = {}) => {
-  // Olası ISO alanları (projection’lar değiştiğinde kırılmasın)
   const isoStart =
     s.startDateTime || s.startDate || s.startTimeIso || s.startTimeISO || s.start || "";
-  const isoEnd =
-    s.endDateTime || s.endDate || s.endTimeIso || s.endTimeISO || s.end || "";
+  const isoEnd = s.endDateTime || s.endDate || s.endTimeIso || s.endTimeISO || s.end || "";
   const [dateFromIso, startFromIso] = timeFromIso(isoStart);
   const [, endFromIso] = timeFromIso(isoEnd);
 
@@ -154,13 +151,13 @@ function emitChanged() {
 function flattenCinemaBody(body = []) {
   const arr = Array.isArray(body) ? body : (Array.isArray(body?.content) ? body.content : []);
   return arr.flatMap((h) => {
-    const hallId   = h?.id ?? h?.hallId ?? null;
+    const hallId = h?.id ?? h?.hallId ?? null;
     const hallName = h?.name ?? h?.hallName ?? (hallId ? `Hall #${hallId}` : "");
-    const movies   = Array.isArray(h?.movies) ? h.movies : [];
+    const movies = Array.isArray(h?.movies) ? h.movies : [];
     return movies.flatMap((mb) => {
-      const movieId    = mb?.movie?.id ?? mb?.movieId ?? null;
+      const movieId = mb?.movie?.id ?? mb?.movieId ?? null;
       const movieTitle = mb?.movie?.title ?? mb?.movieTitle ?? (movieId ? `Movie #${movieId}` : "");
-      const sts        = Array.isArray(mb?.showtimes ?? mb?.showTimes) ? (mb.showtimes ?? mb.showTimes) : [];
+      const sts = Array.isArray(mb?.showtimes ?? mb?.showTimes) ? (mb.showtimes ?? mb.showTimes) : [];
       return sts.map((s) => ({
         id: s.id ?? s.showtimeId ?? null,
         date: s.date ?? "",
@@ -176,16 +173,16 @@ function flattenCinemaBody(body = []) {
 }
 
 export async function listShowtimes(params = {}) {
-  const { page = 0, size = 60, cinemaId: rc, ...rest } = params;   // movieId'i rest'te bırak
+  const { page = 0, size = 20, cinemaId: rc, ...rest } = params; // default size: 20
   const cinemaId = parseId(rc);
-  const routeMovieId = parseId(params.movieId);                     // route amaçlı okuma
+  const routeMovieId = parseId(params.movieId);
   const { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo, ...queryToBE } = rest;
 
   try {
     // 1) cinemaId → önce /flat, 404 ise eski route’a düş
     if (isPos(cinemaId)) {
       try {
-        const r1   = await http.get(showTimesByCinemaIdFlatApi(cinemaId));
+        const r1 = await http.get(showTimesByCinemaIdFlatApi(cinemaId));
         const body = unwrap(r1) ?? [];
         const rows = (Array.isArray(body) ? body : []).map((s) => ({
           id: s.showtimeId ?? s.id ?? null,
@@ -197,62 +194,93 @@ export async function listShowtimes(params = {}) {
           hallId: s.hallId ?? null,
           movieId: s.movieId ?? null,
         }));
-        const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
-        return { content, pageable: { pageNumber: 0, pageSize: content.length || size }, totalElements: content.length, totalPages: 1 };
+
+        // FE filtre + FE pagination
+        const filtered = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
+        const totalElements = filtered.length;
+        const totalPages = Math.max(1, Math.ceil(totalElements / size));
+        const start = page * size;
+        const content = filtered.slice(start, start + size);
+
+        return {
+          content,
+          pageable: { pageNumber: page, pageSize: size },
+          totalElements,
+          totalPages,
+        };
       } catch (e) {
         if (e?.response?.status === 404) {
-          // Fallback: eski endpoint + flatten
-          const r2   = await http.get(showTimesByCinemaIdApi(cinemaId), { params: queryToBE });
+          // Fallback: eski endpoint + flatten + FE pagination
+          const r2 = await http.get(showTimesByCinemaIdApi(cinemaId), { params: queryToBE });
           const body = unwrap(r2) ?? [];
           const rows = flattenCinemaBody(body);
-          const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
-          return { content, pageable: { pageNumber: 0, pageSize: content.length || size }, totalElements: content.length, totalPages: 1 };
+          const filtered = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
+
+          const totalElements = filtered.length;
+          const totalPages = Math.max(1, Math.ceil(totalElements / size));
+          const start = page * size;
+          const content = filtered.slice(start, start + size);
+
+          return {
+            content,
+            pageable: { pageNumber: page, pageSize: size },
+            totalElements,
+            totalPages,
+          };
         }
         throw e;
       }
     }
 
-    // 2) movieId
-   // 2) movieId -> /show-times/movie/{id} (paginated)
-if (isPos(routeMovieId)) {
-  try {
-    const res = await http.get(showTimesByMovieIdApi(routeMovieId), {
-      params: { page, size, ...queryToBE },
-    });
-    const pg   = unwrap(res) ?? {};
+    // 2) movieId -> BE paginated endpoint
+    if (isPos(routeMovieId)) {
+      try {
+        const res = await http.get(showTimesByMovieIdApi(routeMovieId), {
+          params: { page, size, ...queryToBE },
+        });
+        const pg = unwrap(res) ?? {};
+        const rows = (Array.isArray(pg.content) ? pg.content : []).map(mapShowtimeRow);
+        const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
+        return {
+          content,
+          pageable: pg.pageable ?? { pageNumber: page, pageSize: size },
+          totalElements: pg.totalElements ?? content.length,
+          totalPages: pg.totalPages ?? Math.max(1, Math.ceil((pg.totalElements ?? content.length) / size)),
+        };
+      } catch (e) {
+        if (e?.response?.status === 404) {
+          return {
+            content: [],
+            pageable: { pageNumber: 0, pageSize: size },
+            totalElements: 0,
+            totalPages: 0,
+          };
+        }
+        throw e;
+      }
+    }
+
+    // 3) genel liste -> BE paginated
+    const res = await http.get(SHOWTIMES_LIST_API, { params: { page, size, ...queryToBE } });
+    const pg = unwrap(res) ?? {};
     const rows = (Array.isArray(pg.content) ? pg.content : []).map(mapShowtimeRow);
     const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
     return {
       content,
       pageable: pg.pageable ?? { pageNumber: page, pageSize: size },
-      totalElements: content.length,
-      totalPages: 1,
+      totalElements: pg.totalElements ?? content.length,
+      totalPages: pg.totalPages ?? Math.max(1, Math.ceil((pg.totalElements ?? content.length) / size)),
     };
-  } catch (e) {
-    // >>> ÖNEMLİ: 404 = kayıt yok
-    if (e?.response?.status === 404) {
-      return {
-        content: [],
-        pageable: { pageNumber: 0, pageSize: 0 },
-        totalElements: 0,
-        totalPages: 0,
-      };
-    }
-    throw e;
-  }
-}
-
-
-    // 3) genel liste
-    const res = await http.get(SHOWTIMES_LIST_API, { params: { page, size, ...queryToBE } });
-    const pg  = unwrap(res) ?? {};
-    const rows = (Array.isArray(pg.content) ? pg.content : []).map(mapShowtimeRow);
-    const content = filterRowsAND(rows, { hallId: fHallId, movieId: fMovieId, dateFrom, dateTo });
-    return { content, pageable: pg.pageable ?? { pageNumber: page, pageSize: size }, totalElements: content.length, totalPages: 1 };
   } catch (e) {
     const sc = e?.response?.status;
     console.error("SHOWTIMES LIST ERROR:", sc, e?.response?.data || e);
-    return { content: [], pageable: { pageNumber: 0, pageSize: 0 }, totalElements: 0, totalPages: 0, error: pickMsg(e) };
+    return {
+      content: [],
+      pageable: { pageNumber: 0, pageSize: 0 },
+      totalElements: 0,
+      totalPages: 0,
+      error: pickMsg(e),
+    };
   }
 }
 
@@ -310,12 +338,7 @@ export async function createShowtime(payload) {
     emitChanged();
     return unwrap(res);
   } catch (e) {
-    console.error(
-      "CREATE SHOWTIME ERROR:",
-      e?.response?.status,
-      e?.response?.config?.url,
-      e?.response?.data || e
-    );
+    console.error("CREATE SHOWTIME ERROR:", e?.response?.status, e?.response?.config?.url, e?.response?.data || e);
     throw new Error(pickMsg(e));
   }
 }
@@ -325,8 +348,8 @@ export async function updateShowtime(id, payload) {
   if (!Number.isFinite(sid) || sid <= 0) throw new Error("Geçersiz showtime id");
 
   const body = {
-    date: payload?.date, // "YYYY-MM-DD"
-    startTime: toHHMMSS(payload?.startTime), // "HH:mm" -> "HH:mm:ss"
+    date: payload?.date,
+    startTime: toHHMMSS(payload?.startTime),
     endTime: toHHMMSS(payload?.endTime),
     hallId: Number(payload?.hallId),
     movieId: Number(payload?.movieId),
@@ -361,20 +384,17 @@ export async function deleteShowtime(id) {
   } catch (e) {
     const sc = e?.response?.status;
 
-    if (sc === 404)
-      return { ok: false, status: 404, message: "Kayıt bulunamadı." };
+    if (sc === 404) return { ok: false, status: 404, message: "Kayıt bulunamadı." };
 
     if (sc === 409) {
       const beMsg =
-        e?.response?.data?.message ||
-        "Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.";
+        e?.response?.data?.message || "Bu gösterime bağlı bilet/rezervasyon olduğu için silinemez.";
       return { ok: false, status: 409, message: beMsg };
     }
 
     return { ok: false, status: sc ?? 0, message: pickMsg(e) || "Sunucu hatası." };
   }
 }
-
 
 /* ======================= AUX: Halls & Movies ======================= */
 // Halls: önce /api/hall (pageable), olmazsa sinemalardan fallback
@@ -445,12 +465,10 @@ export async function listMoviesAdmin(params = { page: 0, size: 1000 }) {
   }
 }
 
-
 /* ======================= AUTOCOMPLETE (name ile arama) ======================= */
-
 const _mem = { cinemas: null, hallsByCinema: new Map() }; // basit cache
 const toOptions = (arr = [], labelKey = "name") =>
-  (Array.isArray(arr) ? arr : []).map(x => ({
+  (Array.isArray(arr) ? arr : []).map((x) => ({
     value: x?.id,
     label: x?.[labelKey] ?? x?.name ?? x?.title ?? `#${x?.id ?? ""}`,
     raw: x,
@@ -460,24 +478,22 @@ function _includes(hay = "", needle = "") {
   return String(hay || "").toLocaleLowerCase("tr").includes(String(needle || "").toLocaleLowerCase("tr"));
 }
 
-/** Cinema: isimle ara (BE q destekliyorsa server-side; yoksa FE’de filtre) */
+/** Cinema: isimle ara */
 export async function searchCinemasByName(q = "", { size = 10 } = {}) {
   const params = { page: 0, size, q: String(q || "").trim() };
   try {
-    const res = await http.get(CINEMA_LIST_API, { params });     // /cinemas[?q=]
+    const res = await http.get(CINEMA_LIST_API, { params });
     const body = unwrap(res);
     let items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
 
-    // BE q desteklemiyorsa FE’de filtrele (ilk çağrıyı cache’le)
     if (!params.q) {
       _mem.cinemas = items;
     } else if (Array.isArray(body?.content) === false && !_mem.cinemas) {
-      // q gönderip içerik dönmediyse (q yok sayıldıysa) tümünü çekip FE’de filtrele
       const all = await http.get(CINEMA_LIST_API, { params: { page: 0, size: 1000 } });
       _mem.cinemas = Array.isArray(unwrap(all)?.content) ? unwrap(all).content : unwrap(all);
     }
     if (_mem.cinemas && params.q) {
-      items = _mem.cinemas.filter(c => _includes(c?.name, params.q)).slice(0, size);
+      items = _mem.cinemas.filter((c) => _includes(c?.name, params.q)).slice(0, size);
     }
 
     return toOptions(items, "name");
@@ -487,18 +503,17 @@ export async function searchCinemasByName(q = "", { size = 10 } = {}) {
   }
 }
 
-/** Hall: seçilen cinemaId altında isimle ara (server q varsa onu kullan, yoksa FE’de filtre) */
+/** Hall: seçilen cinemaId altında isimle ara */
 export async function searchHallsByName(cinemaId, q = "", { size = 20 } = {}) {
   const cid = Number(cinemaId);
   if (!Number.isFinite(cid) || cid <= 0) return [];
 
   const params = { page: 0, size, q: String(q || "").trim() };
   try {
-    const res = await http.get(cinemaHallsApi(cid), { params }); // /cinemas/{id}/halls[?q=]
+    const res = await http.get(cinemaHallsApi(cid), { params });
     const body = unwrap(res);
     let items = Array.isArray(body?.content) ? body.content : (Array.isArray(body) ? body : []);
 
-    // FE fallback + cache
     const key = String(cid);
     if (!params.q) {
       _mem.hallsByCinema.set(key, items);
@@ -508,7 +523,7 @@ export async function searchHallsByName(cinemaId, q = "", { size = 20 } = {}) {
       _mem.hallsByCinema.set(key, allItems || []);
     }
     if (_mem.hallsByCinema.get(key) && params.q) {
-      items = _mem.hallsByCinema.get(key).filter(h => _includes(h?.name, params.q)).slice(0, size);
+      items = _mem.hallsByCinema.get(key).filter((h) => _includes(h?.name, params.q)).slice(0, size);
     }
 
     return toOptions(items, "name");
@@ -518,7 +533,7 @@ export async function searchHallsByName(cinemaId, q = "", { size = 20 } = {}) {
   }
 }
 
-/** Movie: başlıkla ara (zaten /movies/search mevcut) */
+/** Movie: başlıkla ara */
 export async function searchMoviesByTitle(q = "", { page = 0, size = 10 } = {}) {
   try {
     const r = await http.get(MOVIE_SEARCH_API, { params: { q: String(q || "").trim(), page, size } });
