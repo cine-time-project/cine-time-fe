@@ -2,23 +2,42 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { MovieToolbar } from "./MovieToolbar";
 
-export const MovieList = ({ data, locale, onPageChange }) => {
+export const MovieList = ({
+  data,
+  locale,
+  onPageChange,
+  onSearch,
+  onFilter,
+}) => {
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const handlePage = (e) => {
     const nextPage = e.page;
     onPageChange?.(nextPage);
   };
 
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    onSearch?.(value);
+  };
+
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+    setStatusFilter(value);
+    onFilter?.(value);
+  };
+
   const page = data?.returnBody ?? data ?? {};
   const { content = [], size = 10, totalElements = 0, number = 0 } = page;
-
-  const onPage = (e) => router.push(`/${locale}/admin/movies?page=${e.page}`);
 
   const header = (
     <div className="d-flex justify-content-between align-items-center">
@@ -37,7 +56,6 @@ export const MovieList = ({ data, locale, onPageChange }) => {
       row.images?.find((img) => img.poster)?.url ||
       row.posterUrl ||
       "/no-poster.png";
-
     return (
       <img
         src={poster}
@@ -58,12 +76,57 @@ export const MovieList = ({ data, locale, onPageChange }) => {
       ? new Date(row.releaseDate).toLocaleDateString(locale)
       : "-";
 
-  const genreTemplate = (row) =>
-    Array.isArray(row.genre) ? row.genre.join(", ") : row.genre || "-";
+  const genreTemplate = (row) => {
+    if (!Array.isArray(row.genre)) return row.genre || "-";
+
+    const uniqueGenres = [...new Set(row.genre.map((g) => g.trim()))];
+    return uniqueGenres.join(", ");
+  };
+
+  const ratingTemplate = (row) =>
+    row.rating != null ? row.rating.toFixed(1) : "-";
 
   return (
     <div className="bg-white p-4 rounded shadow-sm">
       <Container>
+        {/* Search & Filter bar */}
+        <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Search (by title)..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onSearch?.(searchTerm);
+              }
+            }}
+            style={{ flex: "1 1 300px", minWidth: "250px" }}
+          />
+
+          <Form.Select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            style={{ width: "200px", minWidth: "180px" }}
+          >
+            <option value="">Filter by status</option>
+            <option value="IN_THEATERS">In Theaters</option>
+            <option value="COMING_SOON">Coming Soon</option>
+            <option value="PRESALE">Presale</option>
+          </Form.Select>
+
+          {/* Search button */}
+          <button
+            type="button"
+            className="btn btn-primary fw-semibold"
+            onClick={() => onSearch?.(searchTerm)}
+          >
+            <i className="pi pi-search me-2"></i>Search
+          </button>
+        </div>
+
+        {/* Movie Table */}
         <DataTable
           value={content}
           dataKey="id"
@@ -81,34 +144,52 @@ export const MovieList = ({ data, locale, onPageChange }) => {
         >
           <Column
             header="#"
-            body={(row, opt) => opt.rowIndex + 1}
+            body={(row, opt) => opt.rowIndex + 1 + number * size}
             style={{ width: "50px", textAlign: "center" }}
           />
+
           <Column
             header="Poster"
             body={posterTemplate}
-            style={{ width: "80px" }}
+            style={{ width: "80px", textAlign: "center" }}
           />
-          <Column field="title" header="Title" style={{ width: "20%" }} />
-          <Column field="status" header="Status" style={{ width: "10%" }} />
+
+          <Column field="title" header="Title" style={{ width: "22%" }} />
+
+          <Column
+            field="status"
+            header="Status"
+            style={{ width: "10%", textAlign: "center" }}
+          />
+
           <Column
             field="releaseDate"
             header="Release Date"
             body={releaseDateTemplate}
-            style={{ width: "12%" }}
+            style={{ width: "12%", textAlign: "center" }}
           />
+
           <Column
             field="duration"
             header="Duration (min)"
-            style={{ width: "10%" }}
+            style={{ width: "10%", textAlign: "center" }}
           />
-          <Column field="rating" header="Rating" style={{ width: "8%" }} />
+
+          <Column
+            field="rating"
+            header="Rating"
+            body={ratingTemplate}
+            style={{ width: "8%", textAlign: "center" }}
+          />
+
           <Column field="director" header="Director" style={{ width: "12%" }} />
+
           <Column
             header="Genre"
             body={genreTemplate}
             style={{ width: "15%" }}
           />
+
           <Column
             header="Actions"
             body={(row) => <MovieToolbar row={row} locale={locale} />}

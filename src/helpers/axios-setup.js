@@ -1,4 +1,4 @@
-// src/helpers/axios-setup.js  ← yeni dosya oluştur
+// src/helpers/axios-setup.js
 import axios from "axios";
 
 axios.defaults.baseURL =

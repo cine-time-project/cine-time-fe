@@ -8,21 +8,22 @@ import {
 } from "@/helpers/data/form-validation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createMovie, deleteMovie, updateMovie } from "@/service/movie-service";
+import { createMovie } from "@/service/movie-service";
 import { MovieSchema } from "@/helpers/schemas/movie-schema";
+import { updateMovie, deleteMovieServer } from "@/service/movie-service.server";
 
-export const deleteMovieAction = async (id, locale) => {
+export const deleteMovieAction = async (id, locale, token) => {
   if (!id) throw new Error("Id is missing");
 
   try {
-    const res = await deleteMovie(id);
-    const data = await res.json();
+    const res = await deleteMovieServer(id, token);
 
-    if (!res.ok) return response(false, data?.message, null);
+    if (!res) return response(false, "Failed to delete movie", null);
 
     revalidatePath(`/${locale}/admin/movies`);
-    return response(true, data?.message, null);
+    return response(true, "Movie deleted successfully", null);
   } catch (error) {
+    console.error("Delete Error:", error);
     return response(false, error.message, null);
   }
 };
@@ -38,7 +39,7 @@ export const createMovieAction = async (prevState, formData) => {
       ...fields,
       duration: parseInt(fields.duration),
       genre: JSON.parse(fields.genre),
-      cast: JSON.parse(fields.cast),
+      cast: fields.cast,
       formats: JSON.parse(fields.formats),
       locale: fields.locale,
     };
@@ -47,7 +48,6 @@ export const createMovieAction = async (prevState, formData) => {
     const data = await res.json();
 
     if (!res.ok) return response(false, data?.message, data?.validations);
-
     isSuccess = true;
     return response(true, data?.message, null);
   } catch (error) {
@@ -64,38 +64,45 @@ export const createMovieAction = async (prevState, formData) => {
 };
 
 export const updateMovieAction = async (prevState, formData) => {
-  if (!formData.get("id")) throw new Error("Id is missing");
+  if (!formData.get("id")) throw new Error("Movie ID is missing");
   let isSuccess = false;
 
   try {
     const fields = transformFormDataToJSON(formData);
     MovieSchema.validateSync(fields, { abortEarly: false });
 
+    const castRaw = fields.cast || "";
+    const token = formData.get("token");
+
     const payload = {
       ...fields,
       id: parseInt(fields.id),
       duration: parseInt(fields.duration),
-      genre: JSON.parse(fields.genre),
-      cast: JSON.parse(fields.cast),
-      formats: JSON.parse(fields.formats),
+      genre: JSON.parse(fields.genre || "[]"),
+      formats: JSON.parse(fields.formats || "[]"),
+      cast: castRaw
+        ? castRaw
+            .split(",")
+            .map((name) => name.trim())
+            .filter(Boolean)
+        : [],
       locale: fields.locale,
     };
 
-    const res = await updateMovie(payload);
-    const data = await res.json();
-
-    if (!res.ok) return response(false, data?.message, data?.validations);
+    await updateMovie(payload, token);
     isSuccess = true;
-    return response(true, data?.message, null);
+    return response(true, "Movie updated successfully", null);
   } catch (error) {
+    console.error("updateMovieAction error:", error);
     if (error instanceof YupValidationError) {
       return transformYupErrors(error.inner);
     }
-    throw error;
+    return response(false, error.message || "Unexpected error occurred");
   } finally {
     if (isSuccess) {
-      revalidatePath(`/${formData.get("locale")}/admin/movies`);
-      redirect(`/${formData.get("locale")}/admin/movies`);
+      const locale = formData.get("locale") || "en";
+      revalidatePath(`/${locale}/admin/movies`);
+      redirect(`/${locale}/admin/movies`);
     }
   }
 };
