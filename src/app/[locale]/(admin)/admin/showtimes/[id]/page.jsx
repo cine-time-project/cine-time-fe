@@ -40,10 +40,8 @@ export default function ShowtimeEditPage() {
 
   return (
     <div className="container-fluid">
-    
-      <SectionTitle align = "start" textColor="text-light">Showtime Düzenle</SectionTitle>
+      <SectionTitle align="start" textColor="text-light">Showtime Düzenle</SectionTitle>
       <ShowtimesForm mode="edit" initial={initial} onSaved={handleSaved} />
-      
     </div>
   );
 }

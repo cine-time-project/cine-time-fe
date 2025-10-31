@@ -1,11 +1,23 @@
+// src/components/dashboard/showtimes/ShowtimesTable.jsx
 "use client";
 
 import styles from "./showtimes-table.module.scss";
 
-export default function ShowtimesTable({ rows = [], loading = false, onEdit, onDelete }) {
+export default function ShowtimesTable({
+  rows = [],
+  loading = false,
+  onEdit,
+  onDelete,
+  canEdit = false,
+  canDelete = false,
+}) {
   const list = Array.isArray(rows) ? rows : [];
+  const showActions = canEdit || canDelete;
+
   const makeKey = (r, i) =>
-    r?._key || r?.id || [r.hallId, r.movieId, r.date, r.startTime, i].filter(Boolean).join("-");
+    r?._key ||
+    r?.id ||
+    [r.hallId, r.movieId, r.date, r.startTime, i].filter(Boolean).join("-");
 
   return (
     <div className="table-responsive position-relative">
@@ -19,55 +31,60 @@ export default function ShowtimesTable({ rows = [], loading = false, onEdit, onD
       )}
 
       <table className="table table-dark table-striped align-middle m-0">
-      <thead className="text-white">
-  <tr>
-    <th>ID</th>
-    <th>Tarih</th>
-    <th>Başlangıç</th>
-    <th>Bitiş</th>
-    <th>Salon</th>
-    <th>Film</th>
-    <th style={{ width: 160 }}>İşlemler</th>
-  </tr>
-</thead>
+        <thead className="text-white">
+          <tr>
+            <th>ID</th>
+            <th>Tarih</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>Salon</th>
+            <th>Film</th>
+            {showActions && <th style={{ width: 160 }}>İşlemler</th>}
+          </tr>
+        </thead>
         <tbody>
           {list.length === 0 ? (
             <tr>
-              <td colSpan={7} className="text-center py-4">Kayıt yok</td>
+              <td colSpan={showActions ? 7 : 6} className="text-center py-4">
+                Kayıt yok
+              </td>
             </tr>
           ) : (
             list.map((r, i) => {
               const hasId = Number.isFinite(r?.id);
               return (
-                <tr key={makeKey(r,i)}>
+                <tr key={makeKey(r, i)}>
                   <td>{hasId ? r.id : "—"}</td>
                   <td>{r.date || "—"}</td>
                   <td>{r.startTime || "—"}</td>
                   <td>{r.endTime || "—"}</td>
                   <td>{r.hallName || "—"}</td>
                   <td>{r.movieTitle || "—"}</td>
-                  <td className="text-end">
-                    <div className="d-inline-flex gap-2">
-                      <button
-                        type="button"
-                        className={`btn btn-secondary ${styles.iconBtn}`}
-                        title={hasId ? "Düzenle" : "Bu kayıt sadece admin listesinden düzenlenebilir"}
-                        onClick={() => hasId && onEdit?.(r)}
-                        disabled={!hasId}
-                      >
-                        <i className="pi pi-file-edit" />
-                      </button>
-                      <button
-                        type="button"
-                        className={`btn btn-secondary ${styles.iconBtn}`}
-                        title={hasId ? "Sil" : "Bu kayıt sadece admin listesinden silinebilir"}
-                        onClick={() => hasId && onDelete?.(r)}
-                        disabled={!hasId}
-                      >
-                        <i className="pi pi-trash" />
-                      </button>
-                    </div>
-                  </td>
+
+                  {showActions && (
+                    <td className="text-end">
+                      <div className="d-inline-flex gap-2">
+                        <button
+                          type="button"
+                          className={`btn btn-secondary ${styles.iconBtn}`}
+                          title="Düzenle"
+                          onClick={() => hasId && onEdit?.(r)}
+                          disabled={!canEdit || !hasId}
+                        >
+                          <i className="pi pi-file-edit" />
+                        </button>
+                        <button
+                          type="button"
+                          className={`btn btn-secondary ${styles.iconBtn}`}
+                          title="Sil"
+                          onClick={() => hasId && onDelete?.(r)}
+                          disabled={!canDelete || !hasId}
+                        >
+                          <i className="pi pi-trash" />
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               );
             })
