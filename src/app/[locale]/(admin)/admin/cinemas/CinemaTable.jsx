@@ -23,6 +23,9 @@ export const CinemaTable = ({
   totalPages,
   onPageChange,
   onDelete,
+  canCreate,
+  canDetail,
+  canDelete,
 }) => {
   // State to track selected cinemas via checkboxes
   const [selectedCinemas, setSelectedCinemas] = useState([]);
@@ -43,34 +46,38 @@ export const CinemaTable = ({
     <div>
       <div className="text-dark h1">Cinemas</div>
       <div className="d-flex flex-wrap align-items-center justify-content-between">
-        <div className="d-flex gap-2">
-          {/* Batch delete button */}
-          <Button
-            className="btn btn-danger"
-            disabled={selectedCinemaCount === 0} // disabled if nothing selected
-            onClick={async () => {
-              try {
-                // Call parent deletion handler with selected IDs
-                await onDelete(selectedCinemas.map((cinema) => cinema.id));
-                // Clear selection after successful deletion
-                setSelectedCinemas([]);
-              } catch (err) {
-                console.error("Failed to delete cinemas:", err);
-                // Optionally show a toast or alert here
-              }
-            }}
-          >
-            <i className="pi pi-trash"></i> Delete
-            {selectedCinemaCount > 0 && (
-              <span> - {selectedCinemaCount} Cinema(s)</span>
-            )}
-          </Button>
-        </div>
+        {canDelete && (
+          <div className="d-flex gap-2">
+            {/* Batch delete button */}
+            <Button
+              className="btn btn-danger"
+              disabled={selectedCinemaCount === 0} // disabled if nothing selected
+              onClick={async () => {
+                try {
+                  // Call parent deletion handler with selected IDs
+                  await onDelete(selectedCinemas.map((cinema) => cinema.id));
+                  // Clear selection after successful deletion
+                  setSelectedCinemas([]);
+                } catch (err) {
+                  console.error("Failed to delete cinemas:", err);
+                  // Optionally show a toast or alert here
+                }
+              }}
+            >
+              <i className="pi pi-trash"></i> Delete
+              {selectedCinemaCount > 0 && (
+                <span> - {selectedCinemaCount} Cinema(s)</span>
+              )}
+            </Button>
+          </div>
+        )}
 
         {/* New cinema button */}
-        <Button className="btn btn-success">
-          <i className="pi pi-plus"></i> New
-        </Button>
+        {canCreate && (
+          <Button className="btn btn-success">
+            <i className="pi pi-plus"></i> New
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -166,7 +173,7 @@ export const CinemaTable = ({
         />
 
         {/* Action buttons */}
-        <Column body={actionBodyTemplate}></Column>
+        {canDetail && <Column body={actionBodyTemplate}></Column>}
       </DataTable>
 
       {/* Pagination */}

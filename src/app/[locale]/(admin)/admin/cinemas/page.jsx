@@ -5,7 +5,6 @@ import { listCinemas } from "@/services/cinema-service";
 import { deleteCinemas } from "@/service/cinema-service";
 import { useAuth } from "@/lib/auth/useAuth";
 
-
 /**
  * AdminCinemasPage component
  * - Displays paginated list of cinemas
@@ -17,8 +16,13 @@ import { useAuth } from "@/lib/auth/useAuth";
 export default function AdminCinemasPage({ params }) {
   const { user, roles, token, loading } = useAuth();
   const { locale } = React.use(params);
-
-  console.log(user, roles, token);
+  const createRoles = ["ADMIN"];
+  const deleteRoles = ["ADMIN"];
+  const detailRoles = ["ADMIN"];
+  
+  const canCreate = roles.some((r) => createRoles.includes(r)); //boolean
+  const canDetail = roles.some((r) => detailRoles.includes(r)); //boolean
+  const canDelete = roles.some((r) => deleteRoles.includes(r)); //boolean
 
   // State: list of cinemas displayed on current page
   const [cinemas, setCinemas] = useState([]);
@@ -26,7 +30,7 @@ export default function AdminCinemasPage({ params }) {
   const [currentPage, setCurrentPage] = useState(0);
   // State: total pages from backend
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 8;
+  const pageSize = 10;
 
   // State: IDs of selected cinemas for batch deletion
   const [selectedIds, setSelectedIds] = useState([]);
@@ -103,6 +107,9 @@ export default function AdminCinemasPage({ params }) {
         selectedIds={selectedIds} // for checkboxes
         onToggleSelect={toggleSelect} // checkbox selection
         onDelete={handleDelete} // Delete button in child will call this
+        canCreate={canCreate}
+        canDetail={canDetail}
+        canDelete={canDelete}
       />
     </div>
   );
