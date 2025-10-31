@@ -39,6 +39,8 @@ export const CinemaTable = ({
 
   const handleEdit = (id) => router.push(`/${locale}/admin/cinemas/${id}`);
 
+  const handleCreate = (id) => router.push(`/${locale}/admin/cinemas/new`);
+
   const indexBody = (_, { rowIndex }) => first + rowIndex + 1;
 
   return (
@@ -54,6 +56,7 @@ export const CinemaTable = ({
           <CinemaTableHeader
             selectedCount={selectedCinemas.length}
             onDelete={handleBatchDelete}
+            onCreate={handleCreate}
             canCreate={canCreate}
             canDelete={canDelete}
           />

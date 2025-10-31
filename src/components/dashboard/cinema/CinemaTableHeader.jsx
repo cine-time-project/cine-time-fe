@@ -9,6 +9,7 @@ import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 export const CinemaTableHeader = ({
   selectedCount,
   onDelete,
+  onCreate,
   canCreate,
   canDelete,
 }) => (
@@ -29,7 +30,7 @@ export const CinemaTableHeader = ({
           placement="bottom" // Tooltip position (top, right, bottom, left)
           overlay={<Tooltip id={`tooltip-new-cinema`}>Add New Cinema</Tooltip>}
         >
-          <Button variant="success">
+          <Button variant="success" onClick={onCreate}>
             <i className="pi pi-plus"></i>
           </Button>
         </OverlayTrigger>

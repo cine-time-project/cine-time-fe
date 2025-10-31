@@ -31,3 +31,25 @@ export async function deleteCinemas(ids, token) {
     throw new Error(msg);
   }
 }
+
+//Fetch all cities for New Cinema Creation
+export async function getAllCities() {
+
+  try {
+    const response = await axios.get(`${config.apiURL}/cities/listAllCities`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    // Return the backend response
+    return response.data;
+  } catch (error) {
+    // Extract message from backend or use a default error message
+    const msg = error.response?.data?.message || 'City Fetch failed';
+    throw new Error(msg);
+  }
+}
+
+
+
