@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 /**
  * CinemaRowActions
@@ -8,8 +8,15 @@ import { Button } from "react-bootstrap";
  */
 export const CinemaRowActions = ({ cinema }) => (
   <div className="d-flex justify-content-end">
-    <Button variant="warning" size="sm">
-      <i className="pi pi-file-edit"></i> Edit
-    </Button>
+    <OverlayTrigger
+      placement="bottom" // Tooltip position (top, right, bottom, left)
+      overlay={
+        <Tooltip id={`tooltip-edit-${cinema.id}`}>Edit this cinema</Tooltip>
+      }
+    >
+      <Button variant="warning">
+        <i className="pi pi-file-edit"></i>
+      </Button>
+    </OverlayTrigger>
   </div>
 );

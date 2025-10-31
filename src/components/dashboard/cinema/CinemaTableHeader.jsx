@@ -1,12 +1,17 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 /**
  * CinemaTableHeader
  * -----------------
  * Displays title and batch action buttons (Delete / New)
  */
-export const CinemaTableHeader = ({ selectedCount, onDelete, canCreate, canDelete }) => (
+export const CinemaTableHeader = ({
+  selectedCount,
+  onDelete,
+  canCreate,
+  canDelete,
+}) => (
   <div className="d-flex flex-wrap align-items-center justify-content-between">
     <div className="text-dark h3 mb-2 mb-md-0">Cinemas</div>
 
@@ -22,9 +27,14 @@ export const CinemaTableHeader = ({ selectedCount, onDelete, canCreate, canDelet
         </Button>
       )}
       {canCreate && (
-        <Button variant="success">
-          <i className="pi pi-plus"></i> New
-        </Button>
+        <OverlayTrigger
+          placement="bottom" // Tooltip position (top, right, bottom, left)
+          overlay={<Tooltip id={`tooltip-new-cinema`}>Add New Cinema</Tooltip>}
+        >
+          <Button variant="success">
+            <i className="pi pi-plus"></i>
+          </Button>
+        </OverlayTrigger>
       )}
     </div>
   </div>
