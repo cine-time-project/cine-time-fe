@@ -8,9 +8,13 @@ import {
 } from "@/helpers/data/form-validation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createMovie } from "@/service/movie-service";
+
 import { MovieSchema } from "@/helpers/schemas/movie-schema";
-import { updateMovie, deleteMovieServer } from "@/service/movie-service.server";
+import {
+  updateMovie,
+  deleteMovieServer,
+  createMovie,
+} from "@/service/movie-service.server";
 
 export const deleteMovieAction = async (id, locale, token) => {
   if (!id) throw new Error("Id is missing");
@@ -35,28 +39,35 @@ export const createMovieAction = async (prevState, formData) => {
     const fields = transformFormDataToJSON(formData);
     MovieSchema.validateSync(fields, { abortEarly: false });
 
+    const castRaw = fields.cast || "";
+
     const payload = {
       ...fields,
       duration: parseInt(fields.duration),
-      genre: JSON.parse(fields.genre),
-      cast: fields.cast,
-      formats: JSON.parse(fields.formats),
+      genre: Array.isArray(fields.genre) ? fields.genre : [fields.genre],
+      cast: castRaw
+        ? castRaw
+            .split(",")
+            .map((name) => name.trim())
+            .filter(Boolean)
+        : [],
+      formats: Array.isArray(fields.formats)
+        ? fields.formats
+        : [fields.formats],
       locale: fields.locale,
     };
-
-    const res = await createMovie(payload);
-    const data = await res.json();
-
-    if (!res.ok) return response(false, data?.message, data?.validations);
+    const token = formData.get("token");
+    console.log(payload);
+    const res = await createMovie(payload, token);
     isSuccess = true;
-    return response(true, data?.message, null);
+    return response(true, "Movie created successfully", null);
   } catch (error) {
     if (error instanceof YupValidationError) {
       return transformYupErrors(error.inner);
     }
-    throw error;
   } finally {
     if (isSuccess) {
+      const locale = formData.get("locale") || "en";
       revalidatePath(`/${formData.get("locale")}/admin/movies`);
       redirect(`/${formData.get("locale")}/admin/movies`);
     }
