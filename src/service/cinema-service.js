@@ -55,7 +55,7 @@ export async function createCinemaRequest(data, token) {
 
   // data = { name, slug, cityId, districtIds?, newCityName?, newCountryId?, imageUrl? }
   const response = await axios.post(
-    "/api/cinemas", // backend endpoint
+    `${config.apiURL}/cinemas`, // backend endpoint
     data,
     {
       headers: {

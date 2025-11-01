@@ -20,7 +20,6 @@ export function CitySelect({
   selectedCityId,
   onCityChange,
   token,
-  onCityAdded,
 }) {
   const [cities, setCities] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
@@ -35,7 +34,7 @@ export function CitySelect({
       }
       try {
         const data = await listAllCities();
-        const filtered = data.filter(
+        const filtered = (data || []).filter(
           (c) => c.countryMiniResponse?.id === selectedCountryId
         );
         setCities(filtered);
@@ -47,32 +46,44 @@ export function CitySelect({
   }, [selectedCountryId]);
 
   const handleSaveCity = async () => {
-    if (!newCityName.trim())
-      return Swal.fire("Error", "City name required", "error");
-    if (!selectedCountryId)
-      return Swal.fire("Error", "Select a country first", "error");
+    if (!newCityName.trim()) {
+      Swal.fire("Error", "City name required", "error");
+      return;
+    }
+    if (!selectedCountryId) {
+      Swal.fire("Error", "Select a country first", "error");
+      return;
+    }
 
     try {
       const res = await addCity(
         { name: newCityName, countryId: selectedCountryId },
         token
       );
-      const newCity = res.data;
+
+      // Normalize API response
+      const newCity = res?.data?.data || res?.data || res;
+      const finalCity = {
+        id: newCity.id ?? newCity.ID ?? Math.random(),
+        name: newCity.name ?? newCity.title ?? newCityName,
+        countryMiniResponse: newCity.countryMiniResponse ?? {
+          id: selectedCountryId,
+        },
+      };
+
+      // Update local city list
+      setCities((prev) => [...prev, finalCity]);
+
+      // Set the new city as selected
+      onCityChange(finalCity.id);
+
       Swal.fire("Success", "City added successfully", "success");
 
-      // Reload cities for selected country
-      const data = await listAllCities();
-      const filtered = data.filter(
-        (c) => c.countryMiniResponse?.id === selectedCountryId
-      );
-      setCities(filtered);
-
-      onCityChange(newCity.id); // select the newly added city
-      if (onCityAdded) onCityAdded(newCity);
-
+      // Reset input and close add mode
       setNewCityName("");
       setIsAdding(false);
     } catch (err) {
+      console.error("Error adding city:", err);
       Swal.fire("Error", err.response?.data?.message || err.message, "error");
     }
   };
@@ -120,10 +131,7 @@ export function CitySelect({
               <i className="pi pi-check"></i>
             </Button>
           </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>Cancel</Tooltip>}
-          >
+          <OverlayTrigger placement="bottom" overlay={<Tooltip>Cancel</Tooltip>}>
             <Button
               variant="outline-secondary"
               onClick={() => setIsAdding(false)}

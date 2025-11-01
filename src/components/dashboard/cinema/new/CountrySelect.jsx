@@ -20,12 +20,7 @@ import { listCountries, addCountry } from "@/action/city-actions";
  *  - token: string
  *  - onCountryAdded?: (country) => void
  */
-export function CountrySelect({
-  selectedCountryId,
-  onCountryChange,
-  token,
-  onCountryAdded,
-}) {
+export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
   const [countries, setCountries] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const [newCountryName, setNewCountryName] = useState("");
@@ -51,16 +46,14 @@ export function CountrySelect({
 
     try {
       const res = await addCountry({ name: newCountryName }, token);
-      const newCountry = res.data;
+      const newCountry = res.data.returnBody;
       Swal.fire("Success", "Country added", "success");
 
       // Reload countries and update dropdown
-      const updatedCountries = await listCountries();
-      setCountries(updatedCountries);
+      setCountries((prev) => [...prev, newCountry]);
 
       // Set newly added country as selected
       onCountryChange(newCountry.id);
-      if (onCountryAdded) onCountryAdded(newCountry);
 
       setNewCountryName("");
       setIsAdding(false);
@@ -89,7 +82,13 @@ export function CountrySelect({
             placement="bottom"
             overlay={<Tooltip>Add New Country</Tooltip>}
           >
-            <Button variant="outline-success" onClick={() => setIsAdding(true)}>
+            <Button
+              variant="outline-success"
+              onClick={() => {
+                setIsAdding(true);
+                onCountryChange(""); //reset country set
+              }}
+            >
               <i className="pi pi-plus"></i>
             </Button>
           </OverlayTrigger>
