@@ -7,22 +7,9 @@ import { listAllCities, addCity } from "@/action/city-actions";
  * CitySelect
  * ----------
  * Admin formu için city seçimi ve inline ekleme desteği.
- * Country seçimine bağlı olarak dropdown update edilir.
- *
- * Props:
- *  - selectedCountryId: number | null
- *  - selectedCityId: number | null
- *  - onCityChange: (id: number) => void
- *  - token: string
- *  - onCityAdded?: (city) => void
+ * Country değiştiğinde dropdown update edilir.
  */
-export function CitySelect({
-  selectedCountryId,
-  selectedCityId,
-  onCityChange,
-  token,
-  onCityAdded,
-}) {
+export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, token, onCityAdded }) {
   const [cities, setCities] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const [newCityName, setNewCityName] = useState("");
@@ -36,9 +23,7 @@ export function CitySelect({
       }
       try {
         const data = await listAllCities();
-        const filtered = data.filter(
-          (c) => c.countryMiniResponse?.id === selectedCountryId
-        );
+        const filtered = data.filter(c => c.countryMiniResponse?.id === selectedCountryId);
         setCities(filtered);
       } catch (err) {
         console.error("Error loading cities:", err);
@@ -47,28 +32,21 @@ export function CitySelect({
     loadCities();
   }, [selectedCountryId]);
 
-  /**
-   * Handle inline save new city
-   * 1. Validates input & selected country
-   * 2. Calls backend addCity
-   * 3. Updates local state & parent callback
-   */
   const handleSaveCity = async () => {
-    if (!newCityName.trim())
-      return Swal.fire("Error", "City name required", "error");
-    if (!selectedCountryId)
-      return Swal.fire("Error", "Select a country first", "error");
+    if (!newCityName.trim()) return Swal.fire("Error", "City name required", "error");
+    if (!selectedCountryId) return Swal.fire("Error", "Select a country first", "error");
 
     try {
-      const res = await addCity(
-        { name: newCityName, countryId: selectedCountryId },
-        token
-      );
+      const res = await addCity({ name: newCityName, countryId: selectedCountryId }, token);
       const newCity = res.data;
       Swal.fire("Success", "City added successfully", "success");
 
-      setCities((prev) => [...prev, newCity]);
-      onCityChange(newCity.id);
+      // Reload cities for selected country
+      const data = await listAllCities();
+      const filtered = data.filter(c => c.countryMiniResponse?.id === selectedCountryId);
+      setCities(filtered);
+
+      onCityChange(newCity.id); // select the newly added city
       if (onCityAdded) onCityAdded(newCity);
 
       setNewCityName("");
@@ -82,59 +60,44 @@ export function CitySelect({
     <div className="mb-3">
       <Form.Label className="fw-semibold">City</Form.Label>
       {!isAdding ? (
-        <>
-          {/* Dropdown display mode */}
-          <InputGroup>
-            <Form.Select
-              value={selectedCityId || ""}
-              onChange={(e) => onCityChange(Number(e.target.value))}
+        <InputGroup>
+          <Form.Select
+            value={selectedCityId || ""}
+            onChange={(e) => onCityChange(Number(e.target.value))}
+            disabled={!selectedCountryId}
+          >
+            <option value="">Select a city</option>
+            {cities.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </Form.Select>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip>Add New City</Tooltip>}
+          >
+            <Button
+              variant="outline-success"
+              onClick={() => setIsAdding(true)}
               disabled={!selectedCountryId}
             >
-              <option value="">Select a city</option>
-              {cities.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </Form.Select>
-            {/* Inline add trigger */}
-            <OverlayTrigger
-              placement="bottom" // Tooltip position (top, right, bottom, left)
-              overlay={
-                <Tooltip id={`tooltip-new-cinema`}>Add New City</Tooltip>
-              }
-            >
-              <Button
-                variant="outline-success"
-                onClick={() => setIsAdding(true)}
-                disabled={!selectedCountryId}
-              >
-                <i className="pi pi-plus"></i>
-              </Button>
-            </OverlayTrigger>
-          </InputGroup>
-        </>
+              <i className="pi pi-plus"></i>
+            </Button>
+          </OverlayTrigger>
+        </InputGroup>
       ) : (
-        <>
-          {/* Inline add mode */}
-          <InputGroup className="mt-2">
-            <Form.Control
-              placeholder="Enter new city"
-              value={newCityName}
-              onChange={(e) => setNewCityName(e.target.value)}
-            />
-
-            <Button variant="success" onClick={handleSaveCity}>
-              <i className="pi pi-check"></i>
-            </Button>
-            <Button
-              variant="outline-secondary"
-              onClick={() => setIsAdding(false)}
-            >
-              <i className="pi pi-times"></i>
-            </Button>
-          </InputGroup>
-        </>
+        <InputGroup className="mt-2">
+          <Form.Control
+            placeholder="Enter new city"
+            value={newCityName}
+            onChange={(e) => setNewCityName(e.target.value)}
+          />
+          <Button variant="success" onClick={handleSaveCity}>
+            <i className="pi pi-check"></i>
+          </Button>
+          <Button variant="outline-secondary" onClick={() => setIsAdding(false)}>
+            <i className="pi pi-times"></i>
+          </Button>
+        </InputGroup>
       )}
     </div>
   );
