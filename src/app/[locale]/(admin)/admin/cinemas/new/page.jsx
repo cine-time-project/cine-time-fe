@@ -29,7 +29,6 @@ export default function CreateCinemaPage() {
         icon: "success",
         confirmButtonText: "OK",
       });
-
     } catch (error) {
       console.error(error);
       Swal.fire("Error", "Failed to create cinema.", "error");
@@ -57,12 +56,13 @@ export default function CreateCinemaPage() {
         cancelButtonText: "No, go back",
       }).then((result) => {
         if (result.isConfirmed) {
-          router.push(`/${locale}/admin/cinemas/${createdCinemaId}/halls/create`);
+          router.push(
+            `/${locale}/admin/cinemas/${createdCinemaId}/halls/create`
+          );
         } else {
           router.push(`/${locale}/admin/cinemas`);
         }
       });
-
     } catch (error) {
       console.error(error);
       Swal.fire("Error", "Failed to upload image.", "error");
@@ -71,11 +71,13 @@ export default function CreateCinemaPage() {
 
   return (
     <div className="container mt-4">
-      <Card className="shadow-lg p-4 rounded-4">
+      <Card className="shadow-lg p-4 rounded-4 bg-secondary-subtle">
         <h3 className="mb-4">Create New Cinema</h3>
 
         {/* Step 1: Form */}
-        {!createdCinemaId && <CinemaForm onSubmit={handleCreateCinema} token={token} />}
+        {!createdCinemaId && (
+          <CinemaForm onSubmit={handleCreateCinema} token={token} />
+        )}
 
         {/* Step 2: Image Upload */}
         {createdCinemaId && (

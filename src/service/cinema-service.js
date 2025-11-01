@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import { config } from "@/helpers/config";
 
 /**
@@ -17,8 +17,8 @@ export async function deleteCinemas(ids, token) {
   try {
     const response = await axios.delete(`${config.apiURL}/cinemas`, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`, // Include JWT token for backend auth
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include JWT token for backend auth
       },
       data: idArray, // Axios DELETE requires body to be sent via 'data'
     });
@@ -27,18 +27,17 @@ export async function deleteCinemas(ids, token) {
     return response.data;
   } catch (error) {
     // Extract message from backend or use a default error message
-    const msg = error.response?.data?.message || 'Cinema delete failed';
+    const msg = error.response?.data?.message || "Cinema delete failed";
     throw new Error(msg);
   }
 }
 
 //Fetch all cities for New Cinema Creation
 export async function getAllCities() {
-
   try {
     const response = await axios.get(`${config.apiURL}/cities/listAllCities`, {
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
     });
 
@@ -46,7 +45,7 @@ export async function getAllCities() {
     return response.data;
   } catch (error) {
     // Extract message from backend or use a default error message
-    const msg = error.response?.data?.message || 'City Fetch failed';
+    const msg = error.response?.data?.message || "City Fetch failed";
     throw new Error(msg);
   }
 }
@@ -58,11 +57,13 @@ export async function createCinemaRequest(data, token) {
   const response = await axios.post(
     "/api/cinemas", // backend endpoint
     data,
-    { headers: authHeaders(token) }
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
+        "Content-Type": "application/json",
+      },
+    }
   );
 
   return response.data;
 }
-
-
-

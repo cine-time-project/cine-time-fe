@@ -1,57 +1,65 @@
 import { useState, useEffect } from "react";
-import { Dropdown } from "primereact/dropdown";
-import { Button as PrimeButton } from "primereact/button";
-import { InputGroup, Form, Button } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listCountries, addCountry } from "@/action/city-actions";
 
 /**
- * CountrySelect Component
- * -----------------------
- * Allows selecting an existing country or adding a new one inline.
- * Uses React-Bootstrap InputGroup for cleaner UI and PrimeReact for icons.
+ * CountrySelect
+ * -------------
+ * Admin formu için country seçimi ve inline ekleme desteği.
  *
  * Props:
- *  - selectedCountryId: number | null
- *  - onCountryChange: (id: number) => void
- *  - token: string
- *  - onCountryAdded?: (country: object) => void
+ *  - selectedCountryId: number | null       -> Seçili country ID
+ *  - onCountryChange: (id: number) => void  -> Country değiştiğinde çağrılır
+ *  - token: string                          -> Auth token (admin yetkisi)
+ *  - onCountryAdded?: (country) => void     -> Yeni country eklenince callback
  */
-export function CountrySelect({ selectedCountryId, onCountryChange, token, onCountryAdded }) {
-  const [countries, setCountries] = useState([]);
-  const [isAdding, setIsAdding] = useState(false);
+export function CountrySelect({
+  selectedCountryId,
+  onCountryChange,
+  token,
+  onCountryAdded,
+}) {
+  const [countries, setCountries] = useState([]); // Dropdown options
+  const [isAdding, setIsAdding] = useState(false); // Inline add mode
   const [newCountryName, setNewCountryName] = useState("");
 
+  // Load initial countries on mount
   useEffect(() => {
     const loadCountries = async () => {
       try {
         const data = await listCountries();
         setCountries(data);
       } catch (err) {
-        console.error("❌ Error loading countries:", err);
+        console.error("Error loading countries:", err);
       }
     };
     loadCountries();
   }, []);
 
+  /**
+   * Handle inline save new country
+   * 1. Validates input
+   * 2. Calls backend addCountry
+   * 3. Updates local state & parent callback
+   */
   const handleSaveCountry = async () => {
     if (!newCountryName.trim()) {
-      Swal.fire("Error", "Country name is required", "error");
+      Swal.fire("Error", "Country name required", "error");
       return;
     }
 
     try {
       const res = await addCountry({ name: newCountryName }, token);
       const newCountry = res.data;
+      Swal.fire("Success", "Country added", "success");
 
-      Swal.fire("Success", "Country added successfully", "success");
-
-      // Update dropdown list immediately
+      // Update dropdown & notify parent
       setCountries((prev) => [...prev, newCountry]);
       onCountryChange(newCountry.id);
       if (onCountryAdded) onCountryAdded(newCountry);
 
-      // Reset input
+      // Reset inline add state
       setNewCountryName("");
       setIsAdding(false);
     } catch (err) {
@@ -60,43 +68,49 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token, onCou
   };
 
   return (
-    <div>
+    <div className="mb-3">
       {!isAdding ? (
         <>
-          <label className="form-label fw-semibold">Country</label>
-          <Dropdown
-            value={selectedCountryId}
-            options={countries.map((c) => ({ label: c.name, value: c.id }))}
-            onChange={(e) => onCountryChange(e.value)}
-            placeholder="Select a country"
-            className="w-100 mb-2"
-          />
-          <PrimeButton
-            label="Add new country"
-            icon="pi pi-plus"
-            link
-            className="p-0 text-primary"
+          {/* Dropdown display mode */}
+          <Form.Label className="fw-semibold">Country</Form.Label>
+          <Form.Select
+            value={selectedCountryId || ""}
+            onChange={(e) => onCountryChange(Number(e.target.value))}
+          >
+            <option value="">Select a country</option>
+            {countries.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </Form.Select>
+
+          {/* Inline "Add new country" trigger */}
+          <Button
+            variant="link"
+            className="p-0 mt-1 text-primary"
             onClick={() => setIsAdding(true)}
-          />
+          >
+            Add new country
+          </Button>
         </>
       ) : (
-        <div className="mt-2">
-          <label className="form-label fw-semibold">New Country</label>
-          <InputGroup>
+        <>
+          {/* Inline add mode */}
+          <InputGroup className="mt-2">
             <Form.Control
-              type="text"
-              placeholder="Enter country name"
+              placeholder="Enter new country"
               value={newCountryName}
               onChange={(e) => setNewCountryName(e.target.value)}
             />
             <Button variant="success" onClick={handleSaveCountry}>
-              <i className="pi pi-check"></i>
+              Save
             </Button>
-            <Button variant="outline-secondary" onClick={() => setIsAdding(false)}>
-              <i className="pi pi-times"></i>
+            <Button variant="secondary" onClick={() => setIsAdding(false)}>
+              Cancel
             </Button>
           </InputGroup>
-        </div>
+        </>
       )}
     </div>
   );

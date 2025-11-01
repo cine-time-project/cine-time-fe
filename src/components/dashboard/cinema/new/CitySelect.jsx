@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react";
-import { Dropdown } from "primereact/dropdown";
-import { Button as PrimeButton } from "primereact/button";
-import { InputGroup, Form, Button } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listAllCities, addCity } from "@/action/city-actions";
 
 /**
- * CitySelect Component
- * --------------------
- * Displays cities based on selected country and allows inline creation.
- * Uses React-Bootstrap for layout and PrimeReact for icons.
+ * CitySelect
+ * ----------
+ * Admin formu için city seçimi ve inline ekleme desteği.
+ * Country seçimine bağlı olarak dropdown update edilir.
  *
  * Props:
  *  - selectedCountryId: number | null
  *  - selectedCityId: number | null
  *  - onCityChange: (id: number) => void
  *  - token: string
- *  - onCityAdded?: (city: object) => void
+ *  - onCityAdded?: (city) => void
  */
 export function CitySelect({
   selectedCountryId,
@@ -29,7 +27,7 @@ export function CitySelect({
   const [isAdding, setIsAdding] = useState(false);
   const [newCityName, setNewCityName] = useState("");
 
-  // Fetch cities for the selected country
+  // Load cities when country changes
   useEffect(() => {
     const loadCities = async () => {
       if (!selectedCountryId) {
@@ -43,22 +41,23 @@ export function CitySelect({
         );
         setCities(filtered);
       } catch (err) {
-        console.error("❌ Error loading cities:", err);
+        console.error("Error loading cities:", err);
       }
     };
     loadCities();
   }, [selectedCountryId]);
 
-  // Handle adding a new city
+  /**
+   * Handle inline save new city
+   * 1. Validates input & selected country
+   * 2. Calls backend addCity
+   * 3. Updates local state & parent callback
+   */
   const handleSaveCity = async () => {
-    if (!newCityName.trim()) {
-      Swal.fire("Error", "City name is required", "error");
-      return;
-    }
-    if (!selectedCountryId) {
-      Swal.fire("Error", "Select a country first", "error");
-      return;
-    }
+    if (!newCityName.trim())
+      return Swal.fire("Error", "City name required", "error");
+    if (!selectedCountryId)
+      return Swal.fire("Error", "Select a country first", "error");
 
     try {
       const res = await addCity(
@@ -66,13 +65,12 @@ export function CitySelect({
         token
       );
       const newCity = res.data;
-
       Swal.fire("Success", "City added successfully", "success");
-      setCities((prev) => [...prev, newCity]);
-      if (onCityAdded) onCityAdded(newCity);
-      onCityChange(newCity.id);
 
-      // Reset UI state
+      setCities((prev) => [...prev, newCity]);
+      onCityChange(newCity.id);
+      if (onCityAdded) onCityAdded(newCity);
+
       setNewCityName("");
       setIsAdding(false);
     } catch (err) {
@@ -81,45 +79,51 @@ export function CitySelect({
   };
 
   return (
-    <div>
+    <div className="mb-3">
       {!isAdding ? (
         <>
-          <label className="form-label fw-semibold">City</label>
-          <Dropdown
-            value={selectedCityId}
-            options={cities.map((c) => ({ label: c.name, value: c.id }))}
-            onChange={(e) => onCityChange(e.value)}
-            placeholder="Select a city"
-            className="w-100 mb-2"
+          {/* Dropdown display mode */}
+          <Form.Label className="fw-semibold">City</Form.Label>
+          <Form.Select
+            value={selectedCityId || ""}
+            onChange={(e) => onCityChange(Number(e.target.value))}
             disabled={!selectedCountryId}
-          />
-          <PrimeButton
-            label="Add new city"
-            icon="pi pi-plus"
-            link
-            className="p-0 text-primary"
+          >
+            <option value="">Select a city</option>
+            {cities.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </Form.Select>
+
+          {/* Inline add trigger */}
+          <Button
+            variant="link"
+            className="p-0 mt-1 text-primary"
             onClick={() => setIsAdding(true)}
             disabled={!selectedCountryId}
-          />
+          >
+            Add new city
+          </Button>
         </>
       ) : (
-        <div className="mt-2">
-          <label className="form-label fw-semibold">New City</label>
-          <InputGroup>
+        <>
+          {/* Inline add mode */}
+          <InputGroup className="mt-2">
             <Form.Control
-              type="text"
-              placeholder="Enter city name"
+              placeholder="Enter new city"
               value={newCityName}
               onChange={(e) => setNewCityName(e.target.value)}
             />
             <Button variant="success" onClick={handleSaveCity}>
-              <i className="pi pi-check"></i>
+              Save
             </Button>
-            <Button variant="outline-secondary" onClick={() => setIsAdding(false)}>
-              <i className="pi pi-times"></i>
+            <Button variant="secondary" onClick={() => setIsAdding(false)}>
+              Cancel
             </Button>
           </InputGroup>
-        </div>
+        </>
       )}
     </div>
   );

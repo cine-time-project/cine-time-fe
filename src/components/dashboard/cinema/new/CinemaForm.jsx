@@ -14,7 +14,8 @@ export function CinemaForm({ token }) {
   const [selectedCityId, setSelectedCityId] = useState("");
 
   const handleSubmit = async () => {
-    if (!name.trim()) return Swal.fire("Error", "Cinema name required", "error");
+    if (!name.trim())
+      return Swal.fire("Error", "Cinema name required", "error");
     if (!selectedCityId) return Swal.fire("Error", "Select a city", "error");
 
     try {
@@ -34,7 +35,7 @@ export function CinemaForm({ token }) {
   };
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 bg-secondary-subtle">
       <CardGroup title="Cinema Information">
         <div className="mb-3">
           <label className="form-label fw-semibold">Cinema Name</label>
