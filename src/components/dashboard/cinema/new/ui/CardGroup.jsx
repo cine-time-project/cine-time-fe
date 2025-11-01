@@ -1,13 +1,33 @@
-import { Card } from "primereact/card";
+import { Card } from "react-bootstrap";
 
-export function CardGroup({ title, children }) {
+/**
+ * CardGroup
+ * ----------
+ * Minimal & clean section container for form groups.
+ * Provides clear visual separation without flashy design.
+ */
+export function CardGroup({ title, children, className = "" }) {
   return (
     <Card
-      title={title}
-      className="shadow-2 border-round-2xl p-4 mb-4"
-      style={{ border: "1px solid var(--surface-border)" }}
+      className={`mb-4 border rounded-4 shadow-sm ${className}`}
+      style={{
+        backgroundColor: "#fff",
+        borderColor: "#e5e7eb", // soft grey border
+      }}
     >
-      {children}
+      {title && (
+        <Card.Header
+          className="bg-light border-bottom py-3 px-4"
+          style={{
+            borderTopLeftRadius: "1rem",
+            borderTopRightRadius: "1rem",
+          }}
+        >
+          <h6 className="mb-0 fw-semibold text-secondary">{title}</h6>
+        </Card.Header>
+      )}
+
+      <Card.Body className="p-4">{children}</Card.Body>
     </Card>
   );
 }
