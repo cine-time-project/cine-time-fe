@@ -7,10 +7,12 @@ import axios from "axios";
 import { Card } from "react-bootstrap";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
+import { useAuth } from "@/lib/auth/useAuth";
 
 export default function CreateCinemaPage() {
   const router = useRouter();
   const { locale } = useParams();
+  const { token } = useAuth();
 
   const [createdCinemaId, setCreatedCinemaId] = useState(null);
 
@@ -73,7 +75,7 @@ export default function CreateCinemaPage() {
         <h3 className="mb-4">Create New Cinema</h3>
 
         {/* Step 1: Form */}
-        {!createdCinemaId && <CinemaForm onSubmit={handleCreateCinema} />}
+        {!createdCinemaId && <CinemaForm onSubmit={handleCreateCinema} token={token} />}
 
         {/* Step 2: Image Upload */}
         {createdCinemaId && (

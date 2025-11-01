@@ -51,5 +51,18 @@ export async function getAllCities() {
   }
 }
 
+export async function createCinemaRequest(data, token) {
+  if (!token) throw new Error("Missing token");
+
+  // data = { name, slug, cityId, districtIds?, newCityName?, newCountryId?, imageUrl? }
+  const response = await axios.post(
+    "/api/cinemas", // backend endpoint
+    data,
+    { headers: authHeaders(token) }
+  );
+
+  return response.data;
+}
+
 
 
