@@ -16,7 +16,7 @@ export const MovieToolbar = ({ row, locale }) => {
 
     const token = getToken(); //token client tarafında alınır
 
-    const res = await deleteMovieAction(id, locale, token); //token parametre olarak gönderilir
+    const res = await deleteMovieAction(id, locale, token);
     swAlert(res.message, res.ok ? "success" : "error");
   };
 
