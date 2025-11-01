@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import { Form, Button, InputGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listAllCities, addCity } from "@/action/city-actions";
 
@@ -80,32 +80,39 @@ export function CitySelect({
 
   return (
     <div className="mb-3">
+      <Form.Label className="fw-semibold">City</Form.Label>
       {!isAdding ? (
         <>
           {/* Dropdown display mode */}
-          <Form.Label className="fw-semibold">City</Form.Label>
-          <Form.Select
-            value={selectedCityId || ""}
-            onChange={(e) => onCityChange(Number(e.target.value))}
-            disabled={!selectedCountryId}
-          >
-            <option value="">Select a city</option>
-            {cities.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </Form.Select>
-
-          {/* Inline add trigger */}
-          <Button
-            variant="link"
-            className="p-0 mt-1 text-primary"
-            onClick={() => setIsAdding(true)}
-            disabled={!selectedCountryId}
-          >
-            Add new city
-          </Button>
+          <InputGroup>
+            <Form.Select
+              value={selectedCityId || ""}
+              onChange={(e) => onCityChange(Number(e.target.value))}
+              disabled={!selectedCountryId}
+            >
+              <option value="">Select a city</option>
+              {cities.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </Form.Select>
+            {/* Inline add trigger */}
+            <OverlayTrigger
+              placement="bottom" // Tooltip position (top, right, bottom, left)
+              overlay={
+                <Tooltip id={`tooltip-new-cinema`}>Add New City</Tooltip>
+              }
+            >
+              <Button
+                variant="outline-success"
+                onClick={() => setIsAdding(true)}
+                disabled={!selectedCountryId}
+              >
+                <i className="pi pi-plus"></i>
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
         </>
       ) : (
         <>
@@ -116,11 +123,15 @@ export function CitySelect({
               value={newCityName}
               onChange={(e) => setNewCityName(e.target.value)}
             />
+
             <Button variant="success" onClick={handleSaveCity}>
-              Save
+              <i className="pi pi-check"></i>
             </Button>
-            <Button variant="secondary" onClick={() => setIsAdding(false)}>
-              Cancel
+            <Button
+              variant="outline-secondary"
+              onClick={() => setIsAdding(false)}
+            >
+              <i className="pi pi-times"></i>
             </Button>
           </InputGroup>
         </>

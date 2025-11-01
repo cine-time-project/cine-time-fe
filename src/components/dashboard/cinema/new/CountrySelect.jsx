@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import { Form, Button, InputGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listCountries, addCountry } from "@/action/city-actions";
 
@@ -69,30 +69,37 @@ export function CountrySelect({
 
   return (
     <div className="mb-3">
+      <Form.Label className="fw-semibold">Country</Form.Label>
       {!isAdding ? (
         <>
           {/* Dropdown display mode */}
-          <Form.Label className="fw-semibold">Country</Form.Label>
-          <Form.Select
-            value={selectedCountryId || ""}
-            onChange={(e) => onCountryChange(Number(e.target.value))}
-          >
-            <option value="">Select a country</option>
-            {countries.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </Form.Select>
-
-          {/* Inline "Add new country" trigger */}
-          <Button
-            variant="link"
-            className="p-0 mt-1 text-primary"
-            onClick={() => setIsAdding(true)}
-          >
-            Add new country
-          </Button>
+          <InputGroup>
+            <Form.Select
+              value={selectedCountryId || ""}
+              onChange={(e) => onCountryChange(Number(e.target.value))}
+            >
+              <option value="">Select a country</option>
+              {countries.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </Form.Select>
+            {/* Inline "Add new country" trigger */}
+            <OverlayTrigger
+              placement="bottom" // Tooltip position (top, right, bottom, left)
+              overlay={
+                <Tooltip id={`tooltip-new-cinema`}>Add New Country</Tooltip>
+              }
+            >
+              <Button
+                variant="outline-success"
+                onClick={() => setIsAdding(true)}
+              >
+                <i className="pi pi-plus"></i>
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
         </>
       ) : (
         <>
@@ -104,10 +111,13 @@ export function CountrySelect({
               onChange={(e) => setNewCountryName(e.target.value)}
             />
             <Button variant="success" onClick={handleSaveCountry}>
-              Save
+              <i className="pi pi-check"></i>
             </Button>
-            <Button variant="secondary" onClick={() => setIsAdding(false)}>
-              Cancel
+            <Button
+              variant="outline-secondary"
+              onClick={() => setIsAdding(false)}
+            >
+              <i className="pi pi-times"></i>
             </Button>
           </InputGroup>
         </>
