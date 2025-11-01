@@ -78,6 +78,6 @@ export async function getDetailedCinema(id, token) {
       },
     } // backend endpoint
   );
-
+  console.log(response?.data?.returnBody);
   return response?.data?.returnBody;
 }

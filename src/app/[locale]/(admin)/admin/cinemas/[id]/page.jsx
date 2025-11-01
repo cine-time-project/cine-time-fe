@@ -30,7 +30,7 @@ export default function AdminCinemaDetailPage({ params }) {
         const cinema = await getDetailedCinema(id, token);
         setCinema(cinema);
         setName(cinema.name);
-        setImageUrl(cinema.imageUrl);
+        setImageUrl(cinema.imageUrl); //DB'den çekeceğimiz zaman cinema.cinemaImageUrl
         setSelectedCountryId(
           cinema.country?.id || cinema.city?.countryMiniResponse?.id
         );
