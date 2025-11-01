@@ -78,7 +78,7 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
 
         <TextInput
           name="cast"
-          label="Cast (comma separated)"
+          label="Cast members (comma separated)"
           className="mb-3"
           defaultValue={movie.cast?.join(", ") || ""}
           errorMessage={state?.errors?.cast}

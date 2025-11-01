@@ -83,9 +83,9 @@ export const MovieList = ({
   const handleClear = () => {
     setSearchTerm("");
     setStatusFilter("");
-    onSearch?.(""); // tüm filmleri getir
-    onFilter?.(""); // filtreyi sıfırla
-    onPageChange?.(0); // sayfa 0
+    onSearch?.("");
+    onFilter?.("");
+    onPageChange?.(0);
     setShowButton(false);
   };
 
