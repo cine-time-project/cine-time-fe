@@ -14,6 +14,7 @@ export const MovieList = ({
   onPageChange,
   onSearch,
   onFilter,
+  onDeleted,
 }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
@@ -193,7 +194,13 @@ export const MovieList = ({
 
           <Column
             header="Actions"
-            body={(row) => <MovieToolbar row={row} locale={locale} />}
+            body={(row) => (
+              <MovieToolbar
+                row={row}
+                locale={locale}
+                onDeleted={() => onDeleted?.()}
+              />
+            )}
             style={{ width: "10%", textAlign: "right" }}
           />
         </DataTable>
