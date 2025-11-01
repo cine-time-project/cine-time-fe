@@ -86,9 +86,7 @@ export const deleteMovieServer = async (id, token = "") => {
   return data.returnBody || data;
 };
 
-// CREATE MOVIE (Server-safe)
 export const createMovie = async (payload, token = "") => {
-  console.log("hahahah", payload);
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
