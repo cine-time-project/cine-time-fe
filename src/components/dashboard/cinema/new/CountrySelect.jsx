@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { Form, Button, InputGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  InputGroup,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listCountries, addCountry } from "@/action/city-actions";
 
@@ -14,7 +20,12 @@ import { listCountries, addCountry } from "@/action/city-actions";
  *  - token: string
  *  - onCountryAdded?: (country) => void
  */
-export function CountrySelect({ selectedCountryId, onCountryChange, token, onCountryAdded }) {
+export function CountrySelect({
+  selectedCountryId,
+  onCountryChange,
+  token,
+  onCountryAdded,
+}) {
   const [countries, setCountries] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const [newCountryName, setNewCountryName] = useState("");
@@ -84,18 +95,29 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token, onCou
           </OverlayTrigger>
         </InputGroup>
       ) : (
-        <InputGroup className="mt-2">
+        <InputGroup>
           <Form.Control
+            className="bg-warning-subtle"
             placeholder="Enter new country"
             value={newCountryName}
             onChange={(e) => setNewCountryName(e.target.value)}
           />
-          <Button variant="success" onClick={handleSaveCountry}>
-            <i className="pi pi-check"></i>
-          </Button>
-          <Button variant="outline-secondary" onClick={() => setIsAdding(false)}>
-            <i className="pi pi-times"></i>
-          </Button>
+          <OverlayTrigger placement="bottom" overlay={<Tooltip>Save</Tooltip>}>
+            <Button variant="success" onClick={handleSaveCountry}>
+              <i className="pi pi-check"></i>
+            </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip>Cancel</Tooltip>}
+          >
+            <Button
+              variant="outline-secondary"
+              onClick={() => setIsAdding(false)}
+            >
+              <i className="pi pi-times"></i>
+            </Button>
+          </OverlayTrigger>
         </InputGroup>
       )}
     </div>
