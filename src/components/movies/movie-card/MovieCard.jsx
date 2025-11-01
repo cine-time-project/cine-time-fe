@@ -23,7 +23,7 @@ function MovieCard({ movie }) {
   const locale = useLocale(); // Current locale segment
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
-  const imageUrl = poster ? poster.url : "/images/cinetime-logo.png";
+  const imageUrl = poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
 
   // Check if this movie is in favorites
   const isMovieFavorite = isFavorite(movie.id);

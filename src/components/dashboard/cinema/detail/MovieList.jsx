@@ -7,7 +7,7 @@ export default function MovieList({ movies }) {
 
   return (
     <div>
-      <h5 className="fw-bold mb-3">Movies Playing</h5>
+      <h3 className="fw-bold mb-3 text-light">Movies Playing</h3>
       {movies.map((movie) => (
         <Card
           key={movie.id}
