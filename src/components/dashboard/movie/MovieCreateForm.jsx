@@ -27,6 +27,14 @@ export const MovieCreateForm = ({ locale }) => {
   }, []);
 
   useEffect(() => {
+    if (state?.message) {
+      swAlert(state.message, state.ok ? "success" : "error").then(() => {
+        if (state.ok) window.location.href = `/${locale}/admin/movies`;
+      });
+    }
+  }, [state, locale]);
+
+  useEffect(() => {
     const loadData = async () => {
       try {
         const [genresData, actorsData] = await Promise.allSettled([
@@ -52,8 +60,6 @@ export const MovieCreateForm = ({ locale }) => {
 
     loadData();
   }, []);
-
-  if (state?.message) swAlert(state.message, state.ok ? "success" : "error");
 
   return (
     <FormContainer>

@@ -33,18 +33,14 @@ export const deleteMovieAction = async (id, locale, token) => {
 };
 
 export const createMovieAction = async (prevState, formData) => {
-  let isSuccess = false;
-
   try {
     const fields = transformFormDataToJSON(formData);
     MovieSchema.validateSync(fields, { abortEarly: false });
-
     const castRaw = fields.cast || "";
-
     const payload = {
       ...fields,
       duration: parseInt(fields.duration),
-      genre: Array.isArray(fields.genre) ? fields.genre : [fields.genre],
+      genre: JSON.parse(fields.genre || "[]"),
       cast: castRaw
         ? castRaw
             .split(",")
@@ -57,20 +53,16 @@ export const createMovieAction = async (prevState, formData) => {
       locale: fields.locale,
     };
     const token = formData.get("token");
-    console.log(payload);
     const res = await createMovie(payload, token);
-    isSuccess = true;
+    if (!res) return response(false, "Failed to create movie", null);
     return response(true, "Movie created successfully", null);
   } catch (error) {
-    if (error instanceof YupValidationError) {
-      return transformYupErrors(error.inner);
-    }
+    console.error("Creation Error:", error);
+    return response(false, error.message, null);
   } finally {
-    if (isSuccess) {
-      const locale = formData.get("locale") || "en";
-      revalidatePath(`/${formData.get("locale")}/admin/movies`);
-      redirect(`/${formData.get("locale")}/admin/movies`);
-    }
+    const locale = formData.get("locale") || "en";
+    revalidatePath(`/${formData.get(locale)}/admin/movies`);
+
   }
 };
 
