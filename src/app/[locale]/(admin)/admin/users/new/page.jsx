@@ -1,10 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Button, Form, Card } from "react-bootstrap";
 
-export default function AdminUserNewPage() {
+export default function NewUserPage() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
@@ -18,137 +16,175 @@ export default function AdminUserNewPage() {
     birthDate: "",
     gender: "OTHER",
   });
-
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
     setSuccess("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/users/auth", {
+      const token = localStorage.getItem("authToken");
+      if (!token) throw new Error("Giriş yapılmadı.");
+
+      // 🔹 Doğum tarihini yyyy-MM-dd formatına dönüştür
+      let formattedDate = form.birthDate;
+      if (formattedDate.includes(".")) {
+        const [day, month, year] = formattedDate.split(".");
+        formattedDate = `${year}-${month}-${day}`;
+      }
+
+      // 🔹 Backend'e uygun payload
+      const payload = {
+        name: form.name,
+        surname: form.surname,
+        email: form.email,
+        password: form.password,
+        phoneNumber: form.phoneNumber,
+        birthDate: formattedDate,
+        gender: form.gender,
+      };
+
+      const res = await fetch("http://localhost:8090/api/users/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
+          Authorization: "Bearer " + token,
         },
-        body: JSON.stringify({ ...form, role: "MEMBER" }),
+        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Kullanıcı kaydedilemedi!");
+      if (!res.ok) {
+        const txt = await res.text();
+        console.error("Backend hata:", txt);
+        throw new Error("Kullanıcı ekleme başarısız.");
+      }
 
-      setSuccess("Kullanıcı başarıyla eklendi ✅");
-      setTimeout(() => router.push(`/${locale}/admin/users`), 1200);
+      setSuccess("✅ Yeni kullanıcı başarıyla eklendi!");
+      setTimeout(() => router.push(`/${locale}/admin/users`), 1500);
     } catch (err) {
-      setError(err.message || "Bir hata oluştu!");
-    } finally {
-      setLoading(false);
+      setError(err.message || "Bir hata oluştu.");
     }
   };
 
   return (
-    <div className="page" style={{ maxWidth: 600 }}>
-      <h1 className="section-title mb-3">Yeni Kullanıcı Ekle</h1>
+    <main className="container py-4" style={{ maxWidth: 720 }}>
+      {/* Stil düzenlemeleri */}
+      <style jsx global>{`
+        label.form-label {
+          color: #fff !important;
+          font-weight: 500;
+        }
+        input,
+        select {
+          background-color: #222 !important;
+          color: #fff !important;
+          border: 1px solid #555 !important;
+        }
+        input::placeholder {
+          color: #bbb !important;
+        }
+      `}</style>
 
-      <Card className="p-3 shadow-sm">
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Ad</Form.Label>
-            <Form.Control
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
-            />
-          </Form.Group>
+      <h1 className="mb-3 text-light">Yeni Kullanıcı Ekle</h1>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Soyad</Form.Label>
-            <Form.Control
-              value={form.surname}
-              onChange={(e) => setForm({ ...form, surname: e.target.value })}
-              required
-            />
-          </Form.Group>
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
 
-          <Form.Group className="mb-3">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-            />
-          </Form.Group>
+      <form onSubmit={handleSave} className="row g-3">
+        <div className="col-md-6">
+          <label className="form-label">Ad</label>
+          <input
+            className="form-control"
+            placeholder="Kullanıcının adı"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+        </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Telefon</Form.Label>
-            <Form.Control
-              placeholder="(555) 123-4567"
-              value={form.phoneNumber}
-              onChange={(e) =>
-                setForm({ ...form, phoneNumber: e.target.value })
-              }
-            />
-          </Form.Group>
+        <div className="col-md-6">
+          <label className="form-label">Soyad</label>
+          <input
+            className="form-control"
+            placeholder="Kullanıcının soyadı"
+            value={form.surname}
+            onChange={(e) => setForm({ ...form, surname: e.target.value })}
+          />
+        </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Şifre</Form.Label>
-            <Form.Control
-              type="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              required
-            />
-          </Form.Group>
+        <div className="col-md-6">
+          <label className="form-label">Email</label>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="ornek@mail.com"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+        </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Doğum Tarihi</Form.Label>
-            <Form.Control
-              type="date"
-              value={form.birthDate}
-              onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
-            />
-          </Form.Group>
+        <div className="col-md-6">
+          <label className="form-label">Telefon</label>
+          <input
+            className="form-control"
+            placeholder="(555) 999-6611"
+            value={form.phoneNumber}
+            onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+          />
+        </div>
 
-          <Form.Group className="mb-4">
-            <Form.Label>Cinsiyet</Form.Label>
-            <Form.Select
-              value={form.gender}
-              onChange={(e) => setForm({ ...form, gender: e.target.value })}
-            >
-              <option value="MALE">Erkek</option>
-              <option value="FEMALE">Kadın</option>
-              <option value="OTHER">Diğer</option>
-            </Form.Select>
-          </Form.Group>
+        <div className="col-md-6">
+          <label className="form-label">Şifre</label>
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Parola"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
+        </div>
 
-          {error && <p className="text-danger">{error}</p>}
-          {success && <p className="text-success">{success}</p>}
+        <div className="col-md-6">
+          <label className="form-label">Doğum Tarihi</label>
+          <input
+            type="date"
+            className="form-control"
+            value={form.birthDate}
+            onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
+          />
+        </div>
 
-          <div className="d-flex justify-content-between mt-4">
-            <Button
-              variant="secondary"
-              onClick={() => router.push(`/${locale}/admin/users`)}
-              disabled={loading}
-            >
-              Geri
-            </Button>
+        <div className="col-md-6">
+          <label className="form-label">Cinsiyet</label>
+          <select
+            className="form-select"
+            value={form.gender}
+            onChange={(e) => setForm({ ...form, gender: e.target.value })}
+          >
+            <option value="MALE">Erkek</option>
+            <option value="FEMALE">Kadın</option>
+            <option value="OTHER">Diğer</option>
+          </select>
+        </div>
 
-            <Button
-              type="submit"
-              variant="primary"
-              style={{ backgroundColor: "#f26522", border: "none" }}
-              disabled={loading}
-            >
-              {loading ? "Kaydediliyor..." : "Kaydet"}
-            </Button>
-          </div>
-        </Form>
-      </Card>
-    </div>
+        <div className="col-12 d-flex justify-content-between mt-3">
+          <button
+            type="button"
+            onClick={() => router.push(`/${locale}/admin/users`)}
+            className="btn btn-secondary"
+          >
+            Geri
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            style={{ backgroundColor: "#f26522", border: "none" }}
+          >
+            Kaydet
+          </button>
+        </div>
+      </form>
+    </main>
   );
 }
