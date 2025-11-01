@@ -23,7 +23,6 @@ export default function AdminCinemasPage({ params }) {
 
   const canCreate = roles?.includes("ADMIN");
   const canDelete = roles?.includes("ADMIN");
-  const canDetail = roles?.includes("ADMIN");
 
   const {
     cinemas,
@@ -50,7 +49,6 @@ export default function AdminCinemasPage({ params }) {
         onDelete={handleDelete}
         canCreate={canCreate}
         canDelete={canDelete}
-        canDetail={canDetail}
         rows={pageSize}
         locale={locale}
       />

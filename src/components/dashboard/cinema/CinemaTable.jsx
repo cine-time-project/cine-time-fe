@@ -23,7 +23,6 @@ export const CinemaTable = ({
   onPageChange,
   onDelete,
   canCreate,
-  canDetail,
   canDelete,
   locale,
   rows = 10,
@@ -37,7 +36,7 @@ export const CinemaTable = ({
     setSelectedCinemas([]);
   };
 
-  const handleEdit = (id) => router.push(`/${locale}/admin/cinemas/${id}`);
+  const handleDetail = (id) => router.push(`/${locale}/admin/cinemas/${id}`);
 
   const handleCreate = (id) => router.push(`/${locale}/admin/cinemas/new`);
 
@@ -77,13 +76,12 @@ export const CinemaTable = ({
           header="Country"
           sortable
         />
-        {canDetail && (
-          <Column
+        <Column
             body={(r) => (
-              <CinemaRowActions cinema={r} handleEdit={handleEdit} />
+              <CinemaRowActions cinema={r} handleDetail={handleDetail} />
             )}
           />
-        )}
+        
       </DataTable>
 
       <CinemaPagination

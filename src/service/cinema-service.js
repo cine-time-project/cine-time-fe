@@ -67,3 +67,17 @@ export async function createCinemaRequest(data, token) {
 
   return response.data;
 }
+
+export async function getDetailedCinema(id, token) {
+  const response = await axios.get(
+    `${config.apiURL}/dashboard/cinemas/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
+        "Content-Type": "application/json",
+      },
+    } // backend endpoint
+  );
+
+  return response?.data?.returnBody;
+}
