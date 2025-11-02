@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import DashboardClient from "./_DashboardClient";
+import React from "react";
 
 export default async function Page({ params }) {
   const { locale } = await params; // Next.js 15.5 değişikliği

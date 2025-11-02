@@ -3,7 +3,7 @@
 // }
 
 // .gridContainer {
-  
+
 // }
 
 /* Card layout */
@@ -13,13 +13,14 @@
   height: 100%;
   width: 100%;
   border: 1px solid #2b2e36;
+  overflow: hidden;
   border-radius: 14px;
-}
+  transition: all .3s ease;
+  box-shadow: 0 3px 8px rgba(255, 193, 7, 0.35); // ✨ CineTime sarı parıltı
 
-/* On small screens make card stacked */
-@media (max-width: 900px) {
-  .cinemaCard {
-    grid-template-columns: 1fr;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(255, 193, 7, 0.35); // ✨ CineTime sarı parıltı
   }
 }
 

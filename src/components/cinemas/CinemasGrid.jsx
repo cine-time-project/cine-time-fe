@@ -55,14 +55,14 @@ export default function CinemasGrid({
   return (
     <Container className="my-5">
       {!isWhole ? (
-        <SectionTitle>{t("aroundCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}</SectionTitle>
+        <SectionTitle textColor="text-light">{t("aroundCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}</SectionTitle>
       ) : cityFilter.toLocaleUpperCase(locale) ? (
         <Alert variant="danger">
           {t("aroundNoCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}
           <SectionTitle>{t("allCinemas")}</SectionTitle>
         </Alert>
       ) : (
-        <SectionTitle>{t("allCinemas")}</SectionTitle>
+        <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
       )}
       <Row xs={1} sm={2} md={3} lg={3} xl={4} className="g-4">
         {cinemas.map((c) => (
