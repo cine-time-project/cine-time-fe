@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { useAuth } from "@/lib/auth/useAuth";
 import { getDetailedCinema } from "@/service/cinema-service";
 import CinemaDetailCard from "@/components/dashboard/cinema/detail/CinemaDetailCard";
 import HallList from "@/components/dashboard/cinema/detail/HallList";
@@ -11,22 +10,25 @@ import { PageHeader } from "@/components/common/page-header/PageHeader";
 
 export default function AdminCinemaDetailPage({ params }) {
   const { id } = React.use(params);
-  const { token } = useAuth();
 
   const [cinema, setCinema] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     const fetchCinema = async () => {
       try {
+        const token = localStorage.getItem("authToken");
         const data = await getDetailedCinema(id, token);
         setCinema(data);
+        setToken(token);
       } catch (err) {
         Swal.fire("Error", err.response?.data?.message || err.message, "error");
       } finally {
         setLoading(false);
       }
     };
+
     fetchCinema();
   }, [id, token]);
 

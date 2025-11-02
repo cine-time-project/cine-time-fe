@@ -1,5 +1,5 @@
+import { Button } from "primereact/button";
 import React from "react";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 /**
  * CinemaRowActions
@@ -8,15 +8,12 @@ import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
  */
 export const CinemaRowActions = ({ cinema, handleDetail }) => (
   <div className="d-flex justify-content-end">
-    <OverlayTrigger
-      placement="bottom" // Tooltip position (top, right, bottom, left)
-      overlay={
-        <Tooltip id={`tooltip-edit-${cinema.id}`}>Details</Tooltip>
-      }
-    >
-      <Button variant="warning" onClick={() => handleDetail(cinema.id)}>
-        <i className="pi pi-file-edit"></i>
-      </Button>
-    </OverlayTrigger>
+      <Button
+        link
+        label="Details"
+        icon="pi pi-angle-right"
+        iconPos="right"
+        onClick={() => handleDetail(cinema.id)}
+      />
   </div>
 );
