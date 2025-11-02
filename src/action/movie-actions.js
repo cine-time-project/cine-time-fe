@@ -62,7 +62,6 @@ export const createMovieAction = async (prevState, formData) => {
   } finally {
     const locale = formData.get("locale") || "en";
     revalidatePath(`/${formData.get(locale)}/admin/movies`);
-
   }
 };
 
