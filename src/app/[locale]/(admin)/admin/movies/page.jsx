@@ -12,15 +12,19 @@ export default function AdminMoviesPage({ params }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (
+    customQuery = query,
+    customStatus = status,
+    customPage = page
+  ) => {
     try {
       const result = await getAllMoviesByPage(
-        page,
+        customPage,
         10,
         "title",
         "asc",
-        query,
-        status
+        customQuery,
+        customStatus
       );
       setData(result);
     } catch (err) {
@@ -39,11 +43,25 @@ export default function AdminMoviesPage({ params }) {
       <MovieList
         data={data}
         locale={locale}
-        onPageChange={(nextPage) => setPage(nextPage)}
-        onSearch={(value) => setQuery(value)}
-        onFilter={(value) => setStatus(value)}
-        onDeleted={() => fetchMovies()}
+        onPageChange={(nextPage) => {
+          setPage(nextPage);
+        }}
+        onSearch={(value) => {
+          setQuery(value);
+          setPage(0);
+        }}
+        onFilter={(value) => {
+          setStatus(value);
+          setPage(0);
+        }}
+        onDeleted={() => {
+          setQuery("");
+          setStatus("");
+          setPage(0);
+          fetchMovies(0, "", "");
+        }}
       />
+
       <Spacer />
     </>
   );
