@@ -1,8 +1,19 @@
-export {ValidationError as YupValidationError} from "yup";
+export { ValidationError as YupValidationError } from "yup";
 
-export const transformFormDataToJSON = (formData) =>
-
-  Object.fromEntries(formData.entries());
+export const transformFormDataToJSON = (formData) => {
+  const obj = {};
+  for (const [key, value] of formData.entries()) {
+    if (obj[key]) {
+      // already has a value: convert to array
+      obj[key] = Array.isArray(obj[key])
+        ? [...obj[key], value]
+        : [obj[key], value];
+    } else {
+      obj[key] = value;
+    }
+  }
+  return obj;
+};
 
 export const response = (ok, message, errors) => {
   return {
@@ -14,8 +25,8 @@ export const response = (ok, message, errors) => {
 };
 
 export const transformYupErrors = (errors) => {
-    const errObject = {};
-    errors.forEach((error) => (errObject[error.path] = error.message));
+  const errObject = {};
+  errors.forEach((error) => (errObject[error.path] = error.message));
 
-    return response(false, "", errObject) 
-}
+  return response(false, "", errObject);
+};

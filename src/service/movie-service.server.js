@@ -85,3 +85,30 @@ export const deleteMovieServer = async (id, token = "") => {
   const data = await res.json();
   return data.returnBody || data;
 };
+
+export const createMovie = async (payload, token = "") => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
+  }
+
+  const headers = { "Content-Type": "application/json" };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const res = await fetch(`${baseUrl}/movies/save`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload),
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(
+      `Failed to create movie: ${res.status} ${res.statusText} - ${errText}`
+    );
+  }
+
+  const data = await res.json();
+  return data.returnBody || data;
+};
