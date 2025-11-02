@@ -9,7 +9,7 @@ export default function AdminMoviesPage({ params }) {
   const { locale } = React.use(params);
   const [data, setData] = useState(null);
   const [page, setPage] = useState(0);
-  const [query, setQuery] = useState(""); 
+  const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
 
   const fetchMovies = async () => {
@@ -42,6 +42,7 @@ export default function AdminMoviesPage({ params }) {
         onPageChange={(nextPage) => setPage(nextPage)}
         onSearch={(value) => setQuery(value)}
         onFilter={(value) => setStatus(value)}
+        onDeleted={() => fetchMovies()}
       />
       <Spacer />
     </>

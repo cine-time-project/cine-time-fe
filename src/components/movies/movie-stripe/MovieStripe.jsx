@@ -131,7 +131,7 @@ export const MovieStripe = ({ query }) => {
 
       {/* Main Swiper */}
       <Swiper
-        style={{overflowX: "hidden", paddingTop: "10px", paddingBottom: "10px"}}
+        style={{overflowX: "hidden", paddingTop: "20px", paddingBottom: "20px"}}
         navigation
         modules={[Navigation]}
         spaceBetween={10}

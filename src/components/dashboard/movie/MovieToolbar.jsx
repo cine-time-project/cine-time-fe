@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "react-bootstrap";
 import { getToken } from "@/lib/utils/http"; //token almak için eklendi
 
-export const MovieToolbar = ({ row, locale }) => {
+export const MovieToolbar = ({ row, locale, onDeleted }) => {
   const router = useRouter();
   const { id, title } = row;
 
@@ -16,8 +16,12 @@ export const MovieToolbar = ({ row, locale }) => {
 
     const token = getToken(); //token client tarafında alınır
 
-    const res = await deleteMovieAction(id, locale, token); //token parametre olarak gönderilir
-    swAlert(res.message, res.ok ? "success" : "error");
+    const res = await deleteMovieAction(id, locale, token);
+    swAlert(res.message, res.ok ? "success" : "error").then(() => {
+      if (res.ok && typeof onDeleted === "function") {
+        onDeleted(id);
+      }
+    });
   };
 
   const handleEdit = () => router.push(`/${locale}/admin/movies/${id}`);

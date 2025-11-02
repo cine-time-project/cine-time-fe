@@ -14,6 +14,7 @@ export const MovieList = ({
   onPageChange,
   onSearch,
   onFilter,
+  onDeleted,
 }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
@@ -83,9 +84,9 @@ export const MovieList = ({
   const handleClear = () => {
     setSearchTerm("");
     setStatusFilter("");
-    onSearch?.(""); // tüm filmleri getir
-    onFilter?.(""); // filtreyi sıfırla
-    onPageChange?.(0); // sayfa 0
+    onSearch?.("");
+    onFilter?.("");
+    onPageChange?.(0);
     setShowButton(false);
   };
 
@@ -193,7 +194,13 @@ export const MovieList = ({
 
           <Column
             header="Actions"
-            body={(row) => <MovieToolbar row={row} locale={locale} />}
+            body={(row) => (
+              <MovieToolbar
+                row={row}
+                locale={locale}
+                onDeleted={() => onDeleted?.()}
+              />
+            )}
             style={{ width: "10%", textAlign: "right" }}
           />
         </DataTable>

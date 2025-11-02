@@ -13,11 +13,26 @@ import { BackButton } from "@/components/common/form-fields/BackButton";
 import { SubmitButton } from "@/components/common/form-fields/SubmitButton";
 import { swAlert } from "@/helpers/sweetalert";
 import { ALL_GENRES } from "@/helpers/data/genres";
+import { getToken } from "@/lib/utils/http";
 
 export const MovieCreateForm = ({ locale }) => {
-  const [state, action, isPending] = useActionState(createMovieAction);
+  const [state, action, isPending] = useActionState(createMovieAction, null);
   const [genreOptions, setGenreOptions] = useState([]);
   const [actorOptions, setActorOptions] = useState([]);
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    setToken(getToken());
+  }, []);
+
+  useEffect(() => {
+    if (state?.message) {
+      swAlert(state.message, state.ok ? "success" : "error").then(() => {
+        if (state.ok) window.location.href = `/${locale}/admin/movies`;
+      });
+    }
+  }, [state, locale]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -46,11 +61,12 @@ export const MovieCreateForm = ({ locale }) => {
     loadData();
   }, []);
 
-  if (state?.message) swAlert(state.message, state.ok ? "success" : "error");
-
   return (
     <FormContainer>
       <form action={action}>
+        <input type="hidden" name="id" value={""} />
+        <input type="hidden" name="locale" value="tr" />
+        <input type="hidden" name="token" value={token} />
         {/* Zorunlu Alanlar */}
         <TextInput
           name="title"
@@ -63,6 +79,13 @@ export const MovieCreateForm = ({ locale }) => {
           label="Summary *"
           className="mb-3"
           errorMessage={state?.errors?.summary}
+        />
+
+        <TextInput
+          name="slug"
+          label="Slug *"
+          className="mb-3"
+          errorMessage={state?.errors?.slug}
         />
         <DateInput
           name="releaseDate"
@@ -77,11 +100,9 @@ export const MovieCreateForm = ({ locale }) => {
           errorMessage={state?.errors?.duration}
         />
 
-        <MultipleSelect
+        <TextInput
           name="cast"
-          label="Cast *"
-          options={actorOptions}
-          placeholder="Select cast members"
+          label="Cast members (comma separated)"
           className="mb-3"
           errorMessage={state?.errors?.cast}
         />

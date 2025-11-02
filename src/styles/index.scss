@@ -2,13 +2,13 @@
 @use "bootstrap/scss/bootstrap" as *;
 @use "./variables" as *;
 @use "../components/common/favorite-button.scss" as *;
+@use "@/styles/admin-offcanvas.scss" as *;
+@use "./google-login.scss" as *;
 
 // All @import rules come after @use rules
 @import "primeicons/primeicons.css";
 @import "primereact/resources/themes/saga-orange/theme.css";
 @import "sweetalert2/dist/sweetalert2.min.css";
-@import "@/styles/admin-offcanvas.scss";
-@import "./google-login.scss";
 
 html,
 body {
