@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { Card } from "react-bootstrap";
+import { Card, Container } from "react-bootstrap";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
 import { useAuth } from "@/lib/auth/useAuth";
+import { PageHeader } from "@/components/common/page-header/PageHeader";
 
 export default function CreateCinemaPage() {
   const router = useRouter();
@@ -70,20 +71,19 @@ export default function CreateCinemaPage() {
   };
 
   return (
-    <div className="container mt-4">
-      <Card className="shadow-lg p-4 rounded-4 bg-secondary-subtle">
-        <h3 className="mb-4">Create New Cinema</h3>
+    <Container>
+      <PageHeader title="Create New Cinema" />
+      {/* Step 1: Form */}
+      {!createdCinemaId && (
+        <CinemaForm
+          onSubmit={handleCreateCinema}
+          token={token}
+          locale={locale}
+        />
+      )}
 
-        {/* Step 1: Form */}
-        {!createdCinemaId && (
-          <CinemaForm onSubmit={handleCreateCinema} token={token} />
-        )}
-
-        {/* Step 2: Image Upload */}
-        {createdCinemaId && (
-          <CinemaImageUploader onUpload={handleImageUpload} />
-        )}
-      </Card>
-    </div>
+      {/* Step 2: Image Upload */}
+      {createdCinemaId && <CinemaImageUploader onUpload={handleImageUpload} />}
+    </Container>
   );
 }

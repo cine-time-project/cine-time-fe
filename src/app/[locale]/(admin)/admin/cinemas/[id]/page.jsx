@@ -1,12 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Spinner, Container, Row, Col } from "react-bootstrap";
+import { Spinner, Container, Row, Col, Card } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { getDetailedCinema } from "@/service/cinema-service";
 import HallList from "@/components/dashboard/cinema/detail/HallList";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
+import { CinemaReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaReadOnlyView";
+import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
+import { CinemaImageReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaImageReadOnlyView";
 
 export default function AdminCinemaDetailPage({ params }) {
   const { id } = React.use(params);
@@ -43,8 +46,38 @@ export default function AdminCinemaDetailPage({ params }) {
 
   return (
     <Container className="my-4">
-      <PageHeader title={`${cinema?.name}`} />
-      <CinemaForm cinema={cinema} isEditMode={isEditMode} />
+      <PageHeader title="Cinema Details" />
+      <Row>
+        <Col md={6}>
+          {isEditMode ? (
+            <CinemaForm
+              cinema={cinema}
+              isEditMode={isEditMode}
+              setCinema={setCinema}
+            />
+          ) : (
+            <CinemaReadOnlyView cinema={cinema} />
+          )}
+        </Col>
+        <Col md={6}>
+          {isEditMode ? (
+            <CinemaImageUploader
+              //cinema={{ id: newCinemaId }}
+              cinema={cinema} // { id: 5, imageUrl: "..."}
+              isEditMode={false}
+              onUpload={async (id, file) => {
+                const formData = new FormData();
+                formData.append("image", file);
+                await axios.post(`/api/cinemas/${id}/upload-image`, formData, {
+                  headers: { "Content-Type": "multipart/form-data" },
+                });
+              }}
+            />
+          ) : (
+            <CinemaImageReadOnlyView cinema={cinema}/>
+          )}
+        </Col>
+      </Row>
 
       <Row className="mt-4">
         <Col md={8}>

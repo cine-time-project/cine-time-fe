@@ -66,6 +66,7 @@ export const CinemaImageUploader = ({
     }
   };
 
+
   return (
     <Form onSubmit={handleSubmit} className="p-3 border rounded bg-light">
       <Form.Group className="mb-3">
