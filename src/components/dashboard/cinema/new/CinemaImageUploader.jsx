@@ -14,7 +14,6 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
   // 🎬 Eğer edit modundaysak mevcut resmi göster
   useEffect(() => {
     if (cinema?.imageUrl) {
-      console.log("Update Mode");
       setIsUpdate(true);
     }
     setPreviewUrl(cinema?.imageUrl || null);
@@ -30,43 +29,40 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
     }
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
+ const handleUpload = async (e) => {
+  e.preventDefault();
 
-    if (!cinema?.id) {
-      Swal.fire("Error", "Cinema ID is missing", "error");
-      return;
+  if (!cinema?.id) {
+    Swal.fire("Error", "Cinema ID is missing", "error");
+    return;
+  }
+
+  if (!file) {
+    Swal.fire("Error", "Please select an image file", "error");
+    return;
+  }
+
+  setLoading(true);
+  try {
+    // 1️⃣ Upload image
+    await uploadImage(cinema.id, file, token);
+
+    // 2️⃣ Parent'tan cinema'yi yeniden fetch et
+    if (onUpdateCinema) {
+      const updatedCinema = await onUpdateCinema(); // async fetch yapılacak
+      setPreviewUrl(updatedCinema.imageUrl); // preview da güncellendi
     }
 
-    if (!file) {
-      Swal.fire("Error", "Please select an image file", "error");
-      return;
-    }
+    Swal.fire("Success", "Image uploaded successfully!", "success");
+    setFile(null);
+  } catch (error) {
+    console.error(error);
+    Swal.fire("Error", "Failed to upload image", "error");
+  } finally {
+    setLoading(false);
+  }
+};
 
-    setLoading(true);
-    try {
-      // cinema.id ve file parametreleriyle upload işlemini tetikle
-      const updatedImageData = await uploadImage(cinema.id, file, token);
-
-
-      //update Parent cinema state
-      if (onUpdateCinema) {
-        onUpdateCinema({ ...cinema, imageUrl: updatedImageData?.url });
-      }
-
-      Swal.fire(
-        "Success",
-        "Image uploaded successfully!",
-        "success"
-      );
-      setFile(null);
-    } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "Failed to upload image", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Form onSubmit={handleUpload} className="p-3 border rounded bg-light">
@@ -102,14 +98,26 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
       )}
 
       <div className="d-flex justify-content-end gap-2">
+        {previewUrl && (
+          <Button
+            variant="danger"
+            type="button"
+            onClick={() => {
+              setFile(null);
+              // Mevcut resmi koru (edit modundaysa), yoksa tamamen sıfırla
+              if (isUpdate && cinema?.imageUrl) {
+                setPreviewUrl(cinema.imageUrl);
+              } else {
+                setPreviewUrl(null);
+              }
+            }}
+          >
+            Cancel
+          </Button>
+        )}
+
         <Button variant="primary" type="submit" disabled={loading}>
-          {loading ? (
-            <Spinner size="sm" animation="border" />
-          ) : isUpdate ? (
-            "Update Image"
-          ) : (
-            "Save Image"
-          )}
+          {loading ? <Spinner size="sm" animation="border" /> : "Save Image"}
         </Button>
       </div>
     </Form>

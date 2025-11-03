@@ -119,13 +119,16 @@ export default function AdminCinemaDetailPage({ params }) {
             <CinemaImageUploader
               // cinema={{ id: newCinemaId }}
               cinema={cinema} // { id: 5, imageUrl: "..." }
-              onUpdateCinema={(updatedCinema) => setCinema(updatedCinema)}
+              onUpdateCinema={async () => {
+                // backend'den yeniden fetch et
+                const freshCinema = await getDetailedCinema(id, token);
+                setCinema(freshCinema);
+                return freshCinema; // uploader'da preview güncellemesi için return et
+              }}
               token={token}
             />
           ) : (
-            <CinemaImageReadOnlyView
-              cinema={cinema}
-            />
+            <CinemaImageReadOnlyView cinema={cinema} />
           )}
         </Col>
       </Row>

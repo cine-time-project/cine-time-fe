@@ -11,6 +11,5 @@ export async function uploadCinemaImage(cinemaId, formData, token) {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response);
   return response.data;
 }
