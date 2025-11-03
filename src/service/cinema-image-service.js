@@ -1,3 +1,6 @@
+import { config } from "@/helpers/config";
+import axios from "axios";
+
 export async function uploadCinemaImage(cinemaId, formData, token) {
   if (!token) throw new Error("Missing token");
 
@@ -8,6 +11,6 @@ export async function uploadCinemaImage(cinemaId, formData, token) {
       Authorization: `Bearer ${token}`,
     },
   });
-
+  console.log(response);
   return response.data;
 }

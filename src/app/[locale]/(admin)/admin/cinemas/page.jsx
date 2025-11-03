@@ -19,7 +19,7 @@ export default function AdminCinemasPage({ params }) {
   const { roles, token } = useAuth();
 
   // Backend page size (used for pagination and numbering)
-  const pageSize = 10;
+  const pageSize = 20;
 
   const canCreate = roles?.includes("ADMIN");
   const canDelete = roles?.includes("ADMIN");

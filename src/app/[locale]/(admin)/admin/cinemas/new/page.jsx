@@ -74,16 +74,8 @@ export default function CreateCinemaPage() {
     <Container>
       <PageHeader title="Create New Cinema" />
       {/* Step 1: Form */}
-      {!createdCinemaId && (
-        <CinemaForm
-          onSubmit={handleCreateCinema}
-          token={token}
-          locale={locale}
-        />
-      )}
 
-      {/* Step 2: Image Upload */}
-      {createdCinemaId && <CinemaImageUploader onUpload={handleImageUpload} />}
+      <CinemaForm onSubmit={handleCreateCinema} token={token} locale={locale} />
     </Container>
   );
 }

@@ -13,5 +13,5 @@ export const uploadImage = async (cinemaId, file, token) => {
 
   const data = await uploadCinemaImage(cinemaId, formData, token);
 
-  return response.data;
+  return data;
 };

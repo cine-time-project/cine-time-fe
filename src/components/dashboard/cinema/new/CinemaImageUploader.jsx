@@ -1,26 +1,24 @@
 "use client";
 
+import { deleteImage, uploadImage } from "@/action/cinema-image-actions";
 import React, { useState, useEffect } from "react";
 import { Form, Button, Spinner, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export const CinemaImageUploader = ({
-  cinema,
-  onUpload,
-  isEditMode = false,
-}) => {
+export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
+  const [isUpdate, setIsUpdate] = useState(false);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
 
   // 🎬 Eğer edit modundaysak mevcut resmi göster
   useEffect(() => {
-    if (isEditMode && cinema?.imageUrl) {
-      setPreviewUrl(cinema.imageUrl);
-    } else {
-      setPreviewUrl(null);
+    if (cinema?.imageUrl) {
+      console.log("Update Mode");
+      setIsUpdate(true);
     }
-  }, [cinema, isEditMode]);
+    setPreviewUrl(cinema?.imageUrl || null);
+  }, [cinema]);
 
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
@@ -32,7 +30,7 @@ export const CinemaImageUploader = ({
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
 
     if (!cinema?.id) {
@@ -48,13 +46,17 @@ export const CinemaImageUploader = ({
     setLoading(true);
     try {
       // cinema.id ve file parametreleriyle upload işlemini tetikle
-      await onUpload(cinema.id, file);
+      const updatedImageData = await uploadImage(cinema.id, file, token);
+
+
+      //update Parent cinema state
+      if (onUpdateCinema) {
+        onUpdateCinema({ ...cinema, imageUrl: updatedImageData?.url });
+      }
 
       Swal.fire(
         "Success",
-        isEditMode
-          ? "Image updated successfully!"
-          : "Image uploaded successfully!",
+        "Image uploaded successfully!",
         "success"
       );
       setFile(null);
@@ -66,12 +68,11 @@ export const CinemaImageUploader = ({
     }
   };
 
-
   return (
-    <Form onSubmit={handleSubmit} className="p-3 border rounded bg-light">
+    <Form onSubmit={handleUpload} className="p-3 border rounded bg-light">
       <Form.Group className="mb-3">
         <Form.Label>
-          {isEditMode ? "Update Cinema Image" : "Upload Cinema Image"}
+          {isUpdate ? "Update Cinema Image" : "Upload Cinema Image"}
         </Form.Label>
         <Form.Control
           type="file"
@@ -93,7 +94,7 @@ export const CinemaImageUploader = ({
             }}
           />
           <p className="text-muted mt-2 small">
-            {isEditMode
+            {isUpdate
               ? "Current / New image preview"
               : "Selected image preview"}
           </p>
@@ -101,31 +102,13 @@ export const CinemaImageUploader = ({
       )}
 
       <div className="d-flex justify-content-end gap-2">
-        {previewUrl && (
-          <Button
-            variant="secondary"
-            type="button"
-            onClick={() => {
-              setFile(null);
-              // Mevcut resmi koru (edit modundaysa), yoksa tamamen sıfırla
-              if (isEditMode && cinema?.imageUrl) {
-                setPreviewUrl(cinema.imageUrl);
-              } else {
-                setPreviewUrl(null);
-              }
-            }}
-          >
-            Cancel
-          </Button>
-        )}
-
         <Button variant="primary" type="submit" disabled={loading}>
           {loading ? (
             <Spinner size="sm" animation="border" />
-          ) : isEditMode ? (
+          ) : isUpdate ? (
             "Update Image"
           ) : (
-            "Upload Image"
+            "Save Image"
           )}
         </Button>
       </div>
