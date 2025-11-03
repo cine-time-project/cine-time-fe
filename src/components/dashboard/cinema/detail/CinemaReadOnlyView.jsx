@@ -8,7 +8,7 @@ import { CardGroup } from "../new/ui/CardGroup";
  * Props:
  *  - cinema: { name, slug, city, city.countryMiniResponse, imageUrl }
  */
-export function CinemaReadOnlyView({ cinema }) {
+export function CinemaReadOnlyView({ cinema, toogleEditMode }) {
   if (!cinema) {
     return (
       <div className="container py-4 bg-secondary-subtle text-center">
@@ -18,7 +18,7 @@ export function CinemaReadOnlyView({ cinema }) {
   }
 
   return (
-    <CardGroup title={`Cinema ID: ${cinema.id}`}>
+    <CardGroup title={`Cinema ID: ${cinema.id}`} toogleEditMode={toogleEditMode}>
       <div className="mb-3">
         <label className="form-label fw-semibold">Name</label>
         <div className="form-control-plaintext border bg-white rounded px-2 py-1">
