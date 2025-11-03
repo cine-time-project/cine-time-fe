@@ -8,6 +8,7 @@ import {
 } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listAllCities, addCity } from "@/action/city-actions";
+import { Button as PrimeButton } from "primereact/button";
 
 /**
  * CitySelect
@@ -62,9 +63,10 @@ export function CitySelect({
       );
 
       // Normalize API response
-      const newCity = res?.data?.data || res?.data || res;
+      const newCity = res.data.returnBody;
+      console.log(res);
       const finalCity = {
-        id: newCity.id ?? newCity.ID ?? Math.random(),
+        id: newCity.id,
         name: newCity.name ?? newCity.title ?? newCityName,
         countryMiniResponse: newCity.countryMiniResponse ?? {
           id: selectedCountryId,
@@ -90,7 +92,20 @@ export function CitySelect({
 
   return (
     <div className="mb-3">
-      <Form.Label className="fw-semibold">City</Form.Label>
+      <div className="d-flex justify-content-between align-items-center mb-1">
+        <Form.Label className="fw-semibold">City</Form.Label>
+        {!isAdding && (
+          <PrimeButton
+            className="p-0"
+            link
+            label="Add"
+            icon={"pi pi-plus"}
+            onClick={() => setIsAdding(true)}
+            disabled={!selectedCountryId}
+          />
+        )}
+      </div>
+
       {!isAdding ? (
         <InputGroup>
           <Form.Select
@@ -105,18 +120,6 @@ export function CitySelect({
               </option>
             ))}
           </Form.Select>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>Add New City</Tooltip>}
-          >
-            <Button
-              variant="outline-success"
-              onClick={() => setIsAdding(true)}
-              disabled={!selectedCountryId}
-            >
-              <i className="pi pi-plus"></i>
-            </Button>
-          </OverlayTrigger>
         </InputGroup>
       ) : (
         <InputGroup>
@@ -131,7 +134,10 @@ export function CitySelect({
               <i className="pi pi-check"></i>
             </Button>
           </OverlayTrigger>
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>Cancel</Tooltip>}>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip>Cancel</Tooltip>}
+          >
             <Button
               variant="outline-secondary"
               onClick={() => setIsAdding(false)}

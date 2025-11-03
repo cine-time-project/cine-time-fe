@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { getDetailedCinema } from "@/service/cinema-service";
-import CinemaDetailCard from "@/components/dashboard/cinema/detail/CinemaDetailCard";
 import HallList from "@/components/dashboard/cinema/detail/HallList";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
+import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
 
 export default function AdminCinemaDetailPage({ params }) {
   const { id } = React.use(params);
-
+  const [isEditMode, setEditMode] = useState(false);
   const [cinema, setCinema] = useState(null);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState("");
@@ -43,8 +43,8 @@ export default function AdminCinemaDetailPage({ params }) {
 
   return (
     <Container className="my-4">
-      <PageHeader title={`Detail Page for - ${cinema?.name}`} />
-      <CinemaDetailCard cinema={cinema} />
+      <PageHeader title={`${cinema?.name}`} />
+      <CinemaForm cinema={cinema} isEditMode={isEditMode} />
 
       <Row className="mt-4">
         <Col md={8}>

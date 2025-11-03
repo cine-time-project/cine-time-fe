@@ -8,6 +8,7 @@ import {
 } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listCountries, addCountry } from "@/action/city-actions";
+import { Button as PrimeButton } from "primereact/button";
 
 /**
  * CountrySelect
@@ -64,7 +65,23 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
 
   return (
     <div className="mb-3">
-      <Form.Label className="fw-semibold">Country</Form.Label>
+      <div className="d-flex justify-content-between align-items-center mb-1">
+        <Form.Label className="fw-semibold">Country</Form.Label>
+        {!isAdding && (
+          <PrimeButton
+          className="p-0"
+            link
+            label="Add"
+            icon={"pi pi-plus"}
+            
+            onClick={() => {
+              setIsAdding(true);
+              onCountryChange(""); //reset country set
+            }}
+          />
+        )}
+      </div>
+
       {!isAdding ? (
         <InputGroup>
           <Form.Select
@@ -78,20 +95,6 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
               </option>
             ))}
           </Form.Select>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>Add New Country</Tooltip>}
-          >
-            <Button
-              variant="outline-success"
-              onClick={() => {
-                setIsAdding(true);
-                onCountryChange(""); //reset country set
-              }}
-            >
-              <i className="pi pi-plus"></i>
-            </Button>
-          </OverlayTrigger>
         </InputGroup>
       ) : (
         <InputGroup>
