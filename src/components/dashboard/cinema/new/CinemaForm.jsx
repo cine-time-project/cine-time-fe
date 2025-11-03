@@ -44,14 +44,19 @@ export function CinemaForm(props) {
           token
         );
         Swal.fire("Success", "Cinema updated successfully!", "success");
-        
       } else {
         const res = await createCinemaRequest(
           { name, slug, cityId: selectedCityId },
           token
         );
+        console.log(res);
+        const createdCinemaId = res?.returnBody?.id;
         Swal.fire("Success", "Cinema created successfully!", "success");
-        router.push(`/${locale}/admin/cinemas/`);
+        router.push(
+          createdCinemaId
+            ? `/${locale}/admin/cinemas/${createdCinemaId}`
+            : `/${locale}/admin/cinemas/`
+        );
       }
     } catch (err) {
       Swal.fire("Error", err.response?.data?.message || err.message, "error");
