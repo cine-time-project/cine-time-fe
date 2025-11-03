@@ -1,210 +1,196 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
-import { useParams, useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useParams, usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function EditUserPage() {
-  const { id } = useParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const locale = useMemo(() => pathname.split("/")[1] || "tr", [pathname]);
-
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
+    gender: "",
     birthDate: "",
-    gender: "OTHER",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const router = useRouter();
+  const { id } = useParams();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "tr";
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
-  
-  const formatPhone = (phone) => {
-    if (!phone) return "";
-    let cleaned = phone.replace(/\D/g, ""); // sadece rakamlar
-    if (cleaned.startsWith("90")) cleaned = cleaned.slice(2);
-    if (cleaned.length === 10) {
-      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
-        6
-      )}`;
-    }
-    return phone;
-  };
-
-  // Kullanıcı bilgilerini çek
   useEffect(() => {
-    const fetchUser = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      router.replace(`/${locale}/login`);
+      return;
+    }
+
+    async function fetchUser() {
       try {
-        const token = localStorage.getItem("authToken");
-        if (!token) throw new Error("Giriş yapılmadı.");
-
-        const res = await fetch(
-          `http://localhost:8090/api/users/admin?q=${id}`,
-          {
-            headers: { Authorization: "Bearer " + token },
-          }
-        );
-
-        if (!res.ok) throw new Error("Kullanıcı bulunamadı.");
-
+        const res = await fetch(`${API_BASE}/users/4/admin`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const data = await res.json();
-        const u = data?.returnBody?.content?.find((user) => user.id == id);
+        const u = Array.isArray(data)
+          ? data.find((user) => user.id == id)
+          : data?.returnBody?.content?.find((user) => user.id == id);
+
         if (!u) throw new Error("Kullanıcı bulunamadı.");
 
         setForm({
           firstName: u.name || "",
           lastName: u.surname || "",
           email: u.email || "",
-          phone: formatPhone(u.phoneNumber),
+          phone: u.phoneNumber || "",
+          gender: u.gender || "",
           birthDate: u.birthDate || "",
-          gender: u.gender || "OTHER",
         });
       } catch (err) {
-        console.error(err);
-        setError(err.message);
+        alert(err.message);
+        router.push(`/${locale}/admin/users`);
       }
-    };
-    fetchUser();
+    }
+
+    if (id) fetchUser();
   }, [id]);
 
-  // Kaydet (Güncelleme)
-  const handleSave = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  // Telefonu biçimlendir: (555) 123-4567
+  const formatPhone = (value) => {
+    const cleaned = value.replace(/\D/g, "");
+    const digits = cleaned.startsWith("90") ? cleaned.substring(2) : cleaned;
 
+    const match = digits.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+    if (!match) return value;
+
+    let formatted = "";
+    if (match[1]) formatted = `(${match[1]}`;
+    if (match[2]) formatted += `) ${match[2]}`;
+    if (match[3]) formatted += `-${match[3]}`;
+    return formatted;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: name === "phone" ? formatPhone(value) : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem("authToken");
-      if (!token) throw new Error("Giriş yapılmadı.");
 
-      let formattedDate = form.birthDate;
-      if (formattedDate.includes(".")) {
-        const [day, month, year] = formattedDate.split(".");
-        formattedDate = `${year}-${month}-${day}`;
-      }
-
-      const payload = {
-        firstName: form.firstName,
-        lastName: form.lastName,
-        email: form.email,
-        phone: formatPhone(form.phone),
-        birthDate: formattedDate || null,
-        gender: form.gender,
-      };
-
-      const res = await fetch(`http://localhost:8090/api/${id}/admin`, {
+      const res = await fetch(`${API_BASE}/${id}/admin`, {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          name: form.firstName,
+          surname: form.lastName,
+          email: form.email,
+          phoneNumber: form.phone,
+          gender: form.gender,
+          birthDate: form.birthDate,
+        }),
       });
 
-      if (!res.ok) {
-        const txt = await res.text();
-        console.error("Backend hata:", txt);
-        throw new Error("Güncelleme başarısız.");
-      }
+      if (!res.ok) throw new Error("Güncelleme başarısız.");
 
-      setSuccess("✅ Kullanıcı başarıyla güncellendi!");
-      setTimeout(() => router.push(`/${locale}/admin/users`), 1500);
+      sessionStorage.setItem(
+        "actionMessage",
+        "Kullanıcı başarıyla güncellendi!"
+      );
+      router.push(`/${locale}/admin/users`);
     } catch (err) {
-      setError(err.message || "Bir hata oluştu.");
+      alert(err.message);
     }
   };
 
   return (
-    <main className="container py-4" style={{ maxWidth: 720 }}>
-      <style jsx global>{`
-        label.form-label {
-          color: #fff !important;
-          font-weight: 500;
-        }
-        input,
-        select {
-          background-color: #222 !important;
-          color: #fff !important;
-          border: 1px solid #555 !important;
-        }
-      `}</style>
+    <div className="container py-4">
+      <h1 className="mb-4">Kullanıcı Düzenle</h1>
 
-      <h1 className="mb-3 text-light">Kullanıcı Düzenle #{id}</h1>
-
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
-
-      <form onSubmit={handleSave} className="row g-3">
-        <div className="col-md-6">
+      <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
+        <div className="mb-3">
           <label className="form-label">Ad</label>
           <input
+            type="text"
             className="form-control"
+            name="firstName"
             value={form.firstName}
-            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+            onChange={handleChange}
+            required
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="mb-3">
           <label className="form-label">Soyad</label>
           <input
+            type="text"
             className="form-control"
+            name="lastName"
             value={form.lastName}
-            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+            onChange={handleChange}
+            required
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="mb-3">
           <label className="form-label">Email</label>
           <input
             type="email"
             className="form-control"
+            name="email"
             value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            onChange={handleChange}
+            required
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="mb-3">
           <label className="form-label">Telefon</label>
           <input
+            type="text"
             className="form-control"
-            placeholder="(555) 999-6611"
+            name="phone"
             value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            onChange={handleChange}
+            placeholder="(555) 123-4567"
+            maxLength={14} // <-- sadece (XXX) XXX-XXXX
+            required
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="mb-3">
+          <label className="form-label">Cinsiyet</label>
+          <select
+            className="form-select"
+            name="gender"
+            value={form.gender}
+            onChange={handleChange}
+          >
+            <option value="">Seçiniz</option>
+            <option value="MALE">Erkek</option>
+            <option value="FEMALE">Kadın</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
           <label className="form-label">Doğum Tarihi</label>
           <input
             type="date"
             className="form-control"
-            value={form.birthDate || ""}
-            onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
+            name="birthDate"
+            value={form.birthDate}
+            onChange={handleChange}
           />
         </div>
 
-        <div className="col-md-6">
-          <label className="form-label">Cinsiyet</label>
-          <select
-            className="form-select"
-            value={form.gender}
-            onChange={(e) => setForm({ ...form, gender: e.target.value })}
-          >
-            <option value="MALE">Erkek</option>
-            <option value="FEMALE">Kadın</option>
-            <option value="OTHER">Diğer</option>
-          </select>
-        </div>
-
-        <div className="col-12 d-flex justify-content-between mt-3">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => router.push(`/${locale}/admin/users`)}
-          >
-            Geri
-          </button>
+        <div className="d-flex justify-content-between mt-4">
           <button
             type="submit"
             className="btn btn-primary"
@@ -212,8 +198,15 @@ export default function EditUserPage() {
           >
             Kaydet
           </button>
+
+          <Link
+            href={`/${locale}/admin/users`}
+            className="btn btn-outline-secondary"
+          >
+            ← Kullanıcılara Dön
+          </Link>
         </div>
       </form>
-    </main>
+    </div>
   );
 }

@@ -11,6 +11,8 @@ export default function AdminUsersPage() {
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
 
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -29,12 +31,23 @@ export default function AdminUsersPage() {
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem("authToken");
-      const res = await fetch("http://localhost:8090/api/users/admin", {
-        headers: { Authorization: "Bearer " + token },
+
+      const res = await fetch(`${API_BASE}/users/4/admin`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
+
+      if (!res.ok)
+        throw new Error(`Kullanıcı listesi alınamadı (${res.status})`);
+
       const data = await res.json();
-      const list = data?.returnBody?.content || [];
+
+      // 🔹 Sıralama ID’ye göre küçükten büyüğe
+      const list = Array.isArray(data)
+        ? data.sort((a, b) => a.id - b.id)
+        : (data?.returnBody?.content || []).sort((a, b) => a.id - b.id);
+
       setUsers(list);
     } catch (err) {
       console.error("Kullanıcılar alınamadı:", err);
@@ -47,9 +60,10 @@ export default function AdminUsersPage() {
     if (!confirm("Bu kullanıcıyı silmek istediğine emin misin?")) return;
     try {
       const token = localStorage.getItem("authToken");
-      const res = await fetch(`http://localhost:8090/api/${id}/admin`, {
+
+      const res = await fetch(`${API_BASE}/${id}/admin`, {
         method: "DELETE",
-        headers: { Authorization: "Bearer " + token },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!res.ok) throw new Error("Silme işlemi başarısız.");
