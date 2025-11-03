@@ -26,7 +26,7 @@ export const MovieList = ({
     onPageChange?.(nextPage);
   };
 
-  const onClick = (search) => {
+  const onSearchMovie = (search) => {
     setShowButton(true);
     onSearch(search);
   };
@@ -103,7 +103,7 @@ export const MovieList = ({
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                onClick(searchTerm);
+                onSearchMovie(searchTerm);
               }
             }}
             style={{ flex: "1 1 300px", minWidth: "250px" }}
@@ -113,7 +113,7 @@ export const MovieList = ({
           <button
             type="button"
             className="btn btn-primary fw-semibold"
-            onClick={() => onClick(searchTerm)}
+            onClick={() => onSearchMovie(searchTerm)}
             disabled={searchTerm === "" ? true : false}
           >
             <i className="pi pi-search me-2"></i>Search
