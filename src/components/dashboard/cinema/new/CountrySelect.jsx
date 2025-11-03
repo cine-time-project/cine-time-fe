@@ -114,7 +114,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
             overlay={<Tooltip>Cancel</Tooltip>}
           >
             <Button
-              variant="outline-secondary"
+              variant="danger"
               onClick={() => setIsAdding(false)}
             >
               <i className="pi pi-times"></i>
