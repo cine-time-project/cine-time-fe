@@ -91,7 +91,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
   // -----------------------------
   return (
     <Form.Group className="mb-3" as={Row}>
-      <Form.Label column sm="2">
+      <Form.Label column sm="2" className="text-nowrap">
         Country
       </Form.Label>
       <Col sm="10">

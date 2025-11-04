@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteImage, uploadImage } from "@/action/cinema-image-actions";
+import { uploadImage } from "@/action/cinema-image-actions";
 import React, { useState, useEffect } from "react";
 import { Form, Button, Spinner, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
