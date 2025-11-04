@@ -80,3 +80,17 @@ export async function getDetailedCinema(id, token) {
   );
   return response?.data?.returnBody;
 }
+
+//TODO: this is dummy, should be replaced with real one
+export async function updateCinemaRequest(id, token) {
+  const response = await axios.get(
+    `${config.apiURL}/dashboard/cinemas/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
+        "Content-Type": "application/json",
+      },
+    } // backend endpoint
+  );
+  return response?.data?.returnBody;
+}
