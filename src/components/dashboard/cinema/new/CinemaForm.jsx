@@ -7,6 +7,7 @@ import { CountrySelect } from "./CountrySelect";
 import { CitySelect } from "./CitySelect";
 import { CardGroup } from "./ui/CardGroup";
 import { useRouter } from "next/navigation";
+import { Col, Form, Row } from "react-bootstrap";
 
 export function CinemaForm(props) {
   const { cinema, token, locale, isEditMode } = props;
@@ -65,24 +66,34 @@ export function CinemaForm(props) {
 
   return (
     <CardGroup title="Cinema Information">
-      <div className="mb-3">
-        <label className="form-label fw-semibold">Name</label>
-        <InputText
-          value={name || ""}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter cinema name"
-          className="w-100"
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label fw-semibold">Slug (optional)</label>
-        <InputText
-          value={slug || ""}
-          onChange={(e) => setSlug(e.target.value)}
-          placeholder="Enter slug or leave blank"
-          className="w-100"
-        />
-      </div>
+      <Form.Group className="mb-3" as={Row}>
+        <Form.Label column sm="2" className="mx-0">
+          Name:
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            value={name || ""}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter cinema name"
+            className="w-100"
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group className="mb-3" as={Row}>
+        <Form.Label column sm="2" className="mx-0">
+          Slug
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            value={slug || ""}
+            onChange={(e) => setSlug(e.target.value)}
+            placeholder="Enter slug or leave blank"
+            className="w-100"
+          />
+        </Col>
+      </Form.Group>
+      
       <CountrySelect
         selectedCountryId={selectedCountryId}
         onCountryChange={setSelectedCountryId}

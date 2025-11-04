@@ -5,6 +5,8 @@ import {
   InputGroup,
   OverlayTrigger,
   Tooltip,
+  Row,
+  Col,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listAllCities, addCity } from "@/action/city-actions";
@@ -91,62 +93,65 @@ export function CitySelect({
   };
 
   return (
-    <div className="mb-3">
-      <div className="d-flex justify-content-between align-items-center mb-1">
-        <Form.Label className="fw-semibold">City</Form.Label>
-        {!isAdding && (
-          <PrimeButton
-            className="p-0"
-            link
-            label="Add"
-            icon={"pi pi-plus"}
-            onClick={() => setIsAdding(true)}
-            disabled={!selectedCountryId}
-          />
-        )}
-      </div>
-
-      {!isAdding ? (
-        <InputGroup>
-          <Form.Select
-            value={selectedCityId || ""}
-            onChange={(e) => onCityChange(Number(e.target.value))}
-            disabled={!selectedCountryId}
-          >
-            <option value="">Select a city</option>
-            {cities.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </Form.Select>
-        </InputGroup>
-      ) : (
-        <InputGroup>
-          <Form.Control
-            className="bg-warning-subtle"
-            placeholder="Enter new city"
-            value={newCityName}
-            onChange={(e) => setNewCityName(e.target.value)}
-          />
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>Save</Tooltip>}>
-            <Button variant="success" onClick={handleSaveCity}>
-              <i className="pi pi-check"></i>
-            </Button>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>Cancel</Tooltip>}
-          >
-            <Button
-              variant="danger"
-              onClick={() => setIsAdding(false)}
+    <Form.Group className="mb-3" as={Row}>
+      <Form.Label column sm="2" className="mx-0">
+        City
+      </Form.Label>
+      <Col sm="10">
+        {!isAdding ? (
+          <InputGroup>
+            <Form.Select
+              value={selectedCityId || ""}
+              onChange={(e) => onCityChange(Number(e.target.value))}
+              disabled={!selectedCountryId}
             >
-              <i className="pi pi-times"></i>
-            </Button>
-          </OverlayTrigger>
-        </InputGroup>
-      )}
-    </div>
+              <option value="">Select a city</option>
+              {cities.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </Form.Select>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Add new city</Tooltip>}
+            >
+              <Button
+                variant="warning"
+                onClick={() => setIsAdding(true)}
+                disabled={!selectedCountryId}
+              >
+                <i className="pi pi-plus"></i>
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
+        ) : (
+          <InputGroup>
+            <Form.Control
+              className="bg-warning-subtle"
+              placeholder="Enter new city"
+              value={newCityName}
+              onChange={(e) => setNewCityName(e.target.value)}
+            />
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Save</Tooltip>}
+            >
+              <Button variant="success" onClick={handleSaveCity}>
+                <i className="pi pi-check"></i>
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Cancel</Tooltip>}
+            >
+              <Button variant="danger" onClick={() => setIsAdding(false)}>
+                <i className="pi pi-times"></i>
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
+        )}
+      </Col>
+    </Form.Group>
   );
 }

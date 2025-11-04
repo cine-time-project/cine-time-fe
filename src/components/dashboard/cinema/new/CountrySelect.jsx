@@ -5,6 +5,8 @@ import {
   InputGroup,
   OverlayTrigger,
   Tooltip,
+  Row,
+  Col,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listCountries, addCountry } from "@/action/city-actions";
@@ -64,64 +66,66 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
   };
 
   return (
-    <div className="mb-3">
-      <div className="d-flex justify-content-between align-items-center mb-1">
-        <Form.Label className="fw-semibold">Country</Form.Label>
-        {!isAdding && (
-          <PrimeButton
-          className="p-0"
-            link
-            label="Add"
-            icon={"pi pi-plus"}
-            
-            onClick={() => {
-              setIsAdding(true);
-              onCountryChange(""); //reset country set
-            }}
-          />
-        )}
-      </div>
-
-      {!isAdding ? (
-        <InputGroup>
-          <Form.Select
-            value={selectedCountryId || ""}
-            onChange={(e) => onCountryChange(Number(e.target.value))}
-          >
-            <option value="">Select a country</option>
-            {countries.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </Form.Select>
-        </InputGroup>
-      ) : (
-        <InputGroup>
-          <Form.Control
-            className="bg-warning-subtle"
-            placeholder="Enter new country"
-            value={newCountryName}
-            onChange={(e) => setNewCountryName(e.target.value)}
-          />
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>Save</Tooltip>}>
-            <Button variant="success" onClick={handleSaveCountry}>
-              <i className="pi pi-check"></i>
-            </Button>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>Cancel</Tooltip>}
-          >
-            <Button
-              variant="danger"
-              onClick={() => setIsAdding(false)}
+    <Form.Group className="mb-3" as={Row}>
+      <Form.Label column sm="2" className="mx-0">
+        Country
+      </Form.Label>
+      <Col sm="10">
+        {!isAdding ? (
+          <InputGroup>
+            <Form.Select
+              value={selectedCountryId || ""}
+              onChange={(e) => onCountryChange(Number(e.target.value))}
             >
-              <i className="pi pi-times"></i>
-            </Button>
-          </OverlayTrigger>
-        </InputGroup>
-      )}
-    </div>
+              <option value="">Select a country</option>
+              {countries.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </Form.Select>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Add new country</Tooltip>}
+            >
+              <Button
+                variant="warning"
+                onClick={() => {
+                  setIsAdding(true);
+                  onCountryChange(""); //reset country set
+                }}
+              >
+                <i className="pi pi-plus"></i>
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
+        ) : (
+          <InputGroup>
+            <Form.Control
+              className="bg-warning-subtle"
+              placeholder="Enter new country"
+              value={newCountryName}
+              onChange={(e) => setNewCountryName(e.target.value)}
+            />
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Save</Tooltip>}
+            >
+              <Button variant="success" onClick={handleSaveCountry}>
+                <i className="pi pi-check"></i>
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Cancel</Tooltip>}
+            >
+              <Button variant="danger" onClick={() => setIsAdding(false)}>
+                <i className="pi pi-times"></i>
+              </Button>
+            </OverlayTrigger>
+          </InputGroup>
+        )}
+      </Col>
+    </Form.Group>
   );
 }
