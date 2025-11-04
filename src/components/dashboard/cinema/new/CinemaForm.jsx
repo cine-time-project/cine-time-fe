@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { Button } from "primereact/button";
 import Swal from "sweetalert2";
-import { createCinemaRequest, updateCinemaRequest } from "@/service/cinema-service";
+import {
+  createCinemaRequest,
+  getDetailedCinema,
+  updateCinemaRequest,
+} from "@/service/cinema-service";
 import { CountrySelect } from "./CountrySelect";
 import { CitySelect } from "./CitySelect";
 import { CardGroup } from "./ui/CardGroup";
@@ -12,81 +16,88 @@ import { Col, Form, Row } from "react-bootstrap";
 
 /**
  * CinemaForm
- * ----------
+ * -----------
  * Handles creation and editing of cinema entities.
- * Integrates country/city selection with inline add support.
+ * Supports country/city selection with inline add support.
  *
  * Props:
- *  - cinema: Cinema object to edit, or empty for new
- *  - token: Authentication token for API calls
- *  - locale: Current locale for navigation
- *  - isEditMode: boolean indicating if the form is in edit mode
+ *  - cinema: Cinema object to edit (or undefined for new cinema)
+ *  - token: Authentication token for API requests
+ *  - locale: Current locale for routing
+ *  - isEditMode: Boolean indicating if the form is in edit mode
+ *  - setCinema: Callback to update parent state after edit
  */
-export function CinemaForm({ cinema, token, locale, isEditMode }) {
+export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
   const router = useRouter();
 
   // -----------------------------
   // Local form state
   // -----------------------------
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [selectedCountryId, setSelectedCountryId] = useState("");
-  const [selectedCityId, setSelectedCityId] = useState("");
+  const [name, setName] = useState(""); // cinema name input
+  const [slug, setSlug] = useState(""); // cinema slug input
+  const [selectedCountryId, setSelectedCountryId] = useState(""); // country selector
+  const [selectedCityId, setSelectedCityId] = useState(""); // city selector
   const [saving, setSaving] = useState(false); // loading indicator for submit
 
   // -----------------------------
-  // Populate form fields from cinema object on mount / cinema change
+  // Populate form fields from cinema prop when it changes
   // -----------------------------
   useEffect(() => {
-    if (cinema && Object.keys(cinema).length > 0) {
+    if (cinema) {
       setName(cinema.name || "");
       setSlug(cinema.slug || "");
       setSelectedCountryId(cinema.city?.countryMiniResponse?.id || "");
       setSelectedCityId(cinema.city?.id || "");
-    } else {
-      // New cinema: reset form
-      setName("");
-      setSlug("");
-      setSelectedCountryId("");
-      setSelectedCityId("");
     }
   }, [cinema]);
 
   // -----------------------------
-  // Handle form submission
+  // Handle form submission (create or update)
   // -----------------------------
   const handleSubmit = async () => {
-    const trimmedName = name.trim();
-    const trimmedSlug = slug.trim();
+    // Validation: token must exist
+    if (!token) {
+      return Swal.fire("Error", "Authentication token is missing", "error");
+    }
+    // Validation: name must be filled
+    if (!name.trim())
+      return Swal.fire("Error", "Cinema name is required", "error");
+    // Validation: city must be selected
+    if (!selectedCityId)
+      return Swal.fire("Error", "Please select a city", "error");
 
-    // -----------------------------
-    // Basic validation
-    // -----------------------------
-    if (!trimmedName) return Swal.fire("Error", "Cinema name is required", "error");
-    if (!selectedCityId) return Swal.fire("Error", "Please select a city", "error");
-
-    setSaving(true); // show spinner, disable button
+    setSaving(true); // disable submit button and show spinner
     try {
       if (isEditMode) {
+        // -----------------------------
         // Update existing cinema
+        // -----------------------------
         await updateCinemaRequest(
-          { id: cinema.id, name: trimmedName, slug: trimmedSlug, cityId: selectedCityId },
+          cinema.id,
+          { name, slug, cityId: selectedCityId },
           token
         );
+
         Swal.fire("Success", "Cinema updated successfully!", "success");
+
+        // Refresh parent state from backend after update
+        const updated = await getDetailedCinema(cinema.id, token);
+        setCinema(updated);
       } else {
+        // -----------------------------
         // Create new cinema
+        // -----------------------------
         const res = await createCinemaRequest(
-          { name: trimmedName, slug: trimmedSlug, cityId: selectedCityId },
+          { name, slug, cityId: selectedCityId },
           token
         );
-        const createdCinemaId = res?.returnBody?.id;
         Swal.fire("Success", "Cinema created successfully!", "success");
 
-        // Navigate to new cinema detail page
+        // Navigate to the new cinema detail page
+        const newId = res?.returnBody?.id;
         router.push(
-          createdCinemaId
-            ? `/${locale}/admin/cinemas/${createdCinemaId}`
+          newId
+            ? `/${locale}/admin/cinemas/${newId}`
             : `/${locale}/admin/cinemas/`
         );
       }
@@ -102,10 +113,9 @@ export function CinemaForm({ cinema, token, locale, isEditMode }) {
   // -----------------------------
   return (
     <CardGroup title="Cinema Information">
-      
       {/* Cinema Name Input */}
       <Form.Group className="mb-3" as={Row}>
-        <Form.Label column sm="2" className="mx-0">
+        <Form.Label column sm="2">
           Name
         </Form.Label>
         <Col sm="10">
@@ -113,14 +123,13 @@ export function CinemaForm({ cinema, token, locale, isEditMode }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter cinema name"
-            className="w-100"
           />
         </Col>
       </Form.Group>
 
       {/* Cinema Slug Input */}
       <Form.Group className="mb-3" as={Row}>
-        <Form.Label column sm="2" className="mx-0">
+        <Form.Label column sm="2">
           Slug
         </Form.Label>
         <Col sm="10">
@@ -128,19 +137,18 @@ export function CinemaForm({ cinema, token, locale, isEditMode }) {
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             placeholder="Enter slug or leave blank"
-            className="w-100"
           />
         </Col>
       </Form.Group>
 
-      {/* Country Selector */}
+      {/* Country selector with inline add support */}
       <CountrySelect
         selectedCountryId={selectedCountryId}
         onCountryChange={setSelectedCountryId}
         token={token}
       />
 
-      {/* City Selector (depends on selected country) */}
+      {/* City selector, filtered by selected country */}
       <div className="mt-4">
         <CitySelect
           selectedCountryId={selectedCountryId}
@@ -150,15 +158,21 @@ export function CinemaForm({ cinema, token, locale, isEditMode }) {
         />
       </div>
 
-      {/* Submit Button */}
+      {/* Submit button */}
       <div className="mt-4 d-flex justify-content-end">
         <Button
           label={isEditMode ? "Update Cinema" : "Create Cinema"}
-          icon={saving ? "pi pi-spin pi-spinner" : isEditMode ? "pi pi-refresh" : "pi pi-check"}
+          icon={
+            saving
+              ? "pi pi-spin pi-spinner" // show spinner when saving
+              : isEditMode
+              ? "pi pi-refresh"
+              : "pi pi-check"
+          }
           severity={isEditMode ? "info" : "success"}
           onClick={handleSubmit}
           className="px-4"
-          disabled={saving}
+          disabled={saving} // prevent multiple submissions
         />
       </div>
     </CardGroup>
