@@ -890,7 +890,7 @@
         "desc": "Summaries & performance reports"
       },
 
-      "countries": { "title": "Countries", "desc": "Country lists" },
+      "locations": { "title": "Locations", "desc": "Location List" },
       "districts": {
         "title": "Districts",
         "desc": "District / neighborhood lists"
