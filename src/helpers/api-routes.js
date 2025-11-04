@@ -29,6 +29,12 @@ export const userAdminCheckApi = (userId) => `${API}/users/${userId}/admin`; // 
 export const makeUserAdminApi = (userId) => `${API}/${userId}/admin`;    // PUT
 export const revokeUserAdminApi = (userId) => `${API}/${userId}/admin`;  // DELETE
 
+//List Users
+export const USER_LIST_API = `${API}/users/4/admin`; // GET
+
+// Update User By Id
+export const userUpdateByIdApi = (userId) => `${API}/${userId}/admin`; // PUT
+
 // -------------------- Contact Messages --------------------
 export const CONTACT_CREATE_API = `${API}/contactmessages`; // POST
 
