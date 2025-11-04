@@ -73,8 +73,8 @@ export default function CountriesPage() {
   ];
 
   return (
-    <div className="p-6 text-gray-100 flex flex-col gap-6">
-      <div className="bg-[#0f0f12]/80 border border-[#2a2a38] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden">
+    <div className="p-6 text-white flex flex-col gap-6">
+      <div className="bg-[#0f0f12]/80 border border-[#2a2a38] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden text-white">
         <AdminTable
           columns={columns}
           rows={countries}
