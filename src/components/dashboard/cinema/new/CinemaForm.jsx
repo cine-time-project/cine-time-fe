@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Swal from "sweetalert2";
 import { createCinemaRequest, updateCinemaRequest } from "@/service/cinema-service";
