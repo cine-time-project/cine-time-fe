@@ -16,7 +16,7 @@ import HallList from "@/components/dashboard/cinema/detail/HallList";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
-import { CinemaReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaReadOnlyView";
+import { CinemaReadOnlyForm } from "@/components/dashboard/cinema/detail/CinemaReadOnlyForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
 import { CinemaImageReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaImageReadOnlyView";
 
@@ -106,9 +106,8 @@ export default function AdminCinemaDetailPage({ params }) {
               setCinema={setCinema}
             />
           ) : (
-            <CinemaReadOnlyView
+            <CinemaReadOnlyForm
               cinema={cinema}
-              toogleEditMode={toogleEditMode}
             />
           )}
         </Col>

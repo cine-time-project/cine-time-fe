@@ -103,10 +103,11 @@ export function CinemaForm({ cinema, token, locale, isEditMode }) {
   // -----------------------------
   return (
     <CardGroup title="Cinema Information">
+      
       {/* Cinema Name Input */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column sm="2" className="mx-0">
-          Name:
+          Name
         </Form.Label>
         <Col sm="10">
           <Form.Control
