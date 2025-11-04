@@ -906,7 +906,7 @@
         "title": "Reports",
         "desc": "Özetler ve performans raporları"
       },
-      "countries": { "title": "Countries", "desc": "Ülke listeleri" },
+      "locations": { "title": "Locations", "desc": "Location List" },
       "districts": { "title": "Districts", "desc": "İlçe / semt listeleri" },
       "payments": { "title": "Payments", "desc": "Ödeme kayıtları" },
       "favorites": { "title": "Favorites", "desc": "Favori kayıtları" },
