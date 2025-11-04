@@ -70,8 +70,22 @@ export const favoriteMovieApi = (movieId) => `${API}/favorites/movies/${movieId}
 export const FAVORITE_MOVIES_AUTH_API = `${API}/favorites/movies/auth`;           // GET (isteğe bağlı: kullanıcının favori listesi)
 
 // -------------------- Images --------------------
-export const imageByIdApi = (imageId) => `${API}/images/${imageId}`; // GET/PUT/DELETE
-export const imageUploadForMovieApi = (movieId) => `${API}/images/${movieId}`; // POST
+// Admin list endpoint for paginated images
+export const IMAGES_ADMIN_LIST_API = `${API}/images/admin`;
+// Get image bytes by ID (public)
+export const imageByIdApi = (imageId) => `${API}/images/${imageId}`;
+// Upload image for a movie (requires ADMIN)
+export const imageUploadForMovieApi = (movieId) => `${API}/images/${movieId}`;
+// Update image by ID (requires ADMIN)
+export const imageUpdateApi = (imageId) => `${API}/images/${imageId}`;
+// Delete image by ID (requires ADMIN)
+export const imageDeleteApi = (imageId) => `${API}/images/${imageId}`;
+// Get all images for a movie (public)
+export const movieImagesApi = (movieId) => `${API}/movies/${movieId}/images`;
+// Get poster image ID for a movie (public)
+export const moviePosterIdApi = (movieId) => `${API}/movies/${movieId}/poster`;
+// Get single image details (fallback to basic endpoint)
+export const imageDetailsApi = (imageId) => `${API}/images/${imageId}`;
 
 // -------------------- Show Times --------------------
 export const SHOWTIME_CREATE_API = `${API}/show-times`;           // POST

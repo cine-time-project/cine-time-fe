@@ -128,3 +128,45 @@ export const deleteMovie = async (id) => {
     headers,
   });
 };
+
+/**
+ * Get all movies for select dropdown (simplified format)
+ */
+export const getAllMoviesForSelect = async () => {
+  const headers = {
+    "Content-Type": "application/json",
+    ...authHeaders(),
+  };
+
+  const params = new URLSearchParams({
+    q: "",
+    page: 0,
+    size: 1000, // Get all movies
+    sort: "title",
+    type: "asc",
+  });
+
+  const response = await fetch(
+    `${MOVIES_ADMIN_LIST_API}?${params.toString()}`,
+    {
+      method: "GET",
+      headers,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch movies: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  const page = data?.returnBody ?? data ?? {};
+  const movies = page.content || [];
+
+  // Return in format suitable for select dropdown
+  return movies.map((movie) => ({
+    value: movie.id,
+    label: movie.title,
+    id: movie.id,
+    title: movie.title,
+  }));
+};
