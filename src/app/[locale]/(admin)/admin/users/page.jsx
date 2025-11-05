@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import { config } from "@/helpers/config";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
@@ -11,7 +12,7 @@ export default function AdminUsersPage() {
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
