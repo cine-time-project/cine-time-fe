@@ -272,7 +272,7 @@
   },
 
   "account": {
-    "title": "Hesabım",
+      "title": "Hesabım",
     "profile": "Profil",
     "security": "Güvenlik",
     "orders": "Siparişlerim",
@@ -280,7 +280,30 @@
     "updateProfile": "Profili Güncelle",
     "changePassword": "Şifre Değiştir",
     "deleteAccount": "Hesabı Sil",
-    "saved": "Profil güncellendi."
+    "saved": "Profil güncellendi.",
+    "fields": {
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "oldPassword": "Mevcut Şifre",
+      "newPassword": "Yeni Şifre",
+      "confirmPassword": "Yeni Şifre (Tekrar)"
+    },
+       "hints": {
+       "phone": "Örn: +905551112233"
+    },
+     "validations": {
+      "phone": "Geçersiz telefon"
+    },
+    "actions": {
+      "resetPassword": "Şifreyi Güncelle",
+      "deleteAccount": "Hesabımı Sil"
+    },
+    "dangerZone": "Tehlikeli Bölge",
+    "delete": {
+      "warn": "Hesabınızı silerseniz tüm verileriniz kalıcı olarak kaldırılır."
+    }
   },
 
   "movies": {
@@ -1043,5 +1066,22 @@
     "successUpdate": "Salon başarıyla güncellendi.",
     "successDelete": "Salon başarıyla silindi.",
     "errorOperation": "İşlem başarısız oldu."
+  },
+  
+  "alerts": {
+    "warnings": {
+      "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
+      "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı."
+    },
+    "pwdUpdated": "Şifren başarıyla güncellendi.",
+    "deleteTitle": "Emin misin?",
+    "deleteText": "Hesabın kalıcı olarak silinecek.",
+    "deleted": "Hesabın silindi. Çıkış yapılıyor…",
+    "errors": {
+      "deleteFailedBuiltIn": "Yerleşik (built-in) admin silinemez.",
+      "deleteFailed": "Hesap silme başarısız."
+    }
   }
 }
+
+

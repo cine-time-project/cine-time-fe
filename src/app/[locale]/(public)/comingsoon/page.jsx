@@ -8,6 +8,7 @@ import { getComingSoonMovies } from "@/services/movie-serviceDP";
 import { getPosterUrl } from "@/services/coming-soon-service";
 import { HeroCarousel } from "@/components/comingsoon/HeroCarousel";
 import { useFavorites } from "@/lib/hooks/useFavorites";
+import { config } from "@/helpers/config"; // ← apiURL buradan
 import "./comingsoon.scss";
 
 function usePageAndSize() {
@@ -99,9 +100,7 @@ export default function ComingSoonPage() {
               <p className="font-medium">{t("error") || "Error"}</p>
               <p className="opacity-90">{state.error}</p>
               <p className="text-xs mt-2 opacity-60">
-                {t("apiConnectionCheck")}{" "}
-                {process.env.NEXT_PUBLIC_API_BASE ||
-                  "http://localhost:8090/api"}
+                {t("apiConnectionCheck")} {config.apiURL}
               </p>
             </div>
           )}
