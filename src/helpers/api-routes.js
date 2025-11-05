@@ -137,3 +137,6 @@ export const DISTRICT_LIST_API = `${API}/districts`; // GET
 export const DISTRICT_ADD_API = `${API}/districts`; // POST { name, cityId }
 export const districtUpdateApi = (districtId) => `${API}/districts/${districtId}`; // PUT { name, cityId }
 export const districtDeleteApi = (districtId) => `${API}/districts/${districtId}`; // DELETE
+
+// -------------------- Payments --------------------
+export const PAYMENT_LIST_API = `${API}/payment`;

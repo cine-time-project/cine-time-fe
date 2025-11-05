@@ -1022,6 +1022,48 @@
     "moviePlaceholder": "Film Seçiniz",
     "findTickets": "Biletleri Bul"
   },
+
+  "hall":{
+    "listTitle": "Salon Listesi",
+    "createTitle": "Yeni Salon Ekle",
+    "createHeader": "Yeni bir salon oluştur",
+    "updateTitle": "Salonu Düzenle",
+    "updateHeader": "Var olan salonu güncelle",
+
+    "newButton": "Yeni",
+    "editButton": "Düzenle",
+    "deleteButton": "Sil",
+    "deleteConfirm": "Bu salonu silmek istiyor musunuz",
+    "searchPlaceholder": "Salon adıyla ara...",
+    "searchButton": "Ara",
+    "showAllButton": "Tüm Salonları Göster",
+    "noData": "Hiç salon bulunamadı.",
+
+    "name": "Salon Adı",
+    "seatCapacity": "Kapasite",
+    "isSpecial": "Özel Salon",
+    "actions": "İşlemler",
+
+    "nameRequired": "Salon Adı *",
+    "seatCapacityRequired": "Kapasite *",
+    "cinemaRequired": "Bağlı Olduğu Sinema *",
+    "isSpecialQuestion": "Özel salon mu?",
+
+    "yes": "Evet",
+    "no": "Hayır",
+
+    "createButton": "Kaydet",
+    "updateButton": "Güncelle",
+
+    "loadError": "Salon listesi yüklenemedi.",
+    "notFound": "Salon bulunamadı.",
+    "loading": "Yükleniyor...",
+
+    "successCreate": "Salon başarıyla eklendi.",
+    "successUpdate": "Salon başarıyla güncellendi.",
+    "successDelete": "Salon başarıyla silindi.",
+    "errorOperation": "İşlem başarısız oldu."
+  },
   
   "alerts": {
     "warnings": {

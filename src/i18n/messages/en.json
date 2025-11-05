@@ -1009,6 +1009,48 @@
     "moviePlaceholder": "Select Movie",
     "findTickets": "Find Tickets"
   },
+
+  "hall":{
+    "listTitle": "Hall List",
+    "createTitle": "Add New Hall",
+    "createHeader": "Create a new hall",
+    "updateTitle": "Edit Hall",
+    "updateHeader": "Update existing hall",
+
+    "newButton": "New",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this hall",
+    "searchPlaceholder": "Search by hall name...",
+    "searchButton": "Search",
+    "showAllButton": "Show All Halls",
+    "noData": "No halls found.",
+
+    "name": "Hall Name",
+    "seatCapacity": "Capacity",
+    "isSpecial": "Special Hall",
+    "actions": "Actions",
+
+    "nameRequired": "Hall Name *",
+    "seatCapacityRequired": "Capacity *",
+    "cinemaRequired": "Cinema *",
+    "isSpecialQuestion": "Is this a special hall?",
+
+    "yes": "Yes",
+    "no": "No",
+
+    "createButton": "Save",
+    "updateButton": "Update",
+
+    "loadError": "Failed to load hall list.",
+    "notFound": "Hall not found.",
+    "loading": "Loading...",
+
+    "successCreate": "Hall created successfully.",
+    "successUpdate": "Hall updated successfully.",
+    "successDelete": "Hall deleted successfully.",
+    "errorOperation": "Operation failed."
+  },
    "alerts": {
     "warnings": {
       "enterPasswords": "Please enter both current and new password.",

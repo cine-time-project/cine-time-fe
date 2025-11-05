@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { Table, Button, Form } from "react-bootstrap";
+import { config } from "@/helpers/config";
 
 export default function AdminUsersPage() {
   const { roles = [], loading } = useAuth();
@@ -21,30 +22,58 @@ export default function AdminUsersPage() {
         fetchUsers();
       }
     }
-  }, [loading]);
+  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUsers = async (search = "") => {
     try {
       const endpoint = search
-        ? `/api/users/admin?q=${encodeURIComponent(search)}`
-        : `/api/users/4/admin`;
-      const res = await fetch(`http://localhost:8080${endpoint}`, {
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        ? `/users/admin?q=${encodeURIComponent(search)}`
+        : `/users/admin/all`;
+
+      const res = await fetch(`${config.apiURL}${endpoint}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
       });
+
+      if (!res.ok) {
+        console.error("User fetch failed:", res.status, res.statusText);
+        setUsers([]);
+        return;
+      }
+
       const data = await res.json();
-      setUsers(data.returnBody?.content || data);
+      const list = data?.returnBody?.content || data?.returnBody || data;
+      setUsers(Array.isArray(list) ? list : []);
     } catch (err) {
       console.error("User fetch error:", err);
+      setUsers([]);
     }
   };
 
   const handleDelete = async (id) => {
     if (!confirm("Kullanıcıyı silmek istiyor musun?")) return;
-    await fetch(`http://localhost:8080/api/${id}/admin`, {
-      method: "DELETE",
-      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-    });
-    fetchUsers();
+    try {
+      const res = await fetch(`${config.apiURL}/users/${id}/admin`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("authToken"),
+        },
+      });
+      if (!res.ok) {
+        console.error("User delete failed:", res.status, res.statusText);
+      }
+      fetchUsers();
+    } catch (err) {
+      console.error("User delete error:", err);
+    }
+  };
+
+  const formatRoles = (roles) => {
+    if (!roles || !Array.isArray(roles) || roles.length === 0) return "—";
+    return roles
+      .map((r) => r.roleName || r.name || r.authority || "—")
+      .join(", ");
   };
 
   if (loading) return <p className="text-muted">Yükleniyor...</p>;
@@ -102,7 +131,7 @@ export default function AdminUsersPage() {
                 <td>{u.surname}</td>
                 <td>{u.email}</td>
                 <td>{u.phoneNumber}</td>
-                <td>{Array.isArray(u.roles) ? u.roles.join(", ") : "—"}</td>
+                <td>{formatRoles(u.roles)}</td>
                 <td>
                   <Button
                     size="sm"

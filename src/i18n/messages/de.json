@@ -855,5 +855,47 @@
     "datePlaceholder": "Datum auswählen",
     "moviePlaceholder": "Film auswählen",
     "findTickets": "Tickets finden"
+  },
+
+  "hall":{
+    "listTitle": "Säle-Liste",
+    "createTitle": "Neuen Saal hinzufügen",
+    "createHeader": "Einen neuen Saal erstellen",
+    "updateTitle": "Saal bearbeiten",
+    "updateHeader": "Vorhandenen Saal aktualisieren",
+
+    "newButton": "Neu",
+    "editButton": "Bearbeiten",
+    "deleteButton": "Löschen",
+    "deleteConfirm": "Möchten Sie diesen Saal wirklich löschen?",
+    "searchPlaceholder": "Nach Saalnamen suchen...",
+    "searchButton": "Suchen",
+    "showAllButton": "Alle Säle anzeigen",
+    "noData": "Keine Säle gefunden.",
+
+    "name": "Saalname",
+    "seatCapacity": "Kapazität",
+    "isSpecial": "Spezialsaal",
+    "actions": "Aktionen",
+
+    "nameRequired": "Saalname *",
+    "seatCapacityRequired": "Kapazität *",
+    "cinemaRequired": "Kino *",
+    "isSpecialQuestion": "Ist dies ein Spezialsaal?",
+
+    "yes": "Ja",
+    "no": "Nein",
+
+    "createButton": "Speichern",
+    "updateButton": "Aktualisieren",
+
+    "loadError": "Säle konnten nicht geladen werden.",
+    "notFound": "Saal wurde nicht gefunden.",
+    "loading": "Wird geladen...",
+
+    "successCreate": "Saal wurde erfolgreich hinzugefügt.",
+    "successUpdate": "Saal wurde erfolgreich aktualisiert.",
+    "successDelete": "Saal wurde erfolgreich gelöscht.",
+    "errorOperation": "Vorgang fehlgeschlagen."
   }
 }

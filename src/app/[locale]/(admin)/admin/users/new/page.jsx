@@ -12,6 +12,7 @@ export default function NewUserPage() {
     phoneNumber: "",
     gender: "",
     birthDate: "",
+    role: "MEMBER", // ✅ varsayılan rol
   });
 
   const [loading, setLoading] = useState(false);
@@ -20,22 +21,14 @@ export default function NewUserPage() {
   const locale = pathname.split("/")[1] || "tr";
   const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
-  // 🔹 Telefonu daima (555) 123-4567 formatında döndürür
+  // 🔹 Telefon formatlama
   const formatPhone = (value) => {
-    // Sadece rakamları al
     let digits = value.replace(/\D/g, "");
-
-    // Türk numaralarında baştaki ülke kodlarını temizle
     if (digits.startsWith("90")) digits = digits.substring(2);
     if (digits.startsWith("0")) digits = digits.substring(1);
-
-    // Maksimum 10 haneli olacak şekilde kısalt
     digits = digits.substring(0, 10);
-
-    // (555) 123-4567 formatına dönüştür
     const match = digits.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
     if (!match) return value;
-
     let formatted = "";
     if (match[1]) formatted = `(${match[1]}`;
     if (match[2]) formatted += `) ${match[2]}`;
@@ -43,7 +36,7 @@ export default function NewUserPage() {
     return formatted;
   };
 
-  // 🔹 Form değişikliğinde otomatik format uygular
+  // 🔹 Form değişimi
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -58,7 +51,8 @@ export default function NewUserPage() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("authToken");
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
       if (!token) {
         router.replace(`/${locale}/login`);
         return;
@@ -68,7 +62,6 @@ export default function NewUserPage() {
         ? new Date(form.birthDate).toISOString().split("T")[0]
         : "";
 
-      // ✅ Sunucuya gitmeden önce numarayı son kez biçimlendir
       const cleanPhone = formatPhone(form.phoneNumber);
 
       const res = await fetch(`${API_BASE}/users/auth`, {
@@ -82,11 +75,11 @@ export default function NewUserPage() {
           surname: form.surname,
           email: form.email,
           password: form.password,
-          phoneNumber: cleanPhone, // ✅ garantili biçimde (555) 123-4567
+          phoneNumber: cleanPhone,
           gender: form.gender,
           birthDate: formattedDate,
           builtIn: false,
-          role: "MEMBER",
+          role: form.role, // ✅ kullanıcı seçimi
         }),
       });
 
@@ -188,6 +181,21 @@ export default function NewUserPage() {
             <option value="">Seçiniz</option>
             <option value="MALE">Erkek</option>
             <option value="FEMALE">Kadın</option>
+          </select>
+        </div>
+
+        {/* ✅ Yeni: Rol seçimi */}
+        <div className="mb-3">
+          <label className="form-label">Rol</label>
+          <select
+            className="form-select"
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+          >
+            <option value="MEMBER">Member</option>
+            <option value="EMPLOYEE">Employee</option>
+            <option value="ADMIN">Admin</option>
           </select>
         </div>
 
