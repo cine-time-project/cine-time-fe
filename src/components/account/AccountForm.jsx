@@ -26,7 +26,7 @@ function buildPayload(obj) {
 function readNames(u = {}) {
   return {
     firstName: (u.firstName ?? u.name ?? "").trim(),
-    lastName:  (u.lastName  ?? u.surname ?? "").trim(),
+    lastName: (u.lastName ?? u.surname ?? "").trim(),
   };
 }
 
@@ -44,11 +44,11 @@ function Labeled({ label, children }) {
 
 /* ------------- component ------------- */
 
-export default function AccountForm() {
+export default function AccountForm({ showTitle = false }) {
   const tAccount = useTranslations("account");
-  const tCommon  = useTranslations("common");
-  const tAlerts  = useTranslations("alerts");
-  const tSwal    = useTranslations("swal");
+  const tCommon = useTranslations("common");
+  const tAlerts = useTranslations("alerts");
+  const tSwal = useTranslations("swal");
 
   const [isPending, startTransition] = useTransition();
 
@@ -57,14 +57,14 @@ export default function AccountForm() {
 
   // Profile form state
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName]   = useState("");
-  const [email, setEmail]         = useState("");
-  const [phone, setPhone]         = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
   // Password form state
-  const [oldPassword, setOldPassword]         = useState("");
-  const [newPassword, setNewPassword]         = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // Initial load
@@ -99,7 +99,7 @@ export default function AccountForm() {
     const v = (phone || "").trim();
     if (v && !PHONE_REGEX.test(v)) {
       const msg = tAccount("validations.phone", {
-        default: "Geçersiz telefon: +491234567890 veya (123) 456-7890",
+        default: "Geçersiz telefon",
       });
       setPhoneError(msg);
       Swal.fire(tCommon("error", { default: "Hata" }), msg, "error");
@@ -116,7 +116,7 @@ export default function AccountForm() {
         // Geriye dönük uyumluluk için; istersen kaldır
         phoneNumber: v,
         firstName: f,
-        lastName:  l,
+        lastName: l,
       });
 
       const res = await updateMyInfoAction(payload);
@@ -150,7 +150,9 @@ export default function AccountForm() {
     if (!oldPassword || !newPassword) {
       Swal.fire(
         tCommon("error", { default: "Hata" }),
-        tAlerts("warnings.enterPasswords", { default: "Lütfen mevcut ve yeni şifreyi girin." }),
+        tAlerts("warnings.enterPasswords", {
+          default: "Lütfen mevcut ve yeni şifreyi girin.",
+        }),
         "warning"
       );
       return;
@@ -158,7 +160,9 @@ export default function AccountForm() {
     if (newPassword !== confirmPassword) {
       Swal.fire(
         tCommon("error", { default: "Hata" }),
-        tAlerts("warnings.passwordsMustMatch", { default: "Yeni şifre ile doğrulama şifresi aynı olmalı." }),
+        tAlerts("warnings.passwordsMustMatch", {
+          default: "Yeni şifre ile doğrulama şifresi aynı olmalı.",
+        }),
         "warning"
       );
       return;
@@ -185,15 +189,17 @@ export default function AccountForm() {
     });
   }
 
-  // Delete account (manuel temizle + anasayfa)
+  // Delete account
   function onDelete() {
     Swal.fire({
       icon: "warning",
       title: tAlerts("deleteTitle", { default: "Emin misin?" }),
-      text:  tAlerts("deleteText",  { default: "Hesabın kalıcı olarak silinecek." }),
+      text: tAlerts("deleteText", {
+        default: "Hesabın kalıcı olarak silinecek.",
+      }),
       showCancelButton: true,
       confirmButtonText: tCommon("yes", { default: "Evet" }),
-      cancelButtonText:  tCommon("cancel", { default: "İptal" }),
+      cancelButtonText: tCommon("cancel", { default: "İptal" }),
     }).then(async (r) => {
       if (!r.isConfirmed) return;
 
@@ -223,13 +229,18 @@ export default function AccountForm() {
       if (isBuiltIn) {
         Swal.fire(
           tSwal("errorTitle", { default: "Hata" }),
-          tAlerts("errors.deleteFailedBuiltIn", { default: "Yerleşik (built-in) admin silinemez." }),
+          tAlerts("errors.deleteFailedBuiltIn", {
+            default: "Yerleşik (built-in) admin silinemez.",
+          }),
           "error"
         );
       } else {
         Swal.fire(
           tSwal("errorTitle", { default: "Hata" }),
-          msg || tAlerts("errors.deleteFailed", { default: "Hesap silme başarısız." }),
+          msg ||
+            tAlerts("errors.deleteFailed", {
+              default: "Hesap silme başarısız.",
+            }),
           "error"
         );
       }
@@ -245,171 +256,186 @@ export default function AccountForm() {
   }
 
   return (
-    <div className="container py-4">
-      <h1 className="mb-4">{tAccount("title", { default: "Hesabım" })}</h1>
+    <>
+    
 
-      <Row className="g-4">
-        {/* Profil Kartı */}
-        <Col md={7}>
-          <Card className="shadow-sm">
-            <Card.Body>
-              <Card.Title className="mb-3">
-                {tAccount("profile", { default: "Profil" })}
-              </Card.Title>
+      <div className="container py-4">
+       
 
-              <Form onSubmit={onSubmitProfile}>
-                <Row>
-                  <Col md={6}>
-                    <Labeled label={tAccount("fields.firstName", { default: "Ad" })}>
-                      <Form.Control
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        placeholder={tAccount("fields.firstName", { default: "Ad" })}
-                      />
-                    </Labeled>
-                  </Col>
-                  <Col md={6}>
-                    <Labeled label={tAccount("fields.lastName", { default: "Soyad" })}>
-                      <Form.Control
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        placeholder={tAccount("fields.lastName", { default: "Soyad" })}
-                      />
-                    </Labeled>
-                  </Col>
-                </Row>
+        <Row className="g-4">
+          {/* Profil Kartı */}
+          <Col md={7}>
+            <Card className="shadow-sm">
+              <Card.Body>
+                <Card.Title className="mb-3">
+                  {tAccount("profile", { default: "Profil" })}
+                </Card.Title>
 
-                <Row>
-                  <Col md={6}>
-                    <Labeled label={tAccount("fields.email", { default: "E-posta" })}>
-                      <Form.Control
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        placeholder="ornek@site.com"
-                      />
-                    </Labeled>
-                  </Col>
-                  <Col md={6}>
-                    <Labeled label={tAccount("fields.phone", { default: "Telefon" })}>
-                      <Form.Control
-                        value={phone}
-                        onChange={(e) => {
-                          const v = e.target.value;
-                          setPhone(v);
-                          const ok = !v || PHONE_REGEX.test(v.trim());
-                          setPhoneError(
-                            ok ? "" :
-                            tAccount("validations.phone", {
-                              default: "Geçersiz telefon: +491234567890 veya (123) 456-7890",
-                            })
-                          );
-                        }}
-                        placeholder="+491234567890 veya (123) 456-7890"
-                        isInvalid={!!phoneError}
-                        isValid={!!phone && !phoneError}
-                      />
-                      {phoneError ? (
-                        <Form.Control.Feedback type="invalid">
-                          {phoneError}
-                        </Form.Control.Feedback>
-                      ) : (
-                        <Form.Text muted>
-                          {tAccount("hints.phone", {
-                            default:
-                              "E.164 (+49…, +90…) veya (123) 456-7890 kabul edilir.",
+                <Form onSubmit={onSubmitProfile}>
+                  <Row>
+                    <Col md={6}>
+                      <Labeled
+                        label={tAccount("fields.firstName", { default: "Ad" })}
+                      >
+                        <Form.Control
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          placeholder={tAccount("fields.firstName", {
+                            default: "Ad",
                           })}
-                        </Form.Text>
-                      )}
-                    </Labeled>
-                  </Col>
-                </Row>
+                        />
+                      </Labeled>
+                    </Col>
+                    <Col md={6}>
+                      <Labeled
+                        label={tAccount("fields.lastName", { default: "Soyad" })}
+                      >
+                        <Form.Control
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          placeholder={tAccount("fields.lastName", {
+                            default: "Soyad",
+                          })}
+                        />
+                      </Labeled>
+                    </Col>
+                  </Row>
 
-                <div className="d-flex gap-2">
-                  <Button type="submit" disabled={isPending}>
+                  <Row>
+                    <Col md={6}>
+                      <Labeled
+                        label={tAccount("fields.email", { default: "E-posta" })}
+                      >
+                        <Form.Control
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          type="email"
+                          placeholder="ornek@site.com"
+                        />
+                      </Labeled>
+                    </Col>
+                    <Col md={6}>
+  <Labeled label={tAccount("fields.phone", { default: "Telefon" })}>
+    <Form.Control
+      value={phone}
+      onChange={(e) => {
+        const v = e.target.value;
+        setPhone(v);
+        const ok = !v || PHONE_REGEX.test(v.trim());
+        setPhoneError(
+          ok ? "" : tAccount("validations.phone", { default: "Geçersiz telefon" })
+        );
+      }}
+      placeholder="+905551112233"
+      isInvalid={!!phoneError}
+      isValid={!!phone && !phoneError}
+    />
+    {phoneError ? (
+      <Form.Control.Feedback type="invalid">
+        {phoneError}
+      </Form.Control.Feedback>
+    ) : null}
+  </Labeled>
+</Col>
+
+                  </Row>
+
+                  <div className="d-flex gap-2">
+                    <Button type="submit" disabled={isPending}>
+                      {isPending ? (
+                        <Spinner size="sm" />
+                      ) : (
+                        tCommon("save", { default: "Kaydet" })
+                      )}
+                    </Button>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          {/* Güvenlik Kartı */}
+          <Col md={5}>
+            <Card className="shadow-sm mb-4">
+              <Card.Body>
+                <Card.Title className="mb-3">
+                  {tAccount("security", { default: "Güvenlik" })}
+                </Card.Title>
+
+                <Form onSubmit={onSubmitPassword}>
+                  <Labeled
+                    label={tAccount("fields.oldPassword", {
+                      default: "Mevcut Şifre",
+                    })}
+                  >
+                    <Form.Control
+                      type="password"
+                      autoComplete="current-password"
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                    />
+                  </Labeled>
+
+                  <Labeled
+                    label={tAccount("fields.newPassword", {
+                      default: "Yeni Şifre",
+                    })}
+                  >
+                    <Form.Control
+                      type="password"
+                      autoComplete="new-password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                  </Labeled>
+
+                  <Labeled
+                    label={tAccount("fields.confirmPassword", {
+                      default: "Yeni Şifre (Tekrar)",
+                    })}
+                  >
+                    <Form.Control
+                      type="password"
+                      autoComplete="new-password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </Labeled>
+
+                  <Button type="submit" variant="secondary" disabled={isPending}>
                     {isPending ? (
                       <Spinner size="sm" />
                     ) : (
-                      tCommon("save", { default: "Kaydet" })
+                      tAccount("actions.resetPassword", {
+                        default: "Şifreyi Güncelle",
+                      })
                     )}
                   </Button>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
+                </Form>
+              </Card.Body>
+            </Card>
 
-        {/* Güvenlik Kartı */}
-        <Col md={5}>
-          <Card className="shadow-sm mb-4">
-            <Card.Body>
-              <Card.Title className="mb-3">
-                {tAccount("security", { default: "Güvenlik" })}
-              </Card.Title>
-
-              <Form onSubmit={onSubmitPassword}>
-                <Labeled label={tAccount("fields.oldPassword", { default: "Mevcut Şifre" })}>
-                  <Form.Control
-                    type="password"
-                    autoComplete="current-password"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                  />
-                </Labeled>
-
-                <Labeled label={tAccount("fields.newPassword", { default: "Yeni Şifre" })}>
-                  <Form.Control
-                    type="password"
-                    autoComplete="new-password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  />
-                </Labeled>
-
-                <Labeled
-                  label={tAccount("fields.confirmPassword", {
-                    default: "Yeni Şifre (Tekrar)",
+            <Card className="shadow-sm border-danger">
+              <Card.Body>
+                <Card.Title className="text-danger">
+                  {tAccount("dangerZone", { default: "Tehlikeli Bölge" })}
+                </Card.Title>
+                <p className="mb-3">
+                  {tAccount("delete.warn", {
+                    default:
+                      "Hesabınızı silerseniz tüm verileriniz kalıcı olarak kaldırılır.",
                   })}
-                >
-                  <Form.Control
-                    type="password"
-                    autoComplete="new-password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                </Labeled>
-
-                <Button type="submit" variant="secondary" disabled={isPending}>
-                  {isPending ? (
-                    <Spinner size="sm" />
-                  ) : (
-                    tAccount("actions.resetPassword", {
-                      default: "Şifreyi Güncelle",
-                    })
-                  )}
+                </p>
+                <Button variant="danger" onClick={onDelete}>
+                  {tAccount("actions.deleteAccount", {
+                    default: "Hesabımı Sil",
+                  })}
                 </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-
-          <Card className="shadow-sm border-danger">
-            <Card.Body>
-              <Card.Title className="text-danger">
-                {tAccount("dangerZone", { default: "Tehlikeli Bölge" })}
-              </Card.Title>
-              <p className="mb-3">
-                {tAccount("delete.warn", {
-                  default:
-                    "Hesabınızı silerseniz tüm verileriniz kalıcı olarak kaldırılır.",
-                })}
-              </p>
-              <Button variant="danger" onClick={onDelete}>
-                {tAccount("actions.deleteAccount", { default: "Hesabımı Sil" })}
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </>
   );
 }

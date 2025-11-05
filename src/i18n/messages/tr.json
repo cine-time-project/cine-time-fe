@@ -291,7 +291,10 @@
       "confirmPassword": "Yeni Şifre (Tekrar)"
     },
        "hints": {
-      "phone": "Kabul edilen biçimler: E.164 (+49…, +90…) veya (123) 456-7890. Örn: +905551112233 ya da (555) 111-2233"
+       "phone": "Örn: +905551112233"
+    },
+     "validations": {
+      "phone": "Geçersiz telefon"
     },
     "actions": {
       "resetPassword": "Şifreyi Güncelle",

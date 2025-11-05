@@ -289,10 +289,12 @@
       "phone": "Phone",
       "oldPassword": "Current Password",
       "newPassword": "New Password",
-      "confirmPassword": "Confirm New Password",
+      "confirmPassword": "Confirm New Password"},
        "hints": {
-      "phone": "Accepted formats: E.164 (+49…, +90…) or (123) 456-7890. e.g., +905551112233 or (555) 111-2233"
-    }
+      "phone": "e.g., +15551112233"
+    },
+     "validations": {
+      "phone": "Invalid phone number"
     },
     "actions": {
       "resetPassword": "Update Password",
