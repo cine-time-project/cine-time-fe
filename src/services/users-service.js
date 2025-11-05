@@ -32,25 +32,25 @@ export async function searchUsers({ q = "", page = 0, size = 20, sort = "id,ASC"
   return data; // ResponseMessage<Page<UserResponse>>
 }
 
-// Not: BE’de "get all" için tuhaf bir rota var; BE’yi değiştirmeden kullanıyoruz:
-export async function getAllUsersLegacy() {
-  const { data } = await axios.get(`${API}/users/4/admin`, { headers: authHeaders() });
+// Güncellenmiş "get all" rotası (BE /users/admin/all)
+export async function getAllUsers() {
+  const { data } = await axios.get(`${API}/users/admin/all`, { headers: authHeaders() });
   return data; // List<UserResponse>
 }
 
-// Create: BE şu an POST /users/auth altında (isim kafa karıştırıcı ama BE değişmiyor)
+// Create: BE şu an POST /users/auth altında 
 export async function adminCreateUser(payload) {
   const { data } = await axios.post(`${API}/users/auth`, payload, { headers: authHeaders() });
   return data; // ResponseMessage<UserCreateResponse>
 }
 
-// Update/Delete: BE rotası prefixsiz: /api/{userId}/admin  --> dikkat!
+// Update/Delete: BE rotası prefixsiz: /api/{userId}/admin
 export async function adminUpdateUser(userId, payload) {
-  const { data } = await axios.put(`${API}/${userId}/admin`, payload, { headers: authHeaders() });
+  const { data } = await axios.put(`${API}/users/${userId}/admin`, payload, { headers: authHeaders() });
   return data; // ResponseMessage<UserResponse>
 }
 
 export async function adminDeleteUser(userId) {
-  const { data } = await axios.delete(`${API}/${userId}/admin`, { headers: authHeaders() });
+  const { data } = await axios.delete(`${API}/users/${userId}/admin`, { headers: authHeaders() });
   return data; // ResponseMessage<UserResponse>
 }
