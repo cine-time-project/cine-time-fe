@@ -281,7 +281,27 @@
     "updateProfile": "Update Profile",
     "changePassword": "Change Password",
     "deleteAccount": "Delete Account",
-    "saved": "Profile updated."
+    "saved": "Profile updated.",
+     "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "oldPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+       "hints": {
+      "phone": "Accepted formats: E.164 (+49…, +90…) or (123) 456-7890. e.g., +905551112233 or (555) 111-2233"
+    }
+    },
+    "actions": {
+      "resetPassword": "Update Password",
+      "deleteAccount": "Delete My Account"
+    },
+    "dangerZone": "Danger Zone",
+    "delete": {
+      "warn": "If you delete your account, all your data will be permanently removed."
+    }
   },
 
   "movies": {
@@ -988,5 +1008,19 @@
     "datePlaceholder": "Select Date",
     "moviePlaceholder": "Select Movie",
     "findTickets": "Find Tickets"
+  },
+   "alerts": {
+    "warnings": {
+      "enterPasswords": "Please enter both current and new password.",
+      "passwordsMustMatch": "New password and confirmation must match."
+    },
+    "pwdUpdated": "Your password has been updated successfully.",
+    "deleteTitle": "Are you sure?",
+      "deleteText": "Your account will be permanently deleted.",
+    "deleted": "Your account was deleted. Signing you out…",
+    "errors": {
+      "deleteFailedBuiltIn": "Built-in admin cannot be deleted.",
+      "deleteFailed": "Account deletion failed."
+    }
   }
 }

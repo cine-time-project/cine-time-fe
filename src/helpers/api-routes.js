@@ -14,6 +14,7 @@ export const AUTH_DEBUG_API = `${API}/_debug/auth`;
 export const USER_AUTH_PUT_API = `${API}/users/auth`;      // PUT
 export const USER_AUTH_POST_API = `${API}/users/auth`;     // POST
 export const USER_AUTH_DELETE_API = `${API}/users/auth`;   // DELETE
+export const USER_INFORMATION_API = `${API}/user-information`; // GET (auth)
 
 // Register & password
 export const USER_REGISTER_API = `${API}/register`;                 // POST
