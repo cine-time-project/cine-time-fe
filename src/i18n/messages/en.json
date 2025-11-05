@@ -888,7 +888,7 @@
     "home": "Go back to homepage"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "DASHBOARD",
     "tiles": {
       "cinemas": { "title": "Cinemas", "desc": "Branches and hall mapping" },
       "halls": { "title": "Halls", "desc": "Hall layouts & seat templates" },
