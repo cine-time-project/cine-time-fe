@@ -33,12 +33,19 @@ export const createHall = async (data, token) => {
   const res = await fetch(HALL_API, {
     method: "POST",
     headers: {
-      ...authHeaders(token),
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
-  return await res.json();
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${res.status}`);
+  }
+
+  return JSON.parse(text);
 };
 
 export const updateHall = async (id, data, token) => {

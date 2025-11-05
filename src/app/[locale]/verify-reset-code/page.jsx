@@ -50,15 +50,6 @@ export default function VerifyResetCodePage() {
         message: tAuth("verify.success"),
       });
 
-      console.log(" Verification succeeded");
-      console.log("router:", router);
-      console.log("locale:", locale);
-      console.log("email:", email);
-      console.log(
-        " Going to:",
-        `/${locale}/reset-password?email=${encodeURIComponent(email)}`
-      );
-
       setTimeout(() => {
         router.push(
           `/${locale}/reset-password?email=${encodeURIComponent(email)}`

@@ -15,10 +15,19 @@ export const createHallAction = async (prevState, formData) => {
       cinemaId: parseInt(formData.get("cinemaId")),
     };
 
+
+
     const res = await createHall(payload, token);
 
-    if (!res.ok && res.message)
-      return { ok: false, message: res.message, errors: res.errors };
+
+
+    if (res.httpStatus !== "CREATED" && res.httpStatus !== "OK") {
+      return {
+        ok: false,
+        message: res.message || "Failed to create hall",
+        errors: res.errors,
+      };
+    }
 
     revalidatePath(`/${locale}/admin/halls`);
     return { ok: true, message: res.message || "Hall created successfully" };
