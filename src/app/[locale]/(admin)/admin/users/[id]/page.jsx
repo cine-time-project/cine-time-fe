@@ -75,6 +75,7 @@ export default function EditUserPage() {
       const token =
         localStorage.getItem("authToken") || localStorage.getItem("token");
 
+      // ✅ Backend ile birebir uyumlu body
       const res = await fetch(`${API_BASE}/${id}/admin`, {
         method: "PUT",
         headers: {
@@ -82,12 +83,14 @@ export default function EditUserPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: form.firstName,
-          surname: form.lastName,
+          firstName: form.firstName,
+          lastName: form.lastName,
           email: form.email,
-          phoneNumber: form.phone,
+          phone: form.phone,
           gender: form.gender,
-          birthDate: form.birthDate,
+          birthDate: form.birthDate
+            ? new Date(form.birthDate).toISOString().split("T")[0]
+            : null,
           roles: form.roles,
         }),
       });

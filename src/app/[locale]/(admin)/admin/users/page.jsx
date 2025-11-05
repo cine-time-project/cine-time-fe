@@ -64,7 +64,8 @@ export default function AdminUsersPage() {
     try {
       const token = localStorage.getItem("authToken");
 
-      const res = await fetch(`${API_BASE}/users/${id}/admin`, {
+      // 🔹 DÜZELTİLDİ: /users kaldırıldı
+      const res = await fetch(`${API_BASE}/${id}/admin`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
