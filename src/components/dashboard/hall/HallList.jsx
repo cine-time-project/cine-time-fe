@@ -18,7 +18,13 @@ import { useTranslations } from "next-intl";
  * @param {function} props.onSearch - Search handler
  * @param {function} props.onDeleted - Refresh handler after delete
  */
-export const HallList = ({ data, locale, onPageChange, onSearch, onDeleted }) => {
+export const HallList = ({
+  data,
+  locale,
+  onPageChange,
+  onSearch,
+  onDeleted,
+}) => {
   const router = useRouter();
   const t = useTranslations("hall");
 
@@ -104,7 +110,7 @@ export const HallList = ({ data, locale, onPageChange, onSearch, onDeleted }) =>
           </Col>
         </div>
 
-        {/* Table */}
+        {/* Hall Table */}
         <DataTable
           value={content}
           dataKey="id"
@@ -123,12 +129,12 @@ export const HallList = ({ data, locale, onPageChange, onSearch, onDeleted }) =>
           <Column
             header="#"
             body={(row, opt) => opt.rowIndex + 1 + number * size}
-            style={{ width: 50, textAlign: "left" }}
+            style={{ width: "50px", textAlign: "left" }}
           />
           <Column
             field="id"
             header="ID"
-            style={{ width: 80, textAlign: "left" }}
+            style={{ width: "80px", textAlign: "left" }}
           />
           <Column field="name" header={t("name")} style={{ width: "25%" }} />
           <Column
@@ -147,7 +153,7 @@ export const HallList = ({ data, locale, onPageChange, onSearch, onDeleted }) =>
             body={(row) => (
               <HallToolbar row={row} locale={locale} onDeleted={onDeleted} />
             )}
-            style={{ width: "10%", textAlign: "right" }}
+            style={{ width: "10%", textAlign: "left" }}
           />
         </DataTable>
       </Container>
