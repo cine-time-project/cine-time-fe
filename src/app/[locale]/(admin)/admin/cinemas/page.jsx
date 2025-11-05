@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useAuth } from "@/lib/auth/useAuth";
-
+import { useParams } from "next/navigation";
 import { CinemaTable } from "@/components/dashboard/cinema/CinemaTable";
 import { useCinemas } from "@/components/dashboard/cinema/useCinemas";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
@@ -14,8 +14,8 @@ import Spacer from "@/components/common/Spacer";
  * - Initializes permissions
  * - Delegates all data handling to `useCinemas`
  */
-export default function AdminCinemasPage({ params }) {
-  const { locale } = React.use(params);
+export default function AdminCinemasPage() {
+  const { locale } = useParams();
   const { roles, token } = useAuth();
 
   // Backend page size (used for pagination and numbering)

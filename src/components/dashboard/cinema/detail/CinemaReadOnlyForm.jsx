@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import { CardGroup } from "../new/ui/CardGroup";
 
 /**
  * CinemaReadOnlyForm
@@ -16,7 +15,7 @@ export function CinemaReadOnlyForm({ cinema }) {
   if (!cinema) return <p>No cinema data available.</p>;
 
   return (
-    <CardGroup title="Cinema Information">
+    <div className="p-4 h-100">
       {/* Cinema Name */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column sm="2" className="text-nowrap">
@@ -59,6 +58,6 @@ export function CinemaReadOnlyForm({ cinema }) {
           <Form.Control value={cinema.city?.name || ""} readOnly />
         </Col>
       </Form.Group>
-    </CardGroup>
+    </div>
   );
 }

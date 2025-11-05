@@ -29,43 +29,42 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
     }
   };
 
- const handleUpload = async (e) => {
-  e.preventDefault();
+  const handleUpload = async (e) => {
+    e.preventDefault();
 
-  if (!cinema?.id) {
-    Swal.fire("Error", "Cinema ID is missing", "error");
-    return;
-  }
-
-  if (!file) {
-    Swal.fire("Error", "Please select an image file", "error");
-    return;
-  }
-
-  setLoading(true);
-  try {
-    // 1️⃣ Upload image
-    await uploadImage(cinema.id, file, token);
-
-    // 2️⃣ Parent'tan cinema'yi yeniden fetch et
-    if (onUpdateCinema) {
-      const updatedCinema = await onUpdateCinema(); // async fetch yapılacak
-      setPreviewUrl(updatedCinema.imageUrl); // preview da güncellendi
+    if (!cinema?.id) {
+      Swal.fire("Error", "Cinema ID is missing", "error");
+      return;
     }
 
-    Swal.fire("Success", "Image uploaded successfully!", "success");
-    setFile(null);
-  } catch (error) {
-    console.error(error);
-    Swal.fire("Error", "Failed to upload image", "error");
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!file) {
+      Swal.fire("Error", "Please select an image file", "error");
+      return;
+    }
 
+    setLoading(true);
+    try {
+      // 1️⃣ Upload image
+      await uploadImage(cinema.id, file, token);
+
+      // 2️⃣ Parent'tan cinema'yi yeniden fetch et
+      if (onUpdateCinema) {
+        const updatedCinema = await onUpdateCinema(); // async fetch yapılacak
+        setPreviewUrl(updatedCinema.imageUrl); // preview da güncellendi
+      }
+
+      Swal.fire("Success", "Image uploaded successfully!", "success");
+      setFile(null);
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "Failed to upload image", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Form onSubmit={handleUpload} className="p-3 border rounded bg-light">
+    <Form onSubmit={handleUpload} className="p-3 border rounded bg-light h-100">
       <Form.Group className="mb-3">
         <Form.Label>
           {isUpdate ? "Update Cinema Image" : "Upload Cinema Image"}
@@ -102,6 +101,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
           <Button
             variant="danger"
             type="button"
+            disabled={!file}
             onClick={() => {
               setFile(null);
               // Mevcut resmi koru (edit modundaysa), yoksa tamamen sıfırla
@@ -116,7 +116,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
           </Button>
         )}
 
-        <Button variant="primary" type="submit" disabled={loading}>
+        <Button variant="primary" type="submit" disabled={loading || !file}>
           {loading ? <Spinner size="sm" animation="border" /> : "Save Image"}
         </Button>
       </div>

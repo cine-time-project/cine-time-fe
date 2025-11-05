@@ -1,7 +1,9 @@
 // src/service/movie-service.server.js
 
+import { config } from "@/helpers/config";
+
 export const getMovieById = async (id) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.baseUrl;
   if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
   }

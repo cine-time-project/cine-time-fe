@@ -1,10 +1,9 @@
 import React from "react";
-import { CardGroup } from "../new/ui/CardGroup";
 import { Card } from "react-bootstrap";
 
 export const CinemaImageReadOnlyView = ({ cinema }) => {
   return (
-    <CardGroup title={`Image for "${cinema.name}"`}>
+    <>
       {cinema.imageUrl ? (
         <Card.Img
           src={cinema.imageUrl}
@@ -17,10 +16,10 @@ export const CinemaImageReadOnlyView = ({ cinema }) => {
           }}
         />
       ) : (
-        <div className="text-center text-muted py-5 border rounded bg-light">
-          No image available
+        <div className="text-muted border rounded bg-light h-100 d-flex justify-content-center align-items-center">
+          <p>No image available</p>
         </div>
       )}
-    </CardGroup>
+    </>
   );
 };

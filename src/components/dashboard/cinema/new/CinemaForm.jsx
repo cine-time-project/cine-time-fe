@@ -10,9 +10,8 @@ import {
 } from "@/service/cinema-service";
 import { CountrySelect } from "./CountrySelect";
 import { CitySelect } from "./CitySelect";
-import { CardGroup } from "./ui/CardGroup";
 import { useRouter } from "next/navigation";
-import { Col, Form, Row } from "react-bootstrap";
+import { Card, Col, Form, Row } from "react-bootstrap";
 
 /**
  * CinemaForm
@@ -97,7 +96,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
         const newId = res?.returnBody?.id;
         router.push(
           newId
-            ? `/${locale}/admin/cinemas/${newId}`
+            ? `/${locale}/admin/cinemas/${newId}?editMode=true`
             : `/${locale}/admin/cinemas/`
         );
       }
@@ -112,7 +111,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
   // Render
   // -----------------------------
   return (
-    <CardGroup title="Cinema Information">
+    <div className="p-4 h-100">
       {/* Cinema Name Input */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column sm="2">
@@ -149,7 +148,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
       />
 
       {/* City selector, filtered by selected country */}
-      <div className="mt-4">
+      <div>
         <CitySelect
           selectedCountryId={selectedCountryId}
           selectedCityId={selectedCityId}
@@ -175,6 +174,6 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
           disabled={saving} // prevent multiple submissions
         />
       </div>
-    </CardGroup>
+    </div>
   );
 }
