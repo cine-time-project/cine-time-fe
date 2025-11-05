@@ -1,6 +1,6 @@
 // src/helpers/axios-setup.js
 import axios from "axios";
+import { config } from "@/helpers/config";
 
-axios.defaults.baseURL =
-  process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8090/api";
+axios.defaults.baseURL = config.apiURL;
 axios.defaults.withCredentials = true; // cookie'leri otomatik gönder
