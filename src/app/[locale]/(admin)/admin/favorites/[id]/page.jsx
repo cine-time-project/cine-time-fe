@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { config } from "@/helpers/config";
 
 export default function FavoriteEditPage({ params }) {
   const { id } = params;

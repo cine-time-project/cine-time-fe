@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import Link from "next/link";
+import { config } from "@/helpers/config";
 
 export default function EditUserPage() {
   const [form, setForm] = useState({
