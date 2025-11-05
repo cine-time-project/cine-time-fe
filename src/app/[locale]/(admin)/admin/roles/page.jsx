@@ -6,6 +6,8 @@ import Pagination from "react-bootstrap/Pagination";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -20,8 +22,11 @@ export default function AdminRolesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
 
   const AVAILABLE_ROLES = useMemo(() => (isAdmin() ? ALL_ROLES : ["ANONYMOUS", "MEMBER", "EMPLOYEE"]), []);
+
+  useEffect(() => { setPage(1); }, [query]);
 
   // ========= Data Fetch =========
   useEffect(() => {
@@ -50,11 +55,20 @@ export default function AdminRolesPage() {
     };
   }, []);
 
-  const totalPages = useMemo(() => Math.max(1, Math.ceil(users.length / PAGE_SIZE)), [users.length]);
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return users;
+    return users.filter(u =>
+      (u.email && u.email.toLowerCase().includes(q)) ||
+      (u.phoneNumber && u.phoneNumber.toLowerCase().includes(q))
+    );
+  }, [users, query]);
+
+  const totalPages = useMemo(() => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)), [filtered.length]);
   const pageItems = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
-    return users.slice(start, start + PAGE_SIZE);
-  }, [users, page]);
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, page]);
 
   const handleSelect = (p) => {
     if (p >= 1 && p <= totalPages) setPage(p);
@@ -133,6 +147,17 @@ export default function AdminRolesPage() {
 
       {!loading && !error && (
         <>
+          <div className="mb-3">
+            <InputGroup>
+              <InputGroup.Text>Search</InputGroup.Text>
+              <Form.Control
+                placeholder="Email or phone number"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </InputGroup>
+          </div>
+
           <Table striped bordered hover responsive size="sm" className="mb-3">
             <thead>
               <tr>
@@ -176,7 +201,7 @@ export default function AdminRolesPage() {
             <small className="text-muted">
               Showing {(page - 1) * PAGE_SIZE + 1}
               –
-              {Math.min(page * PAGE_SIZE, users.length)} of {users.length}
+              {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
             </small>
 
             <Pagination className="mb-0">
