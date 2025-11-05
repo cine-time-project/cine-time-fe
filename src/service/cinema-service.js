@@ -1,6 +1,24 @@
 import axios from "axios";
 import { config } from "@/helpers/config";
 
+
+export async function getAllCinemas(page = 0, size = 50, token) {
+  try {
+    const headers = { "Content-Type": "application/json" };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const response = await axios.get(
+      `${config.apiURL}/cinemas?page=${page}&size=${size}`,
+      {
+        headers,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const msg = error.response?.data?.message || "Cinema fetch failed";
+    throw new Error(msg);
+  }
+}
+
 /**
  * Delete cinemas from the backend.
  * Supports both single ID and multiple IDs.
