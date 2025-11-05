@@ -845,5 +845,47 @@
     "datePlaceholder": "Sélectionnez une date",
     "moviePlaceholder": "Sélectionnez un film",
     "findTickets": "Rechercher des billets"
+  },
+
+  "hall":{
+    "listTitle": "Liste des Salles",
+    "createTitle": "Ajouter une nouvelle salle",
+    "createHeader": "Créer une nouvelle salle",
+    "updateTitle": "Modifier la salle",
+    "updateHeader": "Mettre à jour une salle existante",
+
+    "newButton": "Nouveau",
+    "editButton": "Modifier",
+    "deleteButton": "Supprimer",
+    "deleteConfirm": "Voulez-vous vraiment supprimer cette salle",
+    "searchPlaceholder": "Rechercher par nom de salle...",
+    "searchButton": "Rechercher",
+    "showAllButton": "Afficher toutes les salles",
+    "noData": "Aucune salle trouvée.",
+
+    "name": "Nom de la salle",
+    "seatCapacity": "Capacité",
+    "isSpecial": "Salle spéciale",
+    "actions": "Actions",
+
+    "nameRequired": "Nom de la salle *",
+    "seatCapacityRequired": "Capacité *",
+    "cinemaRequired": "Cinéma *",
+    "isSpecialQuestion": "Est-ce une salle spéciale ?",
+
+    "yes": "Oui",
+    "no": "Non",
+
+    "createButton": "Enregistrer",
+    "updateButton": "Mettre à jour",
+
+    "loadError": "Échec du chargement de la liste des salles.",
+    "notFound": "Salle introuvable.",
+    "loading": "Chargement...",
+
+    "successCreate": "Salle ajoutée avec succès.",
+    "successUpdate": "Salle mise à jour avec succès.",
+    "successDelete": "Salle supprimée avec succès.",
+    "errorOperation": "Échec de l’opération."
   }
 }
