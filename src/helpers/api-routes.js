@@ -14,6 +14,7 @@ export const AUTH_DEBUG_API = `${API}/_debug/auth`;
 export const USER_AUTH_PUT_API = `${API}/users/auth`;      // PUT
 export const USER_AUTH_POST_API = `${API}/users/auth`;     // POST
 export const USER_AUTH_DELETE_API = `${API}/users/auth`;   // DELETE
+export const USER_INFORMATION_API = `${API}/user-information`; // GET (auth)
 
 // Register & password
 export const USER_REGISTER_API = `${API}/register`;                 // POST
@@ -28,6 +29,12 @@ export const userAdminCheckApi = (userId) => `${API}/users/${userId}/admin`; // 
 // Grant/Revoke admin (note: controller path is /api/{userId}/admin)
 export const makeUserAdminApi = (userId) => `${API}/${userId}/admin`;    // PUT
 export const revokeUserAdminApi = (userId) => `${API}/${userId}/admin`;  // DELETE
+
+//List Users
+export const USER_LIST_API = `${API}/users/4/admin`; // GET
+
+// Update User By Id
+export const userUpdateByIdApi = (userId) => `${API}/${userId}/admin`; // PUT
 
 // -------------------- Contact Messages --------------------
 export const CONTACT_CREATE_API = `${API}/contactmessages`; // POST
@@ -70,8 +77,22 @@ export const favoriteMovieApi = (movieId) => `${API}/favorites/movies/${movieId}
 export const FAVORITE_MOVIES_AUTH_API = `${API}/favorites/movies/auth`;           // GET (isteğe bağlı: kullanıcının favori listesi)
 
 // -------------------- Images --------------------
-export const imageByIdApi = (imageId) => `${API}/images/${imageId}`; // GET/PUT/DELETE
-export const imageUploadForMovieApi = (movieId) => `${API}/images/${movieId}`; // POST
+// Admin list endpoint for paginated images
+export const IMAGES_ADMIN_LIST_API = `${API}/images/admin`;
+// Get image bytes by ID (public)
+export const imageByIdApi = (imageId) => `${API}/images/${imageId}`;
+// Upload image for a movie (requires ADMIN)
+export const imageUploadForMovieApi = (movieId) => `${API}/images/${movieId}`;
+// Update image by ID (requires ADMIN)
+export const imageUpdateApi = (imageId) => `${API}/images/${imageId}`;
+// Delete image by ID (requires ADMIN)
+export const imageDeleteApi = (imageId) => `${API}/images/${imageId}`;
+// Get all images for a movie (public)
+export const movieImagesApi = (movieId) => `${API}/movies/${movieId}/images`;
+// Get poster image ID for a movie (public)
+export const moviePosterIdApi = (movieId) => `${API}/movies/${movieId}/poster`;
+// Get single image details (fallback to basic endpoint)
+export const imageDetailsApi = (imageId) => `${API}/images/${imageId}`;
 
 // -------------------- Show Times --------------------
 export const SHOWTIME_CREATE_API = `${API}/show-times`;           // POST
@@ -107,6 +128,8 @@ export const CITY_LIST_ALL_API = `${API}/cities/listAllCities`; // GET (with cou
 export const CITY_ADD_API = `${API}/cities`; // POST { name, countryId }
 export const cityUpdateApi = (cityId) => `${API}/cities/${cityId}`; // PUT { name, countryId }
 export const cityDeleteApi = (cityId) => `${API}/cities/${cityId}`; // DELETE
+export const CITY_WITH_ITS_DISTRICT = (cityId) =>
+  `${API}/cities/listCityWithItsDistrict/${cityId}`;
 
 
 // -------------------- Districts --------------------
@@ -114,3 +137,6 @@ export const DISTRICT_LIST_API = `${API}/districts`; // GET
 export const DISTRICT_ADD_API = `${API}/districts`; // POST { name, cityId }
 export const districtUpdateApi = (districtId) => `${API}/districts/${districtId}`; // PUT { name, cityId }
 export const districtDeleteApi = (districtId) => `${API}/districts/${districtId}`; // DELETE
+
+// -------------------- Payments --------------------
+export const PAYMENT_LIST_API = `${API}/payment`;

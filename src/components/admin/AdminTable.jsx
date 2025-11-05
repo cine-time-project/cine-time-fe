@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { authHeaders } from "@/lib/utils/http";
 import axios from "axios";
+import { config } from "@/helpers/config";
 
 export default function CountriesDashboard() {
   const [countries, setCountries] = useState([]);
@@ -15,7 +16,7 @@ export default function CountriesDashboard() {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get("http://localhost:8090/api/countries", {
+      const response = await axios.get(`${config.apiURL}/countries`, {
         headers: authHeaders(),
       });
       setCountries(response.data);
@@ -32,7 +33,7 @@ export default function CountriesDashboard() {
     if (!newCountryName.trim()) return;
     try {
       await axios.post(
-        "http://localhost:8090/api/countries/add",
+        `${config.apiURL}/countries/add`,
         { name: newCountryName.trim() },
         { headers: authHeaders() }
       );
@@ -60,7 +61,7 @@ export default function CountriesDashboard() {
   const handleDeleteCountry = async (id) => {
     if (!window.confirm("Are you sure you want to delete this country?")) return;
     try {
-      await axios.delete(`http://localhost:8090/api/countries/delete/${id}`, {
+      await axios.delete(`${config.apiURL}/countries/delete/${id}`, {
         headers: authHeaders(),
       });
       setFeedbackMsg("Country deleted.");
@@ -81,7 +82,7 @@ export default function CountriesDashboard() {
     if (!editCountryId || !editCountryName.trim()) return;
     try {
       await axios.put(
-        `http://localhost:8090/api/countries/update/${editCountryId}`,
+        `${config.apiURL}/countries/update/${editCountryId}`,
         { name: editCountryName.trim() },
         { headers: authHeaders() }
       );

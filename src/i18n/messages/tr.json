@@ -72,6 +72,8 @@
   },
 
   "common": {
+    "name": "İsim",
+    "note": "Not",
     "save": "Kaydet",
     "cancel": "İptal",
     "close": "Kapat",
@@ -94,7 +96,12 @@
     "showMore": "Daha Fazla Göster",
     "showLess": "Daha Az Göster",
     "retry": "Tekrar Dene",
-    "minutes": "dakika"
+    "minutes": "dakika",
+     "new": "Yeni",
+    "search": "Ara",
+    "page": "Sayfa",
+    "total": "Toplam",
+    "rows": "Satır"
   },
 
   "status": {
@@ -270,7 +277,7 @@
   },
 
   "account": {
-    "title": "Hesabım",
+      "title": "Hesabım",
     "profile": "Profil",
     "security": "Güvenlik",
     "orders": "Siparişlerim",
@@ -278,7 +285,30 @@
     "updateProfile": "Profili Güncelle",
     "changePassword": "Şifre Değiştir",
     "deleteAccount": "Hesabı Sil",
-    "saved": "Profil güncellendi."
+    "saved": "Profil güncellendi.",
+    "fields": {
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "oldPassword": "Mevcut Şifre",
+      "newPassword": "Yeni Şifre",
+      "confirmPassword": "Yeni Şifre (Tekrar)"
+    },
+       "hints": {
+       "phone": "Örn: +905551112233"
+    },
+     "validations": {
+      "phone": "Geçersiz telefon"
+    },
+    "actions": {
+      "resetPassword": "Şifreyi Güncelle",
+      "deleteAccount": "Hesabımı Sil"
+    },
+    "dangerZone": "Tehlikeli Bölge",
+    "delete": {
+      "warn": "Hesabınızı silerseniz tüm verileriniz kalıcı olarak kaldırılır."
+    }
   },
 
   "movies": {
@@ -369,7 +399,6 @@
     "aroundCinemas": "{city} Şehrindeki Sinemalar",
     "aroundNoCinemas": "{city} şehrinde sinema bulunamadı.",
     "allCinemas": "Tüm Sinemalar"
-    
   },
 
   "showtimes": {
@@ -380,7 +409,23 @@
     "format": "Format",
     "price": "Fiyat",
     "select": "Seç",
-    "noShowtimes": "Seans bulunamadı."
+    "noShowtimes": "Seans bulunamadı.",
+     "title": "Gösterimler",
+    "confirmDelete": "#{id} numaralı gösterim silinecek. Devam edilsin mi?",
+    "deleteError": "Silme işlemi sırasında bir hata oluştu.",
+    "filters": {
+      "cinema": "Sinema",
+      "hall": "Salon",
+      "movie": "Film",
+      "dateFrom": "Başlangıç",
+      "dateTo": "Bitiş"
+    },
+    "placeholders": {
+      "searchCinema": "Sinema ara…",
+      "searchHall": "Salon ara…",
+      "selectCinemaFirst": "Önce sinema seçin",
+      "searchMovie": "Film ara…"
+    }
   },
 
   "seats": {
@@ -852,7 +897,6 @@
       "extraComfort": "Ekstra konfor",
       "priorityEntry": "Öncelikli giriş",
       "priorityEntryDesc": "Ayrı giriş ve hızlı geçiş sayesinde salona sıra beklemeden girer, koltuğunuza rahatça yerleşirsiniz."
-
     },
 
     "family": {
@@ -873,43 +917,126 @@
     "description": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
     "home": "Ana sayfaya dön"
   },
- "dashboard": {
-   "title": "Dashboard",
-   "tiles": {
-     "cinemas": {
-       "title": "Cinemas",
-       "desc": "Şubeler ve salon eşleştirmeleri"
-     },
-     "halls": { "title": "Halls", "desc": "Salon planları, koltuk şablonları" },
-     "times": { "title": "Showtimes", "desc": "Seans planlama ve takvim" },
-     "images": { "title": "Images", "desc": "Afiş ve görsel yönetimi" },
-     "cinemaimg": {
-       "title": "Cinema Images",
-       "desc": "Sinema resimleri yönetimi"
-     },
-     "movies": { "title": "Movies", "desc": "Filmler ve içerik listesi" },
-     "users": { "title": "Users", "desc": "Kullanıcı arama ve yönetim" },
-     "tickets": {
-       "title": "Tickets (Admin)",
-       "desc": "Satışlar ve bilet işlemleri"
-     },
-     "cities": { "title": "Cities", "desc": "Şehir / bölge listeleri" },
-     "vip": { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
-     "contact": {
-       "title": "Contact Messages",
-       "desc": "İletişim kutusu mesajları"
-     },
-     "reports": {
-       "title": "Reports",
-       "desc": "Özetler ve performans raporları"
-     },
-     "countries": { "title": "Countries", "desc": "Ülke listeleri" },
-     "districts": { "title": "Districts", "desc": "İlçe / semt listeleri" },
-     "payments": { "title": "Payments", "desc": "Ödeme kayıtları" },
-     "favorites": { "title": "Favorites", "desc": "Favori kayıtları" },
-     "roles": { "title": "Roles", "desc": "Rol ve yetkiler" }
-   }
- },
+  "dashboard": {
+    "title": "DASHBOARD",
+    "tiles": {
+      "cinemas": {
+        "title": "Cinemas",
+        "desc": "Şubeler ve salon eşleştirmeleri"
+      },
+      "halls": {
+        "title": "Halls",
+        "desc": "Salon planları, koltuk şablonları"
+      },
+      "times": { "title": "Showtimes", "desc": "Seans planlama ve takvim" },
+      "images": { "title": "Images", "desc": "Afiş ve görsel yönetimi" },
+      "cinemaimg": {
+        "title": "Cinema Images",
+        "desc": "Sinema resimleri yönetimi"
+      },
+      "movies": { "title": "Movies", "desc": "Filmler ve içerik listesi" },
+      "users": { "title": "Users", "desc": "Kullanıcı arama ve yönetim" },
+      "tickets": {
+        "title": "Tickets (Admin)",
+        "desc": "Satışlar ve bilet işlemleri"
+      },
+      "cities": { "title": "Cities", "desc": "Şehir / bölge listeleri" },
+      "vip": { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
+      "contact": {
+        "title": "Contact Messages",
+        "desc": "İletişim kutusu mesajları"
+      },
+      "reports": {
+        "title": "Reports",
+        "desc": "Özetler ve performans raporları"
+      },
+      "locations": { "title": "Locations", "desc": "Location List" },
+      "districts": { "title": "Districts", "desc": "İlçe / semt listeleri" },
+      "payments": { "title": "Payments", "desc": "Ödeme kayıtları" },
+      "favorites": { "title": "Favorites", "desc": "Favori kayıtları" },
+      "roles": { "title": "Roles", "desc": "Rol ve yetkiler" }
+    }
+  },
+
+  "images": {
+    "title": "Resimler",
+    "uploadNew": "Yeni Yükle",
+    "searchPlaceholder": "Tam resim ID'si veya resim adı ile ara...",
+    "search": "Ara",
+    "showAll": "Tüm Resimleri Göster",
+    "noImagesFound": "Resim bulunamadı.",
+    "imagePreview": "Resim Önizlemesi",
+    "close": "Kapat",
+    "download": "İndir",
+    "clickToPreview": "Önizleme için tıklayın",
+    "thumbnail": "Küçük Resim",
+    "preview": "Önizleme",
+    "movie": "Film",
+    "type": "Tür",
+    "poster": "Afiş",
+    "uploaded": "Yüklenme",
+    "actions": "İşlemler",
+    "unnamed": "Adsız",
+    "unknown": "Bilinmiyor",
+    "yes": "Evet",
+    "no": "Hayır",
+    "backdrop": "Arka Plan",
+    "size": "Boyut",
+    "editImage": "Resim düzenle",
+    "deleteImage": "Resim sil",
+    "deleteConfirm": "Resmi sil",
+    "deleteWarningPoster": "⚠️ Uyarı: Bu bir afiş resmidir!",
+    "new": {
+      "title": "Yeni Resim Yükle",
+      "description": "Bir resim yükleyin ve bir filme atayın",
+      "loadingMovies": "Filmler yükleniyor...",
+      "failedToLoadMovies": "Filmler yüklenemedi",
+      "selectMovie": "Film Seç",
+      "selectMovieRequired": "Film Seç *",
+      "selectImageFile": "Resim Dosyası Seç",
+      "acceptedFormats": "Kabul edilen formatlar: JPEG, PNG, GIF, WebP. Maksimum boyut: 5MB",
+      "preview": "Önizleme",
+      "fileName": "Dosya adı:",
+      "fileSize": "Dosya boyutu:",
+      "fileType": "Dosya türü:",
+      "setPoster": "Film afişi olarak ayarla",
+      "posterWillBeSet": "Bu resim filmin ana afişi olarak ayarlanacak.",
+      "posterCheckInfo": "Bu ana afiş resmi olacaksa bu kutuyu işaretleyin.",
+      "noteTitle": "Not:",
+      "noteText": "Film başına sadece bir resim afiş olarak işaretlenebilir. Yeni bir afiş yüklerseniz, mevcut afişin yerini alacak.",
+      "selectMovieWarning": "Yüklemeden önce lütfen bir film seçin.",
+      "uploadImage": "Resmi Yükle",
+      "required": "*"
+    },
+    "edit": {
+      "title": "Resim Düzenle",
+      "loading": "Yükleniyor...",
+      "error": "Hata",
+      "notFound": "Resim verisi bulunamadı. Lütfen resimler listesine geri dönün ve tekrar deneyin.",
+      "currentImage": "Mevcut Resim",
+      "currentPoster": "Mevcut Afiş",
+      "imageFor": "Resim için:",
+      "movieId": "Film ID:",
+      "unnamed": "Adsız",
+      "unknown": "Bilinmiyor",
+      "uploaded": "Yüklenme:",
+      "replaceImage": "Yeni Resimle Değiştir",
+      "required": "*",
+      "acceptedFormats": "Kabul edilen formatlar: JPEG, PNG, GIF, WebP. Maksimum boyut: 5MB",
+      "newImagePreview": "Yeni Resim Önizlemesi",
+      "fileName": "Dosya adı:",
+      "fileSize": "Dosya boyutu:",
+      "fileType": "Dosya türü:",
+      "setPoster": "Film afişi olarak ayarla",
+      "posterWillBeSet": "Bu resim filmin ana afişi olarak ayarlanacak.",
+      "posterWillNotBeUsed": "Bu resim afiş olarak kullanılmayacak.",
+      "posterStatusChanged": "Afiş Durumu Değişti:",
+      "willBecomePoster": "Bu yeni afiş resmi olacak.",
+      "noLongerPoster": "Bu resim artık afiş olmayacak.",
+      "updateNote": "Not: Bu resmi güncellemek, içeriğini değiştirecek ve isteğe bağlı olarak afiş durumunu değiştirecek. Resim ID'si aynı kalacak.",
+      "updateImage": "Resmi Güncelle"
+    }
+  },
   "buybar": {
     "title": "🎟️ Bilet Al",
     "countryPlaceholder": "Ülke Seçiniz",
@@ -918,6 +1045,64 @@
     "datePlaceholder": "Tarih Seçiniz",
     "moviePlaceholder": "Film Seçiniz",
     "findTickets": "Biletleri Bul"
-  }
+  },
 
+  "hall":{
+    "listTitle": "Salon Listesi",
+    "createTitle": "Yeni Salon Ekle",
+    "createHeader": "Yeni bir salon oluştur",
+    "updateTitle": "Salonu Düzenle",
+    "updateHeader": "Var olan salonu güncelle",
+
+    "newButton": "Yeni",
+    "editButton": "Düzenle",
+    "deleteButton": "Sil",
+    "deleteConfirm": "Bu salonu silmek istiyor musunuz",
+    "searchPlaceholder": "Salon adıyla ara...",
+    "searchButton": "Ara",
+    "showAllButton": "Tüm Salonları Göster",
+    "noData": "Hiç salon bulunamadı.",
+
+    "name": "Salon Adı",
+    "seatCapacity": "Kapasite",
+    "isSpecial": "Özel Salon",
+    "actions": "İşlemler",
+
+    "nameRequired": "Salon Adı *",
+    "seatCapacityRequired": "Kapasite *",
+    "cinemaRequired": "Bağlı Olduğu Sinema *",
+    "isSpecialQuestion": "Özel salon mu?",
+
+    "yes": "Evet",
+    "no": "Hayır",
+
+    "createButton": "Kaydet",
+    "updateButton": "Güncelle",
+
+    "loadError": "Salon listesi yüklenemedi.",
+    "notFound": "Salon bulunamadı.",
+    "loading": "Yükleniyor...",
+
+    "successCreate": "Salon başarıyla eklendi.",
+    "successUpdate": "Salon başarıyla güncellendi.",
+    "successDelete": "Salon başarıyla silindi.",
+    "errorOperation": "İşlem başarısız oldu."
+  },
+  
+  "alerts": {
+    "warnings": {
+      "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
+      "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı."
+    },
+    "pwdUpdated": "Şifren başarıyla güncellendi.",
+    "deleteTitle": "Emin misin?",
+    "deleteText": "Hesabın kalıcı olarak silinecek.",
+    "deleted": "Hesabın silindi. Çıkış yapılıyor…",
+    "errors": {
+      "deleteFailedBuiltIn": "Yerleşik (built-in) admin silinemez.",
+      "deleteFailed": "Hesap silme başarısız."
+    }
+  }
 }
+
+

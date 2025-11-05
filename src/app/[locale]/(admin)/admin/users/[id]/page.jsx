@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import Link from "next/link";
+import { config } from "@/helpers/config";
 
 export default function EditUserPage() {
   const [form, setForm] = useState({
@@ -11,15 +12,17 @@ export default function EditUserPage() {
     phone: "",
     gender: "",
     birthDate: "",
+    roles: [],
   });
   const router = useRouter();
   const { id } = useParams();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token =
+      localStorage.getItem("authToken") || localStorage.getItem("token");
     if (!token) {
       router.replace(`/${locale}/login`);
       return;
@@ -27,23 +30,24 @@ export default function EditUserPage() {
 
     async function fetchUser() {
       try {
-        const res = await fetch(`${API_BASE}/users/4/admin`, {
+        const res = await fetch(`${API_BASE}/${id}/admin`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const data = await res.json();
-        const u = Array.isArray(data)
-          ? data.find((user) => user.id == id)
-          : data?.returnBody?.content?.find((user) => user.id == id);
 
-        if (!u) throw new Error("Kullanıcı bulunamadı.");
+        if (!res.ok) {
+          throw new Error(`Kullanıcı bulunamadı (Status: ${res.status})`);
+        }
+
+        const data = await res.json();
 
         setForm({
-          firstName: u.name || "",
-          lastName: u.surname || "",
-          email: u.email || "",
-          phone: u.phoneNumber || "",
-          gender: u.gender || "",
-          birthDate: u.birthDate || "",
+          firstName: data.name || "",
+          lastName: data.surname || "",
+          email: data.email || "",
+          phone: data.phoneNumber || "",
+          gender: data.gender || "",
+          birthDate: data.birthDate || "",
+          roles: data.roles || [],
         });
       } catch (err) {
         alert(err.message);
@@ -52,36 +56,27 @@ export default function EditUserPage() {
     }
 
     if (id) fetchUser();
-  }, [id]);
-
-  // Telefonu biçimlendir: (555) 123-4567
-  const formatPhone = (value) => {
-    const cleaned = value.replace(/\D/g, "");
-    const digits = cleaned.startsWith("90") ? cleaned.substring(2) : cleaned;
-
-    const match = digits.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
-    if (!match) return value;
-
-    let formatted = "";
-    if (match[1]) formatted = `(${match[1]}`;
-    if (match[2]) formatted += `) ${match[2]}`;
-    if (match[3]) formatted += `-${match[3]}`;
-    return formatted;
-  };
+  }, [id, locale, router, API_BASE]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: name === "phone" ? formatPhone(value) : value,
-    });
+    const { name, value, type, checked } = e.target;
+    if (name === "roles") {
+      const updatedRoles = checked
+        ? [...form.roles, value]
+        : form.roles.filter((r) => r !== value);
+      setForm({ ...form, roles: updatedRoles });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("authToken");
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
 
+      // ✅ Backend ile birebir uyumlu body
       const res = await fetch(`${API_BASE}/${id}/admin`, {
         method: "PUT",
         headers: {
@@ -89,12 +84,15 @@ export default function EditUserPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: form.firstName,
-          surname: form.lastName,
+          firstName: form.firstName,
+          lastName: form.lastName,
           email: form.email,
-          phoneNumber: form.phone,
+          phone: form.phone,
           gender: form.gender,
-          birthDate: form.birthDate,
+          birthDate: form.birthDate
+            ? new Date(form.birthDate).toISOString().split("T")[0]
+            : null,
+          roles: form.roles,
         }),
       });
 
@@ -160,8 +158,6 @@ export default function EditUserPage() {
             value={form.phone}
             onChange={handleChange}
             placeholder="(555) 123-4567"
-            maxLength={14} // <-- sadece (XXX) XXX-XXXX
-            required
           />
         </div>
 
@@ -180,12 +176,34 @@ export default function EditUserPage() {
         </div>
 
         <div className="mb-3">
+          <label className="form-label">Roller</label>
+          <div className="d-flex gap-3">
+            {["ADMIN", "EMPLOYEE", "MEMBER"].map((role) => (
+              <div key={role} className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  name="roles"
+                  value={role}
+                  id={`role-${role}`}
+                  checked={form.roles.includes(role)}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor={`role-${role}`}>
+                  {role}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-3">
           <label className="form-label">Doğum Tarihi</label>
           <input
             type="date"
             className="form-control"
             name="birthDate"
-            value={form.birthDate}
+            value={form.birthDate || ""}
             onChange={handleChange}
           />
         </div>

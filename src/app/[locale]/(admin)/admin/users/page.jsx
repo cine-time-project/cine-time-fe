@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import { config } from "@/helpers/config";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
@@ -11,7 +12,7 @@ export default function AdminUsersPage() {
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -27,14 +28,14 @@ export default function AdminUsersPage() {
     }
 
     fetchUsers();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("authToken");
 
-      const res = await fetch(`${API_BASE}/users/4/admin`, {
+      const res = await fetch(`${API_BASE}/users/admin/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -43,12 +44,15 @@ export default function AdminUsersPage() {
 
       const data = await res.json();
 
-      // 🔹 Sıralama ID’ye göre küçükten büyüğe
+      // Backend formatını destekle (liste ya da sayfa)
       const list = Array.isArray(data)
-        ? data.sort((a, b) => a.id - b.id)
-        : (data?.returnBody?.content || []).sort((a, b) => a.id - b.id);
+        ? data
+        : data?.returnBody?.content || data?.returnBody || [];
 
-      setUsers(list);
+      // 🔹 ID’ye göre sırala
+      const sorted = list.sort((a, b) => a.id - b.id);
+
+      setUsers(sorted);
     } catch (err) {
       console.error("Kullanıcılar alınamadı:", err);
     } finally {
@@ -61,6 +65,7 @@ export default function AdminUsersPage() {
     try {
       const token = localStorage.getItem("authToken");
 
+      // 🔹 DÜZELTİLDİ: /users kaldırıldı
       const res = await fetch(`${API_BASE}/${id}/admin`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
@@ -72,6 +77,28 @@ export default function AdminUsersPage() {
     } catch (err) {
       alert("Silme hatası: " + err.message);
     }
+  };
+
+  // 🔹 Roller için Türkçe etiketler
+  const roleLabels = {
+    ADMIN: "Admin",
+    EMPLOYEE: "Employee",
+    MEMBER: "Member",
+    ANONYMOUS: "Anonymous",
+  };
+
+  const formatRoles = (roles) => {
+    if (!roles || roles.length === 0) return "—";
+
+    // Backend: ["ADMIN", "EMPLOYEE", ...]
+    if (Array.isArray(roles)) {
+      return roles
+        .map((r) => (typeof r === "string" ? r : r.roleName || r))
+        .map((r) => roleLabels[r.replace(/^ROLE_/, "")] || r)
+        .join(", ");
+    }
+
+    return roleLabels[String(roles)] || String(roles);
   };
 
   if (loading) return <p className="p-3 text-muted">Yükleniyor...</p>;
@@ -105,6 +132,7 @@ export default function AdminUsersPage() {
                 <th>Soyad</th>
                 <th>Email</th>
                 <th>Telefon</th>
+                <th>Roller</th>
                 <th>Cinsiyet</th>
                 <th>İşlem</th>
               </tr>
@@ -117,6 +145,7 @@ export default function AdminUsersPage() {
                   <td>{u.surname}</td>
                   <td>{u.email}</td>
                   <td>{u.phoneNumber}</td>
+                  <td>{formatRoles(u.roles)}</td>
                   <td>{u.gender}</td>
                   <td>
                     <div className="d-flex gap-2">

@@ -20,7 +20,7 @@ export default async function Page({ params }) {
     redirect(`/${locale}/login?redirect=/${locale}/dashboard`);
   }
 
-  if (roles.includes("MEMBER")) {
+  if (roles.length === 1 && roles.includes("MEMBER")) {
     redirect(`/${locale}/account`);
   }
 

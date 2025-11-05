@@ -73,6 +73,8 @@
   },
 
   "common": {
+    "name": "Name",
+    "note": "Note",
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close",
@@ -95,7 +97,12 @@
     "showMore": "Show more",
     "showLess": "Show less",
     "retry": "Retry",
-    "minutes": "min"
+    "minutes": "min",
+       "new": "New",
+    "search": "Search",
+    "page": "Page",
+    "total": "Total",
+    "rows": "Rows"
   },
 
   "status": {
@@ -279,7 +286,29 @@
     "updateProfile": "Update Profile",
     "changePassword": "Change Password",
     "deleteAccount": "Delete Account",
-    "saved": "Profile updated."
+    "saved": "Profile updated.",
+     "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "oldPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password"},
+       "hints": {
+      "phone": "e.g., +15551112233"
+    },
+     "validations": {
+      "phone": "Invalid phone number"
+    },
+    "actions": {
+      "resetPassword": "Update Password",
+      "deleteAccount": "Delete My Account"
+    },
+    "dangerZone": "Danger Zone",
+    "delete": {
+      "warn": "If you delete your account, all your data will be permanently removed."
+    }
   },
 
   "movies": {
@@ -380,7 +409,23 @@
     "format": "Format",
     "price": "Price",
     "select": "Select",
-    "noShowtimes": "No showtimes found."
+    "noShowtimes": "No showtimes found.",
+     "title": "Showtimes",
+    "confirmDelete": "#{id} screening will be deleted. Continue?",
+    "deleteError": "An error occurred while deleting.",
+    "filters": {
+      "cinema": "Cinema",
+      "hall": "Hall",
+      "movie": "Movie",
+      "dateFrom": "Start date",
+      "dateTo": "End date"
+    },
+    "placeholders": {
+      "searchCinema": "Search cinema…",
+      "searchHall": "Search hall…",
+      "selectCinemaFirst": "Select a cinema first",
+      "searchMovie": "Search movie…"
+    }
   },
 
   "seats": {
@@ -843,7 +888,6 @@
       "extraComfort": "Extra comfort",
       "priorityEntry": "Priority entry",
       "priorityEntryDesc": "With a dedicated entrance and fast track, you enter without queues and settle into your seat comfortably."
-
     },
 
     "family": {
@@ -865,7 +909,7 @@
     "home": "Go back to homepage"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "DASHBOARD",
     "tiles": {
       "cinemas": { "title": "Cinemas", "desc": "Branches and hall mapping" },
       "halls": { "title": "Halls", "desc": "Hall layouts & seat templates" },
@@ -889,7 +933,7 @@
         "desc": "Summaries & performance reports"
       },
 
-      "countries": { "title": "Countries", "desc": "Country lists" },
+      "locations": { "title": "Locations", "desc": "Location List" },
       "districts": {
         "title": "Districts",
         "desc": "District / neighborhood lists"
@@ -897,6 +941,86 @@
       "payments": { "title": "Payments", "desc": "Payment records" },
       "favorites": { "title": "Favorites", "desc": "User favorites" },
       "roles": { "title": "Roles", "desc": "Roles & permissions" }
+    }
+  },
+
+  "images": {
+    "title": "Images",
+    "uploadNew": "Upload New",
+    "searchPlaceholder": "Search by exact image ID or image name...",
+    "search": "Search",
+    "showAll": "Show All Images",
+    "noImagesFound": "No images found.",
+    "imagePreview": "Image Preview",
+    "close": "Close",
+    "download": "Download",
+    "clickToPreview": "Click to preview image",
+    "thumbnail": "Thumbnail",
+    "preview": "Preview",
+    "movie": "Movie",
+    "type": "Type",
+    "poster": "Poster",
+    "uploaded": "Uploaded",
+    "actions": "Actions",
+    "unnamed": "Unnamed",
+    "unknown": "Unknown",
+    "yes": "Yes",
+    "no": "No",
+    "backdrop": "Backdrop",
+    "size": "Size",
+    "editImage": "Edit image",
+    "deleteImage": "Delete image",
+    "deleteConfirm": "Delete image",
+    "deleteWarningPoster": "⚠️ Warning: This is a poster image!",
+    "new": {
+      "title": "Upload New Image",
+      "description": "Upload an image and assign it to a movie",
+      "loadingMovies": "Loading movies...",
+      "failedToLoadMovies": "Failed to load movies",
+      "selectMovie": "Select Movie",
+      "selectMovieRequired": "Select Movie *",
+      "selectImageFile": "Select Image File",
+      "acceptedFormats": "Accepted formats: JPEG, PNG, GIF, WebP. Maximum size: 5MB",
+      "preview": "Preview",
+      "fileName": "File name:",
+      "fileSize": "File size:",
+      "fileType": "File type:",
+      "setPoster": "Set as movie poster",
+      "posterWillBeSet": "This image will be set as the main poster for the movie.",
+      "posterCheckInfo": "Check this box if this should be the main poster image.",
+      "noteTitle": "Note:",
+      "noteText": "Only one image can be marked as the poster per movie. If you upload a new poster, it will replace the existing one.",
+      "selectMovieWarning": "Please select a movie before uploading.",
+      "uploadImage": "Upload Image",
+      "required": "*"
+    },
+    "edit": {
+      "title": "Edit Image",
+      "loading": "Loading...",
+      "error": "Error",
+      "notFound": "Image data not found. Please go back to the images list and try again.",
+      "currentImage": "Current Image",
+      "currentPoster": "Current Poster",
+      "imageFor": "Image for:",
+      "movieId": "Movie ID:",
+      "unnamed": "Unnamed",
+      "unknown": "Unknown",
+      "uploaded": "Uploaded:",
+      "replaceImage": "Replace with New Image",
+      "required": "*",
+      "acceptedFormats": "Accepted formats: JPEG, PNG, GIF, WebP. Maximum size: 5MB",
+      "newImagePreview": "New Image Preview",
+      "fileName": "File name:",
+      "fileSize": "File size:",
+      "fileType": "File type:",
+      "setPoster": "Set as movie poster",
+      "posterWillBeSet": "This image will be set as the main poster for the movie.",
+      "posterWillNotBeUsed": "This image will not be used as the poster.",
+      "posterStatusChanged": "Poster Status Changed:",
+      "willBecomePoster": "This will become the new poster image.",
+      "noLongerPoster": "This image will no longer be the poster.",
+      "updateNote": "Note: Updating this image will replace its content and optionally change its poster status. The image ID will remain the same.",
+      "updateImage": "Update Image"
     }
   },
   "buybar": {
@@ -907,5 +1031,61 @@
     "datePlaceholder": "Select Date",
     "moviePlaceholder": "Select Movie",
     "findTickets": "Find Tickets"
+  },
+
+  "hall":{
+    "listTitle": "Hall List",
+    "createTitle": "Add New Hall",
+    "createHeader": "Create a new hall",
+    "updateTitle": "Edit Hall",
+    "updateHeader": "Update existing hall",
+
+    "newButton": "New",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this hall",
+    "searchPlaceholder": "Search by hall name...",
+    "searchButton": "Search",
+    "showAllButton": "Show All Halls",
+    "noData": "No halls found.",
+
+    "name": "Hall Name",
+    "seatCapacity": "Capacity",
+    "isSpecial": "Special Hall",
+    "actions": "Actions",
+
+    "nameRequired": "Hall Name *",
+    "seatCapacityRequired": "Capacity *",
+    "cinemaRequired": "Cinema *",
+    "isSpecialQuestion": "Is this a special hall?",
+
+    "yes": "Yes",
+    "no": "No",
+
+    "createButton": "Save",
+    "updateButton": "Update",
+
+    "loadError": "Failed to load hall list.",
+    "notFound": "Hall not found.",
+    "loading": "Loading...",
+
+    "successCreate": "Hall created successfully.",
+    "successUpdate": "Hall updated successfully.",
+    "successDelete": "Hall deleted successfully.",
+    "errorOperation": "Operation failed."
+  },
+   "alerts": {
+    "warnings": {
+      "enterPasswords": "Please enter both current and new password.",
+      "passwordsMustMatch": "New password and confirmation must match."
+    },
+    "pwdUpdated": "Your password has been updated successfully.",
+    "deleteTitle": "Are you sure?",
+      "deleteText": "Your account will be permanently deleted.",
+    "deleted": "Your account was deleted. Signing you out…",
+    "errors": {
+      "deleteFailedBuiltIn": "Built-in admin cannot be deleted.",
+      "deleteFailed": "Account deletion failed."
+    }
   }
 }
