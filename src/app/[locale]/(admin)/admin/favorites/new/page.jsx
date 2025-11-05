@@ -7,7 +7,7 @@ export default function NewFavoritePage() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState([]);
