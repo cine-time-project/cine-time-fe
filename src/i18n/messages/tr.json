@@ -96,7 +96,12 @@
     "showMore": "Daha Fazla Göster",
     "showLess": "Daha Az Göster",
     "retry": "Tekrar Dene",
-    "minutes": "dakika"
+    "minutes": "dakika",
+     "new": "Yeni",
+    "search": "Ara",
+    "page": "Sayfa",
+    "total": "Toplam",
+    "rows": "Satır"
   },
 
   "status": {
@@ -404,7 +409,23 @@
     "format": "Format",
     "price": "Fiyat",
     "select": "Seç",
-    "noShowtimes": "Seans bulunamadı."
+    "noShowtimes": "Seans bulunamadı.",
+     "title": "Gösterimler",
+    "confirmDelete": "#{id} numaralı gösterim silinecek. Devam edilsin mi?",
+    "deleteError": "Silme işlemi sırasında bir hata oluştu.",
+    "filters": {
+      "cinema": "Sinema",
+      "hall": "Salon",
+      "movie": "Film",
+      "dateFrom": "Başlangıç",
+      "dateTo": "Bitiş"
+    },
+    "placeholders": {
+      "searchCinema": "Sinema ara…",
+      "searchHall": "Salon ara…",
+      "selectCinemaFirst": "Önce sinema seçin",
+      "searchMovie": "Film ara…"
+    }
   },
 
   "seats": {

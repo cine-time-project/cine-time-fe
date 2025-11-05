@@ -2,25 +2,21 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
-import dynamic from "next/dynamic";
-const AsyncSelect = dynamic(() => import("react-select/async"), { ssr: false });
+import { useLocale, useTranslations } from "next-intl"; // ⬅️ EKLENDİ
 
 import ShowtimesTable from "@/components/dashboard/showtimes/ShowtimesTable";
-import {
-  listShowtimes,
-  deleteShowtime,
-  searchCinemasByName,
-  searchHallsByName,
-  searchMoviesByTitle,
-} from "@/action/showtimes-actions";
+import ShowtimesSearchBar from "@/components/dashboard/showtimes/ShowtimesSearchBar";
+import { listShowtimes, deleteShowtime } from "@/action/showtimes-actions";
 import SectionTitle from "@/components/common/SectionTitle";
 
 export default function ShowtimesListPage() {
   const router = useRouter();
   const locale = useLocale();
 
-  // --- HYDRATION-FRIENDLY ADMIN CHECK ---
+  // i18n
+  const t  = useTranslations("showtimes");
+  const tc = useTranslations("common");
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -32,39 +28,26 @@ export default function ShowtimesListPage() {
       const arr = [...fromCookie, ...(fromLS.roles || fromLS.authorities || [])];
       const roles = new Set(arr.map((r) => String(r.name ?? r).replace(/^ROLE_/, "").toUpperCase()));
       setIsAdmin(roles.has("ADMIN"));
-    } catch {
-      /* ignore */
-    }
+    } catch {}
   }, []);
 
-  // --- STATE ---
   const [rows, setRows] = useState([]);
   const [isPending, startTransition] = useTransition();
   const [pageInfo, setPageInfo] = useState({ page: 0, size: 20, total: 0, totalPages: 1 });
 
-  // Filtreler
-  const [cinemaId, setCinemaId] = useState("");
-  const [hallId, setHallId] = useState("");
-  const [movieId, setMovieId] = useState("");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
-  const [version, setVersion] = useState(0); // select’leri remount etmek için
+  const [filters, setFilters] = useState({
+    cinemaId: undefined,
+    hallId: undefined,
+    movieId: undefined,
+    dateFrom: undefined,
+    dateTo: undefined,
+  });
 
-  // Query
   const query = useMemo(
-    () => ({
-      page: pageInfo.page,
-      size: pageInfo.size,
-      cinemaId: Number(cinemaId) || undefined,
-      hallId: Number(hallId) || undefined,
-      movieId: Number(movieId) || undefined,
-      dateFrom: dateFrom || undefined,
-      dateTo: dateTo || undefined,
-    }),
-    [cinemaId, hallId, movieId, dateFrom, dateTo, pageInfo.page, pageInfo.size]
+    () => ({ page: pageInfo.page, size: pageInfo.size, ...filters }),
+    [filters, pageInfo.page, pageInfo.size]
   );
 
-  // Data fetch
   const fetchData = (q = query) =>
     startTransition(async () => {
       const res = await listShowtimes(q);
@@ -84,19 +67,20 @@ export default function ShowtimesListPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSearch = (e) => {
-    e?.preventDefault();
+  const onSearch = (f) => {
+    setFilters({
+      cinemaId: f.cinemaId,
+      hallId:   f.hallId,
+      movieId:  f.movieId,
+      dateFrom: f.dateFrom,
+      dateTo:   f.dateTo,
+    });
     setPageInfo((p) => ({ ...p, page: 0 }));
-    fetchData({ ...query, page: 0, size: pageInfo.size });
+    fetchData({ ...f, page: 0, size: pageInfo.size });
   };
 
-  const clearFilters = () => {
-    setCinemaId("");
-    setHallId("");
-    setMovieId("");
-    setDateFrom("");
-    setDateTo("");
-    setVersion((v) => v + 1);
+  const onClear = () => {
+    setFilters({ cinemaId: undefined, hallId: undefined, movieId: undefined, dateFrom: undefined, dateTo: undefined });
     setPageInfo((p) => ({ ...p, page: 0 }));
     fetchData({ page: 0, size: pageInfo.size });
   };
@@ -108,18 +92,20 @@ export default function ShowtimesListPage() {
 
   const onDelete = async (row) => {
     if (!row?.id) return;
-    const ok = window.confirm(`#${row.id} numaralı gösterim silinsin mi?`);
+    const ok = window.confirm(
+      t("confirmDelete", { id: row.id, default: `#${row.id} screening will be deleted. Continue?` })
+    );
     if (!ok) return;
 
     const res = await deleteShowtime(row.id);
     if (!res.ok) {
-      alert(res.message || "Silme sırasında hata oluştu.");
+      alert(t("deleteError", { default: "An error occurred while deleting." }));
       return;
     }
     fetchData(query);
   };
 
-  // ---------- Pagination helpers ----------
+  // Pagination
   const pageNumbers = useMemo(() => {
     const total = pageInfo.totalPages || 1;
     const cur = pageInfo.page || 0;
@@ -135,25 +121,17 @@ export default function ShowtimesListPage() {
     setPageInfo((prev) => ({ ...prev, page: p }));
     fetchData({ ...query, page: p, size: pageInfo.size });
   }
-
   function changeSize(sz) {
     const size = Number(sz) || 20;
     setPageInfo((prev) => ({ ...prev, page: 0, size }));
     fetchData({ ...query, page: 0, size });
   }
 
-  // react-select yüksekliklerini Bootstrap input ile eşitle
-  const selectStyles = {
-    control: (b) => ({ ...b, minHeight: 38, height: 38 }),
-    indicatorsContainer: (b) => ({ ...b, height: 38 }),
-    valueContainer: (b) => ({ ...b, height: 38, paddingTop: 4, paddingBottom: 4 }),
-  };
-
   return (
     <div className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <SectionTitle align="center" textColor="text-light">
-          Showtimes
+          {t("title", { default: "Showtimes" })}
         </SectionTitle>
 
         {mounted && isAdmin && (
@@ -162,101 +140,12 @@ export default function ShowtimesListPage() {
             onClick={() => router.push(`/${locale}/admin/showtimes/new`)}
             disabled={isPending}
           >
-            + New
+            + {tc("new", { default: "New" })}
           </button>
         )}
       </div>
 
-      {/* FİLTRE BAR – isimle seçim, ID göndeririz */}
-    <form className="row g-2 align-items-end mb-3 whiteLabels" onSubmit={onSearch}>
-  {/* Cinema – 3 */}
-  <div className="col-12 col-xl-3 col-lg-3">
-    <label className="form-label text-white">Cinema</label>
-    <AsyncSelect
-      key={`cinema-${version}`}
-      instanceId="cinema-select"
-      inputId="cinema-select-input"
-      cacheOptions
-      defaultOptions
-      isClearable
-      styles={selectStyles}
-      loadOptions={(q) => searchCinemasByName(q)}
-      placeholder="Cinema adıyla ara…"
-      onChange={(opt) => {
-        setCinemaId(opt?.value ? String(opt.value) : "");
-        setHallId("");
-      }}
-    />
-  </div>
-
-  {/* Hall – 2 */}
-  <div className="col-12 col-xl-2 col-lg-2">
-    <label className="form-label text-white">Hall</label>
-    <AsyncSelect
-      key={`hall-${version}-${cinemaId || "no"}`}
-      instanceId="hall-select"
-      inputId="hall-select-input"
-      isDisabled={!cinemaId}
-      cacheOptions
-      defaultOptions
-      isClearable
-      styles={selectStyles}
-      loadOptions={(q) => (cinemaId ? searchHallsByName(cinemaId, q) : Promise.resolve([]))}
-      placeholder={cinemaId ? "Salon adıyla ara…" : "Önce Cinema seç"}
-      onChange={(opt) => setHallId(opt?.value ? String(opt.value) : "")}
-    />
-  </div>
-
-  {/* Movie – 3 */}
-  <div className="col-12 col-xl-3 col-lg-3">
-    <label className="form-label text-white">Movie</label>
-    <AsyncSelect
-      key={`movie-${version}`}
-      instanceId="movie-select"
-      inputId="movie-select-input"
-      cacheOptions
-      defaultOptions
-      isClearable
-      styles={selectStyles}
-      loadOptions={(q) => searchMoviesByTitle(q)}
-      placeholder="Film adıyla ara…"
-      onChange={(opt) => setMovieId(opt?.value ? String(opt.value) : "")}
-    />
-  </div>
-
-  {/* Başlangıç – 2 */}
-  <div className="col-6 col-xl-2 col-lg-2">
-    <label className="form-label text-white">Başlangıç</label>
-    <input
-      type="date"
-      className="form-control"
-      value={dateFrom}
-      onChange={(e) => setDateFrom(e.target.value)}
-    />
-  </div>
-
-  {/* Bitiş – 2 */}
-  <div className="col-6 col-xl-2 col-lg-2">
-    <label className="form-label text-white">Bitiş</label>
-    <input
-      type="date"
-      className="form-control"
-      value={dateTo}
-      onChange={(e) => setDateTo(e.target.value)}
-    />
-  </div>
-
- <div className="col-12 col-xl-auto d-flex gap-2 ms-xl-auto justify-content-end">
-  <button className="btn btn-primary" disabled={isPending}>
-    <i className="pi pi-search me-2" />
-    Search
-  </button>
-  <button type="button" className="btn btn-outline-light" onClick={clearFilters}>
-    Temizle
-  </button>
-</div>
-</form>
-
+      <ShowtimesSearchBar initial={filters} onSearch={onSearch} onClear={onClear} />
 
       <ShowtimesTable
         rows={rows}
@@ -270,13 +159,13 @@ export default function ShowtimesListPage() {
       {/* Pagination */}
       <div className="d-flex align-items-center justify-content-between mt-3">
         <div className="text-white-50 small">
-          Page <strong>{pageInfo.page + 1}</strong> / {pageInfo.totalPages || 1}
+          {tc("page", { default: "Page" })} <strong>{pageInfo.page + 1}</strong> / {pageInfo.totalPages || 1}
           {" · "}
-          Total: <strong>{pageInfo.total}</strong>
+          {tc("total", { default: "Total" })}: <strong>{pageInfo.total}</strong>
         </div>
 
         <div className="d-flex align-items-center gap-3">
-          <div className="text-white-50 small">Rows:</div>
+          <div className="text-white-50 small">{tc("rows", { default: "Rows" })}:</div>
           <select
             className="form-select form-select-sm"
             style={{ width: 90 }}
@@ -291,45 +180,23 @@ export default function ShowtimesListPage() {
           <nav>
             <ul className="pagination pagination-sm mb-0">
               <li className={`page-item ${pageInfo.page === 0 ? "disabled" : ""}`}>
-                <button className="page-link" onClick={() => goPage(0)} aria-label="First">
-                  «
-                </button>
+                <button className="page-link" onClick={() => goPage(0)} aria-label="First">«</button>
               </li>
               <li className={`page-item ${pageInfo.page === 0 ? "disabled" : ""}`}>
-                <button className="page-link" onClick={() => goPage(pageInfo.page - 1)} aria-label="Prev">
-                  ‹
-                </button>
+                <button className="page-link" onClick={() => goPage(pageInfo.page - 1)} aria-label="Prev">‹</button>
               </li>
 
               {pageNumbers.map((n) => (
                 <li key={n} className={`page-item ${n === pageInfo.page ? "active" : ""}`}>
-                  <button className="page-link" onClick={() => goPage(n)}>
-                    {n + 1}
-                  </button>
+                  <button className="page-link" onClick={() => goPage(n)}>{n + 1}</button>
                 </li>
               ))}
 
-              <li
-                className={`page-item ${
-                  pageInfo.page >= (pageInfo.totalPages - 1 || 0) ? "disabled" : ""
-                }`}
-              >
-                <button className="page-link" onClick={() => goPage(pageInfo.page + 1)} aria-label="Next">
-                  ›
-                </button>
+              <li className={`page-item ${pageInfo.page >= (pageInfo.totalPages - 1 || 0) ? "disabled" : ""}`}>
+                <button className="page-link" onClick={() => goPage(pageInfo.page + 1)} aria-label="Next">›</button>
               </li>
-              <li
-                className={`page-item ${
-                  pageInfo.page >= (pageInfo.totalPages - 1 || 0) ? "disabled" : ""
-                }`}
-              >
-                <button
-                  className="page-link"
-                  onClick={() => goPage((pageInfo.totalPages || 1) - 1)}
-                  aria-label="Last"
-                >
-                  »
-                </button>
+              <li className={`page-item ${pageInfo.page >= (pageInfo.totalPages - 1 || 0) ? "disabled" : ""}`}>
+                <button className="page-link" onClick={() => goPage((pageInfo.totalPages || 1) - 1)} aria-label="Last">»</button>
               </li>
             </ul>
           </nav>
