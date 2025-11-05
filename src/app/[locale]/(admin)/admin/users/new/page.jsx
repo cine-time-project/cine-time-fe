@@ -79,7 +79,7 @@ export default function NewUserPage() {
           gender: form.gender,
           birthDate: formattedDate,
           builtIn: false,
-          role: form.role, // ✅ kullanıcı seçimi
+          roles: [form.role], // ✅ DÜZELTİLDİ
         }),
       });
 
@@ -184,7 +184,7 @@ export default function NewUserPage() {
           </select>
         </div>
 
-        {/* ✅ Yeni: Rol seçimi */}
+        {/* ✅ Rol seçimi */}
         <div className="mb-3">
           <label className="form-label">Rol</label>
           <select
