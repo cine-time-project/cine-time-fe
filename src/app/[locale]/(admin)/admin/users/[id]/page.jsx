@@ -17,7 +17,7 @@ export default function EditUserPage() {
   const { id } = useParams();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   useEffect(() => {
     const token =
