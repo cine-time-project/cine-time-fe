@@ -341,12 +341,12 @@ export default function AccountForm({ showTitle = false }) {
                   </Row>
 
                   <div className="d-flex gap-2">
-                    <Button type="submit" disabled={isPending}>
-                      {isPending ? (
-                        <Spinner size="sm" />
-                      ) : (
-                        tCommon("save", { default: "Kaydet" })
-                      )}
+                 <Button
+                      type="submit"
+                      disabled={isPending}
+                        className="w-25"   
+                        >
+                      {isPending ? <Spinner size="sm" /> : tCommon("save", { default: "Kaydet" })}
                     </Button>
                   </div>
                 </Form>

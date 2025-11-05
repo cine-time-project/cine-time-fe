@@ -97,7 +97,12 @@
     "showMore": "Show more",
     "showLess": "Show less",
     "retry": "Retry",
-    "minutes": "min"
+    "minutes": "min",
+       "new": "New",
+    "search": "Search",
+    "page": "Page",
+    "total": "Total",
+    "rows": "Rows"
   },
 
   "status": {
@@ -404,7 +409,23 @@
     "format": "Format",
     "price": "Price",
     "select": "Select",
-    "noShowtimes": "No showtimes found."
+    "noShowtimes": "No showtimes found.",
+     "title": "Showtimes",
+    "confirmDelete": "#{id} screening will be deleted. Continue?",
+    "deleteError": "An error occurred while deleting.",
+    "filters": {
+      "cinema": "Cinema",
+      "hall": "Hall",
+      "movie": "Movie",
+      "dateFrom": "Start date",
+      "dateTo": "End date"
+    },
+    "placeholders": {
+      "searchCinema": "Search cinema…",
+      "searchHall": "Search hall…",
+      "selectCinemaFirst": "Select a cinema first",
+      "searchMovie": "Search movie…"
+    }
   },
 
   "seats": {
@@ -888,7 +909,7 @@
     "home": "Go back to homepage"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "DASHBOARD",
     "tiles": {
       "cinemas": { "title": "Cinemas", "desc": "Branches and hall mapping" },
       "halls": { "title": "Halls", "desc": "Hall layouts & seat templates" },

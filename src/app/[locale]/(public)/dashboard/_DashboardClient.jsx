@@ -4,23 +4,19 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth/useAuth";
-
 import { filterTilesByRoles, ICONS } from "@/helpers/data/admin-tiles";
-
 import styles from "@/styles/dashboard.module.scss";
+import { PageHeader } from "@/components/common/page-header/PageHeader";
 
 export default function DashboardClient({ locale }) {
   const { roles = [], loading } = useAuth();
   const t = useTranslations("dashboard");
 
-  // TILES yerine tek kaynak + role filtresi
   const tiles = useMemo(() => {
     const list = filterTilesByRoles(roles).map((tile) => ({
       ...tile,
       href: `/${locale}${tile.href}`,
     }));
-
-    //  i18n başlık/açıklama
     return list.map((tile) => {
       const titleKey = `tiles.${tile.key}.title`;
       const descKey  = `tiles.${tile.key}.desc`;
@@ -33,12 +29,13 @@ export default function DashboardClient({ locale }) {
 
   if (loading) return null;
 
-  let pageTitle = "Dashboard";
+  let pageTitle = "DASHBOARD";
   try { const tt = t("title"); if (tt && tt !== "title") pageTitle = tt; } catch {}
 
   return (
     <section className={styles.wrapper}>
-      <h1 className={styles.title}>{pageTitle}</h1>
+      <PageHeader title={pageTitle} />
+
       <div className={styles.grid}>
         {tiles.map((t) => {
           const Icon = ICONS[t.key] || ICONS.default;
