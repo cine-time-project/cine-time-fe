@@ -17,15 +17,14 @@ export const HallCreateForm = ({ locale }) => {
   const [state, action, isPending] = useActionState(createHallAction, null);
 
   const [cinemaOptions, setCinemaOptions] = useState([]);
-  const [token, setToken] = useState("");
-
-  useEffect(() => setToken(getToken()), []);
+  const [token, setToken] = useState(getToken());
 
   useEffect(() => {
+    console.log(token);
+    if (!token) return;
     const load = async () => {
       try {
-        // ilk sayfa yeterli, büyükse backend filtresi eklenir
-        const res = await getCinemas(0, 100);
+        const res = await getAllCinemas(0, 100, token);
         const page = res?.returnBody ?? res ?? {};
         const items = page?.content ?? page ?? [];
         setCinemaOptions(items.map((c) => ({ label: c.name, value: c.id })));
@@ -34,7 +33,7 @@ export const HallCreateForm = ({ locale }) => {
       }
     };
     load();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (state?.message) {
@@ -46,7 +45,6 @@ export const HallCreateForm = ({ locale }) => {
 
   return (
     <div>
-      {/* 🔹 Başlık artık kutunun DIŞINDA */}
       <h4 className="fw-semibold mb-4">{t("createTitle")}</h4>
 
       <FormContainer>
