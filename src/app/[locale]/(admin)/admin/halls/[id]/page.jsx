@@ -7,12 +7,12 @@ import { getToken } from "@/lib/utils/http";
 import { swAlert } from "@/helpers/sweetalert";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import Spacer from "@/components/common/Spacer";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 export default function EditHallPage({ params }) {
   const locale = useLocale();
   const t = useTranslations("hall");
-  const { id } = params;
+  const { id } = use(params);;
 
   const [hall, setHall] = useState(null);
   const [error, setError] = useState("");

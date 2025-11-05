@@ -1,6 +1,5 @@
 "use client";
 
-import { deleteHallAction } from "@/action/hall-actions";
 import { swAlert, swConfirm } from "@/helpers/sweetalert";
 import { useRouter } from "next/navigation";
 import { Button } from "react-bootstrap";
@@ -19,20 +18,38 @@ export const HallToolbar = ({ row, locale, onDeleted }) => {
   const t = useTranslations("hall");
   const { id, name } = row;
 
-  // Silme işlemi
   const handleDelete = async () => {
     const answer = await swConfirm(`${t("deleteConfirm")} "${name}"?`);
     if (!answer.isConfirmed) return;
 
     const token = getToken();
-    const res = await deleteHallAction(id, locale, token);
 
-    swAlert(res.message, res.ok ? "success" : "error").then(() => {
-      if (res.ok && typeof onDeleted === "function") onDeleted(id);
-    });
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/hall/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      swAlert(
+        data.message || "Delete completed",
+        res.ok ? "success" : "error"
+      ).then(() => {
+        if (res.ok && typeof onDeleted === "function") onDeleted(id);
+      });
+    } catch (err) {
+      console.error("Delete failed:", err);
+      swAlert("Failed to delete hall", "error");
+    }
   };
 
-  // Düzenleme sayfasına git
   const handleEdit = () => router.push(`/${locale}/admin/halls/${id}`);
 
   return (
