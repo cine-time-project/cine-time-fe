@@ -17,7 +17,7 @@ import {
    (() => {
      try {
        // MOVIE_SEARCH_API zaten mutlak (api-routes config.apiURL’den kuruyor)
-       return new URL(MOVIE_SEARCH_API).origin; // örn: http://localhost:8100
+       return new URL(MOVIE_SEARCH_API).origin; 
      } catch {
        return "";
      }
@@ -42,30 +42,52 @@ function absUrl(u) {
   return ASSET_BASE + "/" + u;
 }
 
-/** images[] içinden poster/backdrop seç (varsa) */
+/** images[] içinden poster/backdrop seç (id -> /api/images/{id} dön) */
 function pickFromImages(images = []) {
-  if (!Array.isArray(images)) return {};
+  if (!Array.isArray(images) || images.length === 0) return {};
+
+  const urlFor = (img) => {
+    if (!img) return null;
+    if (img.url) return absUrl(img.url);              // varsa direkt url
+    if (img.id != null) return absUrl(`/api/images/${img.id}`); // yoksa id
+    return null;
+  };
+
+  const isPosterFlag = (x) =>
+    x?.isPoster === true || x?.poster === true;       // <-- kritik fark
+
   const byType = (re) =>
-    images.find((x) => re.test(String(x?.type || x?.imageType || x?.kind || "")))?.url
-    || images.find((x) => re.test(String(x?.name || "")))?.url;
+    images.find((x) => re.test(String(x?.type || x?.imageType || ""))) ||
+    images.find((x) => re.test(String(x?.name || "")));
 
-  const poster =
-    byType(/poster|cover/i) ||
-    images.find((x) => x?.isPoster)?.url ||
-    images[0]?.url;
+  const posterImg =
+    images.find(isPosterFlag) ||                      // 1) isPoster/poster=true
+    byType(/poster|cover/i) ||                        // 2) type/name
+    images[0];                                        // 3) ilk görsel
 
-  const backdrop =
+  const backdropImg =
     byType(/backdrop|background|hero/i) ||
-    images.find((x) => x?.isBackdrop)?.url;
+    images.find((x) => x?.isBackdrop === true || x?.backdrop === true);
 
-  return { poster, backdrop };
+  return {
+    poster: urlFor(posterImg),
+    backdrop: urlFor(backdropImg),
+  };
 }
+
+
 
 /** BE -> UI normalize */
 function normalizeMovie(dto = {}) {
-  const imgs = pickFromImages(dto.images || dto.imageList || dto.media || []);
-  const posterRaw   = dto.posterUrl   || dto.poster   || dto.posterPath   || imgs.poster;
-  const backdropRaw = dto.backdropUrl || dto.backdrop || dto.backdropPath || dto.heroImage || imgs.backdrop;
+  // 1) images içinden poster id'sini al (poster=true / isPoster=true / ilk görsel)
+  const imgId =
+    dto?.images?.find?.(x => x?.poster === true || x?.isPoster === true)?.id ??
+    dto?.images?.[0]?.id ??
+    null;
+
+  // 2) backend’in verdiği posterUrl/backdropUrl vs (fallback için)
+  const posterRaw   = dto.posterUrl   || dto.poster   || dto.posterPath   || null;
+  const backdropRaw = dto.backdropUrl || dto.backdrop || dto.backdropPath || dto.heroImage || null;
 
   return {
     id: dto.id,
@@ -79,14 +101,16 @@ function normalizeMovie(dto = {}) {
     genres: dto.genres || dto.genre || [],
     director: dto.director,
     cast: dto.cast || dto.actors || [],
-    posterUrl: absUrl(posterRaw),
-    backdropUrl: absUrl(backdropRaw),
+    // 🔑 Öncelik images -> yoksa BE posterUrl
+    posterUrl: imgId ? absUrl(`/api/images/${imgId}`) : absUrl(posterRaw),
+    backdropUrl: absUrl(backdropRaw), // istersen burada da benzer öncelik kur
     trailerUrl: dto.trailerUrl,
     status: dto.status,
     specialHalls: dto.specialHalls || "",
     formats: dto.formats || [],
   };
 }
+
 
 /* ===========================
    PUBLIC API FONKSİYONLARI
