@@ -25,6 +25,7 @@ export const CinemaTable = ({
   canCreate,
   canDelete,
   locale,
+  translate,
   rows = 10,
 }) => {
   const [selectedCinemas, setSelectedCinemas] = useState([]);
@@ -58,6 +59,7 @@ export const CinemaTable = ({
             onCreate={handleCreate}
             canCreate={canCreate}
             canDelete={canDelete}
+            translate={translate}
           />
         }
         tableStyle={{ minWidth: "60rem" }}
@@ -65,20 +67,20 @@ export const CinemaTable = ({
         <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
         <Column header="#" body={indexBody} style={{ width: "4rem" }} />
         <Column
-          header="Image"
+          header={translate("image")}
           body={(row) => <CinemaImage url={row.imageUrl} />}
         />
         <Column field="id" header="ID" sortable />
-        <Column field="name" header="Name" sortable />
-        <Column body={(r) => r.city?.name || "-"} header="City" sortable />
+        <Column field="name" header={translate("name")} sortable />
+        <Column body={(r) => r.city?.name || "-"} header={translate("city")} sortable />
         <Column
           body={(r) => r.country?.name || "-"}
-          header="Country"
+          header={translate("country")}
           sortable
         />
         <Column
             body={(r) => (
-              <CinemaRowActions cinema={r} handleDetail={handleDetail} />
+              <CinemaRowActions cinema={r} handleDetail={handleDetail} translate={translate} />
             )}
           />
         

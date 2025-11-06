@@ -22,12 +22,15 @@ import { CinemaImageReadOnlyView } from "@/components/dashboard/cinema/detail/Ci
 import { getDetailedCinema } from "@/service/cinema-service";
 import { useParams, useSearchParams } from "next/navigation";
 import { BackButton } from "@/components/common/form-fields/BackButton";
+import { useTranslations } from "next-intl";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
   const { id } = useParams();
   const searchParams = useSearchParams();
   const editMode = searchParams.get("editMode") === "true";
+
+  const tCinemas = useTranslations("cinemas");
 
   // -----------------------------
   // Local state
@@ -101,7 +104,7 @@ export default function AdminCinemaDetailPage() {
   // -----------------------------
   // Handle case when cinema is not found
   // -----------------------------
-  if (!cinema) return <p className="text-center mt-5">Cinema not found.</p>;
+  if (!cinema) return <p className="text-center mt-5">{}</p>;
 
   // -----------------------------
   // Main render
@@ -109,7 +112,10 @@ export default function AdminCinemaDetailPage() {
   return (
     <Container className="my-4">
       {/* Page header */}
-      <PageHeader title="Cinema Details" leftActions={<BackButton />} />
+      <PageHeader
+        title={tCinemas("cinemaDetails")}
+        leftActions={<BackButton />}
+      />
 
       <Card
         className={`mb-4 border rounded-4 shadow-sm`}
@@ -125,12 +131,12 @@ export default function AdminCinemaDetailPage() {
             borderTopRightRadius: "1rem",
           }}
         >
-          <span className="fs-3 fw-semibold">Cinema Information</span>
+          <span className="fs-3 fw-semibold">{tCinemas("cinemaInfo")}</span>
           {/* Edit button: Button for toggling edit mode, visible only for users with permission */}
           {canEdit && (
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>Edit</Tooltip>}
+              overlay={<Tooltip>{tCinemas("edit")}</Tooltip>}
             >
               <Button
                 onClick={toggleEditMode}
@@ -141,7 +147,7 @@ export default function AdminCinemaDetailPage() {
                   className={`pi ${isEditMode ? "pi-times" : "pi-file-edit"}`}
                   style={{ fontSize: 20 }}
                 />{" "}
-                Edit
+                {tCinemas("edit")}
               </Button>
             </OverlayTrigger>
           )}
@@ -153,6 +159,7 @@ export default function AdminCinemaDetailPage() {
             <Col md={6}>
               {isEditMode ? (
                 <CinemaImageUploader
+                  tCinemas={tCinemas}
                   cinema={cinema}
                   token={token}
                   onUpdateCinema={async () => {
@@ -162,7 +169,7 @@ export default function AdminCinemaDetailPage() {
                   }}
                 />
               ) : (
-                <CinemaImageReadOnlyView cinema={cinema} />
+                <CinemaImageReadOnlyView cinema={cinema} tCinemas={tCinemas} />
               )}
             </Col>
 
@@ -170,6 +177,7 @@ export default function AdminCinemaDetailPage() {
             <Col md={6}>
               {isEditMode ? (
                 <CinemaForm
+                  tCinemas={tCinemas}
                   cinema={cinema}
                   token={token}
                   locale="en"
@@ -177,7 +185,7 @@ export default function AdminCinemaDetailPage() {
                   setCinema={setCinema} // parent state update callback
                 />
               ) : (
-                <CinemaReadOnlyForm cinema={cinema} />
+                <CinemaReadOnlyForm cinema={cinema} tCinemas={tCinemas}/>
               )}
             </Col>
           </Row>
@@ -188,12 +196,12 @@ export default function AdminCinemaDetailPage() {
       <Row className="mt-4">
         {/* Left column: list of halls */}
         <Col md={8}>
-          <HallList halls={cinema.halls || []} />
+          <HallList halls={cinema.halls || []} tCinemas={tCinemas}/>
         </Col>
 
         {/* Right column: list of movies */}
         <Col md={4}>
-          <MovieList movies={cinema.movies || []} />
+          <MovieList movies={cinema.movies || []} tCinemas={tCinemas}/>
         </Col>
       </Row>
     </Container>

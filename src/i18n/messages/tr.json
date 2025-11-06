@@ -97,7 +97,7 @@
     "showLess": "Daha Az Göster",
     "retry": "Tekrar Dene",
     "minutes": "dakika",
-     "new": "Yeni",
+    "new": "Yeni",
     "search": "Ara",
     "page": "Sayfa",
     "total": "Toplam",
@@ -277,7 +277,7 @@
   },
 
   "account": {
-      "title": "Hesabım",
+    "title": "Hesabım",
     "profile": "Profil",
     "security": "Güvenlik",
     "orders": "Siparişlerim",
@@ -295,10 +295,10 @@
       "newPassword": "Yeni Şifre",
       "confirmPassword": "Yeni Şifre (Tekrar)"
     },
-       "hints": {
-       "phone": "Örn: +905551112233"
+    "hints": {
+      "phone": "Örn: +905551112233"
     },
-     "validations": {
+    "validations": {
       "phone": "Geçersiz telefon"
     },
     "actions": {
@@ -400,7 +400,60 @@
     "aroundNoCinemas": "{city} şehrinde sinema bulunamadı.",
     "allCinemas": "Tüm Sinemalar",
     "clear": "Temizle",
-    "apply":"Uygula"
+    "apply": "Uygula",
+    "delete": "Sil",
+    "addNewCinema": "Yeni sinema ekle",
+    "image": "Resim",
+    "name": "Ad",
+    "city": "Şehir",
+    "country": "Ülke",
+    "error": "Hata",
+    "authTokenMissing": "Kimlik doğrulama token'i eksik",
+    "cinemaNameRequired": "Sinema ismi zorunlu",
+    "selectCity": "Lütfen bir şehir seçin",
+    "selectCountry": "Lütfen bir ülke seçin",
+    "updateSuccessful": "Sinema başarıyla güncellendi!",
+    "enterName": "Bir sinema adı girin",
+    "enterSlug": "Slug girin ya da boş bırakın",
+    "update": "Güncelle",
+    "create": "Oluştur",
+    "errorLoadingCountry": "Ülkeler yüklenemedi",
+    "errorLoadingCity": "Şehirler yüklenemedi",
+    "countryNameRequired": "Ülke ismi zorunlu",
+    "cityNameRequired": "Şehir ismi zorunlu",
+    "countryAddedSuccess": "Ülke başarıyla eklendi",
+    "errorAddingCountry": "Ülke eklemede hata: ",
+    "addNewCountry": "Yeni ülke ekle",
+    "addNewCity": "Yeni şehir ekle",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "cityAddedSuccess": "Şehir başarıyla eklendi",
+    "cinemaDetails": "Sinema Detayları",
+    "cinemaInfo": "Sinema Bilgileri",
+    "edit": "Düzenle",
+    "noImage": "Resim eksik",
+    "noImageShow": "Gösterecek resim yok",
+    "selectImage": "Lütfen bir resim seçin",
+    "imageUploadSuccess": "Resim başarıyla yüklendi!",
+    "errorUploadImage": "Resim yüklenemedi",
+    "currentImagePreview": "Mevcut resmin önizlemesi",
+    "selectedImagePreview": "Seçilen resmin önizlemesi",
+    "noCinemaData": "Sinema verisi bulunamadı",
+    "back": "Geri",
+    "noMovieForCinema": "Bu sinema ile ilikilendirilmiş bir film yok.",
+    "currentMovies": "Vizyondaki Filmler",
+    "min": "dk",
+    "specialHall": "Özel Salon",
+    "capacity": "Kapasite",
+    "created": "Oluşturulma",
+    "updated": "Güncellenme",
+    "showtimes": "Seanslar",
+    "noHalls": "Salon mevcut değil",
+    "noShowtimes": "Seans mevcut değil",
+    "date": "Tarih",
+    "start": "Başlangıç",
+    "end": "Bitiş",
+    "movie": "Film"
   },
 
   "showtimes": {
@@ -412,7 +465,7 @@
     "price": "Fiyat",
     "select": "Seç",
     "noShowtimes": "Seans bulunamadı.",
-     "title": "Gösterimler",
+    "title": "Gösterimler",
     "confirmDelete": "#{id} numaralı gösterim silinecek. Devam edilsin mi?",
     "deleteError": "Silme işlemi sırasında bir hata oluştu.",
     "filters": {
@@ -1049,7 +1102,7 @@
     "findTickets": "Biletleri Bul"
   },
 
-  "hall":{
+  "hall": {
     "listTitle": "Salon Listesi",
     "createTitle": "Yeni Salon Ekle",
     "createHeader": "Yeni bir salon oluştur",
@@ -1093,7 +1146,7 @@
     "duplicateName": "Bu sinemada '{hallName}' adında bir salon zaten mevcut."
   },
 
-   "movie": {
+  "movie": {
     "listTitle": "Film Listesi",
     "createTitle": "Yeni Film Ekle",
     "createHeader": "Yeni bir film oluştur",
@@ -1143,7 +1196,7 @@
     "duplicateName": "Bu sinemada '{title}' adlı bir film zaten mevcut.",
     "errorOperation": "İşlem başarısız oldu."
   },
-  
+
   "alerts": {
     "warnings": {
       "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
@@ -1159,5 +1212,3 @@
     }
   }
 }
-
-

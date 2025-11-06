@@ -98,7 +98,7 @@
     "showLess": "Show less",
     "retry": "Retry",
     "minutes": "min",
-       "new": "New",
+    "new": "New",
     "search": "Search",
     "page": "Page",
     "total": "Total",
@@ -287,18 +287,19 @@
     "changePassword": "Change Password",
     "deleteAccount": "Delete Account",
     "saved": "Profile updated.",
-     "fields": {
+    "fields": {
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
       "phone": "Phone",
       "oldPassword": "Current Password",
       "newPassword": "New Password",
-      "confirmPassword": "Confirm New Password"},
-       "hints": {
+      "confirmPassword": "Confirm New Password"
+    },
+    "hints": {
       "phone": "e.g., +15551112233"
     },
-     "validations": {
+    "validations": {
       "phone": "Invalid phone number"
     },
     "actions": {
@@ -400,7 +401,60 @@
     "aroundNoCinemas": "No cinemas found in {city}",
     "allCinemas": "All Cinemas",
     "clear": "Clear",
-    "apply": "Apply"
+    "apply": "Apply",
+    "delete": "Delete",
+    "addNewCinema": "Add new cinema",
+    "image": "Image",
+    "name": "Name",
+    "city": "City",
+    "country": "Country",
+    "error": "Error",
+    "authTokenMissing": "Authentication Token is missing",
+    "cinemaNameRequired": "Cinema name is required",
+    "selectCity": "Please select a city",
+    "selectCountry": "Please select a country",
+    "updateSuccessful": "Cinema updated successfully!",
+    "enterName": "Enter a cinema name",
+    "enterSlug": "Enter slug or leave blank",
+    "update": "Update",
+    "create": "Create",
+    "errorLoadingCountry": "Failed to load countries",
+    "errorLoadingCity": "Failed to load cities",
+    "countryNameRequired": "Country name is required",
+    "cityNameRequired": "City name is required",
+    "countryAddedSuccess": "Country added successfully",
+    "errorAddingCountry": "Error adding country: ",
+    "addNewCountry": "Add new country",
+    "addNewCity": "Add new city",
+    "save": "Save",
+    "cancel": "Cancel",
+    "cityAddedSuccess": "City added successfully",
+    "cinemaDetails": "Cinema Details",
+    "cinemaInfo": "Cinema Information",
+    "edit": "Edit",
+    "noImage": "Image is missing",
+    "noImageShow": "No image to show",
+    "selectImage": "Please select an Image",
+    "imageUploadSuccess": "Image uploaded successfully!",
+    "errorUploadImage": "Failed to upload image",
+    "currentImagePreview": "Current Image Preview",
+    "selectedImagePreview": "Selected Image Preview",
+    "noCinemaData": "No cinema data available.",
+    "back": "Back",
+    "noMovieForCinema": "No movies linked to this cinema.",
+    "currentMovies": "Movies Playing",
+    "min": "min",
+    "specialHall": "Special Hall",
+    "capacity": "Capacity",
+    "created": "Created",
+    "updated": "Updated",
+    "showtimes": "Showtimes",
+    "noHalls": "No Halls available",
+    "noShowtimes": "No showtimes available",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "movie": "Movie"
   },
 
   "showtimes": {
@@ -412,7 +466,7 @@
     "price": "Price",
     "select": "Select",
     "noShowtimes": "No showtimes found.",
-     "title": "Showtimes",
+    "title": "Showtimes",
     "confirmDelete": "#{id} screening will be deleted. Continue?",
     "deleteError": "An error occurred while deleting.",
     "filters": {
@@ -1035,7 +1089,7 @@
     "findTickets": "Find Tickets"
   },
 
-  "hall":{
+  "hall": {
     "listTitle": "Hall List",
     "createTitle": "Add New Hall",
     "createHeader": "Create a new hall",
@@ -1079,7 +1133,7 @@
     "duplicateName": "A hall named '{hallName}' already exists for this cinema."
   },
 
-   "movie": {
+  "movie": {
     "listTitle": "Movie List",
     "createTitle": "Add New Movie",
     "createHeader": "Create a new movie",
@@ -1130,14 +1184,14 @@
     "errorOperation": "Operation failed."
   },
 
-   "alerts": {
+  "alerts": {
     "warnings": {
       "enterPasswords": "Please enter both current and new password.",
       "passwordsMustMatch": "New password and confirmation must match."
     },
     "pwdUpdated": "Your password has been updated successfully.",
     "deleteTitle": "Are you sure?",
-      "deleteText": "Your account will be permanently deleted.",
+    "deleteText": "Your account will be permanently deleted.",
     "deleted": "Your account was deleted. Signing you out…",
     "errors": {
       "deleteFailedBuiltIn": "Built-in admin cannot be deleted.",

@@ -26,7 +26,7 @@ import { Card, Col, Form, Row } from "react-bootstrap";
  *  - isEditMode: Boolean indicating if the form is in edit mode
  *  - setCinema: Callback to update parent state after edit
  */
-export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
+export function CinemaForm({ cinema, token, locale, isEditMode, setCinema, tCinemas }) {
   const router = useRouter();
 
   // -----------------------------
@@ -56,14 +56,14 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
   const handleSubmit = async () => {
     // Validation: token must exist
     if (!token) {
-      return Swal.fire("Error", "Authentication token is missing", "error");
+      return Swal.fire(`${tCinemas("error")}`, `${tCinemas("authTokenMissing")}`, "error");
     }
     // Validation: name must be filled
     if (!name.trim())
-      return Swal.fire("Error", "Cinema name is required", "error");
+      return Swal.fire(`${tCinemas("error")}`, `${tCinemas("cinemaNameRequired")}`, "error");
     // Validation: city must be selected
     if (!selectedCityId)
-      return Swal.fire("Error", "Please select a city", "error");
+      return Swal.fire(`${tCinemas("error")}`, `${tCinemas("selectCity")}`, "error");
 
     setSaving(true); // disable submit button and show spinner
     try {
@@ -77,7 +77,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
           token
         );
 
-        Swal.fire("Success", "Cinema updated successfully!", "success");
+        Swal.fire(`${tCinemas("updateSuccessful")}`, "success");
 
         // Refresh parent state from backend after update
         const updated = await getDetailedCinema(cinema.id, token);
@@ -101,7 +101,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
         );
       }
     } catch (err) {
-      Swal.fire("Error", err.response?.data?.message || err.message, "error");
+      Swal.fire(`${tCinemas("error")}`, err.response?.data?.message || err.message, "error");
     } finally {
       setSaving(false); // re-enable button
     }
@@ -115,13 +115,13 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
       {/* Cinema Name Input */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column sm="2">
-          Name
+          {tCinemas("name")}
         </Form.Label>
         <Col sm="10">
           <Form.Control
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter cinema name"
+            placeholder={tCinemas("enterName")}
           />
         </Col>
       </Form.Group>
@@ -135,7 +135,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
           <Form.Control
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
-            placeholder="Enter slug or leave blank"
+            placeholder={tCinemas("enterSlug")}
           />
         </Col>
       </Form.Group>
@@ -145,6 +145,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
         selectedCountryId={selectedCountryId}
         onCountryChange={setSelectedCountryId}
         token={token}
+        tCinemas={tCinemas}
       />
 
       {/* City selector, filtered by selected country */}
@@ -154,13 +155,14 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema }) {
           selectedCityId={selectedCityId}
           onCityChange={setSelectedCityId}
           token={token}
+          tCinemas={tCinemas}
         />
       </div>
 
       {/* Submit button */}
       <div className="mt-4 d-flex justify-content-end">
         <Button
-          label={isEditMode ? "Update Cinema" : "Create Cinema"}
+          label={isEditMode ? tCinemas("update") : tCinemas("create")}
           icon={
             saving
               ? "pi pi-spin pi-spinner" // show spinner when saving

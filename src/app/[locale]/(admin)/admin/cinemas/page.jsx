@@ -6,6 +6,7 @@ import { CinemaTable } from "@/components/dashboard/cinema/CinemaTable";
 import { useCinemas } from "@/components/dashboard/cinema/useCinemas";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import Spacer from "@/components/common/Spacer";
+import { useTranslations } from "next-intl";
 
 /**
  * AdminCinemasPage
@@ -16,6 +17,7 @@ import Spacer from "@/components/common/Spacer";
  */
 export default function AdminCinemasPage() {
   const { locale } = useParams();
+  const tCinemas = useTranslations("cinemas");
   const { roles, token } = useAuth();
 
   // Backend page size (used for pagination and numbering)
@@ -34,12 +36,12 @@ export default function AdminCinemasPage() {
     handleDelete,
   } = useCinemas(token, pageSize);
 
-  if (loading) return <p>Loading cinemas...</p>;
+  if (loading) return <p>{tCinemas("loading")}</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
   return (
     <div className="p-3">
-      <PageHeader title="Cinemas" />
+      <PageHeader title={tCinemas("listTitle")} />
       <Spacer />
       <CinemaTable
         data={cinemas}
@@ -51,6 +53,7 @@ export default function AdminCinemasPage() {
         canDelete={canDelete}
         rows={pageSize}
         locale={locale}
+        translate={tCinemas}
       />
     </div>
   );

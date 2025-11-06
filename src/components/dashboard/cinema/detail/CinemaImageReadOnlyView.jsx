@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-export const CinemaImageReadOnlyView = ({ cinema }) => {
+export const CinemaImageReadOnlyView = ({ cinema, tCinemas }) => {
   return (
     <>
       {cinema.imageUrl ? (
@@ -17,7 +17,7 @@ export const CinemaImageReadOnlyView = ({ cinema }) => {
         />
       ) : (
         <div className="text-muted border rounded bg-light h-100 d-flex justify-content-center align-items-center">
-          <p>No image available</p>
+          <p>{tCinemas("noImageShow")}</p>
         </div>
       )}
     </>

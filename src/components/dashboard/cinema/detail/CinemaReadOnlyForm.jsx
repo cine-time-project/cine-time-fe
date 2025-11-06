@@ -11,15 +11,15 @@ import { Col, Form, Row } from "react-bootstrap";
  * Props:
  *  - cinema: object (Cinema entity with name, slug, city, country info)
  */
-export function CinemaReadOnlyForm({ cinema }) {
-  if (!cinema) return <p>No cinema data available.</p>;
+export function CinemaReadOnlyForm({ cinema, tCinemas }) {
+  if (!cinema) return <p>{tCinemas("noCinemaData")}</p>;
 
   return (
     <div className="p-4 h-100">
       {/* Cinema Name */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column sm="2" className="text-nowrap">
-          Name:
+          {tCinemas("name")}:
         </Form.Label>
         <Col sm="10">
           <Form.Control value={cinema.name || ""} readOnly />
@@ -39,7 +39,7 @@ export function CinemaReadOnlyForm({ cinema }) {
       {/* Country */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column  sm="2" xl className="text-nowrap">
-          Country:
+          {tCinemas("country")}:
         </Form.Label>
         <Col sm="10">
           <Form.Control
@@ -52,7 +52,7 @@ export function CinemaReadOnlyForm({ cinema }) {
       {/* City */}
       <Form.Group className="mb-3" as={Row}>
         <Form.Label column sm="2" className="text-nowrap">
-          City:
+          {tCinemas("city")}:
         </Form.Label>
         <Col sm="10">
           <Form.Control value={cinema.city?.name || ""} readOnly />

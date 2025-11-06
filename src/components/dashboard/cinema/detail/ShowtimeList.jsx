@@ -1,18 +1,18 @@
 "use client";
 import { Table } from "react-bootstrap";
 
-export default function ShowtimeList({ showtimes }) {
+export default function ShowtimeList({ showtimes, tCinemas }) {
   if (!showtimes.length)
-    return <p className="text-muted">No showtimes available.</p>;
+    return <p className="text-muted">{tCinemas("noShowtimes")}</p>;
 
   return (
     <Table striped bordered hover size="sm" className="mt-2">
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Movie</th>
+          <th>{tCinemas("date")}</th>
+          <th>{tCinemas("start")}</th>
+          <th>{tCinemas("end")}</th>
+          <th>{tCinemas("movie")}</th>
         </tr>
       </thead>
       <tbody>
