@@ -847,7 +847,7 @@
     "findTickets": "Rechercher des billets"
   },
 
-  "hall":{
+  "hall": {
     "listTitle": "Liste des Salles",
     "createTitle": "Ajouter une nouvelle salle",
     "createHeader": "Créer une nouvelle salle",
@@ -886,6 +886,59 @@
     "successCreate": "Salle ajoutée avec succès.",
     "successUpdate": "Salle mise à jour avec succès.",
     "successDelete": "Salle supprimée avec succès.",
+    "errorOperation": "Échec de l’opération.",
+    "successSave": "La salle a été enregistrée avec succès.",
+    "duplicateName": "Une salle nommée '{hallName}' existe déjà pour ce cinéma."
+  },
+
+  "movie": {
+    "listTitle": "Liste des Films",
+    "createTitle": "Ajouter un Nouveau Film",
+    "createHeader": "Créer un nouveau film",
+    "updateTitle": "Modifier le Film",
+    "updateHeader": "Mettre à jour le film existant",
+
+    "newButton": "Nouveau",
+    "editButton": "Modifier",
+    "deleteButton": "Supprimer",
+    "deleteConfirm": "Voulez-vous vraiment supprimer le film \"{title}\" ?",
+    "searchPlaceholder": "Rechercher par titre de film...",
+    "searchButton": "Rechercher",
+    "showAllButton": "Afficher Tous les Films",
+    "noData": "Aucun film trouvé.",
+
+    "title": "Titre",
+    "summary": "Résumé",
+    "slug": "Slug",
+    "releaseDate": "Date de Sortie",
+    "duration": "Durée (minutes)",
+    "rating": "Note",
+    "director": "Réalisateur",
+    "cast": "Casting",
+    "formats": "Formats",
+    "genre": "Genre",
+    "status": "Statut",
+    "posterUrl": "URL de l’Affiche",
+    "trailerUrl": "URL de la Bande-Annonce",
+    "actions": "Actions",
+
+    "inTheaters": "En Salle",
+    "comingSoon": "Bientôt Disponible",
+    "presale": "Prévente",
+
+    "createButton": "Enregistrer",
+    "updateButton": "Mettre à jour",
+    "backButton": "Retour",
+
+    "loadError": "Échec du chargement de la liste des films.",
+    "notFound": "Film non trouvé.",
+    "loading": "Chargement...",
+
+    "successCreate": "Film créé avec succès.",
+    "successUpdate": "Film mis à jour avec succès.",
+    "successDelete": "Film supprimé avec succès.",
+    "successSave": "Film enregistré avec succès.",
+    "duplicateName": "Un film intitulé '{title}' existe déjà pour ce cinéma.",
     "errorOperation": "Échec de l’opération."
   }
 }
