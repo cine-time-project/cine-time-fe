@@ -14,7 +14,7 @@
   width: 100%;
   border: 1px solid #2b2e36;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 8px;
   transition: all .3s ease;
   box-shadow: 0 3px 8px rgba(255, 193, 7, 0.35); // ✨ CineTime sarı parıltı
 
@@ -27,21 +27,25 @@
 .mediaWrap {
   position: relative;
   min-height: 230px;
+  height: 100%;
+  border: 5px solid whitesmoke;
 }
 
 .cardBody {
   padding: 16px;
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-content: start;
   gap: 10px;
   flex-grow: 1;
+  background-color: whitesmoke;
 }
 
 .title {
   margin: 0;
-  color: #fff;
+  color: black;
   font-weight: 700;
   font-size: 20px;
 }

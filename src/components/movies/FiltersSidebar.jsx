@@ -7,14 +7,14 @@ import "primereact/resources/primereact.min.css";
 import { getGenres } from "@/services/movie-service";
 import { useTranslations } from "next-intl";
 
-// Constants for dropdown selections
+import styles from "./FiltersSidebar.module.scss";
+
 const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
 
 export default function FiltersSidebar({ filters, onChange }) {
   const t = useTranslations("movies");
 
-  // --- Local States ---
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState(filters.genre || []);
   const [status, setStatus] = useState(filters.status || "");
@@ -26,34 +26,20 @@ export default function FiltersSidebar({ filters, onChange }) {
   const [releaseDateError, setReleaseDateError] = useState("");
   const [specialHall, setSpecialHall] = useState(filters.specialHalls || "");
 
-  // --- Fetch genres once on mount ---
   useEffect(() => {
     getGenres().then(setGenres).catch(console.error);
   }, []);
 
-  // --- Validate release date format (YYYY-MM-DD) ---
   const handleReleaseDateChange = (e) => {
     const value = e.target.value;
     setReleaseDate(value);
-
-    if (!value) {
-      setReleaseDateError("");
-      return;
-    }
-
-    // Simple date validation
     const date = new Date(value);
-    if (isNaN(date.getTime())) {
-      setReleaseDateError(t("invalidDate"));
-    } else {
-      setReleaseDateError("");
-    }
+    if (value && isNaN(date.getTime())) setReleaseDateError(t("invalidDate"));
+    else setReleaseDateError("");
   };
 
-  // --- Apply filters ---
   const handleApply = () => {
     if (releaseDateError) return;
-
     onChange({
       genre: selectedGenres,
       status,
@@ -64,7 +50,6 @@ export default function FiltersSidebar({ filters, onChange }) {
     });
   };
 
-  // --- Clear all filters ---
   const handleClear = () => {
     setSelectedGenres([]);
     setStatus("");
@@ -76,31 +61,19 @@ export default function FiltersSidebar({ filters, onChange }) {
   };
 
   return (
-    <Form>
-      {/* 🎭 Genre Selection (Button-style checkboxes) */}
-      <Form.Group className="mb-3">
+    <Form className={styles.sidebar}>
+      {/* 🎭 Genre Selection */}
+      <Form.Group className="mb-4">
         <Form.Label>{t("genres")}</Form.Label>
-        <div className="d-flex flex-wrap gap-2">
+        <div className={styles.genreButtons}>
           {genres.map((g) => {
             const isSelected = selectedGenres.includes(g);
             return (
               <label
                 key={g}
-                className={`btn btn-sm border rounded-pill px-3 py-1 d-flex align-items-center ${
-                  isSelected
-                    ? "btn-warning text-dark border-primary"
-                    : "btn-outline-secondary"
+                className={`${styles.genreBtn} ${
+                  isSelected ? styles.genreBtnActive : ""
                 }`}
-                style={{
-                  cursor: "pointer",
-                  transition: "transform 0.15s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.transform = "translateY(-2px)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.transform = "translateY(0)")
-                }
               >
                 {g}
                 <input
@@ -122,10 +95,14 @@ export default function FiltersSidebar({ filters, onChange }) {
         </div>
       </Form.Group>
 
-      {/* 🎬 Movie Status */}
-      <Form.Group className="mb-3">
+      {/* 🎬 Status */}
+      <Form.Group className="mb-4">
         <Form.Label>{t("statusLabel")}</Form.Label>
-        <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <Form.Select
+          className={styles.select}
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
           <option value="">{t("all")}</option>
           {STATUSES.map((s) => (
             <option key={s} value={s}>
@@ -135,8 +112,8 @@ export default function FiltersSidebar({ filters, onChange }) {
         </Form.Select>
       </Form.Group>
 
-      {/* ⭐ Rating Range */}
-      <Form.Group className="mb-3">
+      {/* ⭐ Rating */}
+      <Form.Group className="mb-4">
         <Form.Label>
           {t("rating")}: {ratingRange[0]} - {ratingRange[1]}
         </Form.Label>
@@ -147,17 +124,19 @@ export default function FiltersSidebar({ filters, onChange }) {
           min={0}
           max={10}
           step={1}
+          className={styles.slider}
         />
       </Form.Group>
 
       {/* 📅 Release Date */}
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-4">
         <Form.Label>{t("releaseDateAfter")}</Form.Label>
         <Form.Control
           type="date"
           value={releaseDate}
           onChange={handleReleaseDateChange}
           isInvalid={!!releaseDateError}
+          className={styles.input}
         />
         <Form.Control.Feedback type="invalid">
           {releaseDateError}
@@ -165,9 +144,10 @@ export default function FiltersSidebar({ filters, onChange }) {
       </Form.Group>
 
       {/* 🏛️ Special Halls */}
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-4">
         <Form.Label>{t("specialHalls")}</Form.Label>
         <Form.Select
+          className={styles.select}
           value={specialHall}
           onChange={(e) => setSpecialHall(e.target.value)}
         >
@@ -180,10 +160,10 @@ export default function FiltersSidebar({ filters, onChange }) {
         </Form.Select>
       </Form.Group>
 
-      {/* 🎯 Action Buttons */}
-      <Row>
+      {/* 🎯 Buttons */}
+      <Row className="mt-4">
         <Col>
-          <Button variant="secondary" onClick={handleClear} className="w-100">
+          <Button variant="secondary" onClick={handleClear} className={styles.clearBtn}>
             {t("clear")}
           </Button>
         </Col>
@@ -191,7 +171,7 @@ export default function FiltersSidebar({ filters, onChange }) {
           <Button
             variant="primary"
             onClick={handleApply}
-            className="w-100"
+            className={styles.applyBtn}
             disabled={!!releaseDateError}
           >
             Apply

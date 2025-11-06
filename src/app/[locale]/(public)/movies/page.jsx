@@ -14,9 +14,8 @@ import { useSearchParams } from "next/navigation";
 const PAGE_SIZE = 10;
 
 export default function MoviesPage() {
-
-  const params = useSearchParams();         
-  const initGenre = params.get("genre");     // ex: "Comedy"
+  const params = useSearchParams();
+  const initGenre = params.get("genre"); // ex: "Comedy"
   // -------------------------
   // State declarations
   // -------------------------
@@ -25,7 +24,7 @@ export default function MoviesPage() {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
- const [filters, setFilters] = useState(() =>
+  const [filters, setFilters] = useState(() =>
     initGenre ? { genre: [initGenre] } : {}
   );
   const [showFilters, setShowFilters] = useState(false);
@@ -131,17 +130,15 @@ export default function MoviesPage() {
           Desktop Sidebar + Mobile Offcanvas
       ------------------------- */}
       <div className="d-md-flex">
-        {/* Desktop Sticky Sidebar */}
+        {/* Desktop Sidebar */}
         <div
           className="d-none d-md-block"
           style={{
-            position: "sticky",
             flexShrink: 0,
             top: "110px", // header height
             maxHeight: "100vh",
-            width: "300px",
+            maxWidth: "350px",
             overflowY: "auto",
-            borderRight: "1px solid #dee2e6",
             paddingLeft: "1rem",
             paddingRight: "1rem",
           }}
