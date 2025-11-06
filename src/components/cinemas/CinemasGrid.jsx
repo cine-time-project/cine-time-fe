@@ -64,7 +64,7 @@ export default function CinemasGrid({
       ) : (
         <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
       )}
-      <Row xs={1} sm={2} md={3} lg={3} xl={4} className="g-4">
+      <Row xs={1} sm={2} md={3} lg={3} xl={3} className="g-5">
         {cinemas.map((c) => (
           <Col key={c.id} className="d-flex align-items-stretch">
             <CinemaCard cinema={c} firstDate={firstDatesByCinema[c.id]} L={L} />

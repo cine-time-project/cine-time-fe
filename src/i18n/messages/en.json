@@ -398,7 +398,9 @@
     "nearbyCinemas": "Nearby Cinemas",
     "aroundCinemas": "Cinemas in {city}",
     "aroundNoCinemas": "No cinemas found in {city}",
-    "allCinemas": "All Cinemas"
+    "allCinemas": "All Cinemas",
+    "clear": "Clear",
+    "apply": "Apply"
   },
 
   "showtimes": {
