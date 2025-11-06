@@ -1072,8 +1072,62 @@
     "successCreate": "Hall created successfully.",
     "successUpdate": "Hall updated successfully.",
     "successDelete": "Hall deleted successfully.",
+    "errorOperation": "Operation failed.",
+    "successSave": "Hall has been saved successfully.",
+    "duplicateName": "A hall named '{hallName}' already exists for this cinema."
+  },
+
+   "movie": {
+    "listTitle": "Movie List",
+    "createTitle": "Add New Movie",
+    "createHeader": "Create a new movie",
+    "updateTitle": "Edit Movie",
+    "updateHeader": "Update existing movie",
+
+    "newButton": "New",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Are you sure you want to delete the movie \"{title}\"?",
+    "searchPlaceholder": "Search by movie title...",
+    "searchButton": "Search",
+    "showAllButton": "Show All Movies",
+    "noData": "No movies found.",
+
+    "title": "Title",
+    "summary": "Summary",
+    "slug": "Slug",
+    "releaseDate": "Release Date",
+    "duration": "Duration (minutes)",
+    "rating": "Rating",
+    "director": "Director",
+    "cast": "Cast",
+    "formats": "Formats",
+    "genre": "Genre",
+    "status": "Status",
+    "posterUrl": "Poster URL",
+    "trailerUrl": "Trailer URL",
+    "actions": "Actions",
+
+    "inTheaters": "In Theaters",
+    "comingSoon": "Coming Soon",
+    "presale": "Presale",
+
+    "createButton": "Save",
+    "updateButton": "Update",
+    "backButton": "Back",
+
+    "loadError": "Failed to load movie list.",
+    "notFound": "Movie not found.",
+    "loading": "Loading...",
+
+    "successCreate": "Movie created successfully.",
+    "successUpdate": "Movie updated successfully.",
+    "successDelete": "Movie deleted successfully.",
+    "successSave": "Movie saved successfully.",
+    "duplicateName": "A movie titled '{title}' already exists for this cinema.",
     "errorOperation": "Operation failed."
   },
+
    "alerts": {
     "warnings": {
       "enterPasswords": "Please enter both current and new password.",

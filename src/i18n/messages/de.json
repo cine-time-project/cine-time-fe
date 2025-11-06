@@ -857,7 +857,7 @@
     "findTickets": "Tickets finden"
   },
 
-  "hall":{
+  "hall": {
     "listTitle": "Säle-Liste",
     "createTitle": "Neuen Saal hinzufügen",
     "createHeader": "Einen neuen Saal erstellen",
@@ -896,6 +896,59 @@
     "successCreate": "Saal wurde erfolgreich hinzugefügt.",
     "successUpdate": "Saal wurde erfolgreich aktualisiert.",
     "successDelete": "Saal wurde erfolgreich gelöscht.",
+    "errorOperation": "Vorgang fehlgeschlagen.",
+    "successSave": "Der Saal wurde erfolgreich gespeichert.",
+    "duplicateName": "Ein Saal mit dem Namen '{hallName}' existiert bereits für dieses Kino."
+  },
+
+  "movie": {
+    "listTitle": "Filmliste",
+    "createTitle": "Neuen Film hinzufügen",
+    "createHeader": "Einen neuen Film erstellen",
+    "updateTitle": "Film bearbeiten",
+    "updateHeader": "Vorhandenen Film aktualisieren",
+
+    "newButton": "Neu",
+    "editButton": "Bearbeiten",
+    "deleteButton": "Löschen",
+    "deleteConfirm": "Möchten Sie den Film \"{title}\" wirklich löschen?",
+    "searchPlaceholder": "Nach Filmtitel suchen...",
+    "searchButton": "Suchen",
+    "showAllButton": "Alle Filme anzeigen",
+    "noData": "Keine Filme gefunden.",
+
+    "title": "Titel",
+    "summary": "Zusammenfassung",
+    "slug": "Slug",
+    "releaseDate": "Veröffentlichungsdatum",
+    "duration": "Dauer (Minuten)",
+    "rating": "Bewertung",
+    "director": "Regisseur",
+    "cast": "Darsteller",
+    "formats": "Formate",
+    "genre": "Genre",
+    "status": "Status",
+    "posterUrl": "Poster-URL",
+    "trailerUrl": "Trailer-URL",
+    "actions": "Aktionen",
+
+    "inTheaters": "Im Kino",
+    "comingSoon": "Demnächst",
+    "presale": "Vorverkauf",
+
+    "createButton": "Speichern",
+    "updateButton": "Aktualisieren",
+    "backButton": "Zurück",
+
+    "loadError": "Filmliste konnte nicht geladen werden.",
+    "notFound": "Film nicht gefunden.",
+    "loading": "Wird geladen...",
+
+    "successCreate": "Film wurde erfolgreich erstellt.",
+    "successUpdate": "Film wurde erfolgreich aktualisiert.",
+    "successDelete": "Film wurde erfolgreich gelöscht.",
+    "successSave": "Film wurde erfolgreich gespeichert.",
+    "duplicateName": "Ein Film mit dem Titel '{title}' existiert bereits für dieses Kino.",
     "errorOperation": "Vorgang fehlgeschlagen."
   }
 }

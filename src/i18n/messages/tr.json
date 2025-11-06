@@ -1086,6 +1086,59 @@
     "successCreate": "Salon başarıyla eklendi.",
     "successUpdate": "Salon başarıyla güncellendi.",
     "successDelete": "Salon başarıyla silindi.",
+    "errorOperation": "İşlem başarısız oldu.",
+    "successSave": "Salon başarıyla kaydedildi.",
+    "duplicateName": "Bu sinemada '{hallName}' adında bir salon zaten mevcut."
+  },
+
+   "movie": {
+    "listTitle": "Film Listesi",
+    "createTitle": "Yeni Film Ekle",
+    "createHeader": "Yeni bir film oluştur",
+    "updateTitle": "Filmi Düzenle",
+    "updateHeader": "Var olan filmi güncelle",
+
+    "newButton": "Yeni",
+    "editButton": "Düzenle",
+    "deleteButton": "Sil",
+    "deleteConfirm": "\"{title}\" adlı filmi silmek istiyor musunuz?",
+    "searchPlaceholder": "Film adıyla ara...",
+    "searchButton": "Ara",
+    "showAllButton": "Tüm Filmleri Göster",
+    "noData": "Hiç film bulunamadı.",
+
+    "title": "Film Adı",
+    "summary": "Özet",
+    "slug": "Slug",
+    "releaseDate": "Vizyon Tarihi",
+    "duration": "Süre (dakika)",
+    "rating": "Puan",
+    "director": "Yönetmen",
+    "cast": "Oyuncular",
+    "formats": "Formatlar",
+    "genre": "Tür",
+    "status": "Durum",
+    "posterUrl": "Afiş URL’si",
+    "trailerUrl": "Fragman URL’si",
+    "actions": "İşlemler",
+
+    "inTheaters": "Vizyonda",
+    "comingSoon": "Yakında",
+    "presale": "Ön Satışta",
+
+    "createButton": "Kaydet",
+    "updateButton": "Güncelle",
+    "backButton": "Geri Dön",
+
+    "loadError": "Film listesi yüklenemedi.",
+    "notFound": "Film bulunamadı.",
+    "loading": "Yükleniyor...",
+
+    "successCreate": "Film başarıyla eklendi.",
+    "successUpdate": "Film başarıyla güncellendi.",
+    "successDelete": "Film başarıyla silindi.",
+    "successSave": "Film başarıyla kaydedildi.",
+    "duplicateName": "Bu sinemada '{title}' adlı bir film zaten mevcut.",
     "errorOperation": "İşlem başarısız oldu."
   },
   
