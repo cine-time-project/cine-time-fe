@@ -174,7 +174,7 @@ export default function FiltersSidebar({ filters, onChange }) {
             className={styles.applyBtn}
             disabled={!!releaseDateError}
           >
-            Apply
+            {t("apply")}
           </Button>
         </Col>
       </Row>

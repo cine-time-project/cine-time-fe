@@ -398,7 +398,9 @@
     "nearbyCinemas": "Yakınlardaki Sinemalar",
     "aroundCinemas": "{city} Şehrindeki Sinemalar",
     "aroundNoCinemas": "{city} şehrinde sinema bulunamadı.",
-    "allCinemas": "Tüm Sinemalar"
+    "allCinemas": "Tüm Sinemalar",
+    "clear": "Temizle",
+    "apply":"Uygula"
   },
 
   "showtimes": {

@@ -42,7 +42,7 @@ export const CinemaSearchBar = ({ cityFilter, setCityFilter }) => {
           className={styles.searchInput}
         />
         {searchInput && (
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>Clear</Tooltip>}>
+          <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("clear")}</Tooltip>}>
             <Button variant="outline-info" onClick={handleClear}>
               <i className="pi pi-times"></i>
             </Button>
