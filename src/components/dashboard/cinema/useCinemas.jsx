@@ -66,7 +66,7 @@ export function useCinemas(token, pageSize = 10) {
         const idsArray = Array.isArray(ids) ? ids : [ids];
         const result = await deleteCinemas(idsArray, token);
         setCinemas((prev) => prev.filter((c) => !idsArray.includes(c.id)));
-        swAlert(res.message, res.ok ? "success" : "error");
+        swAlert(result.message, result.ok ? "success" : "error");
       } catch (err) {
         console.error("❌ Delete error:", err);
         alert("Error deleting cinema(s): " + err.message);

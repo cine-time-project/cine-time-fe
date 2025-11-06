@@ -22,11 +22,6 @@ export async function getAllCinemas(page = 0, size = 50, token) {
 /**
  * Delete cinemas from the backend.
  * Supports both single ID and multiple IDs.
- *
- * @param {number|number[]} ids - Single cinema ID or an array of cinema IDs to delete
- * @param {string} token - JWT token for Authorization header
- * @returns {Promise<Object>} - Response object from backend { httpStatus, message, returnBody }
- * @throws {Error} - Throws error if deletion fails
  */
 export async function deleteCinemas(ids, token) {
   // Ensure ids is always an array
@@ -96,6 +91,22 @@ export async function getDetailedCinema(id, token) {
       },
     } // backend endpoint
   );
-  console.log(response?.data?.returnBody);
   return response?.data?.returnBody;
+}
+
+export async function updateCinemaRequest(id, data, token) {
+  if (!token) throw new Error("Missing token");
+
+  // data = { name, slug, cityId, districtIds?, newCityName?, newCountryId?, imageUrl? }
+  const response = await axios.put(
+    `${config.apiURL}/cinemas/${id}`, // backend endpoint
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data;
 }

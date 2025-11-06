@@ -1,4 +1,7 @@
-import { Card } from "react-bootstrap";
+import { Button as PrimeButton } from "primereact/button";
+import { Button, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Prev } from "react-bootstrap/esm/PageItem";
+import { FaEdit, FaRegEdit } from "react-icons/fa";
 
 /**
  * CardGroup
@@ -7,6 +10,7 @@ import { Card } from "react-bootstrap";
  * Provides clear visual separation without flashy design.
  */
 export function CardGroup({ title, children, className = "" }) {
+ 
   return (
     <Card
       className={`mb-4 border rounded-4 shadow-sm ${className}`}
@@ -23,7 +27,8 @@ export function CardGroup({ title, children, className = "" }) {
             borderTopRightRadius: "1rem",
           }}
         >
-          <h6 className="mb-0 fw-semibold text-secondary">{title}</h6>
+          <h6 className="mb-0 fw-semibold text-secondary fs-5">{title}</h6>
+         
         </Card.Header>
       )}
 

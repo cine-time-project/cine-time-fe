@@ -10,6 +10,7 @@ export const PageHeader = ({
   subtitle,
   breadcrumbs = [],
   actions,
+  leftActions,
   align = "center",
 }) => {
   return (
@@ -44,6 +45,7 @@ export const PageHeader = ({
 
       {/* Optional right-aligned actions (buttons, filters, etc.) */}
       {actions && <div className={styles.actions}>{actions}</div>}
+      {leftActions && <div className={styles.leftActions}>{leftActions}</div>}
     </header>
   );
 };
