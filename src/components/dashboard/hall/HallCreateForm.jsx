@@ -37,6 +37,11 @@ export const HallCreateForm = ({ locale }) => {
 
   useEffect(() => {
     if (state?.message) {
+      if (state.ok) {
+        state.message = t("successCreate");
+      } else {
+        state.message = t("duplicateName");
+      }
       swAlert(state.message, state.ok ? "success" : "error").then(() => {
         if (state.ok) window.location.href = `/${locale}/admin/halls`;
       });
