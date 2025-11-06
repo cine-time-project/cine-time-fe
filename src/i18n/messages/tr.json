@@ -97,7 +97,7 @@
     "showLess": "Daha Az Göster",
     "retry": "Tekrar Dene",
     "minutes": "dakika",
-     "new": "Yeni",
+    "new": "Yeni",
     "search": "Ara",
     "page": "Sayfa",
     "total": "Toplam",
@@ -277,7 +277,7 @@
   },
 
   "account": {
-      "title": "Hesabım",
+    "title": "Hesabım",
     "profile": "Profil",
     "security": "Güvenlik",
     "orders": "Siparişlerim",
@@ -295,10 +295,10 @@
       "newPassword": "Yeni Şifre",
       "confirmPassword": "Yeni Şifre (Tekrar)"
     },
-       "hints": {
-       "phone": "Örn: +905551112233"
+    "hints": {
+      "phone": "Örn: +905551112233"
     },
-     "validations": {
+    "validations": {
       "phone": "Geçersiz telefon"
     },
     "actions": {
@@ -410,7 +410,7 @@
     "price": "Fiyat",
     "select": "Seç",
     "noShowtimes": "Seans bulunamadı.",
-     "title": "Gösterimler",
+    "title": "Gösterimler",
     "confirmDelete": "#{id} numaralı gösterim silinecek. Devam edilsin mi?",
     "deleteError": "Silme işlemi sırasında bir hata oluştu.",
     "filters": {
@@ -1047,7 +1047,7 @@
     "findTickets": "Biletleri Bul"
   },
 
-  "hall":{
+  "hall": {
     "listTitle": "Salon Listesi",
     "createTitle": "Yeni Salon Ekle",
     "createHeader": "Yeni bir salon oluştur",
@@ -1088,10 +1088,13 @@
     "successDelete": "Salon başarıyla silindi.",
     "errorOperation": "İşlem başarısız oldu.",
     "successSave": "Salon başarıyla kaydedildi.",
-    "duplicateName": "Bu sinemada '{hallName}' adında bir salon zaten mevcut."
+    "duplicateName": "Bu sinemada bu isimde  bir salon zaten mevcut.",
+    "hall_saved_success": "Salon başarıyla kaydedildi.",
+    "hall_create_failed": "Salon oluşturulamadı.",
+    "hall_duplicate_error": "Bu sinemada aynı isimde bir salon zaten mevcut."
   },
 
-   "movie": {
+  "movie": {
     "listTitle": "Film Listesi",
     "createTitle": "Yeni Film Ekle",
     "createHeader": "Yeni bir film oluştur",
@@ -1141,7 +1144,7 @@
     "duplicateName": "Bu sinemada '{title}' adlı bir film zaten mevcut.",
     "errorOperation": "İşlem başarısız oldu."
   },
-  
+
   "alerts": {
     "warnings": {
       "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
@@ -1157,5 +1160,3 @@
     }
   }
 }
-
-

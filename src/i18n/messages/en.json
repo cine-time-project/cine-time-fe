@@ -98,7 +98,7 @@
     "showLess": "Show less",
     "retry": "Retry",
     "minutes": "min",
-       "new": "New",
+    "new": "New",
     "search": "Search",
     "page": "Page",
     "total": "Total",
@@ -287,18 +287,19 @@
     "changePassword": "Change Password",
     "deleteAccount": "Delete Account",
     "saved": "Profile updated.",
-     "fields": {
+    "fields": {
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
       "phone": "Phone",
       "oldPassword": "Current Password",
       "newPassword": "New Password",
-      "confirmPassword": "Confirm New Password"},
-       "hints": {
+      "confirmPassword": "Confirm New Password"
+    },
+    "hints": {
       "phone": "e.g., +15551112233"
     },
-     "validations": {
+    "validations": {
       "phone": "Invalid phone number"
     },
     "actions": {
@@ -410,7 +411,7 @@
     "price": "Price",
     "select": "Select",
     "noShowtimes": "No showtimes found.",
-     "title": "Showtimes",
+    "title": "Showtimes",
     "confirmDelete": "#{id} screening will be deleted. Continue?",
     "deleteError": "An error occurred while deleting.",
     "filters": {
@@ -1033,7 +1034,7 @@
     "findTickets": "Find Tickets"
   },
 
-  "hall":{
+  "hall": {
     "listTitle": "Hall List",
     "createTitle": "Add New Hall",
     "createHeader": "Create a new hall",
@@ -1074,10 +1075,13 @@
     "successDelete": "Hall deleted successfully.",
     "errorOperation": "Operation failed.",
     "successSave": "Hall has been saved successfully.",
-    "duplicateName": "A hall named '{hallName}' already exists for this cinema."
+    "duplicateName": "This hall name is already exists for this cinema.",
+    "hall_saved_success": "Hall is saved successfully.",
+    "hall_create_failed": "Failed to create hall.",
+    "hall_duplicate_error": "A hall with this name already exists in the selected cinema."
   },
 
-   "movie": {
+  "movie": {
     "listTitle": "Movie List",
     "createTitle": "Add New Movie",
     "createHeader": "Create a new movie",
@@ -1128,14 +1132,14 @@
     "errorOperation": "Operation failed."
   },
 
-   "alerts": {
+  "alerts": {
     "warnings": {
       "enterPasswords": "Please enter both current and new password.",
       "passwordsMustMatch": "New password and confirmation must match."
     },
     "pwdUpdated": "Your password has been updated successfully.",
     "deleteTitle": "Are you sure?",
-      "deleteText": "Your account will be permanently deleted.",
+    "deleteText": "Your account will be permanently deleted.",
     "deleted": "Your account was deleted. Signing you out…",
     "errors": {
       "deleteFailedBuiltIn": "Built-in admin cannot be deleted.",
