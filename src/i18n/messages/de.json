@@ -898,7 +898,10 @@
     "successDelete": "Saal wurde erfolgreich gelöscht.",
     "errorOperation": "Vorgang fehlgeschlagen.",
     "successSave": "Der Saal wurde erfolgreich gespeichert.",
-    "duplicateName": "Ein Saal mit dem Namen '{hallName}' existiert bereits für dieses Kino."
+    "duplicateName": "Ein Saal mit dem Namen existiert bereits für dieses Kino.",
+    "hall_saved_success": "Saal wurde erfolgreich gespeichert.",
+    "hall_create_failed": "Saal konnte nicht erstellt werden.",
+    "hall_duplicate_error": "Ein Saal mit diesem Namen existiert bereits in diesem Kino."
   },
 
   "movie": {
