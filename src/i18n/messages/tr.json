@@ -1146,7 +1146,8 @@
     "duplicateName": "Bu sinemada bu isimde  bir salon zaten mevcut.",
     "hall_saved_success": "Salon başarıyla kaydedildi.",
     "hall_create_failed": "Salon oluşturulamadı.",
-    "hall_duplicate_error": "Bu sinemada aynı isimde bir salon zaten mevcut."
+    "hall_duplicate_error": "Bu sinemada aynı isimde bir salon zaten mevcut.",
+    "errorDelete": "Salon silinirken bir hata oluştu."
   },
 
   "movie": {
@@ -1197,7 +1198,9 @@
     "successDelete": "Film başarıyla silindi.",
     "successSave": "Film başarıyla kaydedildi.",
     "duplicateName": "Bu sinemada '{title}' adlı bir film zaten mevcut.",
-    "errorOperation": "İşlem başarısız oldu."
+    "errorOperation": "İşlem başarısız oldu.",
+    "duplicateTitle": "Bu isimde bir film zaten mevcut.",
+    "successCreateMovie": "Film başarıyla oluşturuldu."
   },
 
   "alerts": {

@@ -3,10 +3,7 @@ import { config } from "../helpers/config";
 
 // -------------------- Hall API endpoints --------------------
 export const HALL_API = `${config.apiURL}/hall`;
-//export const HALL_API = `${config.apiURL.replace(/\/$/, "")}/hall`;
 console.log("🎬 HALL_API =>", HALL_API);
-
-//
 
 export const getHalls = async (page = 0, size = 10) => {
   const url = `${HALL_API}?page=${page}&size=${size}`;
@@ -18,7 +15,7 @@ export const getHalls = async (page = 0, size = 10) => {
   if (!res.ok) {
     if (res.status === 404) {
       console.warn("No halls found (404)");
-      return { content: [] }; // frontend boş liste gösterebilir
+      return { content: [] };
     }
     const errorText = await res.text();
     console.error("Failed to load halls:", errorText);
@@ -37,25 +34,6 @@ export const getHallById = async (id, token) => {
   if (!res.ok) throw new Error(`Failed to fetch hall (${res.status})`);
   return await res.json();
 };
-
-// export const createHall = async (data, token) => {
-//   const res = await fetch(HALL_API, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: JSON.stringify(data),
-//   });
-
-//   const text = await res.text();
-
-//   if (!res.ok) {
-//     throw new Error(`Failed: ${res.status}`);
-//   }
-
-//   return JSON.parse(text);
-// };
 
 export const createHall = async (data, token) => {
   const res = await fetch(HALL_API, {
