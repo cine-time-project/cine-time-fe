@@ -1130,7 +1130,10 @@
     "successDelete": "Hall deleted successfully.",
     "errorOperation": "Operation failed.",
     "successSave": "Hall has been saved successfully.",
-    "duplicateName": "A hall named '{hallName}' already exists for this cinema."
+    "duplicateName": "This hall name is already exists for this cinema.",
+    "hall_saved_success": "Hall is saved successfully.",
+    "hall_create_failed": "Failed to create hall.",
+    "hall_duplicate_error": "A hall with this name already exists in the selected cinema."
   },
 
   "movie": {

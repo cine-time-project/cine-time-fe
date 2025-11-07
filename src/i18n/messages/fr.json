@@ -942,7 +942,10 @@
     "successDelete": "Salle supprimée avec succès.",
     "errorOperation": "Échec de l’opération.",
     "successSave": "La salle a été enregistrée avec succès.",
-    "duplicateName": "Une salle nommée '{hallName}' existe déjà pour ce cinéma."
+    "duplicateName": "Une salle nommée  existe déjà pour ce cinéma.",
+    "hall_saved_success": "La salle a été enregistrée avec succès.",
+    "hall_create_failed": "Échec de la création de la salle.",
+    "hall_duplicate_error": "Une salle portant ce nom existe déjà dans le cinéma sélectionné."
   },
 
   "movie": {

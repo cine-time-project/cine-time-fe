@@ -1143,7 +1143,10 @@
     "successDelete": "Salon başarıyla silindi.",
     "errorOperation": "İşlem başarısız oldu.",
     "successSave": "Salon başarıyla kaydedildi.",
-    "duplicateName": "Bu sinemada '{hallName}' adında bir salon zaten mevcut."
+    "duplicateName": "Bu sinemada bu isimde  bir salon zaten mevcut.",
+    "hall_saved_success": "Salon başarıyla kaydedildi.",
+    "hall_create_failed": "Salon oluşturulamadı.",
+    "hall_duplicate_error": "Bu sinemada aynı isimde bir salon zaten mevcut."
   },
 
   "movie": {
