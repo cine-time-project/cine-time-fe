@@ -92,6 +92,7 @@ export const HallList = ({
           />
 
           <button
+            id="ara"
             type="button"
             className="btn btn-primary fw-semibold"
             onClick={handleSearch}
@@ -131,16 +132,23 @@ export const HallList = ({
             body={(row, opt) => opt.rowIndex + 1 + number * size}
             style={{ width: "50px", textAlign: "left" }}
           />
+
+          <Column
+            field="cinemaName"
+            header="Sinema Adı"
+            style={{ width: "200px", textAlign: "left" }}
+          />
           <Column
             field="id"
             header="ID"
             style={{ width: "80px", textAlign: "left" }}
           />
-          <Column field="name" header={t("name")} style={{ width: "25%" }} />
+
+          <Column field="name" header={t("name")} style={{ width: "10%" }} />
           <Column
             field="seatCapacity"
             header={t("seatCapacity")}
-            style={{ width: "20%", textAlign: "left" }}
+            style={{ width: "10%", textAlign: "left" }}
           />
           <Column
             field="isSpecial"
