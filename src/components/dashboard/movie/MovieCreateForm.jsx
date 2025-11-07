@@ -14,13 +14,14 @@ import { SubmitButton } from "@/components/common/form-fields/SubmitButton";
 import { swAlert } from "@/helpers/sweetalert";
 import { ALL_GENRES } from "@/helpers/data/genres";
 import { getToken } from "@/lib/utils/http";
+import { useTranslations } from "next-intl";
 
 export const MovieCreateForm = ({ locale }) => {
   const [state, action, isPending] = useActionState(createMovieAction, null);
   const [genreOptions, setGenreOptions] = useState([]);
   const [actorOptions, setActorOptions] = useState([]);
-
   const [token, setToken] = useState("");
+  const t = useTranslations("movie");
 
   useEffect(() => {
     setToken(getToken());

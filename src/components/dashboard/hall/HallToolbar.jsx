@@ -38,12 +38,16 @@ export const HallToolbar = ({ row, locale, onDeleted }) => {
 
       const data = await res.json();
 
-      swAlert(
-        data.message || "Delete completed",
-        res.ok ? "success" : "error"
-      ).then(() => {
-        if (res.ok && typeof onDeleted === "function") onDeleted(id);
-      });
+      let messageKey = "";
+      if (data.message === "Hall is deleted successfully")
+        messageKey = "successDelete";
+      else if (data.message === "Failed to delete hall")
+        messageKey = "errorDelete";
+      else messageKey = "errorDelete";
+
+       swAlert(t(messageKey), res.ok ? "success" : "error").then(() => {
+         if (res.ok && typeof onDeleted === "function") onDeleted(id);
+       });
     } catch (err) {
       console.error("Delete failed:", err);
       swAlert("Failed to delete hall", "error");
