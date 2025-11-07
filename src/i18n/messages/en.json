@@ -1080,7 +1080,8 @@
     "duplicateName": "This hall name is already exists for this cinema.",
     "hall_saved_success": "Hall is saved successfully.",
     "hall_create_failed": "Failed to create hall.",
-    "hall_duplicate_error": "A hall with this name already exists in the selected cinema."
+    "hall_duplicate_error": "A hall with this name already exists in the selected cinema.",
+    "errorDelete": "An error occurred while deleting the hall."
   },
 
   "movie": {
@@ -1131,7 +1132,9 @@
     "successDelete": "Movie deleted successfully.",
     "successSave": "Movie saved successfully.",
     "duplicateName": "A movie titled '{title}' already exists for this cinema.",
-    "errorOperation": "Operation failed."
+    "errorOperation": "Operation failed.",
+    "duplicateTitle": "A movie with this title already exists.",
+    "successCreateMovie": "Movie created successfully."
   },
 
   "alerts": {

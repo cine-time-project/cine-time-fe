@@ -8,7 +8,6 @@ import {
 } from "@/helpers/data/form-validation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
 import { MovieSchema } from "@/helpers/schemas/movie-schema";
 import {
   updateMovie,
@@ -54,10 +53,17 @@ export const createMovieAction = async (prevState, formData) => {
     };
     const token = formData.get("token");
     const res = await createMovie(payload, token);
+    if (res?.httpStatus !== "CREATED" && res?.httpStatus !== "OK") {
+      return response(false, res?.message || "Failed to create movie", null);
+    }
+
     if (!res) return response(false, "Failed to create movie", null);
     return response(true, "Movie created successfully", null);
   } catch (error) {
     console.error("Creation Error:", error);
+    if (error.status === 409) {
+      return response(false, "duplicateTitle", null);
+    }
     return response(false, error.message, null);
   } finally {
     const locale = formData.get("locale") || "en";

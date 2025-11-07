@@ -42,7 +42,6 @@ export const createHallAction = async (prevState, formData) => {
         message: "Endpoint not found. Check your HALL_API URL.",
       };
     }
-    // Diğer hatalar için varsayılan dönüş
     return { ok: false, message: "Failed to create hall" };
   }
 };
@@ -76,13 +75,12 @@ export const updateHallAction = async (prevState, formData) => {
 export const deleteHallAction = async (id, locale, token) => {
   try {
     const res = await deleteHall(id, token);
-
-    if (!res.ok && res.message) return { ok: false, message: res.message };
+    if (!res.ok && res.message) return { ok: false, message: "errorDelete" };
 
     revalidatePath(`/${locale}/admin/halls`);
-    return { ok: true, message: res.message || "Hall deleted successfully" };
+    return { ok: true, message: "successDelete" };
   } catch (err) {
     console.error("Delete hall failed:", err);
-    return { ok: false, message: "Failed to delete hall" };
+    return { ok: false, message: "errorDelete" };
   }
 };
