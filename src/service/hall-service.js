@@ -44,8 +44,10 @@ export const searchHalls = async (token, query = "") => {
 };
 
 export const getHallById = async (id, token) => {
+  console.log(id, "and", token);
+  console.log(`${HALL_API}/${id}`);
   const res = await fetch(`${HALL_API}/${id}`, {
-    headers: authHeaders(token),
+    headers: authHeaders({ "Content-Type": "application/json" }),
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`Failed to fetch hall (${res.status})`);

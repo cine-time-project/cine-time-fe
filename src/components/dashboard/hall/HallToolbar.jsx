@@ -45,16 +45,19 @@ export const HallToolbar = ({ row, locale, onDeleted }) => {
         messageKey = "errorDelete";
       else messageKey = "errorDelete";
 
-       swAlert(t(messageKey), res.ok ? "success" : "error").then(() => {
-         if (res.ok && typeof onDeleted === "function") onDeleted(id);
-       });
+      swAlert(t(messageKey), res.ok ? "success" : "error").then(() => {
+        if (res.ok && typeof onDeleted === "function") onDeleted(id);
+      });
     } catch (err) {
       console.error("Delete failed:", err);
       swAlert("Failed to delete hall", "error");
     }
   };
 
-  const handleEdit = () => router.push(`/${locale}/admin/halls/${id}`);
+  const handleEdit = () => {
+    console.log("************", id);
+    router.push(`/${locale}/admin/halls/${id}`);
+  };
 
   return (
     <div className="d-flex gap-2 justify-content-end">
