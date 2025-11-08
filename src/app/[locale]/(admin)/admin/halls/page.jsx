@@ -18,12 +18,10 @@ export default function AdminHallsPage() {
   const [search, setSearch] = useState("");
   const [token, setToken] = useState("");
 
-  // ✅ Load token once
   useEffect(() => {
     setToken(getToken());
   }, []);
 
-  // ✅ Fetch halls (all or filtered)
   useEffect(() => {
     if (!token) return;
 
@@ -32,10 +30,8 @@ export default function AdminHallsPage() {
         let res;
 
         if (search && search.trim() !== "") {
-          // 🔍 Search active → call /search-halls
           res = await searchHalls(token, search, page, 10);
         } else {
-          // 📋 No search → call /api/hall
           res = await getHalls(page, 10, token);
         }
 
@@ -49,17 +45,14 @@ export default function AdminHallsPage() {
     fetchData();
   }, [token, page, search, t]);
 
-  // ✅ Handlers
   const handlePageChange = (nextPage) => setPage(nextPage);
 
-  // only updates search state, useEffect does the fetching
   const handleSearch = (query) => {
     setSearch(query);
     setPage(0);
   };
 
   const handleDeleted = () => {
-    // reload with current search state
     if (search && search.trim() !== "") {
       searchHalls(token, search).then(setData);
     } else {

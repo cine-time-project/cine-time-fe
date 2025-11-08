@@ -55,7 +55,6 @@ export const HallToolbar = ({ row, locale, onDeleted }) => {
   };
 
   const handleEdit = () => {
-    console.log("************", id);
     router.push(`/${locale}/admin/halls/${id}`);
   };
 
