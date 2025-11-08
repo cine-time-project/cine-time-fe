@@ -33,7 +33,7 @@ export default function AdminHallsPage() {
 
         if (search && search.trim() !== "") {
           // 🔍 Search active → call /search-halls
-          res = await searchHalls(token, search);
+          res = await searchHalls(token, search, page, 10);
         } else {
           // 📋 No search → call /api/hall
           res = await getHalls(page, 10, token);

@@ -36,8 +36,10 @@ export const HallEditForm = ({ hall, locale }) => {
   }, []);
 
   useEffect(() => {
-    if (state?.message) swAlert(state.message, state.ok ? "success" : "error");
-  }, [state]);
+    if (!state) return;
+    const message = state.ok ? t("successUpdate") : t("errorOperation");
+    swAlert(message, state.ok ? "success" : "error");
+  }, [state, t]);
 
   return (
     <div>
