@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
 import CinemaCard from "./CinemaCard";
-import useFirstDates from "@/components/cinemas/useFirstDate";
 import SectionTitle from "@/components/common/SectionTitle";
 
 export default function CinemasGrid({
@@ -24,7 +23,6 @@ export default function CinemasGrid({
 }) {
   const t = useTranslations("cinemas");
   const locale = useLocale;
-  const firstDatesByCinema = useFirstDates(cinemas);
 
   if (loading)
     return (
@@ -67,7 +65,7 @@ export default function CinemasGrid({
       <Row xs={1} sm={2} md={3} lg={3} xl={3} className="g-5">
         {cinemas.map((c) => (
           <Col key={c.id} className="d-flex align-items-stretch">
-            <CinemaCard cinema={c} firstDate={firstDatesByCinema[c.id]} L={L} />
+            <CinemaCard cinema={c} L={L} />
           </Col>
         ))}
       </Row>

@@ -2,26 +2,23 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, Badge, Row, Col } from "react-bootstrap";
-
 import styles from "./cinemas.module.scss";
-import { useTranslations } from "next-intl";
 import { resolveCinemaImage } from "./utils";
 
-export default function CinemaCard({ cinema, firstDate, L }) {
-  const t = useTranslations ? useTranslations("cinemas") : () => (k) => k;
+export default function CinemaCard({ cinema, L }) {
 
   const imgSrc = resolveCinemaImage(cinema);
 
-  const cityName =
-    cinema.city?.name ||
-    cinema.cityName ||
-    (typeof cinema.city === "string" ? cinema.city : "-");
+  const cityName = cinema.city?.name;
 
   const detailHref = L(`cinemas/${cinema.id}`);
-  const buyHref = `${detailHref}${firstDate ? `?date=${firstDate}` : ""}`;
 
   return (
-    <Card className={`${styles.cinemaCard} bg-dark text-light`}>
+    <Card
+      className={`${styles.cinemaCard} bg-dark text-light`}
+      as={Link}
+      href={detailHref}
+    >
       <Row className="g-0 flex-column flex-lg-row">
         {/* Image Section — 2/3 on large screens */}
         <Col xs={12} lg={6}>
@@ -40,19 +37,13 @@ export default function CinemaCard({ cinema, firstDate, L }) {
         {/* Body Section — 1/3 on large screens */}
         <Col xs={12} lg={6}>
           <Card.Body className={styles.cardBody}>
-            <div className="d-flex align-items-start flex-column gap-3">
+            <div>
               <Card.Title className={styles.title}>{cinema.name}</Card.Title>
-              {cityName && <Badge bg="secondary">{cityName}</Badge>}
-            </div>
-
-            <div className="mt-2 d-flex flex-column gap-3">
-              <Link href={detailHref} className="btn btn-outline-dark">
-                {t ? t("details") : "Detay"}<i className="pi pi-angle-right"></i>
-              </Link>
-
-              <Link href={buyHref} className="btn btn-warning fw-semibold">
-                {t ? t("buyTicket") : "Bilet Al"}
-              </Link>
+              {cityName && (
+                <Badge bg="warning" className={styles.cityLabel}>
+                  {cityName}
+                </Badge>
+              )}
             </div>
           </Card.Body>
         </Col>

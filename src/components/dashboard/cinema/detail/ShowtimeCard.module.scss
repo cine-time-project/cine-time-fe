@@ -1,0 +1,76 @@
+.showtimeCard {
+  position: relative;
+  cursor: pointer;
+  min-width: 200px;
+  height: 350px;
+  background-color: #222;
+  border: 1px solid #2f2f2f;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+
+    .overlay {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}
+
+.posterWrapper {
+  position: relative;
+  height: 200px;
+}
+
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px; // sadece poster alanını kaplar
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.ticketButton {
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.info {
+  padding: 1rem;
+}
+
+.title {
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.date,
+.time {
+  color: #bcbcbc;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+
+  i {
+    margin-right: 0.25rem;
+  }
+}

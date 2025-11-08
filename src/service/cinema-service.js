@@ -1,7 +1,6 @@
 import axios from "axios";
 import { config } from "@/helpers/config";
 
-
 export async function getAllCinemas(page = 0, size = 50, token) {
   try {
     const headers = { "Content-Type": "application/json" };
@@ -81,16 +80,17 @@ export async function createCinemaRequest(data, token) {
   return response.data;
 }
 
-export async function getDetailedCinema(id, token) {
+export async function getDetailedCinema(id) {
   const response = await axios.get(
-    `${config.apiURL}/dashboard/cinemas/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
-        "Content-Type": "application/json",
-      },
-    } // backend endpoint
+    `${config.apiURL}/cinemas/${id}/detail`
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
+    //     "Content-Type": "application/json",
+    //   },
+    // } // backend endpoint
   );
+  console.log(response?.data?.returnBody);
   return response?.data?.returnBody;
 }
 
