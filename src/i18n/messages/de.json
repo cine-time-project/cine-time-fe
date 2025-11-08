@@ -775,7 +775,7 @@
   "images": {
     "title": "Bilder",
     "uploadNew": "Neu hochladen",
-    "searchPlaceholder": "Nach exakter Bild-ID oder Bildname suchen...",
+    "searchPlaceholder": "Nach Bild-ID, Bildname oder Filmtitel suchen...",
     "search": "Suchen",
     "showAll": "Alle Bilder anzeigen",
     "noImagesFound": "Keine Bilder gefunden.",
