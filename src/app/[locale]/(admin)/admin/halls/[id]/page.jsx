@@ -22,7 +22,6 @@ export default function EditHallPage({ params }) {
       try {
         const token = getToken();
         const res = await getHallById(id, token);
-        console.log(res);
         const hallData = res?.returnBody ?? res;
         if (!hallData) throw new Error("Hall not found");
         setHall(hallData);
