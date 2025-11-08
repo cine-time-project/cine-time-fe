@@ -108,7 +108,7 @@ export const getAllImagesByPage = async (
       }
     }
 
-    // Apply search filter - search by exact image ID or image name (case-insensitive)
+    // Apply search filter - search by exact image ID, image name, or movie title (case-insensitive)
     if (queryStr) {
       allImages = allImages.filter((image) => {
         // Check if query is a number for exact ID matching
@@ -120,8 +120,12 @@ export const getAllImagesByPage = async (
           // For numeric queries, only match exact image ID
           return image.id === queryAsNumber;
         } else {
-          // For text queries, search in image name
-          return image.name?.toLowerCase().includes(queryStr.toLowerCase());
+          // For text queries, search in image name OR movie title
+          const imageName = image.name?.toLowerCase() || "";
+          const movieTitle = image.movie?.title?.toLowerCase() || "";
+          const query = queryStr.toLowerCase();
+
+          return imageName.includes(query) || movieTitle.includes(query);
         }
       });
     }
