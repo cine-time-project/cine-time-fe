@@ -80,16 +80,16 @@ export async function createCinemaRequest(data, token) {
   return response.data;
 }
 
-export async function getDetailedCinema(id) {
-  const response = await axios.get(
-    `${config.apiURL}/cinemas/${id}/detail`
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`, // Direkt Bearer token ekledik
-    //     "Content-Type": "application/json",
-    //   },
-    // } // backend endpoint
-  );
+export async function getDetailedCinema(id, token) {
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const response = await axios.get(`${config.apiURL}/cinemas/${id}/detail`, {
+    headers,
+  });
+
   console.log(response?.data?.returnBody);
   return response?.data?.returnBody;
 }

@@ -196,7 +196,7 @@ export default function AdminCinemaDetailPage() {
       <Row className="mt-4">
         {/* Left column: list of halls */}
         <Col md={8}>
-          <HallList halls={cinema.halls || []} tCinemas={tCinemas}/>
+          <HallList cinema={cinema} tCinemas={tCinemas}/>
         </Col>
 
         {/* Right column: list of movies */}
