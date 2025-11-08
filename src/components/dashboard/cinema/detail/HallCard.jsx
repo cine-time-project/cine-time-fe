@@ -118,17 +118,17 @@ export function HallCard({ hall, tCinemas, L, cinema }) {
           style={{ overflowX: "hidden", padding: "10px" }}
           navigation
           modules={[Navigation]}
-          spaceBetween={10}
+          spaceBetween={20}
           slidesPerGroup={1}
-          slidesOffsetBefore={40}
-          slidesOffsetAfter={40}
+          slidesOffsetBefore={20}
+          slidesOffsetAfter={20}
           breakpoints={{
-            320: { slidesPerView: 1, spaceBetween: 10, slidesPerGroup: 1 },
-            640: { slidesPerView: 1, spaceBetween: 15, slidesPerGroup: 1 },
+            320: { slidesPerView: 1, spaceBetween: 20, slidesPerGroup: 1 },
+            640: { slidesPerView: 1, spaceBetween: 20, slidesPerGroup: 1 },
             768: { slidesPerView: 1, spaceBetween: 20, slidesPerGroup: 1 },
-            1024: { slidesPerView: 2, spaceBetween: 25, slidesPerGroup: 1 },
-            1300: { slidesPerView: 3, spaceBetween: 25, slidesPerGroup: 1 },
-            1600: { slidesPerView: 3, spaceBetween: 25, slidesPerGroup: 1 },
+            1024: { slidesPerView: 2, spaceBetween: 20, slidesPerGroup: 1 },
+            1300: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 1 },
+            1600: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 1 },
           }}
         >
           {hall.showtimes.map((showtime) => (
