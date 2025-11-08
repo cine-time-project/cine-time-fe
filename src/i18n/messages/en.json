@@ -1003,7 +1003,7 @@
   "images": {
     "title": "Images",
     "uploadNew": "Upload New",
-    "searchPlaceholder": "Search by exact image ID or image name...",
+    "searchPlaceholder": "Search by image ID, image name or movie title...",
     "search": "Search",
     "showAll": "Show All Images",
     "noImagesFound": "No images found.",

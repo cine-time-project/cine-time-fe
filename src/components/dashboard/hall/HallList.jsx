@@ -136,32 +136,32 @@ export const HallList = ({
           <Column
             field="cinemaName"
             header="Sinema Adı"
-            style={{ width: "200px", textAlign: "left" }}
+            style={{ width: "150px", textAlign: "left" }}
           />
           <Column
             field="id"
             header="ID"
-            style={{ width: "80px", textAlign: "left" }}
+            style={{ width: "100px", textAlign: "left" }}
           />
 
-          <Column field="name" header={t("name")} style={{ width: "10%" }} />
+          <Column field="name" header={t("name")} style={{ width: "100px" }} />
           <Column
             field="seatCapacity"
             header={t("seatCapacity")}
-            style={{ width: "10%", textAlign: "left" }}
+            style={{ width: "100px", textAlign: "left" }}
           />
           <Column
             field="isSpecial"
             header={t("isSpecial")}
             body={specialTemplate}
-            style={{ width: "15%", textAlign: "left" }}
+            style={{ width: "100px", textAlign: "left" }}
           />
           <Column
             header={t("actions")}
             body={(row) => (
               <HallToolbar row={row} locale={locale} onDeleted={onDeleted} />
             )}
-            style={{ width: "10%", textAlign: "left" }}
+            style={{ width: "5%", textAlign: "left" }}
           />
         </DataTable>
       </Container>

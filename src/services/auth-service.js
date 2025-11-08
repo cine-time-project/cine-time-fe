@@ -36,7 +36,7 @@ export async function login({ phoneOrEmail, password, signal } = {}) {
 }
 
 export async function register({ signal, ...payload } = {}) {
-  // BE: POST /api/register
+
   const response = await fetch(`${config.apiURL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -45,7 +45,6 @@ export async function register({ signal, ...payload } = {}) {
     signal,
   });
 
-  console.log("payload", payload);
 
   const raw = await response.text();
   const data = parseJSONSafely(raw);
@@ -63,7 +62,7 @@ export async function register({ signal, ...payload } = {}) {
 export async function googleLogin(idToken) {
   try {
     const { data } = await api.post("/google", { idToken });
-    return data; // ResponseMessage<Object> döner
+    return data; 
   } catch (error) {
     const status = error?.response?.status ?? 0;
     const message =

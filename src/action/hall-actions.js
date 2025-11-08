@@ -58,8 +58,6 @@ export const updateHallAction = async (prevState, formData) => {
       cinemaId: parseInt(formData.get("cinemaId")),
     };
 
-    console.log("updateHallAction payload", payload);
-
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/hall/${id}`,
       {
@@ -73,7 +71,6 @@ export const updateHallAction = async (prevState, formData) => {
     );
 
     const data = await res.json();
-    console.log("update response", data);
 
     if (!res.ok) {
       return {

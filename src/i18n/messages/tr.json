@@ -1016,7 +1016,7 @@
   "images": {
     "title": "Resimler",
     "uploadNew": "Yeni Yükle",
-    "searchPlaceholder": "Tam resim ID'si veya resim adı ile ara...",
+    "searchPlaceholder": "Resim ID'si, resim adı veya film ismi ile ara...",
     "search": "Ara",
     "showAll": "Tüm Resimleri Göster",
     "noImagesFound": "Resim bulunamadı.",

@@ -20,7 +20,6 @@ export const HallCreateForm = ({ locale }) => {
   const [token, setToken] = useState(getToken());
 
   useEffect(() => {
-    console.log(token);
     if (!token) return;
     const load = async () => {
       try {
