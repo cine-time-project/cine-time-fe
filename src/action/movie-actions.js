@@ -10,10 +10,8 @@ import {updateMovie,deleteMovieServer,createMovie,
 
 export const deleteMovieAction = async (id, locale, token) => {
   if (!id) throw new Error("Id is missing");
-
   try {
     const res = await deleteMovieServer(id, token);
-
     if (!res) return response(false, "Failed to delete movie", null);
 
     revalidatePath(`/${locale}/admin/movies`);
@@ -24,45 +22,59 @@ export const deleteMovieAction = async (id, locale, token) => {
   }
 };
 
+
 export const createMovieAction = async (prevState, formData) => {
   try {
     const fields = transformFormDataToJSON(formData);
     MovieSchema.validateSync(fields, { abortEarly: false });
+
     const castRaw = fields.cast || "";
     const payload = {
       ...fields,
       duration: parseInt(fields.duration),
       genre: JSON.parse(fields.genre || "[]"),
+      formats: JSON.parse(fields.formats || "[]"),
       cast: castRaw
         ? castRaw
             .split(",")
             .map((name) => name.trim())
             .filter(Boolean)
         : [],
-      formats: Array.isArray(fields.formats)
-        ? fields.formats
-        : [fields.formats],
       locale: fields.locale,
     };
+
     const token = formData.get("token");
     const res = await createMovie(payload, token);
-    if (res?.httpStatus !== "CREATED" && res?.httpStatus !== "OK") {
-      return response(false, res?.message || "Failed to create movie", null);
+
+    if (!res) {
+      return response(false, "Failed to create movie", null);
+    }
+    if (res?.message?.toLowerCase?.().includes("already")) {
+      return response(false, "A movie with this title already exists.", null);
     }
 
-    if (!res) return response(false, "Failed to create movie", null);
     return response(true, "Movie created successfully", null);
   } catch (error) {
     console.error("Creation Error:", error);
-    if (error.status === 409) {
-      return response(false, "duplicateTitle", null);
+
+    if (error.message?.includes("409")) {
+      return response(false, "A movie with this title already exists.", null);
     }
-    return response(false, error.message, null);
+
+    if (error.message?.includes("Validation failed")) {
+      return response(
+        false,
+        "Validation error: please check input fields",
+        null
+      );
+    }
+    return response(false, error.message || "Unexpected error occurred", null);
   } finally {
     const locale = formData.get("locale") || "en";
-    revalidatePath(`/${formData.get(locale)}/admin/movies`);
+    revalidatePath(`/${locale}/admin/movies`);
   }
 };
+
 
 export const updateMovieAction = async (prevState, formData) => {
   if (!formData.get("id")) throw new Error("Movie ID is missing");

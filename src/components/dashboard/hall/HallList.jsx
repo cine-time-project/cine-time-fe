@@ -18,12 +18,7 @@ import { useTranslations } from "next-intl";
  * @param {function} props.onSearch - Search handler
  * @param {function} props.onDeleted - Refresh handler after delete
  */
-export const HallList = ({
-  data,
-  locale,
-  onPageChange,
-  onSearch,
-  onDeleted,
+export const HallList = ({data,locale,onPageChange,onSearch,onDeleted,
 }) => {
   const router = useRouter();
   const t = useTranslations("hall");

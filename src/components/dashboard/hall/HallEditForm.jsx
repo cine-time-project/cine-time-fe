@@ -43,9 +43,7 @@ export const HallEditForm = ({ hall, locale }) => {
 
   return (
     <div>
-      {/* 🔹 Başlık artık FormContainer kutusunun dışında */}
       <h4 className="fw-semibold mb-4">{t("updateTitle")}</h4>
-
       <FormContainer>
         <form action={formAction}>
           <input type="hidden" name="id" value={hall.id} />
