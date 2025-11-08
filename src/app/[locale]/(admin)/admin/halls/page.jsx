@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { getHalls } from "@/service/hall-service";
+import { getHalls, searchHalls } from "@/service/hall-service";
 import { HallList } from "@/components/dashboard/hall/HallList";
 import { getToken } from "@/lib/utils/http";
 import { swAlert } from "@/helpers/sweetalert";
@@ -18,33 +18,54 @@ export default function AdminHallsPage() {
   const [search, setSearch] = useState("");
   const [token, setToken] = useState("");
 
-  // Token yükle
+  // ✅ Load token once
   useEffect(() => {
     setToken(getToken());
   }, []);
 
-  // Salon verilerini getir
-  const loadData = async (pageIndex = 0, q = "") => {
-    try {
-      const res = await getHalls(pageIndex, 10, token);
-      setData(res);
-    } catch (err) {
-      console.error("Failed to fetch halls:", err);
-      swAlert(t("loadError"), "error");
-    }
-  };
-
+  // ✅ Fetch halls (all or filtered)
   useEffect(() => {
-    if (token) loadData(page, search);
-  }, [token, page, search]);
+    if (!token) return;
 
-  // Event handlerlar
+    const fetchData = async () => {
+      try {
+        let res;
+
+        if (search && search.trim() !== "") {
+          // 🔍 Search active → call /search-halls
+          res = await searchHalls(token, search);
+        } else {
+          // 📋 No search → call /api/hall
+          res = await getHalls(page, 10, token);
+        }
+
+        setData(res);
+      } catch (err) {
+        console.error("Failed to fetch halls:", err);
+        swAlert(t("loadError"), "error");
+      }
+    };
+
+    fetchData();
+  }, [token, page, search, t]);
+
+  // ✅ Handlers
   const handlePageChange = (nextPage) => setPage(nextPage);
+
+  // only updates search state, useEffect does the fetching
   const handleSearch = (query) => {
     setSearch(query);
     setPage(0);
   };
-  const handleDeleted = () => loadData(page, search);
+
+  const handleDeleted = () => {
+    // reload with current search state
+    if (search && search.trim() !== "") {
+      searchHalls(token, search).then(setData);
+    } else {
+      getHalls(page, 10, token).then(setData);
+    }
+  };
 
   return (
     <>

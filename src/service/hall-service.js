@@ -3,7 +3,7 @@ import { config } from "../helpers/config";
 
 // -------------------- Hall API endpoints --------------------
 export const HALL_API = `${config.apiURL}/hall`;
-console.log("🎬 HALL_API =>", HALL_API);
+console.log("HALL_API =>", HALL_API);
 
 export const getHalls = async (page = 0, size = 10) => {
   const url = `${HALL_API}?page=${page}&size=${size}`;
@@ -23,12 +23,31 @@ export const getHalls = async (page = 0, size = 10) => {
   }
 
   return await res.json();
-  return data.returnBody?.content || [];
+};
+
+export const searchHalls = async (token, query = "") => {
+  const url = `${HALL_API}/search-halls?query=${encodeURIComponent(query)}`;
+  console.log("search URL:", url);
+
+  const res = await fetch(url, {
+    headers: authHeaders({ "Content-Type": "application/json" }),
+    cache: "no-store",
+  });
+
+  if (!res.ok) throw new Error(`Failed to fetch halls: ${res.statusText}`);
+
+  const data = await res.json();
+
+  console.log("search response...", data);
+
+  return data;
 };
 
 export const getHallById = async (id, token) => {
+  console.log(id, "and", token);
+  console.log(`${HALL_API}/${id}`);
   const res = await fetch(`${HALL_API}/${id}`, {
-    headers: authHeaders(token),
+    headers: authHeaders({ "Content-Type": "application/json" }),
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`Failed to fetch hall (${res.status})`);

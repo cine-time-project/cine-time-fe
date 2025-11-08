@@ -5,7 +5,6 @@ import { createHall, updateHall, deleteHall } from "@/service/hall-service";
 import { swAlert } from "@/helpers/sweetalert";
 import { useTranslations } from "next-intl";
 
-
 export const createHallAction = async (prevState, formData) => {
   try {
     const locale = formData.get("locale");
@@ -59,13 +58,33 @@ export const updateHallAction = async (prevState, formData) => {
       cinemaId: parseInt(formData.get("cinemaId")),
     };
 
-    const res = await updateHall(id, payload, token);
+    console.log("updateHallAction payload", payload);
 
-    if (!res.ok && res.message)
-      return { ok: false, message: res.message, errors: res.errors };
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/hall/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const data = await res.json();
+    console.log("update response", data);
+
+    if (!res.ok) {
+      return {
+        ok: false,
+        message: data.message || "Update failed",
+        errors: data.errors,
+      };
+    }
 
     revalidatePath(`/${locale}/admin/halls`);
-    return { ok: true, message: res.message || "Hall updated successfully" };
+    return { ok: true, message: data.message || "Hall updated successfully" };
   } catch (err) {
     console.error("Update hall failed:", err);
     return { ok: false, message: "Failed to update hall" };
