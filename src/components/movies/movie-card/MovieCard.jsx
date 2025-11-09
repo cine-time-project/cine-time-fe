@@ -107,7 +107,7 @@ function MovieCard({ movie }) {
       </div>
 
       {/* Buy ticket button (top-right) */}
-      <BuyTicketCardButton movie={movie} />
+      <BuyTicketCardButton movie={movie} className={styles[""]} />
 
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>

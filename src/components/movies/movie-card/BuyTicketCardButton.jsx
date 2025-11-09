@@ -4,63 +4,52 @@ import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import "./buyTicketCardButton.scss";
 
-export const BuyTicketCardButton = ({ movie }) => {
-  const locale = useLocale(); // Current locale segment
+export const BuyTicketCardButton = ({ movie, showtime }) => {
+  const locale = useLocale();
   const tCinemas = useTranslations();
   const router = useRouter();
 
   const handleBuyTicket = useCallback(
     (e) => {
       e.stopPropagation();
-      router.push(`${locale}/movies/showtimes/${movie.id}`);
+
+      if (showtime) {
+        const params = new URLSearchParams({
+          cityId: showtime.cityId,
+          cinemaId: showtime.cinemaId,
+          date: showtime.date,
+          movieId: showtime.movieId,
+          time: showtime.startTime,
+          hallId: showtime.hallId,
+        });
+
+        router.push(`/${locale}/buy-ticket?${params.toString()}`);
+      } else {
+        router.push(`/${locale}/movies/showtimes/${movie?.id}`);
+      }
     },
-    [movie.id]
+    [movie?.id, showtime, router, locale]
   );
 
-  // 🔹 Inline styles based on original SCSS
-  const styles = {
-    button: {
-      position: "absolute",
-      zIndex: 5,
-      display: "grid",
-      placeItems: "center",
-      cursor: "pointer",
-      top: "-5px",
-      right: "-10px",
-      transform: "rotate(-20deg)",
-      transition: "all 0.3s ease",
-    },
-    buttonHover: {
-      transform: "rotate(0deg) scale(1.3)",
-    },
-    image: {
-      width: 70,
-      height: 35,
-    },
-  };
   return (
-    <div
-      as={Button}
-      style={styles.button}
-      onClick={(e) => {
-        handleBuyTicket(e);
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = styles.buttonHover.transform;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = styles.button.transform;
-      }}
-      aria-label={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
-      title={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
-    >
-      <Image
-        src="/icons/buy-tickets.png"
-        alt="Buy Tickets"
-        width={styles.image.width}
-        height={styles.image.height}
-      />
-    </div>
+    <Button
+  className={`buy-ticket-btn ${
+    movie ? "movie-card-btn" : ""
+  } ${showtime ? "showtime-card-btn" : ""}`}
+  onClick={handleBuyTicket}
+  aria-label={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
+  title={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
+  variant="link"
+>
+  <Image
+    src="/icons/buy-tickets.png"
+    alt="Buy Tickets"
+    width={70}
+    height={35}
+  />
+</Button>
+
   );
 };

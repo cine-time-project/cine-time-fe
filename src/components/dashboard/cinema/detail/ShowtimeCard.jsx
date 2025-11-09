@@ -44,9 +44,7 @@ export const ShowtimeCard = ({ showtime, tCinemas }) => {
 
       {/* Overlay for hover */}
       <div className={styles.overlay}>
-        <div className={styles["buyTicket"]} onClick={handleBuyTicket}>
-          <i className="pi pi-ticket"></i>
-        </div>
+       <BuyTicketCardButton showtime={showtime} />
 
         <div className={styles.showDetails} onClick={handleMovieDetail}>
           <i className="pi pi-info-circle"></i>
