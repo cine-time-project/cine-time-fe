@@ -3,65 +3,58 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import SpecialHallForm from "@/components/dashboard/special-hall/SpecialHallForm";
-import { fetchSpecialHallById } from "@/service/special-hall-service";
-import { updateSpecialHallAction } from "@/action/special-hall-actions";
-import { Spinner } from "react-bootstrap";
+import { fetchSpecialHallById, updateSpecialHall } from "@/service/special-hall-service";
+import { swAlert } from "@/helpers/sweetalert";
 
 export default function SpecialHallEditPage() {
+  const { id } = useParams();              // route param (string gelir)
   const router = useRouter();
-  const params = useParams();
-  const id = Number(params?.id);
-
-  const [loading, setLoading] = useState(true);
-  const [busy, setBusy] = useState(false);
-  const [initial, setInitial] = useState({ hallId: "", typeId: "" });
+  const [item, setItem] = useState(null);
+  const [busy, setBusy] = useState(true);
 
   useEffect(() => {
-    let mounted = true;
+    let alive = true;
     (async () => {
       try {
-        const detail = await fetchSpecialHallById(id);
-        if (!mounted) return;
-        // Backend response: { id, name(type), seatCapacity, cinemaId, cinemaName }
-        // Edit için hallId ve typeId gerekir → backend getById bunları döndürmüyorsa
-        // detail endpointini genişletmen iyi olur. Şimdilik formu boş bırakmayalım diye:
-        // (Hall ve Type ID’lerini bilmeden update etmek doğru olmaz)
-        // Eğer BE’de SpecialHallResponse’a hallId ve typeId eklersen süper olur.
-        setInitial({
-          hallId: detail?.hallId ?? "",
-          typeId: detail?.typeId ?? "",
-        });
+        const data = await fetchSpecialHallById(id);
+        if (!alive) return;
+
+        // Gelen response farklı şekillerde olabilir; ikisini de destekleyelim:
+        const hallId = String(data?.hallId ?? data?.hall?.id ?? "");
+        const typeId = String(data?.typeId ?? data?.type?.id ?? "");
+
+        setItem({ id: String(id), hallId, typeId });
       } finally {
-        setLoading(false);
+        if (alive) setBusy(false);
       }
     })();
-    return () => (mounted = false);
+    return () => { alive = false; };
   }, [id]);
 
-  const handleSubmit = async (formData) => {
-    setBusy(true);
-    const res = await updateSpecialHallAction(id, formData);
-    setBusy(false);
-    if (res?.ok) router.back();
+  const handleUpdate = async (fd) => {
+    try {
+      setBusy(true);
+      const hallId = Number(fd.get("hallId"));
+      const typeId = Number(fd.get("typeId"));
+      await updateSpecialHall(item.id, { hallId, typeId });
+      swAlert("success", "Özel salon ataması güncellendi.");
+      router.push("/tr/admin/special-halls"); // listeye dön
+    } catch (err) {
+      swAlert("error", err?.message || "Güncelleme başarısız.");
+    } finally {
+      setBusy(false);
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="container py-4">
-        <Spinner size="sm" /> Yükleniyor…
-      </div>
-    );
-  }
-
   return (
-    <div className="container py-4">
-      <h2>Edit Special Hall #{id}</h2>
-      <div className="card shadow-sm mt-3">
+    <div className="card shadow-sm">
+      <div className="card-body">
         <SpecialHallForm
-          initialValues={initial}
-          onSubmit={handleSubmit}
-          busy={busy}
+          key={`${item?.hallId}-${item?.typeId}`}   // güvenli re-render
+          initialValues={{ hallId: item?.hallId ?? "", typeId: item?.typeId ?? "" }}
+          onSubmit={handleUpdate}
           submitLabel="Güncelle"
+          busy={busy}
         />
       </div>
     </div>

@@ -8,6 +8,7 @@ import {
   createSpecialHallType,
 } from "@/service/special-hall-service";
 import { swAlert } from "@/helpers/sweetalert";
+import SpecialHallTypeManager from "./SpecialHallTypeManager";
 
 export default function SpecialHallForm({
   initialValues = { hallId: "", typeId: "" },
@@ -15,11 +16,13 @@ export default function SpecialHallForm({
   submitLabel = "Oluştur",
   busy = false,
 }) {
+  const [showManage, setShowManage] = useState(false);
+
   const [halls, setHalls] = useState([]);
   const [types, setTypes] = useState([]);
   const [values, setValues] = useState(() => ({
-    hallId: initialValues?.hallId ?? "",
-    typeId: initialValues?.typeId ?? "",
+    hallId: String(initialValues?.hallId ?? ""),
+    typeId: String(initialValues?.typeId ?? ""),
   }));
   const [loading, setLoading] = useState(true);
 
@@ -28,6 +31,14 @@ export default function SpecialHallForm({
   const [newTypeName, setNewTypeName] = useState("");
   const [newTypePercent, setNewTypePercent] = useState("");
 
+  // --- Tip listesini tek yerden tazele ---
+  const refreshTypes = async (keepSelected = true) => {
+    const list = await fetchSpecialHallTypes({ size: 500 });
+    setTypes(list);
+    if (keepSelected) setValues((v) => ({ ...v })); // seçimi koru, re-render et
+  };
+
+  /* ----------------------------- listeleri yükle ----------------------------- */
   useEffect(() => {
     let alive = true;
     (async () => {
@@ -48,17 +59,19 @@ export default function SpecialHallForm({
     };
   }, []);
 
-  // initialValues değişince kontrollü güncelle
+  /* -------- initialValues değişince (ve listeler geldikten sonra) set et ------- */
   useEffect(() => {
+    if (loading) return; // listeler hazır değilken set etme
     const next = {
-      hallId: initialValues?.hallId ?? "",
-      typeId: initialValues?.typeId ?? "",
+      hallId: String(initialValues?.hallId ?? ""),
+      typeId: String(initialValues?.typeId ?? ""),
     };
     setValues((prev) =>
       prev.hallId === next.hallId && prev.typeId === next.typeId ? prev : next
     );
-  }, [initialValues?.hallId, initialValues?.typeId]);
+  }, [loading, initialValues?.hallId, initialValues?.typeId]);
 
+  /* --------------------------------- handlers -------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues((s) => ({ ...s, [name]: value }));
@@ -72,7 +85,7 @@ export default function SpecialHallForm({
     onSubmit?.(fd);
   };
 
-  /* ---------- Yeni Tip Oluşturma ---------- */
+  /* -------------------------- Yeni Tip Oluşturma UI/FX ------------------------ */
   const openNewType = () => {
     setNewTypeName("");
     setNewTypePercent("");
@@ -89,12 +102,15 @@ export default function SpecialHallForm({
     }
 
     try {
-      const created = await createSpecialHallType({ name, priceDiffPercent: percent });
+      const created = await createSpecialHallType({
+        name,
+        priceDiffPercent: percent,
+      });
 
-      // Listeyi tazele ve yeni kaydı seç
-      const fresh = await fetchSpecialHallTypes({ size: 500 });
-      setTypes(fresh);
-      if (created?.id) setValues((s) => ({ ...s, typeId: String(created.id) }));
+      await refreshTypes(); // listeyi tazele
+      if (created?.id) {
+        setValues((s) => ({ ...s, typeId: String(created.id) })); // yeni kaydı seç
+      }
 
       setShowTypeModal(false);
       swAlert("success", "Özel salon tipi oluşturuldu.");
@@ -103,6 +119,7 @@ export default function SpecialHallForm({
     }
   };
 
+  /* ----------------------------------- UI ----------------------------------- */
   return (
     <>
       {/* Ana Form */}
@@ -149,13 +166,25 @@ export default function SpecialHallForm({
                     </option>
                   ))}
                 </Form.Select>
+
                 <Button
+                  className="ms-2"
                   variant="outline-secondary"
-                  type="button"        // form submit olmasın
+                  type="button"
                   onClick={openNewType}
                   disabled={busy}
                 >
                   + Yeni Tip
+                </Button>
+
+                <Button
+                  className="ms-2"
+                  variant="outline-primary"
+                  type="button"
+                  onClick={() => setShowManage(true)}
+                  disabled={busy}
+                >
+                  Yönet
                 </Button>
               </InputGroup>
             </Form.Group>
@@ -169,7 +198,7 @@ export default function SpecialHallForm({
         </div>
       </Form>
 
-      {/* Basit modal (form içinde form yok) */}
+      {/* “Yeni Tip” modalı (form içinde form yok) */}
       {showTypeModal && (
         <>
           <div
@@ -216,7 +245,11 @@ export default function SpecialHallForm({
                 </div>
 
                 <div className="modal-footer">
-                  <Button variant="secondary" type="button" onClick={() => setShowTypeModal(false)}>
+                  <Button
+                    variant="secondary"
+                    type="button"
+                    onClick={() => setShowTypeModal(false)}
+                  >
                     Vazgeç
                   </Button>
                   <Button type="button" onClick={saveNewType}>
@@ -235,6 +268,30 @@ export default function SpecialHallForm({
           />
         </>
       )}
+
+      {/* Yönet (listele / düzenle / sil) */}
+      <SpecialHallTypeManager
+        show={showManage}
+        onClose={async () => {
+          setShowManage(false);
+          await refreshTypes(); // modal kapanınca listeyi tazele
+        }}
+        onChanged={(op, payload) => {
+          // İsteğe bağlı: anında iyimser güncelleme
+          if (op === "update" && payload?.id) {
+            setTypes((prev) =>
+              prev.map((t) => (t.id === payload.id ? { ...t, ...payload } : t))
+            );
+          } else if (op === "delete" && payload?.id) {
+            setTypes((prev) => prev.filter((t) => t.id !== payload.id));
+            setValues((v) =>
+              v.typeId === String(payload.id) ? { ...v, typeId: "" } : v
+            );
+          } else if (op === "create" && payload) {
+            setTypes((prev) => [...prev, payload]);
+          }
+        }}
+      />
     </>
   );
 }
