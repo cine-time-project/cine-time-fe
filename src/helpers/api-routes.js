@@ -54,6 +54,19 @@ export const HALL_LIST_API = `${API}/hall`;     // GET
 export const HALL_CREATE_API = `${API}/hall`;   // POST
 export const hallByIdApi = (hallId) => `${API}/hall/${hallId}`; // GET/PUT/DELETE
 
+
+// -------------------- Special Hall Assignments (Hall + Type bağlama) --------------------
+export const SPECIALHALL_ASSIGNMENTS_API = `${API}/special-hall-assignments`;                 // GET (paged) + POST
+export const specialHallAssignmentByIdApi = (id) => `${API}/special-hall-assignments/${id}`;  // GET/PUT/DELETE
+
+// -------------------- Special Hall Types --------------------
+export const SPECIALHALL_TYPES_API = `${API}/special-hall-types`;
+export const specialHallTypeByIdApi = (id) => `${API}/special-hall-types/${id}`;
+
+export const SPECIAL_HALL_TYPES_API = `${API}/special-hall-types`;
+
+
+
 // -------------------- Movies --------------------
 export const MOVIE_SAVE_API = `${API}/movies/save`;                 // POST
 export const movieUpdateApi = (movieId) => `${API}/movies/update/${movieId}`; // PUT
