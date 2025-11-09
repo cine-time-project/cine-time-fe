@@ -1,92 +1,104 @@
 .showtimeCard {
+  background: linear-gradient(145deg, #f2f2f2, #e0e0e0);
+  border: 1px solid #c6c6c6;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
   position: relative;
   cursor: pointer;
-  min-width: 200px;
-  height: 350px;
-  background-color: #222;
-  border: 1px solid #2f2f2f;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-
-    .overlay {
-      opacity: 1;
-      pointer-events: all;
-    }
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   }
+}
+
+/* HEADER: Showtime vurgulu */
+.header {
+  background-color: #2b2b2b; // koyu metalik gri ama sade
+  padding: 0.6rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #444;
+  font-family: "Roboto", "Arial", sans-serif;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  .date {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #f0c14b; // sıcak amber / altın
+    letter-spacing: 0.5px;
+  }
+
+  .startTime,
+  .endTime {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f0c14b; // amber / altın
+  }
+
+  .to {
+    font-size: 1rem;
+    color: #ccc;
+    margin: 0 0.3rem;
+  }
+}
+
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
 }
 
 .posterWrapper {
-  position: relative;
-  height: 200px;
-}
-
-.poster {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  height: 260px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.2rem;
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200px; // sadece poster alanını kaplar
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  gap: 30px;
-  transition: opacity 0.3s ease;
-}
-
-.showDetails {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #ffc107;
-    transform: scale(1.1);
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: filter 0.3s ease, transform 0.3s ease; // ← buraya ekledik
   }
 
-  i {
-    font-size: 1.6rem;
-    color: #fff;
+  &:hover img {
+    filter: brightness(1);
+    transform: scale(1.05);
   }
 }
+
 
 .info {
-  padding: 1rem;
-}
+  width: 100%;
+  color: #222;
 
-.title {
-  color: #fff;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.date,
-.time {
-  color: #bcbcbc;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-
-  i {
-    margin-right: 0.25rem;
+  .title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.3rem;
   }
+
+  .date {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1.2rem;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
 }

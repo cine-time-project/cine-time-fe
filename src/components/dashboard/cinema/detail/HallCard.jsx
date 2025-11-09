@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,6 +8,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
+import { ShowtimeDateSelector } from "./ShowtimeDateSelector";
 
 export function HallCard({ hall, tCinemas, isEditMode }) {
   if (!hall) {
@@ -24,6 +25,8 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
       </div>
     );
   }
+
+  const [selectedDate, setSelectedDate] = useState(null);
 
   return (
     <div
@@ -113,6 +116,14 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
         {tCinemas("showtimes")}
       </h5>
 
+      <ShowtimeDateSelector
+        dates={hall.showtimes
+          .map((s) => s.date)
+          .filter((v, i, a) => a.indexOf(v) === i)}
+        onDateChange={(date) => setSelectedDate(date)}
+        tCinemas={tCinemas}
+      />
+
       {hall.showtimes && hall.showtimes.length > 0 ? (
         <Swiper
           style={{ overflowX: "hidden", padding: "10px" }}
@@ -131,14 +142,13 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
             1600: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 1 },
           }}
         >
-          {hall.showtimes.map((showtime) => (
-            <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
-              <ShowtimeCard
-                showtime={showtime}
-                tCinemas={tCinemas}
-              />
-            </SwiperSlide>
-          ))}
+          {hall.showtimes
+            .filter((s) => s.date === selectedDate)
+            .map((showtime) => (
+              <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
+                <ShowtimeCard showtime={showtime} tCinemas={tCinemas} />
+              </SwiperSlide>
+            ))}
         </Swiper>
       ) : (
         <div

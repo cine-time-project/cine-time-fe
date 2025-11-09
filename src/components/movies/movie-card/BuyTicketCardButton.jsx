@@ -35,21 +35,20 @@ export const BuyTicketCardButton = ({ movie, showtime }) => {
 
   return (
     <Button
-  className={`buy-ticket-btn ${
-    movie ? "movie-card-btn" : ""
-  } ${showtime ? "showtime-card-btn" : ""}`}
-  onClick={handleBuyTicket}
-  aria-label={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
-  title={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
-  variant="link"
->
-  <Image
-    src="/icons/buy-tickets.png"
-    alt="Buy Tickets"
-    width={70}
-    height={35}
-  />
-</Button>
-
+      className={`buy-ticket-btn ${movie ? "movie-card-btn" : ""} ${
+        showtime ? "showtime-card-btn" : ""
+      }`}
+      onClick={handleBuyTicket}
+      aria-label={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
+      title={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
+      variant="link"
+    >
+      <Image
+        src="/icons/buy-tickets.png"
+        alt="Buy Tickets"
+        width={70}
+        height={35}
+      />
+    </Button>
   );
 };

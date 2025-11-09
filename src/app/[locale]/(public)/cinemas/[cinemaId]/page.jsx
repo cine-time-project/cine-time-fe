@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 
 import { useParams } from "next/navigation";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
+import { CinemaDetailCard } from "@/components/dashboard/cinema/detail/CinemaDetailCard";
 
 export default function CinemaDetailPage() {
   const { cinemaId } = useParams();
@@ -49,37 +50,7 @@ export default function CinemaDetailPage() {
         leftActions={<BackButton />}
       />
 
-      <Card
-        className={`mb-4 border rounded-4 shadow-sm`}
-        style={{
-          backgroundColor: "#fff",
-          borderColor: "#e5e7eb", // soft grey border
-        }}
-      >
-        <Card.Header
-          className="bg-light border-bottom py-3 px-4 d-flex justify-content-between align-items-center"
-          style={{
-            borderTopLeftRadius: "1rem",
-            borderTopRightRadius: "1rem",
-          }}
-        >
-          <span className="fs-3 fw-semibold">{tCinemas("cinemaInfo")}</span>
-        </Card.Header>
-
-        <Card.Body className="p-4">
-          <Row>
-            {/* Left column: Cinema image) */}
-            <Col md={6}>
-              <CinemaImageReadOnlyView cinema={cinema} tCinemas={tCinemas} />
-            </Col>
-
-            {/* Right column: Cinema info */}
-            <Col md={6}>
-              <CinemaReadOnlyForm cinema={cinema} tCinemas={tCinemas} />
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
+      <CinemaDetailCard cinema={cinema} tCinemas={tCinemas}  />
       {/* Halls and Movies section */}
       <Row className="mt-4">
         <Col xs={12} className="mb-4">

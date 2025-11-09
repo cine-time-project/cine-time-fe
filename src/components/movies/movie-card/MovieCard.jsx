@@ -2,11 +2,12 @@
 
 import Card from "react-bootstrap/Card";
 import styles from "./movie-card.module.scss";
-import React, {  useCallback } from "react";
+import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { BuyTicketCardButton } from "./BuyTicketCardButton";
+import { FindShowtimeButton } from "@/components/dashboard/cinema/detail/FindShowtimeButton";
 
 /**
  * MovieCard Component
@@ -15,14 +16,15 @@ import { BuyTicketCardButton } from "./BuyTicketCardButton";
  * Includes buttons for "Favorite" and "Buy Ticket".
  * Clicking the card navigates to the movie's detail page, respecting locale.
  */
-function MovieCard({ movie }) {
+function MovieCard({ movie, isMoviePage = true }) {
   const t = useTranslations(); // Translation hook
   const router = useRouter(); // Next.js router
   const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
   const locale = useLocale(); // Current locale segment
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
-  const imageUrl = poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
+  const imageUrl =
+    poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
 
   // Check if this movie is in favorites
   const isMovieFavorite = isFavorite(movie.id);
@@ -107,7 +109,8 @@ function MovieCard({ movie }) {
       </div>
 
       {/* Buy ticket button (top-right) */}
-      <BuyTicketCardButton movie={movie} className={styles[""]} />
+      {isMoviePage ? <BuyTicketCardButton movie={movie} /> : <FindShowtimeButton /> }
+      
 
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>

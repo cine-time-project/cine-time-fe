@@ -3,23 +3,18 @@ import { Card } from "react-bootstrap";
 
 export const CinemaImageReadOnlyView = ({ cinema, tCinemas }) => {
   return (
-    <>
+    <div className="cinema-image-view">
       {cinema.imageUrl ? (
         <Card.Img
           src={cinema.imageUrl}
           alt="Cinema"
-          style={{
-            width: "100%",
-            height: "300px",
-            objectFit: "cover",
-            borderRadius: "8px",
-          }}
+          className="cinema-image"
         />
       ) : (
-        <div className="text-muted border rounded bg-light h-100 d-flex justify-content-center align-items-center">
+        <div className="cinema-no-image">
           <p>{tCinemas("noImageShow")}</p>
         </div>
       )}
-    </>
+    </div>
   );
 };

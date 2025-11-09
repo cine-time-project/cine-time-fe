@@ -31,7 +31,7 @@ export default function MovieList({ movies, tCinemas }) {
       >
         {movies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ height: "100%" }}>
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} isMoviePage={false} />
           </SwiperSlide>
         ))}
       </Swiper>
