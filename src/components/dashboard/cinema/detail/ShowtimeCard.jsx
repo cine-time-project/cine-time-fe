@@ -1,24 +1,24 @@
 "use client";
 
 import React from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import styles from "./ShowtimeCard.module.scss";
 import { useLocale } from "next-intl";
-import BuyTicketButton from "@/components/layout/header/BuyTicketButton";
+import { BuyTicketCardButton } from "@/components/movies/movie-card/BuyTicketCardButton";
 
-export const ShowtimeCard = ({ showtime, tCinemas, cinema, hall }) => {
+export const ShowtimeCard = ({ showtime, tCinemas }) => {
   const router = useRouter();
   const locale = useLocale();
 
   const handleBuyTicket = () => {
     const params = new URLSearchParams({
-      cityId: cinema.city.id,
-      cinemaId: cinema.id,
-      date: showtime.date,
-      movieId: showtime.movieId,
-      time: showtime.startTime,
-      hallId: hall.id,
+      cityId: showtime?.cityId,
+      cinemaId: showtime?.cinemaId,
+      date: showtime?.date,
+      movieId: showtime?.movieId,
+      time: showtime?.startTime,
+      hallId: showtime?.hallId,
     });
 
     const buyTicketUrl = `/${locale}/buy-ticket?${params.toString()}`;
@@ -44,7 +44,9 @@ export const ShowtimeCard = ({ showtime, tCinemas, cinema, hall }) => {
 
       {/* Overlay for hover */}
       <div className={styles.overlay}>
-        <BuyTicketButton miniButton={true} tNav={tCinemas} />
+        <div className={styles["buyTicket"]} onClick={handleBuyTicket}>
+          <i className="pi pi-ticket"></i>
+        </div>
 
         <div className={styles.showDetails} onClick={handleMovieDetail}>
           <i className="pi pi-info-circle"></i>

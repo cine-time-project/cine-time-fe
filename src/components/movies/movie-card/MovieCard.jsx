@@ -5,8 +5,8 @@ import styles from "./movie-card.module.scss";
 import React, {  useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import Image from "next/image";
 import { useFavorites } from "@/lib/hooks/useFavorites";
+import { BuyTicketCardButton } from "./BuyTicketCardButton";
 
 /**
  * MovieCard Component
@@ -35,11 +35,6 @@ function MovieCard({ movie }) {
     ? `${prefix}/movies/${movie.slug}`
     : `${prefix}/movies/${movie.id}`;
 
-  // Construct showtimes page URL using movie ID
-  const showtimesHref = movie?.id
-    ? `${prefix}/movies/showtimes/${movie.id}`
-    : "#";
-
   /**
    * Navigate to movie detail page
    */
@@ -56,19 +51,6 @@ function MovieCard({ movie }) {
       toggleFavorite(movie);
     },
     [movie, toggleFavorite]
-  );
-
-  /**
-   * Buy ticket click handler
-   */
-  const handleBuyTicket = useCallback(
-    (e) => {
-      e.stopPropagation();
-      if (movie.status === "IN_THEATERS") {
-        router.push(`${prefix}/movies/showtimes/${movie.id}`);
-      }
-    },
-    [movie.id, movie.status, prefix, router]
   );
 
   return (
@@ -125,19 +107,7 @@ function MovieCard({ movie }) {
       </div>
 
       {/* Buy ticket button (top-right) */}
-      {movie.status === "IN_THEATERS" && (
-        <Image
-          type="button"
-          className={`${styles["movie-card__icon-button"]} ${styles["movie-card__buy-button"]}`}
-          onClick={handleBuyTicket}
-          title={t("movies.buyTicket", { default: "Buy Ticket" })}
-          aria-label={t("movies.buyTicket", { default: "Buy Ticket" })}
-          src="/icons/buy-tickets.png" // public klasöründeki bir resim
-          alt="Buy Tickets"
-          width={70} // orijinal genişlik
-          height={35} // orijinal yükseklik
-        />
-      )}
+      <BuyTicketCardButton movie={movie} />
 
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>

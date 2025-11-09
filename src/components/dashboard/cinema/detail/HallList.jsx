@@ -11,7 +11,7 @@ export default function HallList({ cinema, tCinemas, isEditMode }) {
     <>
       <h3 className="fw-bold mb-3 text-light">{tCinemas("halls")}</h3>
       {halls.map((hall) => (
-        <HallCard key={hall.id} hall={hall} tCinemas={tCinemas} cinema={cinema} isEditMode={isEditMode} />
+        <HallCard key={hall.id} hall={hall} tCinemas={tCinemas} isEditMode={isEditMode} />
       ))}
     </>
   );

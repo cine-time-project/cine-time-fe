@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
 
-export function HallCard({ hall, tCinemas, cinema, isEditMode }) {
+export function HallCard({ hall, tCinemas, isEditMode }) {
   if (!hall) {
     return (
       <div
@@ -136,8 +136,6 @@ export function HallCard({ hall, tCinemas, cinema, isEditMode }) {
               <ShowtimeCard
                 showtime={showtime}
                 tCinemas={tCinemas}
-                cinema={cinema}
-                hall={hall}
               />
             </SwiperSlide>
           ))}

@@ -45,7 +45,7 @@ export function useCinemaDetails(cinemaId) {
   // Fetch cinema data and sort halls & showtimes
   // -----------------------------
   const fetchCinema = useCallback(async () => {
-    if (!token || !cinemaId) return;
+    if (!cinemaId) return;
 
     setLoading(true);
     try {
@@ -81,7 +81,7 @@ export function useCinemaDetails(cinemaId) {
     } finally {
       setLoading(false);
     }
-  }, [cinemaId, token]);
+  }, [cinemaId]);
 
   // -----------------------------
   // Trigger initial fetch when token is available or cinemaId changes
