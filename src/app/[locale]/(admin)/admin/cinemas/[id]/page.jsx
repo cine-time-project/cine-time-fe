@@ -23,6 +23,7 @@ import { getDetailedCinema } from "@/service/cinema-service";
 import { useParams, useSearchParams } from "next/navigation";
 import { BackButton } from "@/components/common/form-fields/BackButton";
 import { useTranslations } from "next-intl";
+import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
@@ -35,76 +36,29 @@ export default function AdminCinemaDetailPage() {
   // -----------------------------
   // Local state
   // -----------------------------
-  const [isEditMode, setEditMode] = useState(false); // toggle between edit and read-only view
-  const [cinema, setCinema] = useState(null); // stores the cinema details
-  const [loading, setLoading] = useState(true); // loading indicator for API calls
-  const [token, setToken] = useState(""); // authentication token
-  const [canEdit, setCanEdit] = useState(false); // determines if the user has edit permissions
+  const {
+    cinema,
+    loading,
+    canEdit, // Determines if user has edit permissions
+    isEditMode, // Toggles edit vs read-only UI
+    toggleEditMode,
+    refreshCinema, // Function to refetch & refresh cinema data
+  } = useCinemaDetails(id);
 
-  const editRoles = ["ADMIN"]; // roles allowed to edit cinema
-
-  // -----------------------------
-  // Toggle edit/read-only mode
-  // -----------------------------
-  const toggleEditMode = () => setEditMode((prev) => !prev);
-
-  // -----------------------------
-  // EditMode is active if user comes from "new" page.
-  // -----------------------------
+  //If ADMIN came from new Cinema Registration page, turn on editMode automatically.
   useEffect(() => {
-    setEditMode(editMode);
+    if (editMode && canEdit) toggleEditMode();
   }, []);
 
-  // -----------------------------
-  // Load authentication token and user roles from localStorage
-  // -----------------------------
-  useEffect(() => {
-    const loadAuth = () => {
-      const storedToken = localStorage.getItem("authToken");
-      const userRaw = localStorage.getItem("authUser");
-      const user = userRaw ? JSON.parse(userRaw) : null;
-
-      setToken(storedToken || "");
-      setCanEdit(user?.roles?.some((r) => editRoles.includes(r)) || false);
-    };
-    loadAuth();
-  }, []);
-
-  // -----------------------------
-  // Fetch detailed cinema data once token is available
-  // -----------------------------
-  useEffect(() => {
-    if (!token) return; // do not fetch if token is not ready
-
-    const fetchCinema = async () => {
-      setLoading(true);
-      try {
-        const data = await getDetailedCinema(id, token);
-        setCinema(data);
-      } catch (err) {
-        Swal.fire("Error", err.response?.data?.message || err.message, "error");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCinema();
-  }, [id, token]);
-
-  // -----------------------------
-  // Render loading state if data is not ready
-  // -----------------------------
-  if (loading || !token)
+  if (loading)
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         <Spinner animation="border" />
       </div>
     );
 
-  // -----------------------------
-  // Handle case when cinema is not found
-  // -----------------------------
-  if (!cinema) return <p className="text-center mt-5">{}</p>;
+  if (!cinema)
+    return <p className="text-center mt-5">{tCinemas("noCinemaData")}</p>;
 
   // -----------------------------
   // Main render
@@ -115,6 +69,26 @@ export default function AdminCinemaDetailPage() {
       <PageHeader
         title={tCinemas("cinemaDetails")}
         leftActions={<BackButton />}
+        rightActions={
+          canEdit ? (
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>{tCinemas("edit")}</Tooltip>}
+            >
+              <Button
+                onClick={toggleEditMode}
+                className="btn rounded shadow-sm"
+                variant={isEditMode ? "secondary" : "warning"}
+              >
+                <i
+                  className={`pi ${isEditMode ? "pi-times" : "pi-file-edit"}`}
+                  style={{ fontSize: 20 }}
+                />{" "}
+                {tCinemas("edit")}
+              </Button>
+            </OverlayTrigger>
+          ) : null
+        }
       />
 
       <Card
@@ -132,25 +106,6 @@ export default function AdminCinemaDetailPage() {
           }}
         >
           <span className="fs-3 fw-semibold">{tCinemas("cinemaInfo")}</span>
-          {/* Edit button: Button for toggling edit mode, visible only for users with permission */}
-          {canEdit && (
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>{tCinemas("edit")}</Tooltip>}
-            >
-              <Button
-                onClick={toggleEditMode}
-                className="btn rounded shadow-sm"
-                variant={isEditMode ? "secondary" : "warning"}
-              >
-                <i
-                  className={`pi ${isEditMode ? "pi-times" : "pi-file-edit"}`}
-                  style={{ fontSize: 20 }}
-                />{" "}
-                {tCinemas("edit")}
-              </Button>
-            </OverlayTrigger>
-          )}
         </Card.Header>
 
         <Card.Body className="p-4">
@@ -161,10 +116,8 @@ export default function AdminCinemaDetailPage() {
                 <CinemaImageUploader
                   tCinemas={tCinemas}
                   cinema={cinema}
-                  token={token}
                   onUpdateCinema={async () => {
-                    const fresh = await getDetailedCinema(id, token);
-                    setCinema(fresh);
+                    refreshCinema();
                     return fresh;
                   }}
                 />
@@ -179,29 +132,29 @@ export default function AdminCinemaDetailPage() {
                 <CinemaForm
                   tCinemas={tCinemas}
                   cinema={cinema}
-                  token={token}
                   locale="en"
                   isEditMode={true}
-                  setCinema={setCinema} // parent state update callback
+                  refreshCinema // parent state update callback
                 />
               ) : (
-                <CinemaReadOnlyForm cinema={cinema} tCinemas={tCinemas}/>
+                <CinemaReadOnlyForm cinema={cinema} tCinemas={tCinemas} />
               )}
             </Col>
           </Row>
         </Card.Body>
       </Card>
 
-      {/* Halls and Movies section */}
       <Row className="mt-4">
-        {/* Left column: list of halls */}
-        <Col md={8}>
-          <HallList cinema={cinema} tCinemas={tCinemas}/>
+        <Col xs={12} className="mb-4">
+          <MovieList movies={cinema.movies || []} tCinemas={tCinemas} />
         </Col>
 
-        {/* Right column: list of movies */}
-        <Col md={4}>
-          <MovieList movies={cinema.movies || []} tCinemas={tCinemas}/>
+        <Col xs={12}>
+          <HallList
+            cinema={cinema}
+            tCinemas={tCinemas}
+            isEditMode={isEditMode}
+          />
         </Col>
       </Row>
     </Container>

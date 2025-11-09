@@ -4,11 +4,13 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import styles from "./ShowtimeCard.module.scss";
+import { useLocale } from "next-intl";
 
-export const ShowtimeCard = ({ showtime, tCinemas, L, cinema, hall }) => {
+export const ShowtimeCard = ({ showtime, tCinemas, cinema, hall }) => {
   const router = useRouter();
+  const locale = useLocale();
 
-  const handleClick = () => {
+  const handleBuyTicket = () => {
     const params = new URLSearchParams({
       cityId: cinema.city.id,
       cinemaId: cinema.id,
@@ -18,12 +20,18 @@ export const ShowtimeCard = ({ showtime, tCinemas, L, cinema, hall }) => {
       hallId: hall.id,
     });
 
-    const buyTicketUrl = L(`buy-ticket?${params.toString()}`);
+    const buyTicketUrl = `/${locale}/buy-ticket?${params.toString()}`;
     router.push(buyTicketUrl);
   };
 
+
+  const handleMovieDetail = () => {
+    const movieDetailUrl = `/${locale}/movies/${showtime.movieSlug || showtime.movieId}`;
+    router.push(movieDetailUrl);
+  };
+
   return (
-    <Card className={styles.showtimeCard} onClick={handleClick}>
+    <Card className={styles.showtimeCard}>
       {/* Movie Poster */}
       <div className={styles.posterWrapper}>
         <img
@@ -35,9 +43,13 @@ export const ShowtimeCard = ({ showtime, tCinemas, L, cinema, hall }) => {
 
       {/* Overlay for hover */}
       <div className={styles.overlay}>
-        <Button variant="warning" className={styles.ticketButton}>
-          {tCinemas("buyTicket")}
-        </Button>
+        <div className={styles["buyTicket"]} onClick={handleBuyTicket}>
+          <i className="pi pi-ticket"></i>
+        </div>
+
+        <div className={styles.showDetails} onClick={handleMovieDetail}>
+          <i className="pi pi-info-circle"></i>
+        </div>
       </div>
 
       {/* Movie Info */}

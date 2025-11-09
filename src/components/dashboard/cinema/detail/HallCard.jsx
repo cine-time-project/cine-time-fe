@@ -1,17 +1,15 @@
 "use client";
 
 import React from "react";
-import { Card } from "primereact/card";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
-import { Row, Col } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
 
-export function HallCard({ hall, tCinemas, L, cinema }) {
+export function HallCard({ hall, tCinemas, cinema, isEditMode }) {
   if (!hall) {
     return (
       <div
@@ -75,16 +73,18 @@ export function HallCard({ hall, tCinemas, L, cinema }) {
             )}
           </div>
         </div>
-        <Button
-          label={tCinemas("edit") || "Add Showtime"}
-          icon="pi pi-plus"
-          className="p-button-rounded p-button-text"
-          style={{
-            color: "#00b4ff",
-            border: "1px solid #2f2f2f",
-            fontWeight: "500",
-          }}
-        />
+        {isEditMode && (
+          <Button
+            label={tCinemas("edit") || "Add Showtime"}
+            icon="pi pi-plus"
+            className="p-button-rounded p-button-text"
+            style={{
+              color: "#00b4ff",
+              border: "1px solid #2f2f2f",
+              fontWeight: "500",
+            }}
+          />
+        )}
       </div>
 
       {/* META INFO */}
@@ -133,7 +133,12 @@ export function HallCard({ hall, tCinemas, L, cinema }) {
         >
           {hall.showtimes.map((showtime) => (
             <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
-              <ShowtimeCard showtime={showtime} tCinemas={tCinemas} L={L} cinema={cinema} hall={hall}/>
+              <ShowtimeCard
+                showtime={showtime}
+                tCinemas={tCinemas}
+                cinema={cinema}
+                hall={hall}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

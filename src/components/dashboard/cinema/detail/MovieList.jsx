@@ -1,5 +1,9 @@
 "use client";
-import { Card } from "react-bootstrap";
+import MovieCard from "@/components/movies/movie-card/MovieCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
 export default function MovieList({ movies, tCinemas }) {
   if (!movies.length)
@@ -8,27 +12,29 @@ export default function MovieList({ movies, tCinemas }) {
   return (
     <div>
       <h3 className="fw-bold mb-3 text-light">{tCinemas("currentMovies")}</h3>
-      {movies.map((movie) => (
-        <Card
-          key={movie.id}
-          className="mb-2 shadow-sm border-0 rounded-3 overflow-hidden"
-        >
-          <Card.Body className="d-flex align-items-center">
-            <img
-              src={movie.posterUrl}
-              alt={movie.title}
-              width={60}
-              height={90}
-              className="me-3 rounded"
-              style={{ objectFit: "cover" }}
-            />
-            <div>
-              <h6 className="mb-0">{movie.title}</h6>
-              <small className="text-muted">{movie.duration} {tCinemas("min")}</small>
-            </div>
-          </Card.Body>
-        </Card>
-      ))}
+      <Swiper
+        style={{ overflowX: "hidden", padding: "20px" }}
+        navigation
+        modules={[Navigation]}
+        spaceBetween={20}
+        slidesPerGroup={1}
+        slidesOffsetBefore={30}
+        slidesOffsetAfter={30}
+        breakpoints={{
+          320: { slidesPerView: 1, spaceBetween: 20, slidesPerGroup: 1 },
+          640: { slidesPerView: 2, spaceBetween: 20, slidesPerGroup: 1 },
+          768: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 1 },
+          1024: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 1 },
+          1300: { slidesPerView: 4, spaceBetween: 20, slidesPerGroup: 1 },
+          1600: { slidesPerView: 5, spaceBetween: 20, slidesPerGroup: 1 },
+        }}
+      >
+        {movies.map((movie) => (
+          <SwiperSlide key={movie.id} style={{ height: "100%" }}>
+            <MovieCard movie={movie} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }

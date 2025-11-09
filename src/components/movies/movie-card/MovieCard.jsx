@@ -2,8 +2,7 @@
 
 import Card from "react-bootstrap/Card";
 import styles from "./movie-card.module.scss";
-import { Button } from "react-bootstrap";
-import React, { useState, useCallback } from "react";
+import React, {  useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
