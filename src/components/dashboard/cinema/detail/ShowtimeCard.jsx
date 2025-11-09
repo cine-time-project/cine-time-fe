@@ -5,6 +5,7 @@ import { Card, Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import styles from "./ShowtimeCard.module.scss";
 import { useLocale } from "next-intl";
+import BuyTicketButton from "@/components/layout/header/BuyTicketButton";
 
 export const ShowtimeCard = ({ showtime, tCinemas, cinema, hall }) => {
   const router = useRouter();
@@ -43,9 +44,7 @@ export const ShowtimeCard = ({ showtime, tCinemas, cinema, hall }) => {
 
       {/* Overlay for hover */}
       <div className={styles.overlay}>
-        <div className={styles["buyTicket"]} onClick={handleBuyTicket}>
-          <i className="pi pi-ticket"></i>
-        </div>
+        <BuyTicketButton miniButton={true} tNav={tCinemas} />
 
         <div className={styles.showDetails} onClick={handleMovieDetail}>
           <i className="pi pi-info-circle"></i>
