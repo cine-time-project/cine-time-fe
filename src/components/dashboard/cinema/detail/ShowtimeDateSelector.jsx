@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Dropdown } from "primereact/dropdown";
+import { Calendar } from "primereact/calendar";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "./ShowtimeDateSelector.scss";
@@ -10,32 +10,45 @@ import "./ShowtimeDateSelector.scss";
  * Props:
  * - dates: Array of available dates (ISO strings)
  * - onDateChange: callback(selectedDate) => void
+ * - tCinemas: translations
  */
-export const ShowtimeDateSelector = ({ dates = [], onDateChange, tCinemas }) => {
-  const [selectedDate, setSelectedDate] = useState(dates[0] || null);
+export const ShowtimeDateSelector = ({
+  dates = [],
+  onDateChange,
+  tCinemas,
+}) => {
+  const [selectedDate, setSelectedDate] = useState(
+    dates[0] ? new Date(dates[0]) : null
+  );
+
+  const formatLocalDate = (date) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(d.getDate()).padStart(2, "0")}`;
+  };
 
   useEffect(() => {
-    if (selectedDate) onDateChange(selectedDate);
+    if (selectedDate) onDateChange(formatLocalDate(selectedDate));
   }, [selectedDate, onDateChange]);
 
-  const formattedDates = dates.map((d) => ({
-    label: new Date(d).toLocaleDateString(undefined, {
-      weekday: "short",
-      day: "2-digit",
-      month: "short",
-    }),
-    value: d,
-  }));
+  // Kullanıcı sadece dates içinde olan tarihleri seçebilir
+  const isSelectableDate = (date) => {
+    const dateStr = date.toISOString().split("T")[0];
+    return dates.includes(dateStr);
+  };
 
   return (
     <div className="showtime-date-selector">
-      <Dropdown
+      <Calendar
         value={selectedDate}
-        options={formattedDates}
         onChange={(e) => setSelectedDate(e.value)}
-        placeholder={tCinemas("selectDate", { default: "Select Date" })}
-        className="date-dropdown"
-        showClear
+        showIcon
+        readonlyInput
+        dateFormat="dd/mm/yy"
+        className="custom-calendar"
+        disabledDatesFilter={(date) => !isSelectableDate(date)}
       />
     </div>
   );
