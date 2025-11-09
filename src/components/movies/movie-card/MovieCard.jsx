@@ -135,7 +135,7 @@ function MovieCard({ movie }) {
           src="/icons/buy-tickets.png" // public klasöründeki bir resim
           alt="Buy Tickets"
           width={70} // orijinal genişlik
-          height={45} // orijinal yükseklik
+          height={35} // orijinal yükseklik
         />
       )}
 

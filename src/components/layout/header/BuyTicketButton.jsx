@@ -14,15 +14,15 @@ export default function BuyTicketButton({ L, tNav, miniButton = false }) {
       cursor: "pointer",
       top: "10px",
       right: "10px",
-      transform: "rotate(-15deg)",
+      transform: "rotate(-20deg)",
       transition: "all 0.3s ease",
     },
     buttonHover: {
-      transform: "rotate(0deg) scale(1.1)",
+      transform: "rotate(0deg) scale(1.3)",
     },
     image: {
       width: 70,
-      height: 45,
+      height: 35,
     },
   };
   if (miniButton) {
