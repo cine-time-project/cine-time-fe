@@ -1,4 +1,5 @@
 "use client";
+
 import { http, authHeaders } from "@/lib/utils/http";
 import {
   SPECIALHALL_ASSIGNMENTS_API,
@@ -9,17 +10,28 @@ import {
 
 const unwrap = (r) => r?.data?.returnBody ?? r?.data ?? null;
 const qp = (page = 0, size = 20, sort = "id,asc") => ({ page, size, sort });
-const reqOpts = () => ({ ...authHeaders() }); // <-- withCredentials YOK
-const emptyPage = (page = 0, size = 20) => ({ content: [], totalElements: 0, totalPages: 0, number: page, size });
+const reqOpts = () => ({ ...authHeaders() });
+const emptyPage = (page = 0, size = 20) => ({
+  content: [],
+  totalElements: 0,
+  totalPages: 0,
+  number: page,
+  size,
+});
 
-export async function fetchSpecialHalls({ page=0, size=20, sort="id,desc" } = {}) {
-  const url = SPECIALHALL_ASSIGNMENTS_API;
+/* ===================== ASSIGNMENTS (Çalışan kısım) ===================== */
+export async function fetchSpecialHalls({ page = 0, size = 20, sort = "id,desc" } = {}) {
   try {
-    const r = await http.get(url, { params: { page, size, sort }, ...authHeaders() });
-    const body = r?.data?.returnBody ?? r?.data ?? null;
+    const r = await http.get(SPECIALHALL_ASSIGNMENTS_API, {
+      params: { page, size, sort },
+      ...reqOpts(),
+    });
+    const body = unwrap(r);
     if (Array.isArray(body?.content)) return body;
-    if (Array.isArray(body)) return { content: body, totalElements: body.length, totalPages: 1, number: 0, size: body.length };
-    return { content: [], totalElements: 0, totalPages: 0, number: page, size };
+    if (Array.isArray(body)) {
+      return { content: body, totalElements: body.length, totalPages: 1, number: 0, size: body.length };
+    }
+    return emptyPage(page, size);
   } catch (err) {
     const code = err?.response?.status;
     const msg = err?.response?.data?.message || err?.message || "Listeleme başarısız";
@@ -28,52 +40,83 @@ export async function fetchSpecialHalls({ page=0, size=20, sort="id,desc" } = {}
   }
 }
 
-
 export async function fetchSpecialHallById(id) {
   try {
     const r = await http.get(specialHallAssignmentByIdApi(id), { ...reqOpts() });
     return unwrap(r) ?? null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 export async function createSpecialHall(payload) {
   try {
     const r = await http.post(SPECIALHALL_ASSIGNMENTS_API, payload, { ...reqOpts() });
     return unwrap(r);
-  } catch (err) { throw new Error(err?.response?.data?.message || err?.message || "Special hall oluşturma başarısız"); }
+  } catch (err) {
+    throw new Error(err?.response?.data?.message || err?.message || "Special hall oluşturma başarısız");
+  }
 }
 
 export async function updateSpecialHall(id, payload) {
   try {
     const r = await http.put(specialHallAssignmentByIdApi(id), payload, { ...reqOpts() });
     return unwrap(r);
-  } catch (err) { throw new Error(err?.response?.data?.message || err?.message || "Special hall güncelleme başarısız"); }
+  } catch (err) {
+    throw new Error(err?.response?.data?.message || err?.message || "Special hall güncelleme başarısız");
+  }
 }
 
 export async function deleteSpecialHall(id) {
   try {
     const r = await http.delete(specialHallAssignmentByIdApi(id), { ...reqOpts() });
     return unwrap(r);
-  } catch (err) { throw new Error(err?.response?.data?.message || err?.message || "Special hall silme başarısız"); }
+  } catch (err) {
+    throw new Error(err?.response?.data?.message || err?.message || "Special hall silme başarısız");
+  }
 }
 
-/* ---- Aux lists ---- */
+/* ===================== TYPES (liste + yeni tip oluştur) ===================== */
 export async function fetchSpecialHallTypes({ page = 0, size = 200, sort = "name,asc" } = {}) {
   try {
-    const r = await http.get(SPECIALHALL_TYPES_API, { params: qp(page, size, sort), ...reqOpts() });
+    const r = await http.get(SPECIALHALL_TYPES_API, {
+      params: qp(page, size, sort),
+      ...reqOpts(),
+    });
     const body = unwrap(r);
     if (Array.isArray(body?.content)) return body.content;
     if (Array.isArray(body)) return body;
     return [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 
+/** Yeni özel salon tipi oluşturur: { name, priceDiffPercent } */
+export async function createSpecialHallType(payload) {
+  try {
+    const r = await http.post(SPECIALHALL_TYPES_API, payload, { ...reqOpts() });
+    return unwrap(r); // { id, name, priceDiffPercent, ... }
+  } catch (err) {
+    throw new Error(err?.response?.data?.message || err?.message || "Özel salon tipi oluşturulamadı");
+  }
+}
+
+/* ===================== HALLS (liste) ===================== */
 export async function fetchHalls({ page = 0, size = 200, sort = "id,asc" } = {}) {
   try {
-    const r = await http.get(HALL_LIST_API, { params: qp(page, size, sort), ...reqOpts() });
+    const r = await http.get(HALL_LIST_API, {
+      params: qp(page, size, sort),
+      ...reqOpts(),
+    });
     const body = unwrap(r);
     if (Array.isArray(body?.content)) return body.content;
     if (Array.isArray(body)) return body;
     return [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
+export { createSpecialHall as createSpecialHallAssignment };
+export { updateSpecialHall as updateSpecialHallAssignment };
+export { deleteSpecialHall as deleteSpecialHallAssignment };

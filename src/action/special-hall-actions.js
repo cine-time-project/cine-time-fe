@@ -1,17 +1,19 @@
+// src/action/special-hall-actions.js
 "use client";
 
 import { swAlert } from "@/helpers/sweetalert";
 import {
   createSpecialHall,
-  deleteSpecialHall,
   updateSpecialHall,
+  deleteSpecialHall,
 } from "@/service/special-hall-service";
 
+/** CREATE */
 export async function createSpecialHallAction(formData) {
   try {
     const hallId = Number(formData.get("hallId"));
     const typeId = Number(formData.get("typeId"));
-    if (!hallId || !typeId) throw new Error("Hall ve Special Hall Type seçilmelidir.");
+    if (!hallId || !typeId) throw new Error("Hall ve Özel Salon Tipi seçilmelidir.");
     const resp = await createSpecialHall({ hallId, typeId });
     swAlert("success", "Özel salon ataması oluşturuldu.");
     return { ok: true, data: resp };
@@ -21,11 +23,12 @@ export async function createSpecialHallAction(formData) {
   }
 }
 
+/** UPDATE */
 export async function updateSpecialHallAction(id, formData) {
   try {
     const hallId = Number(formData.get("hallId"));
     const typeId = Number(formData.get("typeId"));
-    if (!hallId || !typeId) throw new Error("Hall ve Special Hall Type seçilmelidir.");
+    if (!hallId || !typeId) throw new Error("Hall ve Özel Salon Tipi seçilmelidir.");
     const resp = await updateSpecialHall(id, { hallId, typeId });
     swAlert("success", "Özel salon ataması güncellendi.");
     return { ok: true, data: resp };
@@ -35,6 +38,7 @@ export async function updateSpecialHallAction(id, formData) {
   }
 }
 
+/** DELETE */
 export async function deleteSpecialHallAction(id) {
   try {
     await deleteSpecialHall(id);
