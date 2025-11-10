@@ -2,12 +2,21 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { HallToolbar } from "./HallToolbar";
 import { useTranslations } from "next-intl";
+import { isAdmin } from "@/lib/utils/http";
 
 /**
  * HallList component
@@ -18,8 +27,18 @@ import { useTranslations } from "next-intl";
  * @param {function} props.onSearch - Search handler
  * @param {function} props.onDeleted - Refresh handler after delete
  */
-export const HallList = ({data,locale,onPageChange,onSearch,onDeleted,
+export const HallList = ({
+  data,
+  locale,
+  onPageChange,
+  onSearch,
+  onDeleted,
 }) => {
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    setAdmin(isAdmin());
+  }, []);
+
   const router = useRouter();
   const t = useTranslations("hall");
 
@@ -47,15 +66,34 @@ export const HallList = ({data,locale,onPageChange,onSearch,onDeleted,
   const { content = [], size = 10, totalElements = 0, number = 0 } = page;
 
   // Table header
+
   const header = (
     <div className="d-flex justify-content-between align-items-center">
       <h3 className="m-0 fw-semibold text-dark">{t("listTitle")}</h3>
-      <Link
-        href={`/${locale}/admin/halls/new`}
-        className="btn btn-warning text-dark fw-semibold"
-      >
-        <i className="pi pi-plus me-2" /> {t("newButton")}
-      </Link>
+
+      {admin ? (
+        <Link
+          href={`/${locale}/admin/halls/new`}
+          className="btn btn-warning text-dark fw-semibold"
+        >
+          <i className="pi pi-plus me-2" /> {t("newButton")}
+        </Link>
+      ) : (
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id="tooltip-disabled">{t("needAdmin")}</Tooltip>}
+        >
+          <span
+            className="btn btn-warning text-dark fw-semibold d-inline-block"
+            style={{
+              opacity: 0.6,
+              cursor: "not-allowed",
+            }}
+          >
+            <i className="pi pi-plus me-2" /> {t("newButton")}
+          </span>
+        </OverlayTrigger>
+      )}
     </div>
   );
 
@@ -154,7 +192,12 @@ export const HallList = ({data,locale,onPageChange,onSearch,onDeleted,
           <Column
             header={t("actions")}
             body={(row) => (
-              <HallToolbar row={row} locale={locale} onDeleted={onDeleted} />
+              <HallToolbar
+                row={row}
+                locale={locale}
+                onDeleted={onDeleted}
+                isAdmin={admin}
+              />
             )}
             style={{ width: "5%", textAlign: "left" }}
           />
