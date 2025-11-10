@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createHall, updateHall, deleteHall } from "@/service/hall-service";
 import { swAlert } from "@/helpers/sweetalert";
 import { useTranslations } from "next-intl";
+import { config } from "@/helpers/config";
 
 export const createHallAction = async (prevState, formData) => {
   try {
@@ -59,7 +60,7 @@ export const updateHallAction = async (prevState, formData) => {
     };
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/hall/${id}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL}/hall/${id}`,
       {
         method: "PUT",
         headers: {

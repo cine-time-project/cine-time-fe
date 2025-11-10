@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "react-bootstrap";
 import { getToken } from "@/lib/utils/http";
 import { useTranslations } from "next-intl";
+import { config } from "@/helpers/config";
 
 /**
  * HallToolbar
@@ -26,7 +27,7 @@ export const HallToolbar = ({ row, locale, onDeleted }) => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/hall/${id}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL}/hall/${id}`,
         {
           method: "DELETE",
           headers: {

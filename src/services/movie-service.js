@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE, MOVIE_SEARCH_API, MOVIE_STATUS_API, MOVIE_FILTER_API, MOVIE_GENRE_LIST } from "@/helpers/api-routes.js";
-
+import { config } from "@/helpers/config";
 
 /**
  * searchMovies
@@ -98,7 +98,7 @@ export async function filterMovies(filters = {}, page = 0, size = 10) {
 }
 
 export const getActors = async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
   const res = await fetch(`${baseUrl}/movies/actors`, { cache: "no-store" });
 
   if (!res.ok) throw new Error(`Failed to fetch actors: ${res.status}`);
