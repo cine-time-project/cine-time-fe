@@ -27,6 +27,8 @@ export default function CinemaDetailPage() {
     refreshCinema, // Function to refetch & refresh cinema data
   } = useCinemaDetails(cinemaId);
 
+  
+
   if (loading)
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">

@@ -32,9 +32,12 @@ export default function CinemasGrid({
       </div>
     );
 
-  if (error) return <Alert variant="danger">{t("noCinemas")}</Alert>;
-  if (!cinemas.length)
-    return <div className="text-secondary py-5">{t("empty")}</div>;
+  if (error || !cinemas.length)
+    return (
+      <Container>
+        <Alert variant="danger">{t("noCinemas")}</Alert>
+      </Container>
+    );
 
   const { page, totalPages } = pagination || {};
   const maxButtons = 5;
@@ -53,12 +56,16 @@ export default function CinemasGrid({
   return (
     <Container className="my-5">
       {!isWhole ? (
-        <SectionTitle textColor="text-light">{t("aroundCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}</SectionTitle>
+        <SectionTitle textColor="text-light">
+          {t("aroundCinemas", { city: cityFilter.toLocaleUpperCase(locale) })}
+        </SectionTitle>
       ) : cityFilter.toLocaleUpperCase(locale) ? (
-        <Alert variant="danger">
-          {t("aroundNoCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}
-          <SectionTitle>{t("allCinemas")}</SectionTitle>
-        </Alert>
+        <div>
+          <Alert variant="danger">
+            {t("aroundNoCinemas", { city: cityFilter.toLocaleUpperCase(locale) })}
+          </Alert>
+          <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
+        </div>
       ) : (
         <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
       )}
