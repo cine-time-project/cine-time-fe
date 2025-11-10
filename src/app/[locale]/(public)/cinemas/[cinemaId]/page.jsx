@@ -5,8 +5,6 @@ import { Spinner, Container, Row, Col, Card } from "react-bootstrap";
 import HallList from "@/components/dashboard/cinema/detail/HallList";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
-import { CinemaReadOnlyForm } from "@/components/dashboard/cinema/detail/CinemaReadOnlyForm";
-import { CinemaImageReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaImageReadOnlyView";
 import { BackButton } from "@/components/common/form-fields/BackButton";
 import { useTranslations } from "next-intl";
 

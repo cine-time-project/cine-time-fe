@@ -1,28 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Calendar } from "primereact/calendar";
-import "primereact/resources/themes/saga-blue/theme.css";
-import "primereact/resources/primereact.min.css";
+import Form from "react-bootstrap/Form";
 import "./ShowtimeDateSelector.scss";
 
-/**
- * Props:
- * - dates: Array of available dates (ISO strings)
- * - onDateChange: callback(selectedDate) => void
- * - tCinemas: translations
- */
 export const ShowtimeDateSelector = ({
   dates = [],
   onDateChange,
   tCinemas,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(
-    dates[0] ? new Date(dates[0]) : null
-  );
+  const [selectedDate, setSelectedDate] = useState(dates[0] || "");
 
-  const formatLocalDate = (date) => {
-    const d = new Date(date);
+  const formatLocalDate = (iso) => {
+    const d = new Date(iso);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
       2,
       "0"
@@ -33,23 +23,34 @@ export const ShowtimeDateSelector = ({
     if (selectedDate) onDateChange(formatLocalDate(selectedDate));
   }, [selectedDate, onDateChange]);
 
-  // Kullanıcı sadece dates içinde olan tarihleri seçebilir
-  const isSelectableDate = (date) => {
-    const dateStr = date.toISOString().split("T")[0];
-    return dates.includes(dateStr);
-  };
-
   return (
     <div className="showtime-date-selector">
-      <Calendar
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.value)}
-        showIcon
-        readonlyInput
-        dateFormat="dd/mm/yy"
-        className="custom-calendar"
-        disabledDatesFilter={(date) => !isSelectableDate(date)}
-      />
+      <label className="selector-label">
+        {tCinemas?.selectDate || "Tarih Seçiniz"}
+      </label>
+
+      <div className="custom-select-wrapper">
+        <Form.Select
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="custom-select"
+        >
+          {dates.map((d) => {
+            const date = new Date(d);
+            const label = date.toLocaleDateString("tr-TR", {
+              weekday: "long",
+              day: "2-digit",
+              month: "short",
+            });
+            return (
+              <option key={d} value={d}>
+                {label}
+              </option>
+            );
+          })}
+        </Form.Select>
+        <span className="dropdown-icon"><i className="pi pi-angle-down"></i></span>
+      </div>
     </div>
   );
 };
