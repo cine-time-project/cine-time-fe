@@ -33,10 +33,27 @@ export default function SpecialHallListTable() {
     if (res?.ok) load();
   };
 
+  // Type hücresini güvenli şekilde yazdır
+  const renderTypeCell = (row) => {
+    const name =
+      row.typeName ??
+      row.type?.name ??
+      row.type ??                   // bazı eski BE sürümlerinde direkt string gelebilir
+      row.specialTypeName ??       // olası başka bir alan adı
+      "—";
+
+    const pct = row.priceDiffPercent ?? row.type?.priceDiffPercent;
+    return pct != null ? `${name} (+%${Number(pct)})` : name;
+  };
+
   return (
     <div className="card shadow-sm">
       <div className="card-body">
-        {busy && <div className="mb-2"><Spinner size="sm" /> Yükleniyor…</div>}
+        {busy && (
+          <div className="mb-2">
+            <Spinner size="sm" /> Yükleniyor…
+          </div>
+        )}
 
         <Table striped hover responsive size="sm">
           <thead>
@@ -53,8 +70,8 @@ export default function SpecialHallListTable() {
               <tr key={row.id}>
                 <td>{row.id}</td>
                 <td>{row.cinemaName || `#${row.cinemaId}`}</td>
-                <td>{row.name}</td>
-                <td>{row.seatCapacity ?? "-"}</td>
+                <td>{renderTypeCell(row)}</td>
+                <td>{row.seatCapacity ?? row.hallSeatCapacity ?? "-"}</td>
                 <td className="d-flex gap-2">
                   <Link href={`./special-halls/${row.id}`} className="btn btn-sm btn-outline-primary">
                     Edit
@@ -80,10 +97,12 @@ export default function SpecialHallListTable() {
           </tbody>
         </Table>
 
-        {/* Basit pagination */}
         {data?.totalPages > 1 && (
           <Pagination className="mb-0">
-            <Pagination.Prev disabled={page <= 0} onClick={() => setPage((p) => Math.max(0, p - 1))} />
+            <Pagination.Prev
+              disabled={page <= 0}
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+            />
             <Pagination.Item active>{page + 1}</Pagination.Item>
             <Pagination.Next
               disabled={page >= data.totalPages - 1}
