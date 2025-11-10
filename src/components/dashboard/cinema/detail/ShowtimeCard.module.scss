@@ -36,9 +36,11 @@
 
   .startTime,
   .endTime {
-    font-size: 1.2rem;
+    color: #ffbf00;
+    font-family: "Share Tech Mono", monospace;
     font-weight: 600;
-    color: #f0c14b; // amber / altın
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
   }
 
   .to {

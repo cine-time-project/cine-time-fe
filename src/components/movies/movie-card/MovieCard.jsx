@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { BuyTicketCardButton } from "./BuyTicketCardButton";
-import { FindShowtimeButton } from "@/components/dashboard/cinema/detail/FindShowtimeButton";
 
 /**
  * MovieCard Component
@@ -16,7 +15,7 @@ import { FindShowtimeButton } from "@/components/dashboard/cinema/detail/FindSho
  * Includes buttons for "Favorite" and "Buy Ticket".
  * Clicking the card navigates to the movie's detail page, respecting locale.
  */
-function MovieCard({ movie, isMoviePage = true }) {
+function MovieCard({ movie }) {
   const t = useTranslations(); // Translation hook
   const router = useRouter(); // Next.js router
   const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
@@ -110,11 +109,7 @@ function MovieCard({ movie, isMoviePage = true }) {
       </div>
 
       {/* Buy ticket button (top-right) */}
-      {isMoviePage ? (
-        <BuyTicketCardButton movie={movie} />
-      ) : (
-        <FindShowtimeButton />
-      )}
+      <BuyTicketCardButton movie={movie} />
 
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>
