@@ -59,6 +59,7 @@ function MovieCard({ movie, isMoviePage = true }) {
     <Card
       className={styles["movie-card"]}
       onClick={handleClick}
+      title={t("movies.detailsTitle")}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -109,8 +110,11 @@ function MovieCard({ movie, isMoviePage = true }) {
       </div>
 
       {/* Buy ticket button (top-right) */}
-      {isMoviePage ? <BuyTicketCardButton movie={movie} /> : <FindShowtimeButton /> }
-      
+      {isMoviePage ? (
+        <BuyTicketCardButton movie={movie} />
+      ) : (
+        <FindShowtimeButton />
+      )}
 
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>

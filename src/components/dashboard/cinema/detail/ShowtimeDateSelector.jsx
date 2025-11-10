@@ -25,9 +25,6 @@ export const ShowtimeDateSelector = ({
 
   return (
     <div className="showtime-date-selector">
-      <label className="selector-label">
-        {tCinemas?.selectDate || "Tarih Seçiniz"}
-      </label>
 
       <div className="custom-select-wrapper">
         <Form.Select

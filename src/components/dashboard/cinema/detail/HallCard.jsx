@@ -91,39 +91,41 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
       </div>
 
       {/* META INFO */}
-      <p style={{ color: "#888", fontSize: "0.85rem" }}>
-        {tCinemas("created")}:{" "}
-        <span style={{ color: "#ccc" }}>
-          {new Date(hall.createdAt).toLocaleString()}
-        </span>{" "}
-        • {tCinemas("updated")}:{" "}
-        <span style={{ color: "#ccc" }}>
-          {new Date(hall.updatedAt).toLocaleString()}
-        </span>
-      </p>
+      {isEditMode && (
+        <p style={{ color: "#888", fontSize: "0.85rem" }}>
+          {tCinemas("created")}:{" "}
+          <span style={{ color: "#ccc" }}>
+            {new Date(hall.createdAt).toLocaleString()}
+          </span>{" "}
+          • {tCinemas("updated")}:{" "}
+          <span style={{ color: "#ccc" }}>
+            {new Date(hall.updatedAt).toLocaleString()}
+          </span>
+        </p>
+      )}
 
       <hr style={{ borderColor: "#2a2a2a" }} />
 
       {/* SHOWTIMES */}
-    
-        <h5
-          style={{
-            color: "#eaeaea",
-            fontWeight: "500",
-            marginBottom: "1rem",
-            marginTop: "1.5rem",
-          }}
-        >
-          {tCinemas("showtimes")}
-        </h5>
-        <ShowtimeDateSelector
-          dates={hall.showtimes
-            .map((s) => s.date)
-            .filter((v, i, a) => a.indexOf(v) === i)}
-          onDateChange={(date) => setSelectedDate(date)}
-          tCinemas={tCinemas}
-        />
-     
+
+      <h5
+        style={{
+          color: "#eaeaea",
+          fontWeight: "500",
+          marginBottom: "1rem",
+          marginTop: "1.5rem",
+        }}
+      >
+        {tCinemas("showtimes")}
+      </h5>
+      
+      <ShowtimeDateSelector
+        dates={hall.showtimes
+          .map((s) => s.date)
+          .filter((v, i, a) => a.indexOf(v) === i)}
+        onDateChange={(date) => setSelectedDate(date)}
+        tCinemas={tCinemas}
+      />
 
       {hall.showtimes && hall.showtimes.length > 0 ? (
         <Swiper
