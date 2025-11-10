@@ -1094,7 +1094,10 @@
     "hall_saved_success": "Salon başarıyla kaydedildi.",
     "hall_create_failed": "Salon oluşturulamadı.",
     "hall_duplicate_error": "Bu sinemada aynı isimde bir salon zaten mevcut.",
-    "errorDelete": "Salon silinirken bir hata oluştu."
+    "errorDelete": "Salon silinirken bir hata oluştu.",
+    "needAdminToEdit": "Düzenlemek için yönetici olmanız gerekiyor",
+    "needAdminToDelete": "Silmek için yönetici olmanız gerekiyor",
+    "needAdmin": "Yönetici olmanız gerekiyor"
   },
 
   "movie": {
@@ -1147,7 +1150,10 @@
     "duplicateName": "Bu sinemada '{title}' adlı bir film zaten mevcut.",
     "errorOperation": "İşlem başarısız oldu.",
     "duplicateTitle": "Bu isimde bir film zaten mevcut.",
-    "successCreateMovie": "Film başarıyla oluşturuldu."
+    "successCreateMovie": "Film başarıyla oluşturuldu.",
+    "needAdminToEdit": "Düzenlemek için yönetici olmanız gerekiyor",
+    "needAdminToDelete": "Silmek için yönetici olmanız gerekiyor",
+    "needAdmin": "Yönetici olmanız gerekiyor"
   },
 
   "alerts": {

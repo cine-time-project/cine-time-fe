@@ -1081,7 +1081,10 @@
     "hall_saved_success": "Hall is saved successfully.",
     "hall_create_failed": "Failed to create hall.",
     "hall_duplicate_error": "A hall with this name already exists in the selected cinema.",
-    "errorDelete": "An error occurred while deleting the hall."
+    "errorDelete": "An error occurred while deleting the hall.",
+    "needAdminToEdit": "You need to be an admin to edit",
+    "needAdminToDelete": "You need to be an admin to delete",
+    "needAdmin": "You need to be an admin"
   },
 
   "movie": {
@@ -1134,7 +1137,10 @@
     "duplicateName": "A movie titled '{title}' already exists for this cinema.",
     "errorOperation": "Operation failed.",
     "duplicateTitle": "A movie with this title already exists.",
-    "successCreateMovie": "Movie created successfully."
+    "successCreateMovie": "Movie created successfully.",
+    "needAdminToEdit": "You need to be an admin to edit",
+    "needAdminToDelete": "You need to be an admin to delete",
+    "needAdmin": "You need to be an admin"
   },
 
   "alerts": {
