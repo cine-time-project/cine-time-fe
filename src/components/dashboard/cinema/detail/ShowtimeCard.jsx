@@ -11,18 +11,6 @@ export const ShowtimeCard = ({ showtime, tCinemas }) => {
   const router = useRouter();
   const locale = useLocale();
 
-  const handleBuyTicket = () => {
-    const params = new URLSearchParams({
-      cityId: showtime?.cityId,
-      cinemaId: showtime?.cinemaId,
-      date: showtime?.date,
-      movieId: showtime?.movieId,
-      time: showtime?.startTime,
-      hallId: showtime?.hallId,
-    });
-    router.push(`/${locale}/buy-ticket?${params.toString()}`);
-  };
-
   const handleMovieDetail = () => {
     const movieDetailUrl = `/${locale}/movies/${showtime.movieSlug || showtime.movieId}`;
     router.push(movieDetailUrl);
@@ -47,6 +35,7 @@ export const ShowtimeCard = ({ showtime, tCinemas }) => {
           <img
             src={showtime.moviePosterUrl}
             alt={showtime.movieTitle}
+            title={tCinemas("details")}
             className={styles.poster}
           />
         </div>

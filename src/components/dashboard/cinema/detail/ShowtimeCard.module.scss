@@ -6,7 +6,7 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   position: relative;
-  cursor: pointer;
+  
 
   &:hover {
     transform: translateY(-4px);
@@ -76,6 +76,7 @@
   &:hover img {
     filter: brightness(1);
     transform: scale(1.05);
+    cursor: pointer;
   }
 }
 

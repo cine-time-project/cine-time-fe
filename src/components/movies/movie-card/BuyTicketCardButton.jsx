@@ -8,7 +8,7 @@ import "./buyTicketCardButton.scss";
 
 export const BuyTicketCardButton = ({ movie, showtime }) => {
   const locale = useLocale();
-  const tCinemas = useTranslations();
+  const tMovies = useTranslations("movies");
   const router = useRouter();
 
   const handleBuyTicket = useCallback(
@@ -35,20 +35,21 @@ export const BuyTicketCardButton = ({ movie, showtime }) => {
 
   return (
     <Button
-      className={`buy-ticket-btn ${movie ? "movie-card-btn" : ""} ${
-        showtime ? "showtime-card-btn" : ""
+      className={`${movie ? "movie-card-btn" : ""} ${
+        showtime ? "showtime-buy-btn" : ""
       }`}
       onClick={handleBuyTicket}
-      aria-label={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
-      title={tCinemas("movies.buyTicket", { default: "Buy Ticket" })}
-      variant="link"
+      aria-label={tMovies("buyTicket", { default: "Buy Ticket" })}
+      title={tMovies("buyTicket", { default: "Buy Ticket" })}
+      variant={movie ? "link" : "dark"}
     >
       <Image
         src="/icons/buy-tickets.png"
         alt="Buy Tickets"
         width={70}
         height={35}
-      />
+      /> 
+      {showtime && <span>{tMovies("buyTicket")}</span>}
     </Button>
   );
 };

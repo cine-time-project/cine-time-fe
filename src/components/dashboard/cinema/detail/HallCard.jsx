@@ -58,6 +58,7 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
               value={`${hall.seatCapacity} ${tCinemas("capacity")}`}
               icon="pi pi-users"
               style={{
+                fontSize: "1rem",
                 backgroundColor: "#2a2a2a",
                 color: "#bcbcbc",
                 border: "none",
