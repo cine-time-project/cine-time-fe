@@ -9,14 +9,20 @@ import { deleteSpecialHallAction } from "@/action/special-hall-actions";
 export default function SpecialHallListTable() {
   const [page, setPage] = useState(0);
   const [size] = useState(10);
-  const [data, setData] = useState({ content: [], totalPages: 0, totalElements: 0 });
+  const [data, setData] = useState({
+    content: [],
+    totalPages: 0,
+    totalElements: 0,
+  });
   const [busy, setBusy] = useState(false);
 
   const load = async () => {
     setBusy(true);
     try {
       const resp = await fetchSpecialHalls({ page, size, sort: "id,desc" });
-      setData(resp || { content: [], totalPages: 0, totalElements: 0 });
+      setData(
+        resp || { content: [], totalPages: 0, totalElements: 0 }
+      );
     } finally {
       setBusy(false);
     }
@@ -33,13 +39,13 @@ export default function SpecialHallListTable() {
     if (res?.ok) load();
   };
 
-  // Type hücresini güvenli şekilde yazdır
+  // Type hücresini güvenli biçimde yaz
   const renderTypeCell = (row) => {
     const name =
       row.typeName ??
       row.type?.name ??
-      row.type ??                   // bazı eski BE sürümlerinde direkt string gelebilir
-      row.specialTypeName ??       // olası başka bir alan adı
+      row.type ?? // bazı eski BE sürümlerinde string olabilir
+      row.specialTypeName ??
       "—";
 
     const pct = row.priceDiffPercent ?? row.type?.priceDiffPercent;
@@ -69,11 +75,22 @@ export default function SpecialHallListTable() {
             {(data?.content ?? []).map((row) => (
               <tr key={row.id}>
                 <td>{row.id}</td>
+
+                {/* Cinema */}
                 <td>{row.cinemaName || `#${row.cinemaId}`}</td>
+
+                {/* Type */}
                 <td>{renderTypeCell(row)}</td>
+
+                {/* Seat capacity */}
                 <td>{row.seatCapacity ?? row.hallSeatCapacity ?? "-"}</td>
+
+                {/* Actions */}
                 <td className="d-flex gap-2">
-                  <Link href={`./special-halls/${row.id}`} className="btn btn-sm btn-outline-primary">
+                  <Link
+                    href={`./special-halls/${row.id}`}
+                    className="btn btn-sm btn-outline-primary"
+                  >
                     Edit
                   </Link>
                   <Button
@@ -97,6 +114,7 @@ export default function SpecialHallListTable() {
           </tbody>
         </Table>
 
+        {/* Basit pagination */}
         {data?.totalPages > 1 && (
           <Pagination className="mb-0">
             <Pagination.Prev
