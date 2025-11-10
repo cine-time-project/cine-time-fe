@@ -11,7 +11,7 @@ export default function ResetPasswordPage() {
   const locale = useLocale();
   const params = useSearchParams();
   const email = params.get("email") || "";
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
 
   if (email === null || email === undefined) return;
 
