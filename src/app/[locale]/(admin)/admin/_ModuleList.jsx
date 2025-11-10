@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth/useAuth";
 
 // Backend URL'ini .env.local'dan çekiyoruz:
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
 /**
  * Props:

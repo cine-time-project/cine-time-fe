@@ -19,7 +19,7 @@ export const getMovieById = async (id) => {
 };
 
 export const getActors = async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
   const res = await fetch(`${baseUrl}/movies/actors`, { cache: "no-store" });
 
   if (!res.ok) throw new Error(`Failed to fetch actors: ${res.status}`);
@@ -29,7 +29,7 @@ export const getActors = async () => {
 
 
 export const updateMovie = async (payload, token = "") => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
   if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
   }
@@ -60,7 +60,7 @@ export const updateMovie = async (payload, token = "") => {
 
 
 export const deleteMovieServer = async (id, token = "") => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
   if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
   }
@@ -87,7 +87,7 @@ export const deleteMovieServer = async (id, token = "") => {
 };
 
 export const createMovie = async (payload, token = "") => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
   if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
   }
