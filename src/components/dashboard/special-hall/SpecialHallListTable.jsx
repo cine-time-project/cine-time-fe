@@ -20,9 +20,7 @@ export default function SpecialHallListTable() {
     setBusy(true);
     try {
       const resp = await fetchSpecialHalls({ page, size, sort: "id,desc" });
-      setData(
-        resp || { content: [], totalPages: 0, totalElements: 0 }
-      );
+      setData(resp || { content: [], totalPages: 0, totalElements: 0 });
     } finally {
       setBusy(false);
     }
@@ -53,7 +51,17 @@ export default function SpecialHallListTable() {
   };
 
   return (
-    <div className="card shadow-sm">
+    <div className="card shadow-sm border-0">
+      {/* ÜST BAR: Başlık solda, New sağda */}
+      <div className="card-header bg-transparent border-0 px-3 py-3">
+        <div className="d-flex justify-content-between align-items-center gap-2">
+          <h5 className="mb-0">Special Halls</h5>
+          <Link href="./special-halls/new" className="btn btn-warning">
+            + New
+          </Link>
+        </div>
+      </div>
+
       <div className="card-body">
         {busy && (
           <div className="mb-2">
@@ -61,14 +69,14 @@ export default function SpecialHallListTable() {
           </div>
         )}
 
-        <Table striped hover responsive size="sm">
+        <Table striped hover responsive size="sm" className="mb-3">
           <thead>
             <tr>
               <th>#</th>
               <th>Cinema</th>
               <th>Type</th>
               <th>Seat Cap.</th>
-              <th>Actions</th>
+              <th className="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -86,21 +94,32 @@ export default function SpecialHallListTable() {
                 <td>{row.seatCapacity ?? row.hallSeatCapacity ?? "-"}</td>
 
                 {/* Actions */}
-                <td className="d-flex gap-2">
-                  <Link
-                    href={`./special-halls/${row.id}`}
-                    className="btn btn-sm btn-outline-primary"
-                  >
-                    Edit
-                  </Link>
-                  <Button
-                    size="sm"
-                    variant="outline-danger"
-                    onClick={() => handleDelete(row.id)}
-                  >
-                    Delete
-                  </Button>
-                </td>
+<td className="text-end">
+  <div className="d-inline-flex gap-2">
+    <Link
+      href={`/dashboard/special-halls/${row.id}`}
+      className="btn btn-sm btn-outline-primary d-inline-flex align-items-center justify-content-center"
+      style={{ width: 32, height: 32 }}
+      aria-label="Edit"
+      title="Edit"
+    >
+      <i className="pi pi-file-edit" />
+    </Link>
+    <Button
+      size="sm"
+      variant="outline-danger"
+      className="d-inline-flex align-items-center justify-content-center"
+      style={{ width: 32, height: 32 }}
+      aria-label="Delete"
+      title="Delete"
+      onClick={() => handleDelete(row.id)}
+    >
+      <i className="pi pi-trash" />
+    </Button>
+  </div>
+</td>
+
+
               </tr>
             ))}
 
