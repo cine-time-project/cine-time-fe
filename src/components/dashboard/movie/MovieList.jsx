@@ -2,24 +2,27 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { MovieToolbar } from "./MovieToolbar";
+import { isAdmin } from "@/lib/utils/http";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useTranslations } from "next-intl";
 
-export const MovieList = ({
-  data,
-  locale,
-  onPageChange,
-  onSearch,
-  onFilter,
-  onDeleted,
+export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
 }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [showButton, setShowButton] = useState(false);
+  const t = useTranslations("movie");
+
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    setAdmin(isAdmin());
+  }, []);
 
   const handlePage = (e) => {
     const nextPage = e.page;
@@ -37,12 +40,33 @@ export const MovieList = ({
   const header = (
     <div className="d-flex justify-content-between align-items-center">
       <h3 className="m-0 fw-semibold text-dark">Movies</h3>
-      <Link
-        href={`/${locale}/admin/movies/new`}
-        className="btn btn-warning text-dark fw-semibold"
-      >
-        <i className="pi pi-plus me-2" /> New
-      </Link>
+
+      {admin ? (
+        <Link
+          href={`/${locale}/admin/movies/new`}
+          className="btn btn-warning text-dark fw-semibold"
+        >
+          <i className="pi pi-plus me-2" /> New
+        </Link>
+      ) : (
+        <OverlayTrigger
+          placement="top"
+          overlay={
+            <Tooltip id="tooltip-disabled">{t("needAdmin")}</Tooltip>
+          }
+        >
+          <span
+            className="btn btn-warning text-dark fw-semibold d-inline-block"
+            style={{
+              opacity: 0.6,
+              cursor: "not-allowed",
+              cursor: "not-allowed",
+            }}
+          >
+            <i className="pi pi-plus me-2" /> New
+          </span>
+        </OverlayTrigger>
+      )}
     </div>
   );
 
@@ -199,6 +223,7 @@ export const MovieList = ({
                 row={row}
                 locale={locale}
                 onDeleted={() => onDeleted?.()}
+                isAdmin={admin}
               />
             )}
             style={{ width: "10%", textAlign: "right" }}
