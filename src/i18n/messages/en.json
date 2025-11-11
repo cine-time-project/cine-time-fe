@@ -952,6 +952,39 @@
       "payments": { "title": "Payments", "desc": "Payment records" },
       "favorites": { "title": "Favorites", "desc": "User favorites" },
       "roles": { "title": "Roles", "desc": "Roles & permissions" }
+    },
+    "contactMessages": {
+      "title": "Contact Messages",
+      "subtitle": "All user messages",
+      "messageCount": "messages",
+      "refresh": "Refresh",
+      "loading": "Loading messages...",
+      "fromLabel": "From",
+      "subjectLabel": "Subject",
+      "messageLabel": "Message",
+      "deleteButton": "Delete",
+      "empty": {
+        "title": "No messages yet",
+        "text": "User messages will appear here."
+      },
+      "error": {
+        "title": "An error occurred",
+        "text": "Error loading messages",
+        "retry": "Try again"
+      },
+      "deleteConfirm": {
+        "title": "Are you sure you want to delete this message?",
+        "text": "This action cannot be undone.",
+        "subject": "Subject"
+      },
+      "deleteSuccess": {
+        "title": "Message deleted",
+        "text": "Message was successfully deleted."
+      },
+      "deleteError": {
+        "title": "Delete error",
+        "text": "An error occurred while deleting the message."
+      }
     }
   },
 
@@ -1089,7 +1122,10 @@
     "hall_saved_success": "Hall is saved successfully.",
     "hall_create_failed": "Failed to create hall.",
     "hall_duplicate_error": "A hall with this name already exists in the selected cinema.",
-    "errorDelete": "An error occurred while deleting the hall."
+    "errorDelete": "An error occurred while deleting the hall.",
+    "needAdminToEdit": "You need to be an admin to edit",
+    "needAdminToDelete": "You need to be an admin to delete",
+    "needAdmin": "You need to be an admin"
   },
 
   "movie": {
@@ -1142,7 +1178,10 @@
     "duplicateName": "A movie titled '{title}' already exists for this cinema.",
     "errorOperation": "Operation failed.",
     "duplicateTitle": "A movie with this title already exists.",
-    "successCreateMovie": "Movie created successfully."
+    "successCreateMovie": "Movie created successfully.",
+    "needAdminToEdit": "You need to be an admin to edit",
+    "needAdminToDelete": "You need to be an admin to delete",
+    "needAdmin": "You need to be an admin"
   },
 
   "alerts": {
@@ -1158,6 +1197,44 @@
       "deleteFailedBuiltIn": "Built-in admin cannot be deleted.",
       "deleteFailed": "Account deletion failed."
     }
+  },
+
+  "contactMessages": {
+    "title": "Contact Messages",
+    "subtitle": "All messages from users",
+    "messageCount": "messages",
+    "refresh": "Refresh",
+    "loading": "Loading messages...",
+    "messageLabel": "Message",
+    "deleteButton": "Delete",
+    "empty": {
+      "title": "No Messages Yet",
+      "text": "Messages from users will appear here."
+    },
+    "error": {
+      "title": "Error Occurred",
+      "text": "An error occurred while loading messages",
+      "retry": "Try Again"
+    },
+    "deleteConfirm": {
+      "title": "Are You Sure You Want to Delete This Message?",
+      "text": "This action cannot be undone.",
+      "subject": "Subject"
+    },
+    "deleteSuccess": {
+      "title": "Deleted!",
+      "text": "Message successfully deleted."
+    },
+    "deleteError": {
+      "title": "Could Not Delete",
+      "text": "An error occurred while deleting the message. Please try again."
+    }
+  },
+
+  "swal": {
+    "confirm": "OK",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
     
   "specialHall": {

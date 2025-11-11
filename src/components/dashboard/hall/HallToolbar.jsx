@@ -2,7 +2,7 @@
 
 import { swAlert, swConfirm } from "@/helpers/sweetalert";
 import { useRouter } from "next/navigation";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { getToken } from "@/lib/utils/http";
 import { useTranslations } from "next-intl";
 import { config } from "@/helpers/config";
@@ -14,7 +14,7 @@ import { config } from "@/helpers/config";
  * @param {string} props.locale - Active locale
  * @param {function} props.onDeleted - Callback after successful deletion
  */
-export const HallToolbar = ({ row, locale, onDeleted }) => {
+export const HallToolbar = ({ row, locale, onDeleted, isAdmin }) => {
   const router = useRouter();
   const t = useTranslations("hall");
   const { id, name } = row;
@@ -61,16 +61,52 @@ export const HallToolbar = ({ row, locale, onDeleted }) => {
 
   return (
     <div className="d-flex gap-2 justify-content-end">
-      <Button variant="secondary" onClick={handleEdit} title={t("editButton")}>
-        <i className="pi pi-file-edit"></i>
-      </Button>
-      <Button
-        variant="secondary"
-        onClick={handleDelete}
-        title={t("deleteButton")}
+      {/* Edit Button with Tooltip */}
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          !isAdmin ? (
+            <Tooltip id="tooltip-edit">{t("needAdminToEdit")}</Tooltip>
+          ) : (
+            <></>
+          )
+        }
       >
-        <i className="pi pi-trash"></i>
-      </Button>
+        {/* Wrap in <span> so tooltip still works even when button is disabled */}
+        <span className="d-inline-block">
+          <Button
+            disabled={!isAdmin}
+            variant="secondary"
+            onClick={handleEdit}
+            style={!isAdmin ? { pointerEvents: "none" } : {}}
+          >
+            <i className="pi pi-file-edit"></i>
+          </Button>
+        </span>
+      </OverlayTrigger>
+
+      {/* Delete Button with Tooltip */}
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          !isAdmin ? (
+            <Tooltip id="tooltip-delete">{t("needAdminToDelete")}</Tooltip>
+          ) : (
+            <></>
+          )
+        }
+      >
+        <span className="d-inline-block">
+          <Button
+            disabled={!isAdmin}
+            variant="secondary"
+            onClick={handleDelete}
+            style={!isAdmin ? { pointerEvents: "none" } : {}}
+          >
+            <i className="pi pi-trash"></i>
+          </Button>
+        </span>
+      </OverlayTrigger>
     </div>
   );
 };

@@ -892,7 +892,10 @@
     "hall_saved_success": "La salle a été enregistrée avec succès.",
     "hall_create_failed": "Échec de la création de la salle.",
     "hall_duplicate_error": "Une salle portant ce nom existe déjà dans le cinéma sélectionné.",
-    "errorDelete": "Une erreur s'est produite lors de la suppression de la salle."
+    "errorDelete": "Une erreur s'est produite lors de la suppression de la salle.",
+    "needAdminToEdit": "Vous devez être administrateur pour modifier",
+    "needAdminToDelete": "Vous devez être administrateur pour supprimer",
+    "needAdmin": "Vous devez être administrateur"
   },
 
   "movie": {
@@ -946,5 +949,52 @@
     "errorOperation": "Échec de l’opération.",
     "duplicateTitle": "Un film portant ce titre existe déjà.",
     "successCreateMovie": "Le film a été créé avec succès."
+  },
+
+  "dashboard": {
+    "title": "TABLEAU DE BORD",
+    "contactMessages": {
+      "title": "Messages de Contact",
+      "subtitle": "Tous les messages des utilisateurs",
+      "messageCount": "messages",
+      "refresh": "Actualiser",
+      "loading": "Chargement des messages...",
+      "fromLabel": "De",
+      "subjectLabel": "Sujet",
+      "messageLabel": "Message",
+      "deleteButton": "Supprimer",
+      "empty": {
+        "title": "Aucun message pour le moment",
+        "text": "Les messages des utilisateurs apparaîtront ici."
+      },
+      "error": {
+        "title": "Une erreur s'est produite",
+        "text": "Erreur lors du chargement des messages",
+        "retry": "Réessayer"
+      },
+      "deleteConfirm": {
+        "title": "Êtes-vous sûr de vouloir supprimer ce message ?",
+        "text": "Cette action ne peut pas être annulée.",
+        "subject": "Sujet"
+      },
+      "deleteSuccess": {
+        "title": "Supprimé !",
+        "text": "Message supprimé avec succès."
+      },
+      "deleteError": {
+        "title": "Erreur de suppression",
+        "text": "Erreur lors de la suppression du message."
+      }
+    }
+  },
+
+  "swal": {
+    "confirm": "OK",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+    "successCreateMovie": "Le film a été créé avec succès.",
+    "needAdminToEdit": "Vous devez être administrateur pour modifier",
+    "needAdminToDelete": "Vous devez être administrateur pour supprimer",
+    "needAdmin": "Vous devez être administrateur"
   }
 }

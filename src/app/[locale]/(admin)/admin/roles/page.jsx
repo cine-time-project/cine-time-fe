@@ -11,7 +11,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-import { authHeaders, hasRole, isAdmin} from "@/lib/utils/http";
+import { authHeaders, hasRole, isAdmin } from "@/lib/utils/http";
 import { USER_LIST_API, userUpdateByIdApi } from "@/helpers/api-routes";
 
 const PAGE_SIZE = 10;
@@ -24,12 +24,18 @@ export default function AdminRolesPage() {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
 
-  const AVAILABLE_ROLES = useMemo(() => (isAdmin() ? ALL_ROLES : ["ANONYMOUS", "MEMBER", "EMPLOYEE"]), []);
+  const AVAILABLE_ROLES = useMemo(
+    () => (isAdmin() ? ALL_ROLES : ["ANONYMOUS", "MEMBER", "EMPLOYEE"]),
+    []
+  );
 
-  useEffect(() => { setPage(1); }, [query]);
+  useEffect(() => {
+    setPage(1);
+  }, [query]);
 
   // ========= Data Fetch =========
   useEffect(() => {
+    console.log(isAdmin());
     let cancelled = false;
     async function load() {
       setLoading(true);
@@ -44,7 +50,10 @@ export default function AdminRolesPage() {
           setPage(1);
         }
       } catch (e) {
-        if (!cancelled) setError(e?.response?.data?.message || e?.message || "Failed to fetch users");
+        if (!cancelled)
+          setError(
+            e?.response?.data?.message || e?.message || "Failed to fetch users"
+          );
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -58,13 +67,17 @@ export default function AdminRolesPage() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return users;
-    return users.filter(u =>
-      (u.email && u.email.toLowerCase().includes(q)) ||
-      (u.phoneNumber && u.phoneNumber.toLowerCase().includes(q))
+    return users.filter(
+      (u) =>
+        (u.email && u.email.toLowerCase().includes(q)) ||
+        (u.phoneNumber && u.phoneNumber.toLowerCase().includes(q))
     );
   }, [users, query]);
 
-  const totalPages = useMemo(() => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)), [filtered.length]);
+  const totalPages = useMemo(
+    () => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)),
+    [filtered.length]
+  );
   const pageItems = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return filtered.slice(start, start + PAGE_SIZE);
@@ -79,16 +92,14 @@ export default function AdminRolesPage() {
     const current = Array.isArray(user.roles) ? user.roles : [];
 
     // Build HTML checkboxes for SweetAlert
-    const optionsHtml = AVAILABLE_ROLES
-      .map((r) => {
-        const id = `role_${r}`;
-        const checked = current.includes(r) ? "checked" : "";
-        return `<div style="text-align:left;margin:.25rem 0;">
+    const optionsHtml = AVAILABLE_ROLES.map((r) => {
+      const id = `role_${r}`;
+      const checked = current.includes(r) ? "checked" : "";
+      return `<div style="text-align:left;margin:.25rem 0;">
                   <input type="checkbox" id="${id}" value="${r}" ${checked}/> 
                   <label for="${id}" style="margin-left:.5rem;">${r}</label>
                 </div>`;
-      })
-      .join("");
+    }).join("");
 
     const { isConfirmed } = await Swal.fire({
       title: `Edit Roles — ${user.name} ${user.surname}`,
@@ -97,9 +108,9 @@ export default function AdminRolesPage() {
       showCancelButton: true,
       confirmButtonText: "Save",
       preConfirm: () => {
-        const selected = Array.from(document.querySelectorAll("input[id^='role_']:checked")).map(
-          (el) => el.value
-        );
+        const selected = Array.from(
+          document.querySelectorAll("input[id^='role_']:checked")
+        ).map((el) => el.value);
         if (selected.length === 0) {
           Swal.showValidationMessage("Select at least one role");
         }
@@ -114,7 +125,9 @@ export default function AdminRolesPage() {
       document.querySelectorAll("input[id^='role_']:checked")
     ).map((el) => el.value);
 
-    const payloadRoles = isAdmin() ? selectedRoles : selectedRoles.filter(r => r !== "ADMIN");
+    const payloadRoles = isAdmin()
+      ? selectedRoles
+      : selectedRoles.filter((r) => r !== "ADMIN");
 
     try {
       await axios.put(
@@ -124,10 +137,17 @@ export default function AdminRolesPage() {
       );
 
       // Update local state
-      setUsers((prev) => prev.map((u) => (u.id === user.id ? { ...u, roles: payloadRoles } : u)));
-      await Swal.fire({ icon: "success", title: "Updated", text: "Roles updated successfully." });
+      setUsers((prev) =>
+        prev.map((u) => (u.id === user.id ? { ...u, roles: payloadRoles } : u))
+      );
+      await Swal.fire({
+        icon: "success",
+        title: "Updated",
+        text: "Roles updated successfully.",
+      });
     } catch (e) {
-      const msg = e?.response?.data?.message || e?.message || "Failed to update roles";
+      const msg =
+        e?.response?.data?.message || e?.message || "Failed to update roles";
       await Swal.fire({ icon: "error", title: "Update failed", text: msg });
     }
   }
@@ -187,7 +207,11 @@ export default function AdminRolesPage() {
                     <td>{u.phoneNumber}</td>
                     <td>{Array.isArray(u.roles) ? u.roles.join(", ") : ""}</td>
                     <td>
-                      <Button size="sm" variant="primary" onClick={() => onEditRoles(u)}>
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        onClick={() => onEditRoles(u)}
+                      >
                         Edit Roles
                       </Button>
                     </td>
@@ -199,14 +223,19 @@ export default function AdminRolesPage() {
 
           <div className="d-flex justify-content-between align-items-center">
             <small className="text-muted">
-              Showing {(page - 1) * PAGE_SIZE + 1}
-              –
+              Showing {(page - 1) * PAGE_SIZE + 1}–
               {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
             </small>
 
             <Pagination className="mb-0">
-              <Pagination.First onClick={() => handleSelect(1)} disabled={page === 1} />
-              <Pagination.Prev onClick={() => handleSelect(page - 1)} disabled={page === 1} />
+              <Pagination.First
+                onClick={() => handleSelect(1)}
+                disabled={page === 1}
+              />
+              <Pagination.Prev
+                onClick={() => handleSelect(page - 1)}
+                disabled={page === 1}
+              />
               {Array.from({ length: totalPages }).map((_, i) => (
                 <Pagination.Item
                   key={i + 1}
@@ -216,8 +245,14 @@ export default function AdminRolesPage() {
                   {i + 1}
                 </Pagination.Item>
               ))}
-              <Pagination.Next onClick={() => handleSelect(page + 1)} disabled={page === totalPages} />
-              <Pagination.Last onClick={() => handleSelect(totalPages)} disabled={page === totalPages} />
+              <Pagination.Next
+                onClick={() => handleSelect(page + 1)}
+                disabled={page === totalPages}
+              />
+              <Pagination.Last
+                onClick={() => handleSelect(totalPages)}
+                disabled={page === totalPages}
+              />
             </Pagination>
           </div>
         </>

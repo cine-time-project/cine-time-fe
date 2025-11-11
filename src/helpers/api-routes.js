@@ -38,8 +38,8 @@ export const userUpdateByIdApi = (userId) => `${API}/${userId}/admin`; // PUT
 
 // -------------------- Contact Messages --------------------
 export const CONTACT_CREATE_API = `${API}/contactmessages`; // POST
-
-
+export const CONTACT_LIST_API = `${API}/contactmessages`; // GET (Admin/Employee)
+export const contactMessageByIdApi = (id) => `${API}/contactmessages/${id}`; // GET/DELETE (Admin/Employee)
 
 // -------------------- Cinemas --------------------
 export const CINEMA_LIST_API = `${API}/cinemas`;            // GET
