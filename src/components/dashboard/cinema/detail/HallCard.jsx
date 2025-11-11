@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
 
-export function HallCard({ hall, tCinemas, isEditMode }) {
+export function HallCard({ hall, tCinemas, isEditMode, selectedMovieID }) {
   if (!hall) {
     return (
       <div
@@ -136,6 +136,10 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
           }}
         >
           {hall.showtimes
+            .filter((s) => {
+              if (!selectedMovieID) return true; // film seçilmemişse hepsini göster
+              return s.movieId === Number(selectedMovieID);
+            })
             .map((showtime) => (
               <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
                 <ShowtimeCard showtime={showtime} tCinemas={tCinemas} />
