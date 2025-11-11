@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Swal from "sweetalert2";
+import { useTranslations, useLocale } from "next-intl";
 
 /* ===== Countries actions ===== */
 import {
@@ -68,6 +69,9 @@ function useClientPagedList(
 
 /* ======================= Page ======================= */
 export default function LocationManagerPage() {
+  const t = useTranslations("admin.location");
+  const locale = useLocale();
+
   /* ----- selections ----- */
   const [selectedCountry, setSelectedCountry] = useState(null); // {id,name}
   const [selectedCity, setSelectedCity] = useState(null); // {id,name}
@@ -188,11 +192,11 @@ export default function LocationManagerPage() {
 
   const onEditCountry = async (c) => {
     const { value, isConfirmed } = await Swal.fire({
-      title: "Rename country",
+      title: t("countries.swal.renameTitle"),
       input: "text",
       inputValue: c.name || "",
       showCancelButton: true,
-      confirmButtonText: "Save",
+      confirmButtonText: t("countries.swal.save"),
       background: "#0f0f12",
       color: "#e5e7eb",
     });
@@ -200,12 +204,13 @@ export default function LocationManagerPage() {
     const name = String(value || "").trim();
     if (!name || name === c.name) return;
     await updateCountry({ id: c.id, name });
-    if (selectedCountry?.id === c.id) setSelectedCountry({ ...selectedCountry, name });
+    if (selectedCountry?.id === c.id)
+      setSelectedCountry({ ...selectedCountry, name });
     await loadCountries();
     if (selectedCountry?.id === c.id) await reloadCities();
     await Swal.fire({
       icon: "success",
-      title: "Country updated",
+      title: t("countries.swal.updated"),
       timer: 1200,
       showConfirmButton: false,
       background: "#0f0f12",
@@ -215,11 +220,11 @@ export default function LocationManagerPage() {
 
   const onDeleteCountry = async (c) => {
     const { isConfirmed } = await Swal.fire({
-      title: `Delete ${c.name}?`,
-      text: "This action cannot be undone.",
+      title: t("countries.swal.deleteTitle", { name: c.name }),
+      text: t("countries.swal.deleteText"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Delete",
+      confirmButtonText: t("countries.buttons.delete"),
       confirmButtonColor: "#ef4444",
       background: "#0f0f12",
       color: "#e5e7eb",
@@ -235,14 +240,13 @@ export default function LocationManagerPage() {
     await loadCountries();
     await Swal.fire({
       icon: "success",
-      title: "Country deleted",
+      title: t("countries.swal.deleted"),
       timer: 1000,
       showConfirmButton: false,
       background: "#0f0f12",
       color: "#e5e7eb",
     });
   };
-
 
   // City CRUD
   const onAddCity = async () => {
@@ -255,23 +259,27 @@ export default function LocationManagerPage() {
 
   const onEditCity = async (city) => {
     const { value, isConfirmed } = await Swal.fire({
-      title: "Rename city",
+      title: t("cities.swal.renameTitle"),
       input: "text",
       inputValue: city.name || "",
       showCancelButton: true,
-      confirmButtonText: "Save",
+      confirmButtonText: t("cities.swal.save"),
       background: "#0f0f12",
       color: "#e5e7eb",
     });
     if (!isConfirmed) return;
     const name = String(value || "").trim();
     if (!name || name === city.name) return;
-    await updateCity({ id: city.id, name, countryId: Number(selectedCountry.id) });
+    await updateCity({
+      id: city.id,
+      name,
+      countryId: Number(selectedCountry.id),
+    });
     if (selectedCity?.id === city.id) setSelectedCity({ ...city, name });
     await reloadCities();
     await Swal.fire({
       icon: "success",
-      title: "City updated",
+      title: t("cities.swal.updated"),
       timer: 1200,
       showConfirmButton: false,
       background: "#0f0f12",
@@ -281,11 +289,11 @@ export default function LocationManagerPage() {
 
   const onDeleteCity = async (city) => {
     const { isConfirmed } = await Swal.fire({
-      title: `Delete ${city.name}?`,
-      text: "This action cannot be undone.",
+      title: t("cities.swal.deleteTitle", { name: city.name }),
+      text: t("cities.swal.deleteText"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Delete",
+      confirmButtonText: t("cities.buttons.delete"),
       confirmButtonColor: "#ef4444",
       background: "#0f0f12",
       color: "#e5e7eb",
@@ -299,7 +307,7 @@ export default function LocationManagerPage() {
     await reloadCities();
     await Swal.fire({
       icon: "success",
-      title: "City deleted",
+      title: t("cities.swal.deleted"),
       timer: 1000,
       showConfirmButton: false,
       background: "#0f0f12",
@@ -318,11 +326,11 @@ export default function LocationManagerPage() {
 
   const onEditDistrict = async (d) => {
     const { value, isConfirmed } = await Swal.fire({
-      title: "Rename district",
+      title: t("districts.swal.renameTitle"),
       input: "text",
       inputValue: d.name || "",
       showCancelButton: true,
-      confirmButtonText: "Save",
+      confirmButtonText: t("districts.swal.save"),
       background: "#0f0f12",
       color: "#e5e7eb",
     });
@@ -333,7 +341,7 @@ export default function LocationManagerPage() {
     await reloadDistricts();
     await Swal.fire({
       icon: "success",
-      title: "District updated",
+      title: t("districts.swal.updated"),
       timer: 1200,
       showConfirmButton: false,
       background: "#0f0f12",
@@ -343,11 +351,11 @@ export default function LocationManagerPage() {
 
   const onDeleteDistrict = async (d) => {
     const { isConfirmed } = await Swal.fire({
-      title: `Delete ${d.name}?`,
-      text: "This action cannot be undone.",
+      title: t("districts.swal.deleteTitle", { name: d.name }),
+      text: t("districts.swal.deleteText"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Delete",
+      confirmButtonText: t("districts.buttons.delete"),
       confirmButtonColor: "#ef4444",
       background: "#0f0f12",
       color: "#e5e7eb",
@@ -357,7 +365,7 @@ export default function LocationManagerPage() {
     await reloadDistricts();
     await Swal.fire({
       icon: "success",
-      title: "District deleted",
+      title: t("districts.swal.deleted"),
       timer: 1000,
       showConfirmButton: false,
       background: "#0f0f12",
@@ -368,19 +376,19 @@ export default function LocationManagerPage() {
   /* ======================= UI ======================= */
   return (
     <div className="p-6 text-white flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Geo Manager</h1>
-      <p className="text-sm text-gray-400">Countries → Cities → Districts</p>
+      <h1 className="text-2xl font-semibold">{t("title")}</h1>
+      <p className="text-sm text-gray-400">{t("subtitle")}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Countries */}
         <div className="bg-[#0f0f12]/80 border border-[#2a2a38] rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
           <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#2a2a38]">
-            <div className="font-semibold">Countries</div>
+            <div className="font-semibold">{t("countries.title")}</div>
             <div className="flex items-center gap-2">
               <input
                 value={countrySearch}
                 onChange={(e) => setCountrySearch(e.target.value)}
-                placeholder="Search…"
+                placeholder={t("countries.search")}
                 className="bg-[#0f0f12] text-gray-100 border border-[#2a2a38] rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
             </div>
@@ -390,7 +398,7 @@ export default function LocationManagerPage() {
             <input
               value={addingCountryName}
               onChange={(e) => setAddingCountryName(e.target.value)}
-              placeholder="New country name"
+              placeholder={t("countries.newPlaceholder")}
               className="flex-1 bg-[#0f0f12] text-gray-100 border border-[#2a2a38] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
             />
             <button
@@ -403,29 +411,38 @@ export default function LocationManagerPage() {
                   : "",
               ].join(" ")}
             >
-              + Add
+              {"+ " + t("countries.add")}
             </button>
           </div>
 
           {loadingCountries ? (
-            <div className="p-6 text-center text-sm text-gray-400">Loading…</div>
+            <div className="p-6 text-center text-sm text-gray-400">
+              {t("loading")}
+            </div>
           ) : pagedCountries.length === 0 ? (
-            <div className="px-4 py-6 text-center text-xs text-gray-500">No countries.</div>
+            <div className="px-4 py-6 text-center text-xs text-gray-500">
+              {t("empty.countries")}
+            </div>
           ) : (
             <div className="px-4 py-3">
               <Table striped bordered hover size="sm" className="text-gray-150">
                 <thead>
                   <tr>
                     <th style={{ width: 56 }}>#</th>
-                    <th>Country</th>
-                    <th style={{ width: 160 }}>Actions</th>
+                    <th>{t("countries.headers.name")}</th>
+                    <th style={{ width: 160 }}>
+                      {t("countries.headers.actions")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {pagedCountries.map((c, idx) => (
                     <tr
                       key={c.id}
-                      className={(selectedCountry?.id === c.id ? "table-primary " : "") + "transition-colors"}
+                      className={
+                        (selectedCountry?.id === c.id ? "table-primary " : "") +
+                        "transition-colors"
+                      }
                       onClick={() => setSelectedCountry(c)}
                       style={{ cursor: "pointer" }}
                     >
@@ -434,16 +451,22 @@ export default function LocationManagerPage() {
                       <td>
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={(e) => { e.stopPropagation(); onEditCountry(c); }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onEditCountry(c);
+                            }}
                             className="bg-yellow-500 hover:bg-yellow-400 text-black text-[11px] px-2 py-[2px] rounded-md"
                           >
-                            Edit
+                            {t("countries.buttons.edit")}
                           </button>
                           <button
-                            onClick={(e) => { e.stopPropagation(); onDeleteCountry(c); }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDeleteCountry(c);
+                            }}
                             className="bg-yellow-500 hover:bg-yellow-400 text-black text-[11px] px-2 py-[2px] rounded-md"
                           >
-                            Delete
+                            {t("countries.buttons.delete")}
                           </button>
                         </div>
                       </td>
@@ -461,31 +484,34 @@ export default function LocationManagerPage() {
               disabled={countryPage === 0}
               onClick={() => setCountryPage(0)}
             >
-              « First
+              {t("pagination.first")}
             </button>
             <button
               className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
               disabled={countryPage === 0}
               onClick={() => setCountryPage((p) => Math.max(0, p - 1))}
             >
-              ‹ Prev
+              {t("pagination.prev")}
             </button>
             <span className="text-xs text-gray-400">
-              Page {countryPage + 1} / {countryTotalPages}
+              {t("pagination.page", {
+                page: countryPage + 1,
+                total: countryTotalPages,
+              })}
             </span>
             <button
               className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
               disabled={countryPage + 1 >= countryTotalPages}
               onClick={() => setCountryPage((p) => p + 1)}
             >
-              Next ›
+              {t("pagination.next")}
             </button>
             <button
               className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
               disabled={countryPage + 1 >= countryTotalPages}
               onClick={() => setCountryPage(countryTotalPages - 1)}
             >
-              Last »
+              {t("pagination.last")}
             </button>
           </div>
         </div>
@@ -494,16 +520,18 @@ export default function LocationManagerPage() {
         <div className="bg-[#0f0f12]/80 border border-[#2a2a38] rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
           <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#2a2a38]">
             <div className="font-semibold">
-              Cities{" "}
+              {t("cities.title")}{" "}
               {selectedCountry ? (
-                <span className="text-gray-400">· {selectedCountry.name}</span>
+                <span className="text-gray-400">
+                  {t("cities.of", { country: selectedCountry.name })}
+                </span>
               ) : null}
             </div>
             <div className="flex items-center gap-2">
               <input
                 value={citySearch}
                 onChange={(e) => setCitySearch(e.target.value)}
-                placeholder="Search…"
+                placeholder={t("cities.search")}
                 disabled={!selectedCountry}
                 className={[
                   "bg-[#0f0f12] text-gray-100 border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2",
@@ -521,7 +549,9 @@ export default function LocationManagerPage() {
               value={addingCityName}
               onChange={(e) => setAddingCityName(e.target.value)}
               placeholder={
-                selectedCountry ? "New city name" : "Select a country first"
+                selectedCountry
+                  ? t("cities.newPlaceholder")
+                  : t("cities.selectCountryFirst")
               }
               disabled={!selectedCountry}
               className={[
@@ -541,32 +571,48 @@ export default function LocationManagerPage() {
                   : "",
               ].join(" ")}
             >
-              + Add
+              {"+ " + t("cities.add")}
             </button>
           </div>
 
           {/* list cities */}
           {selectedCountry ? (
             loadingCities ? (
-              <div className="p-6 text-center text-sm text-gray-400">Loading…</div>
+              <div className="p-6 text-center text-sm text-gray-400">
+                {t("loading")}
+              </div>
             ) : cityList.length === 0 ? (
-              <div className="px-4 py-6 text-center text-xs text-gray-500">No cities for this country.</div>
+              <div className="px-4 py-6 text-center text-xs text-gray-500">
+                {t("empty.cities")}
+              </div>
             ) : (
               <>
                 <div className="px-4 py-3">
-                  <Table striped bordered hover size="sm" className="text-gray-100">
+                  <Table
+                    striped
+                    bordered
+                    hover
+                    size="sm"
+                    className="text-gray-100"
+                  >
                     <thead>
                       <tr>
                         <th style={{ width: 56 }}>#</th>
-                        <th>City</th>
-                        <th style={{ width: 160 }}>Actions</th>
+                        <th>{t("cities.headers.name")}</th>
+                        <th style={{ width: 160 }}>
+                          {t("cities.headers.actions")}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {pagedCities.map((c, idx) => (
                         <tr
                           key={c.id}
-                          className={(selectedCity?.id === c.id ? "table-primary " : "") + "transition-colors"}
+                          className={
+                            (selectedCity?.id === c.id
+                              ? "table-primary "
+                              : "") + "transition-colors"
+                          }
                           onClick={() => setSelectedCity(c)}
                           style={{ cursor: "pointer" }}
                         >
@@ -575,16 +621,22 @@ export default function LocationManagerPage() {
                           <td>
                             <div className="flex items-center gap-2">
                               <button
-                                onClick={(e) => { e.stopPropagation(); onEditCity(c); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onEditCity(c);
+                                }}
                                 className="bg-yellow-500 hover:bg-yellow-400 text-black text-[11px] px-2 py-[2px] rounded-md"
                               >
-                                Edit
+                                {t("cities.buttons.edit")}
                               </button>
                               <button
-                                onClick={(e) => { e.stopPropagation(); onDeleteCity(c); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onDeleteCity(c);
+                                }}
                                 className="bg-yellow-500 hover:bg-yellow-400 text-black text-[11px] px-2 py-[2px] rounded-md"
                               >
-                                Delete
+                                {t("cities.buttons.delete")}
                               </button>
                             </div>
                           </td>
@@ -599,37 +651,42 @@ export default function LocationManagerPage() {
                     disabled={cityPage === 0}
                     onClick={() => setCityPage(0)}
                   >
-                    « First
+                    {t("pagination.first")}
                   </button>
                   <button
                     className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
                     disabled={cityPage === 0}
                     onClick={() => setCityPage((p) => Math.max(0, p - 1))}
                   >
-                    ‹ Prev
+                    {t("pagination.prev")}
                   </button>
                   <span className="text-xs text-gray-400">
-                    Page {cityPage + 1} / {cityTotalPages}
+                    {t("pagination.page", {
+                      page: cityPage + 1,
+                      total: cityTotalPages,
+                    })}
                   </span>
                   <button
                     className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
                     disabled={cityPage + 1 >= cityTotalPages}
                     onClick={() => setCityPage((p) => p + 1)}
                   >
-                    Next ›
+                    {t("pagination.next")}
                   </button>
                   <button
                     className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
                     disabled={cityPage + 1 >= cityTotalPages}
                     onClick={() => setCityPage(cityTotalPages - 1)}
                   >
-                    Last »
+                    {t("pagination.last")}
                   </button>
                 </div>
               </>
             )
           ) : (
-            <div className="p-6 text-center text-xs text-gray-500">Select a country to view cities.</div>
+            <div className="p-6 text-center text-xs text-gray-500">
+              {t("cities.prompts.selectCountry")}
+            </div>
           )}
         </div>
 
@@ -637,11 +694,15 @@ export default function LocationManagerPage() {
         <div className="bg-[#0f0f12]/80 border border-[#2a2a38] rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
           <div className="px-4 py-3 border-b border-[#2a2a38]">
             <div className="font-semibold">
-              Districts{" "}
+              {t("districts.title")}{" "}
               {selectedCity ? (
-                <span className="text-gray-400">· {selectedCity.name}</span>
+                <span className="text-gray-400">
+                  {t("districts.of", { city: selectedCity.name })}
+                </span>
               ) : selectedCountry ? (
-                <span className="text-gray-400">· Select a city</span>
+                <span className="text-gray-400">
+                  {t("districts.selectCity")}
+                </span>
               ) : null}
             </div>
           </div>
@@ -652,7 +713,9 @@ export default function LocationManagerPage() {
               value={addingDistrictName}
               onChange={(e) => setAddingDistrictName(e.target.value)}
               placeholder={
-                selectedCity ? "New district name" : "Select a city first"
+                selectedCity
+                  ? t("districts.newPlaceholder")
+                  : t("districts.selectCityFirst")
               }
               disabled={!selectedCity}
               className={[
@@ -672,32 +735,48 @@ export default function LocationManagerPage() {
                   : "",
               ].join(" ")}
             >
-              + Add
+              {"+ " + t("districts.add")}
             </button>
           </div>
 
           {/* list districts */}
           {selectedCity ? (
             loadingDistricts ? (
-              <div className="p-6 text-center text-sm text-gray-400">Loading…</div>
+              <div className="p-6 text-center text-sm text-gray-400">
+                {t("loading")}
+              </div>
             ) : districts.length === 0 ? (
-              <div className="px-4 py-6 text-center text-xs text-gray-500">No districts for this city.</div>
+              <div className="px-4 py-6 text-center text-xs text-gray-500">
+                {t("empty.districts")}
+              </div>
             ) : (
               <>
                 <div className="px-4 py-3">
-                  <Table striped bordered hover size="sm" className="text-gray-100">
+                  <Table
+                    striped
+                    bordered
+                    hover
+                    size="sm"
+                    className="text-gray-100"
+                  >
                     <thead>
                       <tr>
                         <th style={{ width: 56 }}>#</th>
-                        <th>District</th>
-                        <th style={{ width: 160 }}>Actions</th>
+                        <th>{t("districts.headers.name")}</th>
+                        <th style={{ width: 160 }}>
+                          {t("districts.headers.actions")}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {pagedDistricts.map((d, idx) => (
                         <tr
                           key={d.id}
-                          className={(selectedDistrict?.id === d.id ? "table-primary " : "") + "transition-colors"}
+                          className={
+                            (selectedDistrict?.id === d.id
+                              ? "table-primary "
+                              : "") + "transition-colors"
+                          }
                           onClick={() => setSelectedDistrict(d)}
                           style={{ cursor: "pointer" }}
                         >
@@ -706,16 +785,22 @@ export default function LocationManagerPage() {
                           <td>
                             <div className="flex items-center gap-2">
                               <button
-                                onClick={(e) => { e.stopPropagation(); onEditDistrict(d); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onEditDistrict(d);
+                                }}
                                 className="bg-yellow-500 hover:bg-yellow-400 text-black text-[11px] px-2 py-[2px] rounded-md"
                               >
-                                Edit
+                                {t("districts.buttons.edit")}
                               </button>
                               <button
-                                onClick={(e) => { e.stopPropagation(); onDeleteDistrict(d); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onDeleteDistrict(d);
+                                }}
                                 className="bg-yellow-500 hover:bg-yellow-400 text-black text-[11px] px-2 py-[2px] rounded-md"
                               >
-                                Delete
+                                {t("districts.buttons.delete")}
                               </button>
                             </div>
                           </td>
@@ -730,37 +815,42 @@ export default function LocationManagerPage() {
                     disabled={districtPage === 0}
                     onClick={() => setDistrictPage(0)}
                   >
-                    « First
+                    {t("pagination.first")}
                   </button>
                   <button
                     className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
                     disabled={districtPage === 0}
                     onClick={() => setDistrictPage((p) => Math.max(0, p - 1))}
                   >
-                    ‹ Prev
+                    {t("pagination.prev")}
                   </button>
                   <span className="text-xs text-gray-400">
-                    Page {districtPage + 1} / {districtTotalPages}
+                    {t("pagination.page", {
+                      page: districtPage + 1,
+                      total: districtTotalPages,
+                    })}
                   </span>
                   <button
                     className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
                     disabled={districtPage + 1 >= districtTotalPages}
                     onClick={() => setDistrictPage((p) => p + 1)}
                   >
-                    Next ›
+                    {t("pagination.next")}
                   </button>
                   <button
                     className="px-2 py-1 text-xs border border-[#2a2a38] rounded disabled:opacity-40"
                     disabled={districtPage + 1 >= districtTotalPages}
                     onClick={() => setDistrictPage(districtTotalPages - 1)}
                   >
-                    Last »
+                    {t("pagination.last")}
                   </button>
                 </div>
               </>
             )
           ) : (
-            <div className="p-6 text-center text-xs text-gray-500">Select a city to view districts.</div>
+            <div className="p-6 text-center text-xs text-gray-500">
+              {t("districts.prompts.selectCity")}
+            </div>
           )}
         </div>
       </div>

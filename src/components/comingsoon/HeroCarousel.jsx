@@ -23,8 +23,6 @@ export const HeroCarousel = ({ movies = [] }) => {
     }
   }, [movies]);
 
-  console.log("HeroCarousel movies:", movies);
-
   if (movies.length === 0) {
     return (
       <div className="comingsoon-hero-carousel">
