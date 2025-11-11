@@ -59,6 +59,10 @@ useEffect(() => {
   }
 }, [cinema]);
 
+useEffect(() => {
+  setSelectedMovieID(null);
+}, [selectedDate]);
+
 
 
   if (loading)
@@ -84,20 +88,24 @@ useEffect(() => {
 
       <CinemaDetailCard cinema={cinema} tCinemas={tCinemas} />
       {/* Halls and Movies section */}
-      <Row className="mt-4">
+      <Row className="mt-5">
         <Col xs={12} className="mb-4">
-          <ShowtimeDateSelector
-            dates={allDates}
-            tCinemas={tCinemas}
-            onDateChange={setSelectedDate}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
+          <div className="d-flex gap-3 align-items-center">
+            <ShowtimeDateSelector
+              dates={allDates}
+              tCinemas={tCinemas}
+              onDateChange={setSelectedDate}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
+            <h3 className="fw-bold mb-3 text-warning">{tCinemas("currentMovies")}</h3>
+          </div>
           <MovieList
-            movies={cinema.movies || []}
+            cinema={cinema}
             tCinemas={tCinemas}
             selectedMovieID={selectedMovieID}
             pickMovie={setSelectedMovieID}
+            selectedDate={selectedDate}
           />
         </Col>
 

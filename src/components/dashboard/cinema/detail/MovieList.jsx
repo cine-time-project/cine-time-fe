@@ -7,18 +7,33 @@ import "swiper/css/navigation";
 import MovieCardInCinemaDetail from "./MovieCardInCinemaDetail";
 
 
-export default function MovieList({ movies, tCinemas, selectedMovieID, pickMovie }) {
+export default function MovieList({ cinema, tCinemas, selectedMovieID, pickMovie, selectedDate }) {
 
-  if (!movies.length)
+  if (!cinema.movies.length)
+    return <p className="text-muted">{tCinemas("noMovieForCinema")}</p>;
+
+  const movieIdsForDate = new Set(
+    cinema.halls.flatMap((hall) =>
+      hall.showtimes
+        .filter((s) => s.date === selectedDate)
+        .map((s) => s.movieId)
+    )
+  );
+
+  // Filmleri selectedDate'e göre filtrele
+  const filteredMovies = cinema.movies.filter((m) =>
+    movieIdsForDate.has(m.id)
+  );
+
+  if (!filteredMovies.length)
     return <p className="text-muted">{tCinemas("noMovieForCinema")}</p>;
 
   const isDisabled = selectedMovieID !== null;
 
   return (
     <div>
-      <h3 className="fw-bold mb-3 text-light">{tCinemas("currentMovies")}</h3>
       <Swiper
-        style={{ overflowX: "hidden", padding: "40px 0" }}
+        style={{ overflowX: "hidden", padding: "20px 0" }}
         navigation={!isDisabled}           // ← okları gizle/engelle
         modules={[Navigation]}
         allowTouchMove={!isDisabled}       // ← dokunarak kaydırmayı kapat
@@ -38,7 +53,7 @@ export default function MovieList({ movies, tCinemas, selectedMovieID, pickMovie
           1600: { slidesPerView: 5, spaceBetween: 20, slidesPerGroup: 1 },
         }}
       >
-        {movies.map((movie) => (
+        {filteredMovies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ height: "100%" }}>
             <MovieCardInCinemaDetail
               movie={movie}
