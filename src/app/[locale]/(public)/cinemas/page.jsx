@@ -10,9 +10,9 @@ import CinemasGrid from "@/components/cinemas/CinemasGrid";
 
 export default function CinemasPage() {
   const locale = useLocale();
-  const searchParams = useSearchParams();
-  const cityParam = searchParams.get("city") || "";
-  const [cityFilter, setCityFilter] = useState(cityParam);
+  //const searchParams = useSearchParams();
+  //const cityParam = searchParams.get("city") || "";
+  const [cityFilter, setCityFilter] = useState("");
 
   // ✅ Fetch işlemi burada
   const { cinemas, loading, error, pagination, setPage, isWhole } = useCinemas(cityFilter);
