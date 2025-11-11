@@ -47,6 +47,7 @@ export default function HallList({
           tCinemas={tCinemas}
           isEditMode={isEditMode}
           selectedMovieID={selectedMovieID}
+          selectedDate={selectedDate}
         />
       ))}
     </>

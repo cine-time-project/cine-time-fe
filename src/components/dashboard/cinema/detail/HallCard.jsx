@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,7 +9,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
 
-export function HallCard({ hall, tCinemas, isEditMode, selectedMovieID }) {
+export function HallCard({
+  hall,
+  tCinemas,
+  isEditMode,
+  selectedMovieID,
+  selectedDate,
+}) {
   if (!hall) {
     return (
       <div
@@ -24,6 +30,15 @@ export function HallCard({ hall, tCinemas, isEditMode, selectedMovieID }) {
       </div>
     );
   }
+
+  const filteredShowtimes = hall.showtimes.filter((showtime) => {
+  const matchDate = showtime.date === selectedDate;
+  const matchMovie = selectedMovieID
+    ? showtime.movieId === Number(selectedMovieID)
+    : true;
+  return matchDate && matchMovie;
+});
+
 
   return (
     <div
@@ -135,16 +150,11 @@ export function HallCard({ hall, tCinemas, isEditMode, selectedMovieID }) {
             1600: { slidesPerView: 3, spaceBetween: 20, slidesPerGroup: 1 },
           }}
         >
-          {hall.showtimes
-            .filter((s) => {
-              if (!selectedMovieID) return true; // film seçilmemişse hepsini göster
-              return s.movieId === Number(selectedMovieID);
-            })
-            .map((showtime) => (
-              <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
-                <ShowtimeCard showtime={showtime} tCinemas={tCinemas} />
-              </SwiperSlide>
-            ))}
+          {filteredShowtimes.map((showtime) => (
+            <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
+              <ShowtimeCard showtime={showtime} tCinemas={tCinemas} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       ) : (
         <div
