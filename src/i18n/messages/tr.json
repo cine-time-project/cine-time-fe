@@ -581,19 +581,6 @@
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat"
   },
-  "swal": {
-    "confirm": "Onayla",
-    "cancel": "İptal",
-    "deny": "Reddet",
-    "successTitle": "Başarılı",
-    "errorTitle": "Hata",
-    "areYouSure": "Emin misiniz?",
-  "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
-  "yes": "Evet",
-  "no": "Hayır",
-  "ok": "OK"
-
-  },
   "contact": {
     "reasons": {
       "title": "Hızlı seçim :",
@@ -1251,7 +1238,15 @@
   "swal": {
     "confirm": "Tamam",
     "cancel": "İptal",
-    "delete": "Sil"
+    "delete": "Sil",
+    "deny": "Reddet",
+    "successTitle": "Başarılı",
+    "errorTitle": "Hata",
+    "areYouSure": "Emin misiniz?",
+  "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
+  "yes": "Evet",
+  "no": "Hayır",
+  "ok": "OK"
   },
   
   "specialHall": {

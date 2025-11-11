@@ -662,19 +662,6 @@
     "ctaBody": "Find a theater near you and grab your tickets.",
     "ctaBtn": "Buy Tickets"
   },
-
-  "swal": {
-    "confirm": "Confirm",
-    "cancel": "Cancel",
-    "deny": "Deny",
-    "successTitle": "Success",
-    "errorTitle": "Error",
-      "areYouSure": "Are you sure?",
-  "willBeDeleted": "\"{name}\" will be permanently deleted.",
-  "yes": "Yes",
-  "no": "No",
-  "ok": "OK"  
-  },
   "contact": {
     "reasons": {
       "title": "Quick choose :",
@@ -1234,7 +1221,15 @@
   "swal": {
     "confirm": "OK",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "deny": "Deny",
+    "successTitle": "Success",
+    "errorTitle": "Error",
+   "areYouSure": "Are you sure?",
+  "willBeDeleted": "\"{name}\" will be permanently deleted.",
+  "yes": "Yes",
+  "no": "No",
+  "ok": "OK"
   },
     
   "specialHall": {
