@@ -13,10 +13,15 @@ import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 import Swal from "sweetalert2";
 import axios from "axios";
+import {useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 
 import { authHeaders, isAdmin } from "@/lib/utils/http";
 // If you keep all routes in one place, expose a base/route like this:
 import { PAYMENT_LIST_API /*, paymentRefundApi */ } from "@/helpers/api-routes";
+
+ 
+
 
 // Fallback if you don’t have PAYMENT_LIST_API defined yet:
 const FALLBACK_ENDPOINT = "/api/payment"; // filtered list endpoint on backend
@@ -45,6 +50,12 @@ export default function PaymentsPage() {
   const [type, setType] = useState("DESC");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+    const locale = useLocale();
+    const t = useTranslations("admin.payments");
+    const L = useCallback(
+      (rest = "") => (rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`),
+      [locale]
+    );
 
   // ---------- filters ----------
   const [userId, setUserId] = useState("");
@@ -125,13 +136,13 @@ export default function PaymentsPage() {
     } catch (e) {
       if (!axios.isCancel(e)) {
         setError(
-          e?.response?.data?.message || e?.message || "Failed to load payments"
+          e?.response?.data?.message || e?.message || t("loadError")
         );
       }
     } finally {
       setLoading(false);
     }
-  }, [LIST_ENDPOINT, queryString]);
+  }, [LIST_ENDPOINT, queryString, t]);
 
   useEffect(() => {
     fetchData();
@@ -232,14 +243,14 @@ export default function PaymentsPage() {
 
   return (
     <div className="container-fluid py-3">
-      <h2 className="mb-3">Payments</h2>
+      <h2 className="mb-3">{t("title")}</h2>
 
       {/* Filters */}
       <Form className="mb-3" onSubmit={(e) => e.preventDefault()}>
         <Row className="g-2">
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>User ID</InputGroup.Text>
+              <InputGroup.Text>{t("filters.userId")}</InputGroup.Text>
               <Form.Control
                 value={userId}
                 onChange={(e) => setUserId(e.target.value.replace(/\D+/g, ""))}
@@ -250,7 +261,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={3}>
             <InputGroup>
-              <InputGroup.Text>Email</InputGroup.Text>
+              <InputGroup.Text>{t("filters.email")}</InputGroup.Text>
               <Form.Control
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -260,7 +271,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={3}>
             <InputGroup>
-              <InputGroup.Text>Phone</InputGroup.Text>
+              <InputGroup.Text>{t("filters.phone")}</InputGroup.Text>
               <Form.Control
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -273,17 +284,17 @@ export default function PaymentsPage() {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="">Status</option>
-              <option value="SUCCESS">SUCCESS</option>
-              <option value="FAILED">FAILED</option>
-              <option value="REFUNDED">REFUNDED</option>
-              <option value="PARTIALLY_REFUNDED">PARTIALLY_REFUNDED</option>
+              <option value="">{t("filters.status")}</option>
+              <option value="SUCCESS">{t("status.SUCCESS")}</option>
+              <option value="FAILED">{t("status.FAILED")}</option>
+              <option value="REFUNDED">{t("status.REFUNDED")}</option>
+              <option value="PARTIALLY_REFUNDED">{t("status.PARTIALLY_REFUNDED")}</option>
               {/* add others if your enum has more */}
             </Form.Select>
           </Col>
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>Search</InputGroup.Text>
+              <InputGroup.Text>{t("filters.search")}</InputGroup.Text>
               <Form.Control
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
@@ -296,7 +307,7 @@ export default function PaymentsPage() {
         <Row className="g-2 mt-1">
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>From</InputGroup.Text>
+              <InputGroup.Text>{t("filters.from")}</InputGroup.Text>
               <Form.Control
                 type="date"
                 value={from}
@@ -306,7 +317,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>To</InputGroup.Text>
+              <InputGroup.Text>{t("filters.to")}</InputGroup.Text>
               <Form.Control
                 type="date"
                 value={to}
@@ -316,7 +327,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>Min</InputGroup.Text>
+              <InputGroup.Text>{t("filters.min")}</InputGroup.Text>
               <Form.Control
                 type="number"
                 step="0.01"
@@ -327,7 +338,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>Max</InputGroup.Text>
+              <InputGroup.Text>{t("filters.max")}</InputGroup.Text>
               <Form.Control
                 type="number"
                 step="0.01"
@@ -338,7 +349,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>Provider</InputGroup.Text>
+              <InputGroup.Text>{t("filters.provider")}</InputGroup.Text>
               <Form.Control
                 value={providerRef}
                 onChange={(e) => setProviderRef(e.target.value)}
@@ -348,7 +359,7 @@ export default function PaymentsPage() {
           </Col>
           <Col md={2}>
             <InputGroup>
-              <InputGroup.Text>Key</InputGroup.Text>
+              <InputGroup.Text>{t("filters.key")}</InputGroup.Text>
               <Form.Control
                 value={idempotencyKey}
                 onChange={(e) => setIdempotencyKey(e.target.value)}
@@ -366,7 +377,7 @@ export default function PaymentsPage() {
             >
               {[10, 20, 50].map((n) => (
                 <option key={n} value={n}>
-                  {n} per page
+                  {n} {t("perPageSuffix")}
                 </option>
               ))}
             </Form.Select>
@@ -393,10 +404,10 @@ export default function PaymentsPage() {
           </Col>
           <Col className="d-flex gap-2">
             <Button variant="primary" onClick={() => fetchData()}>
-              Apply
+              {t("apply")}
             </Button>
             <Button variant="outline-secondary" onClick={onClearFilters}>
-              Clear
+              {t("clear")}
             </Button>
           </Col>
         </Row>
@@ -406,7 +417,7 @@ export default function PaymentsPage() {
       {loading && (
         <div className="d-flex align-items-center gap-2 mb-2">
           <Spinner animation="border" size="sm" />
-          <span>Loading payments…</span>
+          <span>{t("loading")}</span>
         </div>
       )}
       {!!error && <Alert variant="danger">{error}</Alert>}
@@ -416,22 +427,22 @@ export default function PaymentsPage() {
         <thead>
           <tr>
             <th>#</th>
-            <th>Date</th>
-            <th>User</th>
-            <th>Email</th>
-            <th>Amount</th>
-            <th>Currency</th>
-            <th>Status</th>
-            <th>Provider Ref</th>
-            <th>Idempotency Key</th>
-            <th style={{ width: 110 }}>Actions</th>
+            <th>{t("table.date")}</th>
+            <th>{t("table.user")}</th>
+            <th>{t("table.email")}</th>
+            <th>{t("table.amount")}</th>
+            <th>{t("table.currency")}</th>
+            <th>{t("table.status")}</th>
+            <th>{t("table.providerRef")}</th>
+            <th>{t("table.idempotencyKey")}</th>
+            <th style={{ width: 110 }}>{t("table.actions")}</th>
           </tr>
         </thead>
         <tbody>
           {items.length === 0 ? (
             <tr>
               <td colSpan={10} className="text-center">
-                No payments found
+                {t("table.empty")}
               </td>
             </tr>
           ) : (
@@ -444,8 +455,17 @@ export default function PaymentsPage() {
                     : ""}
                 </td>
                 <td>
-                  {p.userName
-                    ?? (p.user ? `${p.user.name ?? ""} ${p.user.surname ?? ""}`.trim() : "")}
+                  {(() => {
+                    const nameText =
+                      p.userName ?? (p.user ? `${p.user.name ?? ""} ${p.user.surname ?? ""}`.trim() : "");
+                    const uid = p.userId ?? p.user?.id;
+                    if (!uid || !nameText) return nameText;
+                    return (
+                      <Link href={L(`admin/users/${uid}`)} prefetch>
+                        {nameText}
+                      </Link>
+                    );
+                  })()}
                 </td>
                 <td>{p.userEmail ?? p.user?.email ?? ""}</td>
                 <td>{p.paymentAmount ?? ""}</td>
@@ -458,7 +478,7 @@ export default function PaymentsPage() {
                         : "success"
                     }
                   >
-                    {p.paymentStatus}
+                    {p.paymentStatus ? t(`status.${p.paymentStatus}`) : ""}
                   </Badge>
                 </td>
                 <td className="text-truncate" style={{ maxWidth: 160 }}>
@@ -475,7 +495,7 @@ export default function PaymentsPage() {
                       variant="outline-danger"
                       onClick={() => onRefund(p)}
                     >
-                      Refund
+                      {t("buttons.refund")}
                     </Button>
                   )}
                 </td>
@@ -488,7 +508,7 @@ export default function PaymentsPage() {
       {/* Pagination */}
       <div className="d-flex justify-content-between align-items-center">
         <small className="text-muted">
-          Showing {pageFrom}–{pageTo} of {totalElements}
+          {t("showing", { from: pageFrom, to: pageTo, total: totalElements })}
         </small>
         <Pagination className="mb-0">
           <Pagination.First onClick={() => setPage(0)} disabled={page === 0} />

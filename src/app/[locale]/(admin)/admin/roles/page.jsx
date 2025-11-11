@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import Spinner from "react-bootstrap/Spinner";
@@ -18,6 +20,9 @@ const PAGE_SIZE = 10;
 const ALL_ROLES = ["ANONYMOUS", "MEMBER", "EMPLOYEE", "ADMIN"];
 
 export default function AdminRolesPage() {
+  const t = useTranslations("admin.roles");
+  const locale = useLocale();
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -28,6 +33,10 @@ export default function AdminRolesPage() {
     () => (isAdmin() ? ALL_ROLES : ["ANONYMOUS", "MEMBER", "EMPLOYEE"]),
     []
   );
+
+  const L = useMemo(() => {
+    return (rest = "") => (rest ? `/${locale}/${rest.replace(/^\/+/,'')}` : `/${locale}`);
+  }, [locale]);
 
   useEffect(() => {
     setPage(1);
@@ -52,7 +61,7 @@ export default function AdminRolesPage() {
       } catch (e) {
         if (!cancelled)
           setError(
-            e?.response?.data?.message || e?.message || "Failed to fetch users"
+            e?.response?.data?.message || e?.message || t("loadError")
           );
       } finally {
         if (!cancelled) setLoading(false);
@@ -102,17 +111,17 @@ export default function AdminRolesPage() {
     }).join("");
 
     const { isConfirmed } = await Swal.fire({
-      title: `Edit Roles — ${user.name} ${user.surname}`,
+      title: t("swal.editTitle", { name: `${user.name ?? ''} ${user.surname ?? ''}`.trim() }),
       html: `<div>${optionsHtml}</div>`,
       focusConfirm: false,
       showCancelButton: true,
-      confirmButtonText: "Save",
+      confirmButtonText: t("swal.save"),
       preConfirm: () => {
         const selected = Array.from(
           document.querySelectorAll("input[id^='role_']:checked")
         ).map((el) => el.value);
         if (selected.length === 0) {
-          Swal.showValidationMessage("Select at least one role");
+          Swal.showValidationMessage(t("swal.selectOne"));
         }
         return selected;
       },
@@ -142,24 +151,24 @@ export default function AdminRolesPage() {
       );
       await Swal.fire({
         icon: "success",
-        title: "Updated",
-        text: "Roles updated successfully.",
+        title: t("swal.updated"),
+        text: t("swal.updatedText"),
       });
     } catch (e) {
       const msg =
-        e?.response?.data?.message || e?.message || "Failed to update roles";
-      await Swal.fire({ icon: "error", title: "Update failed", text: msg });
+        e?.response?.data?.message || e?.message || t("swal.updateFailed");
+      await Swal.fire({ icon: "error", title: t("swal.updateFailed"), text: msg });
     }
   }
 
   return (
     <div className="container-fluid py-3">
-      <h2 className="mb-3">Users</h2>
+      <h2 className="mb-3">{t("title")}</h2>
 
       {loading && (
         <div className="d-flex align-items-center gap-2">
           <Spinner animation="border" size="sm" />
-          <span>Loading users…</span>
+          <span>{t("loading")}</span>
         </div>
       )}
 
@@ -169,9 +178,9 @@ export default function AdminRolesPage() {
         <>
           <div className="mb-3">
             <InputGroup>
-              <InputGroup.Text>Search</InputGroup.Text>
+              <InputGroup.Text>{t("filters.search")}</InputGroup.Text>
               <Form.Control
-                placeholder="Email or phone number"
+                placeholder={t("filters.searchPlaceholder")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -182,26 +191,33 @@ export default function AdminRolesPage() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Roles</th>
-                <th style={{ width: 120 }}>Actions</th>
+                <th>{t("table.name")}</th>
+                <th>{t("table.surname")}</th>
+                <th>{t("table.email")}</th>
+                <th>{t("table.phone")}</th>
+                <th>{t("table.roles")}</th>
+                <th style={{ width: 120 }}>{t("table.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {pageItems.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="text-center">
-                    No users found
+                    {t("table.empty")}
                   </td>
                 </tr>
               ) : (
                 pageItems.map((u, idx) => (
                   <tr key={u.id}>
                     <td>{(page - 1) * PAGE_SIZE + idx + 1}</td>
-                    <td>{u.name}</td>
+                    <td>
+                      {(() => {
+                        const nameText = `${u.name ?? ''} ${u.surname ?? ''}`.trim();
+                        const uid = u.id;
+                        if (!uid || !nameText) return nameText;
+                        return (<Link href={L(`admin/users/${uid}`)} prefetch>{nameText}</Link>);
+                      })()}
+                    </td>
                     <td>{u.surname}</td>
                     <td>{u.email}</td>
                     <td>{u.phoneNumber}</td>
@@ -212,7 +228,7 @@ export default function AdminRolesPage() {
                         variant="primary"
                         onClick={() => onEditRoles(u)}
                       >
-                        Edit Roles
+                        {t("buttons.editRoles")}
                       </Button>
                     </td>
                   </tr>
@@ -223,8 +239,7 @@ export default function AdminRolesPage() {
 
           <div className="d-flex justify-content-between align-items-center">
             <small className="text-muted">
-              Showing {(page - 1) * PAGE_SIZE + 1}–
-              {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
+              {t("showing", { from: (page - 1) * PAGE_SIZE + 1, to: Math.min(page * PAGE_SIZE, filtered.length), total: filtered.length })}
             </small>
 
             <Pagination className="mb-0">

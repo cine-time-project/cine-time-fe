@@ -1007,5 +1007,208 @@
   "yes": "Ja",
   "no": "Nein",
   "ok": "OK"
+  },
+  "admin": {
+  "payments": {
+    "title": "Zahlungen",
+    "loading": "Zahlungen werden geladen…",
+    "loadError": "Zahlungen konnten nicht geladen werden.",
+    "apply": "Anwenden",
+    "clear": "Zurücksetzen",
+    "perPageSuffix": "Zeilen / Seite",
+    "showing": "{from}–{to} / Insgesamt {total}",
+    "filters": {
+      "userId": "Benutzer-ID",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "status": "Status",
+      "search": "Suche",
+      "from": "Von",
+      "to": "Bis",
+      "min": "Min",
+      "max": "Max",
+      "provider": "Anbieter-Ref",
+      "key": "Idempotency"
+    },
+    "table": {
+      "idx": "#",
+      "date": "Datum",
+      "user": "Benutzer",
+      "email": "E-Mail",
+      "amount": "Betrag",
+      "currency": "Währung",
+      "status": "Status",
+      "providerRef": "Anbieter-Ref",
+      "idempotencyKey": "Idempotency",
+      "actions": "Aktionen",
+      "empty": "Keine Einträge gefunden"
+    },
+    "buttons": {
+      "refund": "Rückerstattung"
+    },
+    "status": {
+      "SUCCESS": "ERFOLG",
+      "FAILED": "FEHLGESCHLAGEN",
+      "REFUNDED": "RÜCKERSTATTET",
+      "PARTIALLY_REFUNDED": "TEILRÜCKERSTATTET"
+    }
+  },
+  "roles": {
+    "title": "Benutzer",
+    "loading": "Benutzer werden geladen…",
+    "loadError": "Benutzer konnten nicht geladen werden.",
+    "filters": {
+      "search": "Suche",
+      "searchPlaceholder": "Nach E-Mail oder Telefon suchen"
+    },
+    "table": {
+      "name": "Vorname",
+      "surname": "Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "roles": "Rollen",
+      "actions": "Aktionen",
+      "empty": "Kein Benutzer gefunden"
+    },
+    "buttons": {
+      "editRoles": "Rollen bearbeiten"
+    },
+    "swal": {
+      "editTitle": "Rollen bearbeiten — {name}",
+      "save": "Speichern",
+      "selectOne": "Mindestens eine Rolle auswählen",
+      "updated": "Aktualisiert",
+      "updatedText": "Rollen wurden erfolgreich aktualisiert.",
+      "updateFailed": "Aktualisierung fehlgeschlagen"
+    },
+    "showing": "{from}–{to} / Insgesamt {total}"
+  },
+  "location": {
+    "title": "Standortverwaltung",
+    "subtitle": "Länder → Städte → Bezirke",
+    "loading": "Wird geladen…",
+    "empty": {
+      "countries": "Keine Länder.",
+      "cities": "Für dieses Land gibt es keine Städte.",
+      "districts": "Für diese Stadt gibt es keine Bezirke."
+    },
+    "countries": {
+      "title": "Länder",
+      "search": "Suchen…",
+      "newPlaceholder": "Neuer Landesname",
+      "add": "Hinzufügen",
+      "headers": { "name": "Land", "actions": "Aktionen" },
+      "buttons": { "edit": "Bearbeiten", "delete": "Löschen" },
+      "swal": {
+        "renameTitle": "Landesnamen ändern",
+        "save": "Speichern",
+        "updated": "Land aktualisiert",
+        "deleteTitle": "{name} löschen?",
+        "deleteText": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+        "deleted": "Land gelöscht"
+      }
+    },
+    "cities": {
+      "title": "Städte",
+      "of": "· {country}",
+      "search": "Suchen…",
+      "newPlaceholder": "Neuer Städtename",
+      "selectCountryFirst": "Bitte zuerst ein Land auswählen",
+      "add": "Hinzufügen",
+      "headers": { "name": "Stadt", "actions": "Aktionen" },
+      "buttons": { "edit": "Bearbeiten", "delete": "Löschen" },
+      "swal": {
+        "renameTitle": "Stadtnamen ändern",
+        "save": "Speichern",
+        "updated": "Stadt aktualisiert",
+        "deleteTitle": "{name} löschen?",
+        "deleteText": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+        "deleted": "Stadt gelöscht"
+      },
+      "prompts": { "selectCountry": "Wählen Sie ein Land, um Städte zu sehen." }
+    },
+    "districts": {
+      "title": "Bezirke",
+      "of": "· {city}",
+      "selectCity": "· Stadt auswählen",
+      "newPlaceholder": "Neuer Bezirksname",
+      "selectCityFirst": "Bitte zuerst eine Stadt auswählen",
+      "add": "Hinzufügen",
+      "headers": { "name": "Bezirk", "actions": "Aktionen" },
+      "buttons": { "edit": "Bearbeiten", "delete": "Löschen" },
+      "swal": {
+        "renameTitle": "Bezirksnamen ändern",
+        "save": "Speichern",
+        "updated": "Bezirk aktualisiert",
+        "deleteTitle": "{name} löschen?",
+        "deleteText": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+        "deleted": "Bezirk gelöscht"
+      },
+      "prompts": { "selectCity": "Wählen Sie eine Stadt, um Bezirke zu sehen." }
+    },
+    "pagination": {
+      "first": "« Erste",
+      "prev": "‹ Zurück",
+      "page": "Seite {page} / {total}",
+      "next": "Weiter ›",
+      "last": "Letzte »"
+    }
   }
+},
+  "dashboard": {
+    "title": "ÜBERSICHT",
+    "tiles": {
+      "cinemas": {
+        "title": "Kinos",
+        "desc": "Filialen und Saalzuordnungen"
+      },
+      "halls": {
+        "title": "Säle",
+        "desc": "Saalpläne und Sitzvorlagen"
+      },
+      "times": { "title": "Vorstellungen", "desc": "Vorstellungsplanung und Kalender" },
+      "images": { "title": "Bilder", "desc": "Plakat- und Bildverwaltung" },
+      "cinemaimg": {
+        "title": "Kino-Bilder",
+        "desc": "Verwaltung der Kinobilder"
+      },
+      "movies": { "title": "Filme", "desc": "Filme und Inhaltsliste" },
+      "users": { "title": "Benutzer", "desc": "Benutzersuche und -verwaltung" },
+      "tickets": {
+        "title": "Tickets (Admin)",
+        "desc": "Verkäufe und Ticketvorgänge"
+      },
+      "cities": { "title": "Städte", "desc": "Listen der Städte/Regionen" },
+      "vip": { "title": "Spezialsäle", "desc": "VIP-/Spezialsalontypen" },
+      "contact": {
+        "title": "Kontakt-Nachrichten",
+        "desc": "Nachrichten aus dem Kontaktbereich"
+      },
+      "reports": {
+        "title": "Berichte",
+        "desc": "Übersichten und Performance-Reports"
+      },
+      "locations": { "title": "Standorte", "desc": "Standortliste" },
+      "districts": { "title": "Bezirke", "desc": "Listen der Bezirke/Stadtteile" },
+      "payments": { "title": "Zahlungen", "desc": "Zahlungsaufzeichnungen" },
+      "favorites": { "title": "Favoriten", "desc": "Favoriteneinträge" },
+      "roles": { "title": "Rollen", "desc": "Rollen und Berechtigungen" }
+    },
+    "contactMessages": {
+      "title": "Kontakt-Nachrichten",
+      "subtitle": "Alle Nachrichten der Nutzer",
+      "messageCount": "Nachricht",
+      "refresh": "Aktualisieren",
+      "loading": "Nachrichten werden geladen...",
+      "fromLabel": "Absender",
+      "subjectLabel": "Betreff",
+      "messageLabel": "Nachricht",
+      "deleteButton": "Löschen",
+      "empty": {
+        "title": "Noch keine Nachrichten",
+        "text": "Nutzernachrichten erscheinen hier."
+      }
+    }
+  }
+}
 }

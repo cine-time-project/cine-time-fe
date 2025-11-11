@@ -703,7 +703,6 @@
       "failNetwork": "Network error. Please check your connection.",
       "failTimeout": "Request timed out. Please try again.",
       "failGeneric": "An unexpected error occurred. Please try again."
-      
     },
     "errors": {
       "fullNameRequired": "Full name is required.",
@@ -1225,25 +1224,27 @@
     "deny": "Deny",
     "successTitle": "Success",
     "errorTitle": "Error",
-   "areYouSure": "Are you sure?",
-  "willBeDeleted": "\"{name}\" will be permanently deleted.",
-  "yes": "Yes",
-  "no": "No",
-  "ok": "OK"
+    "areYouSure": "Are you sure?",
+    "willBeDeleted": "\"{name}\" will be permanently deleted.",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK"
   },
-    
+
   "specialHall": {
     "confirmDelete": "“{name}” special hall will be deleted. Are you sure?",
-    "edit": { "title": "Edit Special Hall",
-      "updated": "Special hall updated successfully." },
-      "alerts": {
+    "edit": {
+      "title": "Edit Special Hall",
+      "updated": "Special hall updated successfully."
+    },
+    "alerts": {
       "typeCreated": "Special hall type has been created.",
       "typeCreateFailed": "Failed to create special hall type.",
       "typeUpdated": "Special hall type updated.",
-   "typeUpdateFailed": "Failed to update special hall type.",
-   "typeDeleted": "Special hall type deleted.",
-   "typeDeleteFailed": "Failed to delete special hall type.",
-    "typeInUse": "Type \"{name}\" is used by existing special halls. Please remove or change those halls first."
+      "typeUpdateFailed": "Failed to update special hall type.",
+      "typeDeleted": "Special hall type deleted.",
+      "typeDeleteFailed": "Failed to delete special hall type.",
+      "typeInUse": "Type \"{name}\" is used by existing special halls. Please remove or change those halls first."
     },
     "list": { "title": "Special Halls" },
     "headers": {
@@ -1259,10 +1260,10 @@
       "actions": "Actions"
     },
     "buttons": { "new": "+ New" },
-     "name": "Name",
+    "name": "Name",
     "percent": "Price Diff (%)",
     "columns": {
-     "id": "ID",
+      "id": "ID",
       "name": "Name",
       "percent": "Price Diff (%)",
       "actions": "Actions"
@@ -1345,6 +1346,153 @@
       "save": "Save",
       "delete": "Delete",
       "close": "Close"
+    }
+  },
+  "admin": {
+    "payments": {
+      "title": "Payments",
+      "loading": "Loading payments…",
+      "loadError": "Failed to load payments.",
+      "apply": "Apply",
+      "clear": "Clear",
+      "perPageSuffix": "rows / page",
+      "showing": "{from}–{to} / Total {total}",
+      "filters": {
+        "userId": "User ID",
+        "email": "Email",
+        "phone": "Phone",
+        "status": "Status",
+        "search": "Search",
+        "from": "From",
+        "to": "To",
+        "min": "Min",
+        "max": "Max",
+        "provider": "Provider Ref",
+        "key": "Idempotency"
+      },
+      "table": {
+        "idx": "#",
+        "date": "Date",
+        "user": "User",
+        "email": "Email",
+        "amount": "Amount",
+        "currency": "Currency",
+        "status": "Status",
+        "providerRef": "Provider Ref",
+        "idempotencyKey": "Idempotency",
+        "actions": "Actions",
+        "empty": "No records found"
+      },
+      "buttons": {
+        "refund": "Refund"
+      },
+      "status": {
+        "SUCCESS": "SUCCESS",
+        "FAILED": "FAILED",
+        "REFUNDED": "REFUNDED",
+        "PARTIALLY_REFUNDED": "PARTIALLY REFUNDED"
+      }
+    },
+    "roles": {
+      "title": "Users",
+      "loading": "Loading users…",
+      "loadError": "Failed to load users.",
+      "filters": {
+        "search": "Search",
+        "searchPlaceholder": "Search by email or phone"
+      },
+      "table": {
+        "name": "First Name",
+        "surname": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "roles": "Roles",
+        "actions": "Actions",
+        "empty": "No users found"
+      },
+      "buttons": {
+        "editRoles": "Edit Roles"
+      },
+      "swal": {
+        "editTitle": "Edit Roles — {name}",
+        "save": "Save",
+        "selectOne": "Select at least one role",
+        "updated": "Updated",
+        "updatedText": "Roles updated successfully.",
+        "updateFailed": "Update failed"
+      },
+      "showing": "{from}–{to} / Total {total}"
+    },
+    "location": {
+      "title": "Location Manager",
+      "subtitle": "Countries → Cities → Districts",
+      "loading": "Loading…",
+      "empty": {
+        "countries": "No countries.",
+        "cities": "No cities for this country.",
+        "districts": "No districts for this city."
+      },
+      "countries": {
+        "title": "Countries",
+        "search": "Search…",
+        "newPlaceholder": "New country name",
+        "add": "Add",
+        "headers": { "name": "Country", "actions": "Actions" },
+        "buttons": { "edit": "Edit", "delete": "Delete" },
+        "swal": {
+          "renameTitle": "Rename country",
+          "save": "Save",
+          "updated": "Country updated",
+          "deleteTitle": "Delete {name}?",
+          "deleteText": "This action cannot be undone.",
+          "deleted": "Country deleted"
+        }
+      },
+      "cities": {
+        "title": "Cities",
+        "of": "· {country}",
+        "search": "Search…",
+        "newPlaceholder": "New city name",
+        "selectCountryFirst": "Select a country first",
+        "add": "Add",
+        "headers": { "name": "City", "actions": "Actions" },
+        "buttons": { "edit": "Edit", "delete": "Delete" },
+        "swal": {
+          "renameTitle": "Rename city",
+          "save": "Save",
+          "updated": "City updated",
+          "deleteTitle": "Delete {name}?",
+          "deleteText": "This action cannot be undone.",
+          "deleted": "City deleted"
+        },
+        "prompts": { "selectCountry": "Select a country to view cities." }
+      },
+      "districts": {
+        "title": "Districts",
+        "of": "· {city}",
+        "selectCity": "· Select a city",
+        "newPlaceholder": "New district name",
+        "selectCityFirst": "Select a city first",
+        "add": "Add",
+        "headers": { "name": "District", "actions": "Actions" },
+        "buttons": { "edit": "Edit", "delete": "Delete" },
+        "swal": {
+          "renameTitle": "Rename district",
+          "save": "Save",
+          "updated": "District updated",
+          "deleteTitle": "Delete {name}?",
+          "deleteText": "This action cannot be undone.",
+          "deleted": "District deleted"
+        },
+        "prompts": { "selectCity": "Select a city to view districts." }
+      },
+      "pagination": {
+        "first": "« First",
+        "prev": "‹ Previous",
+        "page": "Page {page} / {total}",
+        "next": "Next ›",
+        "last": "Last »"
+      }
     }
   }
 }
