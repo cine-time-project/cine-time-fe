@@ -956,5 +956,48 @@
     "errorOperation": "Vorgang fehlgeschlagen.",
     "duplicateTitle": "Ein Film mit diesem Titel existiert bereits.",
     "successCreateMovie": "Der Film wurde erfolgreich erstellt."
+  },
+
+  "dashboard": {
+    "title": "DASHBOARD",
+    "contactMessages": {
+      "title": "Kontaktnachrichten",
+      "subtitle": "Alle Benutzernachrichten",
+      "messageCount": "nachrichten",
+      "refresh": "Aktualisieren",
+      "loading": "Nachrichten laden...",
+      "fromLabel": "Von",
+      "subjectLabel": "Betreff",
+      "messageLabel": "Nachricht",
+      "deleteButton": "Löschen",
+      "empty": {
+        "title": "Noch keine Nachrichten",
+        "text": "Benutzernachrichten werden hier angezeigt."
+      },
+      "error": {
+        "title": "Fehler aufgetreten",
+        "text": "Fehler beim Laden der Nachrichten",
+        "retry": "Erneut versuchen"
+      },
+      "deleteConfirm": {
+        "title": "Sind Sie sicher, dass Sie diese Nachricht löschen möchten?",
+        "text": "Diese Aktion kann nicht rückgängig gemacht werden.",
+        "subject": "Betreff"
+      },
+      "deleteSuccess": {
+        "title": "Gelöscht!",
+        "text": "Nachricht wurde erfolgreich gelöscht."
+      },
+      "deleteError": {
+        "title": "Löschfehler",
+        "text": "Fehler beim Löschen der Nachricht."
+      }
+    }
+  },
+
+  "swal": {
+    "confirm": "OK",
+    "cancel": "Abbrechen",
+    "delete": "Löschen"
   }
 }
