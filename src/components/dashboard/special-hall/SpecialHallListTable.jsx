@@ -5,8 +5,12 @@ import Link from "next/link";
 import { Table, Button, Spinner, Pagination } from "react-bootstrap";
 import { fetchSpecialHalls } from "@/service/special-hall-service";
 import { deleteSpecialHallAction } from "@/action/special-hall-actions";
+import { useTranslations } from "next-intl";
 
 export default function SpecialHallListTable() {
+  const tSH = useTranslations("specialHall");
+  const tCommon = useTranslations("common");
+
   const [page, setPage] = useState(0);
   const [size] = useState(10);
   const [data, setData] = useState({
@@ -32,7 +36,7 @@ export default function SpecialHallListTable() {
   }, [page, size]);
 
   const handleDelete = async (id) => {
-    if (!confirm("Bu kaydı silmek istediğinize emin misiniz?")) return;
+    if (!confirm(tSH("confirmDelete"))) return;
     const res = await deleteSpecialHallAction(id);
     if (res?.ok) load();
   };
@@ -55,9 +59,9 @@ export default function SpecialHallListTable() {
       {/* ÜST BAR: Başlık solda, New sağda */}
       <div className="card-header bg-transparent border-0 px-3 py-3">
         <div className="d-flex justify-content-between align-items-center gap-2">
-          <h5 className="mb-0">Special Halls</h5>
+          <h5 className="mb-0">{tSH("list.title")}</h5>
           <Link href="./special-halls/new" className="btn btn-warning">
-            + New
+            + {tCommon("new")}
           </Link>
         </div>
       </div>
@@ -65,7 +69,7 @@ export default function SpecialHallListTable() {
       <div className="card-body">
         {busy && (
           <div className="mb-2">
-            <Spinner size="sm" /> Yükleniyor…
+            <Spinner size="sm" /> {tCommon("loading")}
           </div>
         )}
 
@@ -73,10 +77,10 @@ export default function SpecialHallListTable() {
           <thead>
             <tr>
               <th>#</th>
-              <th>Cinema</th>
-              <th>Type</th>
-              <th>Seat Cap.</th>
-              <th className="text-end">Actions</th>
+              <th>{tSH("headers.cinema")}</th>
+              <th>{tSH("headers.type")}</th>
+              <th>{tSH("headers.seatCap")}</th>
+              <th className="text-end">{tSH("columns.actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -94,39 +98,37 @@ export default function SpecialHallListTable() {
                 <td>{row.seatCapacity ?? row.hallSeatCapacity ?? "-"}</td>
 
                 {/* Actions */}
-<td className="text-end">
-  <div className="d-inline-flex gap-2">
-    <Link
-      href={`/dashboard/special-halls/${row.id}`}
-      className="btn btn-sm btn-outline-primary d-inline-flex align-items-center justify-content-center"
-      style={{ width: 32, height: 32 }}
-      aria-label="Edit"
-      title="Edit"
-    >
-      <i className="pi pi-file-edit" />
-    </Link>
-    <Button
-      size="sm"
-      variant="outline-danger"
-      className="d-inline-flex align-items-center justify-content-center"
-      style={{ width: 32, height: 32 }}
-      aria-label="Delete"
-      title="Delete"
-      onClick={() => handleDelete(row.id)}
-    >
-      <i className="pi pi-trash" />
-    </Button>
-  </div>
-</td>
-
-
+                <td className="text-end">
+                  <div className="d-inline-flex gap-2">
+                    <Link
+                      href={`/dashboard/special-halls/${row.id}`}
+                      className="btn btn-sm btn-outline-primary d-inline-flex align-items-center justify-content-center"
+                      style={{ width: 32, height: 32 }}
+                      aria-label={tCommon("edit")}
+                      title={tCommon("edit")}
+                    >
+                      <i className="pi pi-file-edit" />
+                    </Link>
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      className="d-inline-flex align-items-center justify-content-center"
+                      style={{ width: 32, height: 32 }}
+                      aria-label={tCommon("delete")}
+                      title={tCommon("delete")}
+                      onClick={() => handleDelete(row.id)}
+                    >
+                      <i className="pi pi-trash" />
+                    </Button>
+                  </div>
+                </td>
               </tr>
             ))}
 
             {(!data?.content || data.content.length === 0) && (
               <tr>
                 <td colSpan={5} className="text-center text-muted py-4">
-                  Kayıt bulunamadı.
+                  {tCommon("empty")}
                 </td>
               </tr>
             )}

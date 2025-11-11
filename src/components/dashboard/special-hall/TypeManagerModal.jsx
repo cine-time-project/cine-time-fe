@@ -9,8 +9,12 @@ import {
   deleteSpecialHallType,
 } from "@/service/special-hall-service";
 import { swAlert, swConfirm } from "@/helpers/sweetalert";
+import { useTranslations } from "next-intl";
 
 export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
+  const tSH = useTranslations("specialHall");
+  const tCommon = useTranslations("common");
+
   const [loading, setLoading] = useState(true);
   const [types, setTypes] = useState([]);
 
@@ -30,22 +34,28 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
     if (show) load();
   }, [show]);
 
-  const startEdit = (t) => setEditRow({ id: t.id, name: t.name, priceDiffPercent: t.priceDiffPercent ?? 0 });
+  const startEdit = (t) =>
+    setEditRow({
+      id: t.id,
+      name: t.name,
+      priceDiffPercent: t.priceDiffPercent ?? 0,
+    });
   const cancelEdit = () => setEditRow(null);
 
   const saveEdit = async () => {
     try {
       const name = editRow.name?.trim();
       const p = Number(editRow.priceDiffPercent);
-      if (!name) return swAlert("warning", "İsim zorunludur.");
-      if (Number.isNaN(p) || p < 0 || p > 100) return swAlert("warning", "Yüzde 0–100 olmalı.");
+      if (!name) return swAlert("warning", tSH("validation.required"));
+      if (Number.isNaN(p) || p < 0 || p > 100)
+        return swAlert("warning", tSH("validation.percentRange"));
       await updateSpecialHallType(editRow.id, { name, priceDiffPercent: p });
-      swAlert("success", "Güncellendi.");
+      swAlert("success", tSH("messages.updated"));
       setEditRow(null);
       await load();
       onChanged?.();
     } catch (e) {
-      swAlert("error", e.message);
+      swAlert("error", e?.message || tCommon("error"));
     }
   };
 
@@ -53,72 +63,86 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
     try {
       const name = newRow.name?.trim();
       const p = Number(newRow.priceDiffPercent);
-      if (!name) return swAlert("warning", "İsim zorunludur.");
-      if (Number.isNaN(p) || p < 0 || p > 100) return swAlert("warning", "Yüzde 0–100 olmalı.");
+      if (!name) return swAlert("warning", tSH("validation.required"));
+      if (Number.isNaN(p) || p < 0 || p > 100)
+        return swAlert("warning", tSH("validation.percentRange"));
       const created = await createSpecialHallType({ name, priceDiffPercent: p });
-      swAlert("success", "Oluşturuldu.");
+      swAlert("success", tSH("messages.created"));
       setNewRow({ name: "", priceDiffPercent: "" });
       await load();
       onChanged?.();
-      // istersen seç
-      if (created?.id) onPick?.(created);
+      if (created?.id) onPick?.(created); // optional auto-pick newly created
     } catch (e) {
-      swAlert("error", e.message);
+      swAlert("error", e?.message || tCommon("error"));
     }
   };
 
   const removeRow = async (id) => {
-    const ok = await swConfirm("Silinsin mi?", "warning", "Bu özel salon tipi silinecek.", "Sil");
+    const ok = await swConfirm(
+      tSH("confirmDeleteTitle"),
+      "warning",
+      tSH("confirmDeleteText"),
+      tCommon("delete")
+    );
     if (!ok?.isConfirmed) return;
     try {
       await deleteSpecialHallType(id);
-      swAlert("success", "Silindi.");
+      swAlert("success", tSH("messages.deleted"));
       await load();
       onChanged?.();
     } catch (e) {
-      swAlert("error", e.message);
+      swAlert("error", e?.message || tCommon("error"));
     }
   };
 
   return (
     <Modal show={show} onHide={onClose} size="lg" backdrop="static" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Özel Salon Tipleri</Modal.Title>
+        <Modal.Title>{tSH("typesTitle")}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        {/* yeni ekleme satırı */}
+        {/* new row */}
         <div className="mb-3">
           <InputGroup>
             <Form.Control
-              placeholder="İsim (örn: Dolby)"
+              placeholder={tSH("namePlaceholder")}
               value={newRow.name}
-              onChange={(e) => setNewRow((s) => ({ ...s, name: e.target.value }))}
+              onChange={(e) =>
+                setNewRow((s) => ({ ...s, name: e.target.value }))
+              }
             />
             <Form.Control
-              placeholder="Fiyat farkı % (örn: 12)"
+              placeholder={tSH("percentPlaceholder")}
               type="number"
               min={0}
               max={100}
               value={newRow.priceDiffPercent}
-              onChange={(e) => setNewRow((s) => ({ ...s, priceDiffPercent: e.target.value }))}
+              onChange={(e) =>
+                setNewRow((s) => ({
+                  ...s,
+                  priceDiffPercent: e.target.value,
+                }))
+              }
               style={{ maxWidth: 160 }}
             />
-            <Button onClick={addNew}>Ekle</Button>
+            <Button onClick={addNew}>{tSH("add")}</Button>
           </InputGroup>
         </div>
 
-        {/* liste */}
+        {/* list */}
         {loading ? (
-          <div className="d-flex justify-content-center py-4"><Spinner /></div>
+          <div className="d-flex justify-content-center py-4">
+            <Spinner />
+          </div>
         ) : (
           <Table striped hover responsive>
             <thead>
               <tr>
                 <th>#</th>
-                <th>İsim</th>
-                <th>Fiyat farkı (%)</th>
-                <th className="text-end">İşlemler</th>
+                <th>{tSH("name")}</th>
+                <th>{tSH("percent")}</th>
+                <th className="text-end">{tSH("columns.actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -131,7 +155,9 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
                       {isEditing ? (
                         <Form.Control
                           value={editRow.name}
-                          onChange={(e) => setEditRow((s) => ({ ...s, name: e.target.value }))}
+                          onChange={(e) =>
+                            setEditRow((s) => ({ ...s, name: e.target.value }))
+                          }
                         />
                       ) : (
                         t.name
@@ -145,7 +171,10 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
                           max={100}
                           value={editRow.priceDiffPercent}
                           onChange={(e) =>
-                            setEditRow((s) => ({ ...s, priceDiffPercent: e.target.value }))
+                            setEditRow((s) => ({
+                              ...s,
+                              priceDiffPercent: e.target.value,
+                            }))
                           }
                         />
                       ) : (
@@ -155,20 +184,37 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
                     <td className="text-end">
                       {isEditing ? (
                         <>
-                          <Button size="sm" variant="success" className="me-2" onClick={saveEdit}>
-                            Kaydet
+                          <Button
+                            size="sm"
+                            variant="success"
+                            className="me-2"
+                            onClick={saveEdit}
+                          >
+                            {tCommon("save")}
                           </Button>
-                          <Button size="sm" variant="secondary" onClick={cancelEdit}>
-                            Vazgeç
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={cancelEdit}
+                          >
+                            {tCommon("cancel")}
                           </Button>
                         </>
                       ) : (
                         <>
-                          <Button size="sm" className="me-2" onClick={() => startEdit(t)}>
-                            Düzenle
+                          <Button
+                            size="sm"
+                            className="me-2"
+                            onClick={() => startEdit(t)}
+                          >
+                            {tCommon("edit")}
                           </Button>
-                          <Button size="sm" variant="outline-danger" onClick={() => removeRow(t.id)}>
-                            Sil
+                          <Button
+                            size="sm"
+                            variant="outline-danger"
+                            onClick={() => removeRow(t.id)}
+                          >
+                            {tCommon("delete")}
                           </Button>
                         </>
                       )}
@@ -179,7 +225,7 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
               {types.length === 0 && (
                 <tr>
                   <td colSpan={4} className="text-center text-muted py-4">
-                    Kayıt yok.
+                    {tCommon("empty")}
                   </td>
                 </tr>
               )}
@@ -190,7 +236,7 @@ export default function TypeManagerModal({ show, onClose, onChanged, onPick }) {
 
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose} disabled={dirty}>
-          Kapat
+          {tCommon("close")}
         </Button>
       </Modal.Footer>
     </Modal>

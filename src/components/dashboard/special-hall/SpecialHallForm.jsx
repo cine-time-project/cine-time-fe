@@ -9,13 +9,17 @@ import {
 } from "@/service/special-hall-service";
 import { swAlert } from "@/helpers/sweetalert";
 import SpecialHallTypeManager from "./SpecialHallTypeManager";
+import { useTranslations } from "next-intl";
 
 export default function SpecialHallForm({
   initialValues = { hallId: "", typeId: "" },
   onSubmit,
-  submitLabel = "Oluştur",
+  submitLabel, 
   busy = false,
 }) {
+  const t = useTranslations();
+  const tSH = useTranslations("specialHall");
+
   const [showManage, setShowManage] = useState(false);
 
   const [halls, setHalls] = useState([]);
@@ -96,9 +100,9 @@ export default function SpecialHallForm({
     const name = newTypeName?.trim();
     const percent = Number(newTypePercent);
 
-    if (!name) return swAlert("warning", "İsim zorunludur.");
+    if (!name) return swAlert("warning", tSH("validation.required"));
     if (Number.isNaN(percent) || percent < 0 || percent > 100) {
-      return swAlert("warning", "Fiyat farkı (%) 0–100 aralığında olmalıdır.");
+      return swAlert("warning", tSH("validation.percentRange"));
     }
 
     try {
@@ -113,9 +117,9 @@ export default function SpecialHallForm({
       }
 
       setShowTypeModal(false);
-      swAlert("success", "Özel salon tipi oluşturuldu.");
+      swAlert("success", tSH("alerts.typeCreated"));
     } catch (err) {
-      swAlert("error", err?.message || "Özel salon tipi oluşturulamadı.");
+      swAlert("error", err?.message || tSH("alerts.typeCreateFailed"));
     }
   };
 
@@ -127,7 +131,7 @@ export default function SpecialHallForm({
         <Row className="g-3">
           <Col md={6}>
             <Form.Group>
-              <Form.Label>Salon (Hall)</Form.Label>
+              <Form.Label>{tSH("form.hallLabel")}</Form.Label>
               <Form.Select
                 name="hallId"
                 value={values.hallId}
@@ -135,7 +139,7 @@ export default function SpecialHallForm({
                 disabled={loading || busy}
                 required
               >
-                <option value="">Seçiniz...</option>
+                <option value="">{tSH("form.selectPlaceholder")}</option>
                 {halls.map((h) => (
                   <option key={h.id} value={h.id}>
                     {(h.cinemaName ? `${h.cinemaName} – ` : "")}
@@ -149,7 +153,7 @@ export default function SpecialHallForm({
 
           <Col md={6}>
             <Form.Group>
-              <Form.Label>Özel Salon Tipi</Form.Label>
+              <Form.Label>{tSH("form.typeLabel")}</Form.Label>
               <InputGroup>
                 <Form.Select
                   name="typeId"
@@ -158,11 +162,15 @@ export default function SpecialHallForm({
                   disabled={loading || busy}
                   required
                 >
-                  <option value="">Seçiniz...</option>
-                  {types.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.name}
-                      {t.priceDiffPercent != null ? ` (+%${t.priceDiffPercent})` : ""}
+                  <option value="">{tSH("form.selectPlaceholder")}</option>
+                  {types.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.name}
+                      {opt.priceDiffPercent != null
+                        ? ` ${tSH("form.optionPercentSuffix", {
+                            percent: opt.priceDiffPercent,
+                          })}`
+                        : ""}
                     </option>
                   ))}
                 </Form.Select>
@@ -174,7 +182,7 @@ export default function SpecialHallForm({
                   onClick={openNewType}
                   disabled={busy}
                 >
-                  + Yeni Tip
+                  {tSH("form.newType")}
                 </Button>
 
                 <Button
@@ -184,7 +192,7 @@ export default function SpecialHallForm({
                   onClick={() => setShowManage(true)}
                   disabled={busy}
                 >
-                  Yönet
+                  {tSH("form.manage")}
                 </Button>
               </InputGroup>
             </Form.Group>
@@ -193,7 +201,11 @@ export default function SpecialHallForm({
 
         <div className="mt-4 d-flex gap-2">
           <Button type="submit" disabled={busy || loading}>
-            {busy ? <Spinner size="sm" /> : submitLabel}
+            {busy ? (
+              <Spinner size="sm" />
+            ) : (
+              submitLabel || tSH("form.submitCreate")
+            )}
           </Button>
         </div>
       </Form>
@@ -210,27 +222,29 @@ export default function SpecialHallForm({
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Yeni Özel Salon Tipi</h5>
+                  <h5 className="modal-title">{tSH("typeModal.title")}</h5>
                   <button
                     type="button"
                     className="btn-close"
-                    aria-label="Close"
+                    aria-label={t("common.close")}
                     onClick={() => setShowTypeModal(false)}
                   />
                 </div>
 
                 <div className="modal-body">
                   <div className="mb-3">
-                    <label className="form-label">İsim</label>
+                    <label className="form-label">{tSH("typeModal.nameLabel")}</label>
                     <input
                       className="form-control"
                       value={newTypeName}
                       onChange={(e) => setNewTypeName(e.target.value)}
-                      placeholder="Örn: Dolby, ScreenX..."
+                      placeholder={tSH("typeModal.namePlaceholder")}
                     />
                   </div>
                   <div>
-                    <label className="form-label">Fiyat farkı (%)</label>
+                    <label className="form-label">
+                      {tSH("typeModal.percentLabel")}
+                    </label>
                     <input
                       type="number"
                       min={0}
@@ -239,7 +253,7 @@ export default function SpecialHallForm({
                       className="form-control"
                       value={newTypePercent}
                       onChange={(e) => setNewTypePercent(e.target.value)}
-                      placeholder="Örn: 12"
+                      placeholder={tSH("typeModal.percentPlaceholder")}
                     />
                   </div>
                 </div>
@@ -250,10 +264,10 @@ export default function SpecialHallForm({
                     type="button"
                     onClick={() => setShowTypeModal(false)}
                   >
-                    Vazgeç
+                    {tSH("typeModal.cancel")}
                   </Button>
                   <Button type="button" onClick={saveNewType}>
-                    Kaydet
+                    {tSH("typeModal.save")}
                   </Button>
                 </div>
               </div>
@@ -277,7 +291,7 @@ export default function SpecialHallForm({
           await refreshTypes(); // modal kapanınca listeyi tazele
         }}
         onChanged={(op, payload) => {
-          // İsteğe bağlı: anında iyimser güncelleme
+          //  anında güncelle
           if (op === "update" && payload?.id) {
             setTypes((prev) =>
               prev.map((t) => (t.id === payload.id ? { ...t, ...payload } : t))

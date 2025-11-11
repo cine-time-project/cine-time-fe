@@ -8,8 +8,13 @@ import {
   deleteSpecialHallType,
 } from "@/service/special-hall-service";
 import { swAlert } from "@/helpers/sweetalert";
+import { useTranslations } from "next-intl";
 
 export default function SpecialHallTypeManager({ show, onClose }) {
+  const tSH = useTranslations("specialHall");
+  const tCommon = useTranslations("common");
+  const tSwal = useTranslations("swal");
+
   const [rows, setRows] = useState([]);
   const [busyId, setBusyId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,44 +24,54 @@ export default function SpecialHallTypeManager({ show, onClose }) {
     try {
       const list = await fetchSpecialHallTypes({ size: 500 });
       // edit edilebilir kopya
-      setRows(list.map(t => ({ ...t })));
+      setRows(list.map((t) => ({ ...t })));
     } finally {
       setLoading(false);
     }
   }
 
-  useEffect(() => { if (show) load(); }, [show]);
+  useEffect(() => {
+    if (show) load();
+  }, [show]);
 
   const handleChange = (idx, field, value) => {
-    setRows(prev => prev.map((r, i) => (i === idx ? { ...r, [field]: value } : r)));
+    setRows((prev) =>
+      prev.map((r, i) => (i === idx ? { ...r, [field]: value } : r))
+    );
   };
 
   const handleSave = async (row) => {
     setBusyId(row.id);
     try {
       const percent = Number(row.priceDiffPercent);
-      if (!row.name?.trim()) return swAlert("warning", "İsim zorunludur.");
+      if (!row.name?.trim()) return swAlert("warning", tSH("validation.required"));
       if (Number.isNaN(percent) || percent < 0 || percent > 100) {
-        return swAlert("warning", "Fiyat farkı (%) 0–100 olmalı.");
+        return swAlert("warning", tSH("validation.percentRange"));
       }
-      await updateSpecialHallType(row.id, { name: row.name.trim(), priceDiffPercent: percent });
-      swAlert("success", "Kayıt güncellendi.");
+      await updateSpecialHallType(row.id, {
+        name: row.name.trim(),
+        priceDiffPercent: percent,
+      });
+      swAlert("success", tSH("messages.updated"));
     } catch (e) {
-      swAlert("error", e?.message || "Güncelleme başarısız.");
+      swAlert("error", e?.message || tCommon("error"));
     } finally {
       setBusyId(null);
     }
   };
 
   const handleDelete = async (row) => {
-    if (!(await swAlert("question", "Silinsin mi?", "Bu işlem geri alınamaz."))) return;
+   
+    if (!(await swAlert("question", tSwal("areYouSure"), tSwal("willBeDeleted"))))
+      return;
+
     setBusyId(row.id);
     try {
       await deleteSpecialHallType(row.id);
-      swAlert("success", "Kayıt silindi.");
+      swAlert("success", tSH("messages.deleted"));
       await load();
     } catch (e) {
-      swAlert("error", e?.message || "Silme başarısız.");
+      swAlert("error", e?.message || tCommon("error"));
     } finally {
       setBusyId(null);
     }
@@ -65,40 +80,52 @@ export default function SpecialHallTypeManager({ show, onClose }) {
   return (
     <Modal show={show} onHide={onClose} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Özel Salon Tipleri — Yönet</Modal.Title>
+        <Modal.Title>{tSH("typesTitle")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {loading ? (
-          <div className="d-flex justify-content-center py-4"><Spinner /></div>
+          <div className="d-flex justify-content-center py-4">
+            <Spinner />
+          </div>
         ) : (
           <Table hover responsive className="align-middle">
             <thead>
               <tr>
-                <th>#</th>
-                <th>İsim</th>
-                <th>Fiyat farkı (%)</th>
-                <th style={{width: 160}}>İşlemler</th>
+                <th>{tSH("columns.id")}</th>
+                <th>{tSH("name")}</th>
+                <th>{tSH("percent")}</th>
+                <th style={{ width: 160 }}>{tSH("columns.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 && (
-                <tr><td colSpan={4} className="text-center text-muted">Kayıt yok.</td></tr>
+                <tr>
+                  <td colSpan={4} className="text-center text-muted">
+                    {tCommon("empty")}
+                  </td>
+                </tr>
               )}
               {rows.map((r, i) => (
                 <tr key={r.id}>
                   <td>{r.id}</td>
-                  <td style={{minWidth: 220}}>
+                  <td style={{ minWidth: 220 }}>
                     <Form.Control
                       value={r.name ?? ""}
                       onChange={(e) => handleChange(i, "name", e.target.value)}
+                      placeholder={tSH("namePlaceholder")}
                     />
                   </td>
-                  <td style={{maxWidth: 140}}>
+                  <td style={{ maxWidth: 140 }}>
                     <Form.Control
                       type="number"
-                      min={0} max={100} step={1}
+                      min={0}
+                      max={100}
+                      step={1}
                       value={r.priceDiffPercent ?? 0}
-                      onChange={(e) => handleChange(i, "priceDiffPercent", e.target.value)}
+                      onChange={(e) =>
+                        handleChange(i, "priceDiffPercent", e.target.value)
+                      }
+                      placeholder={tSH("percentPlaceholder")}
                     />
                   </td>
                   <td>
@@ -108,7 +135,11 @@ export default function SpecialHallTypeManager({ show, onClose }) {
                         disabled={busyId === r.id}
                         onClick={() => handleSave(r)}
                       >
-                        {busyId === r.id ? <Spinner size="sm" /> : "Kaydet"}
+                        {busyId === r.id ? (
+                          <Spinner size="sm" />
+                        ) : (
+                          tCommon("save")
+                        )}
                       </Button>
                       <Button
                         size="sm"
@@ -116,7 +147,7 @@ export default function SpecialHallTypeManager({ show, onClose }) {
                         disabled={busyId === r.id}
                         onClick={() => handleDelete(r)}
                       >
-                        Sil
+                        {tCommon("delete")}
                       </Button>
                     </div>
                   </td>
@@ -127,7 +158,9 @@ export default function SpecialHallTypeManager({ show, onClose }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>Kapat</Button>
+        <Button variant="secondary" onClick={onClose}>
+          {tCommon("close")}
+        </Button>
       </Modal.Footer>
     </Modal>
   );

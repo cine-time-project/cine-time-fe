@@ -2,13 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import SpecialHallForm from "@/components/dashboard/special-hall/SpecialHallForm";
-import { fetchSpecialHallById, updateSpecialHall } from "@/service/special-hall-service";
+import {
+  fetchSpecialHallById,
+  updateSpecialHall,
+} from "@/service/special-hall-service";
 import { swAlert } from "@/helpers/sweetalert";
 
 export default function SpecialHallEditPage() {
-  const { id } = useParams();              // route param (string gelir)
+  const { id } = useParams(); 
   const router = useRouter();
+  const locale = useLocale();
+
+  const tSH = useTranslations("specialHall");
+  const tCommon = useTranslations("common");
+
   const [item, setItem] = useState(null);
   const [busy, setBusy] = useState(true);
 
@@ -17,9 +26,10 @@ export default function SpecialHallEditPage() {
     (async () => {
       try {
         const data = await fetchSpecialHallById(id);
+
         if (!alive) return;
 
-        // Gelen response farklı şekillerde olabilir; ikisini de destekleyelim:
+        // Eski/yeni BE şemaları için güvenli map
         const hallId = String(data?.hallId ?? data?.hall?.id ?? "");
         const typeId = String(data?.typeId ?? data?.type?.id ?? "");
 
@@ -28,7 +38,9 @@ export default function SpecialHallEditPage() {
         if (alive) setBusy(false);
       }
     })();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, [id]);
 
   const handleUpdate = async (fd) => {
@@ -36,11 +48,13 @@ export default function SpecialHallEditPage() {
       setBusy(true);
       const hallId = Number(fd.get("hallId"));
       const typeId = Number(fd.get("typeId"));
+
       await updateSpecialHall(item.id, { hallId, typeId });
-      swAlert("success", "Özel salon ataması güncellendi.");
-      router.push("/tr/admin/special-halls"); // listeye dön
+
+      swAlert("success", tSH("edit.updated")); 
+      router.push(`/${locale}/admin/special-halls`);
     } catch (err) {
-      swAlert("error", err?.message || "Güncelleme başarısız.");
+      swAlert("error", err?.message || tCommon("errors.updateFailed"));
     } finally {
       setBusy(false);
     }
@@ -50,10 +64,13 @@ export default function SpecialHallEditPage() {
     <div className="card shadow-sm">
       <div className="card-body">
         <SpecialHallForm
-          key={`${item?.hallId}-${item?.typeId}`}   // güvenli re-render
-          initialValues={{ hallId: item?.hallId ?? "", typeId: item?.typeId ?? "" }}
+          key={`${item?.hallId}-${item?.typeId}`} 
+          initialValues={{
+            hallId: item?.hallId ?? "",
+            typeId: item?.typeId ?? "",
+          }}
           onSubmit={handleUpdate}
-          submitLabel="Güncelle"
+          submitLabel={tCommon("update")}
           busy={busy}
         />
       </div>

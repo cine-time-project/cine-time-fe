@@ -3,18 +3,23 @@ import { Suspense } from "react";
 import SpecialHallListTable from "@/components/dashboard/special-hall/SpecialHallListTable";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import Spacer from "@/components/common/Spacer";
+import { getTranslations } from "next-intl/server";
 
-export const metadata = { title: "Special Halls" };
+export async function generateMetadata() {
+  const tSH = await getTranslations("specialHall");
+  return { title: tSH("list.title") }; 
+}
 
-export default function SpecialHallsPage() {
+export default async function SpecialHallsPage() {
+  const tSH = await getTranslations("specialHall");
+  const tCommon = await getTranslations("common");
+
   return (
     <>
-      
-        <PageHeader title="Special Halls" />
-              <Spacer/>
-       
+      <PageHeader title={tSH("list.title")} />
+      <Spacer />
 
-      <Suspense fallback={<div>Loading…</div>}>
+      <Suspense fallback={<div>{tCommon("loading")}</div>}>
         <SpecialHallListTable />
       </Suspense>
     </>
