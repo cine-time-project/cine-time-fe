@@ -1168,6 +1168,7 @@
   },
   
   "specialHall": {
+    "edit": { "title": "Özel Salonu Düzenle" },
     "list": { "title": "Özel Salonlar" },
     "headers": {
       "id": "#",
@@ -1217,6 +1218,7 @@
     "new": {
       "title": "Özel Salon Oluştur"
     },
+    
     "form": {
       "hall": "Salon",
       "type": "Tür",

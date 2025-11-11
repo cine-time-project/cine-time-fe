@@ -23,7 +23,7 @@ export default function SpecialHallNewPage() {
 
   return (
     <div className="container py-4">
-      <h2>{tSH("new.title")}</h2>
+      <h2 className="fw-semibold mb-4 text-white">{tSH("new.title")}</h2>
       <div className="card shadow-sm mt-3">
         <SpecialHallForm
           initialValues={initial}

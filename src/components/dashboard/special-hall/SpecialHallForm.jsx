@@ -10,6 +10,8 @@ import {
 import { swAlert } from "@/helpers/sweetalert";
 import SpecialHallTypeManager from "./SpecialHallTypeManager";
 import { useTranslations } from "next-intl";
+import { BackButton } from "@/components/common/form-fields/BackButton";
+import Spacer from "@/components/common/Spacer";
 
 export default function SpecialHallForm({
   initialValues = { hallId: "", typeId: "" },
@@ -199,7 +201,10 @@ export default function SpecialHallForm({
           </Col>
         </Row>
 
-        <div className="mt-4 d-flex gap-2">
+        <Spacer></Spacer>
+       <div className="d-flex gap-2 justify-content-end pt-2">
+        
+          <BackButton></BackButton>
           <Button type="submit" disabled={busy || loading}>
             {busy ? (
               <Spinner size="sm" />

@@ -1154,6 +1154,7 @@
     }
   },
    "specialHall": {
+    "edit": { "title": "Edit Special Hall" },
     "list": { "title": "Special Halls" },
     "headers": {
       "id": "#",

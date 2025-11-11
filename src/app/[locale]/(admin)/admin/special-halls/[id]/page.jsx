@@ -61,7 +61,11 @@ export default function SpecialHallEditPage() {
   };
 
   return (
+    <>
+   <h2 className="fw-semibold mb-4 text-white">{tSH("updateTitle")}</h2>
+
     <div className="card shadow-sm">
+      
       <div className="card-body">
         <SpecialHallForm
           key={`${item?.hallId}-${item?.typeId}`} 
@@ -74,6 +78,6 @@ export default function SpecialHallEditPage() {
           busy={busy}
         />
       </div>
-    </div>
+    </div></>
   );
 }
