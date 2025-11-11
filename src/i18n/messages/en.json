@@ -944,6 +944,39 @@
       "payments": { "title": "Payments", "desc": "Payment records" },
       "favorites": { "title": "Favorites", "desc": "User favorites" },
       "roles": { "title": "Roles", "desc": "Roles & permissions" }
+    },
+    "contactMessages": {
+      "title": "Contact Messages",
+      "subtitle": "All user messages",
+      "messageCount": "messages",
+      "refresh": "Refresh",
+      "loading": "Loading messages...",
+      "fromLabel": "From",
+      "subjectLabel": "Subject",
+      "messageLabel": "Message",
+      "deleteButton": "Delete",
+      "empty": {
+        "title": "No messages yet",
+        "text": "User messages will appear here."
+      },
+      "error": {
+        "title": "An error occurred",
+        "text": "Error loading messages",
+        "retry": "Try again"
+      },
+      "deleteConfirm": {
+        "title": "Are you sure you want to delete this message?",
+        "text": "This action cannot be undone.",
+        "subject": "Subject"
+      },
+      "deleteSuccess": {
+        "title": "Message deleted",
+        "text": "Message was successfully deleted."
+      },
+      "deleteError": {
+        "title": "Delete error",
+        "text": "An error occurred while deleting the message."
+      }
     }
   },
 
@@ -1156,5 +1189,43 @@
       "deleteFailedBuiltIn": "Built-in admin cannot be deleted.",
       "deleteFailed": "Account deletion failed."
     }
+  },
+
+  "contactMessages": {
+    "title": "Contact Messages",
+    "subtitle": "All messages from users",
+    "messageCount": "messages",
+    "refresh": "Refresh",
+    "loading": "Loading messages...",
+    "messageLabel": "Message",
+    "deleteButton": "Delete",
+    "empty": {
+      "title": "No Messages Yet",
+      "text": "Messages from users will appear here."
+    },
+    "error": {
+      "title": "Error Occurred",
+      "text": "An error occurred while loading messages",
+      "retry": "Try Again"
+    },
+    "deleteConfirm": {
+      "title": "Are You Sure You Want to Delete This Message?",
+      "text": "This action cannot be undone.",
+      "subject": "Subject"
+    },
+    "deleteSuccess": {
+      "title": "Deleted!",
+      "text": "Message successfully deleted."
+    },
+    "deleteError": {
+      "title": "Could Not Delete",
+      "text": "An error occurred while deleting the message. Please try again."
+    }
+  },
+
+  "swal": {
+    "confirm": "OK",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }
