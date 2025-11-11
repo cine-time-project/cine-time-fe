@@ -7,9 +7,9 @@ import "./ShowtimeDateSelector.scss";
 export const ShowtimeDateSelector = ({
   dates = [],
   onDateChange,
-  tCinemas,
+  selectedDate,
+  setSelectedDate,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(dates[0] || "");
 
   const formatLocalDate = (iso) => {
     const d = new Date(iso);

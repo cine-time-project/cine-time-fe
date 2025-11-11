@@ -1,11 +1,11 @@
 "use client";
-import MovieCard from "@/components/movies/movie-card/MovieCard";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import MovieCardInCinemaDetail from "./MovieCardInCinemaDetail";
-import { useState } from "react";
+
 
 export default function MovieList({ movies, tCinemas, selectedMovieID, pickMovie }) {
 
