@@ -902,7 +902,10 @@
     "hall_saved_success": "Saal wurde erfolgreich gespeichert.",
     "hall_create_failed": "Saal konnte nicht erstellt werden.",
     "hall_duplicate_error": "Ein Saal mit diesem Namen existiert bereits in diesem Kino.",
-    "errorDelete": "Beim Löschen des Saals ist ein Fehler aufgetreten."
+    "errorDelete": "Beim Löschen des Saals ist ein Fehler aufgetreten.",
+    "needAdminToEdit": "Sie müssen ein Administrator sein, um zu bearbeiten",
+    "needAdminToDelete": "Sie müssen ein Administrator sein, um zu löschen",
+    "needAdmin": "Sie müssen ein Administrator sein"
   },
 
   "movie": {
@@ -999,5 +1002,9 @@
     "confirm": "OK",
     "cancel": "Abbrechen",
     "delete": "Löschen"
+    "successCreateMovie": "Der Film wurde erfolgreich erstellt.",
+    "needAdminToEdit": "Sie müssen ein Administrator sein, um zu bearbeiten",
+    "needAdminToDelete": "Sie müssen ein Administrator sein, um zu löschen",
+    "needAdmin": "Sie müssen ein Administrator sein"
   }
 }

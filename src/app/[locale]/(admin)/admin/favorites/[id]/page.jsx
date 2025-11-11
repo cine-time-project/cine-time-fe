@@ -1,30 +1,38 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useParams } from "next/navigation";
+import Link from "next/link";
 import { config } from "@/helpers/config";
 
-export default function FavoriteEditPage({ params }) {
-  const { id } = params;
-  const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+export default function FavoriteUsersPage() {
   const router = useRouter();
   const pathname = usePathname();
+  const { id } = useParams();
   const locale = pathname.split("/")[1] || "tr";
-   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
+
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchMovie();
+    fetchUsers();
   }, [id]);
 
-  const fetchMovie = async () => {
+  const fetchUsers = async () => {
     try {
-      const res = await fetch(`${API_BASE}/movies/id/${id}`);
-      if (!res.ok) throw new Error("Movie not found");
+      setLoading(true);
+      const token = localStorage.getItem("authToken");
+      if (!token) throw new Error("Oturum geçersiz. Lütfen giriş yapın.");
+
+      const res = await fetch(`${API_BASE}/favorites/movies/${id}/users`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Kullanıcı listesi alınamadı");
       const data = await res.json();
-      setMovie(data.returnBody || data);
-    } catch (err) {
-      console.error(err);
+      setUsers(data);
+    } catch (e) {
+      setError(e.message);
     } finally {
       setLoading(false);
     }
@@ -33,47 +41,52 @@ export default function FavoriteEditPage({ params }) {
   if (loading)
     return (
       <div className="container text-center py-5">
-        <div className="spinner-border text-warning"></div>
-        <p className="mt-3">Loading movie...</p>
+        <div className="spinner-border text-warning" role="status"></div>
+        <p className="mt-3">Yükleniyor...</p>
       </div>
     );
 
-  if (!movie)
+  if (error)
     return (
       <div className="container py-4">
-        <div className="alert alert-danger">Movie not found.</div>
-        <button
-          className="btn btn-outline-secondary"
-          onClick={() => router.push(`/${locale}/dashboard/favorites`)}
-        >
-          ← Back
-        </button>
+        <div className="alert alert-danger">{error}</div>
       </div>
     );
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">🎬 {movie.title}</h1>
-      <img
-        src={movie.posterUrl || "/no-poster.png"}
-        alt={movie.title}
-        className="img-fluid rounded shadow-sm mb-3"
-        style={{ maxWidth: "320px", height: "auto" }}
-      />
-      <p>
-        <strong>Genre:</strong> {movie.genre?.join(", ") || "N/A"}
-      </p>
-      <p>
-        <strong>Release Date:</strong> {movie.releaseDate || "Unknown"}
-      </p>
-      <p>{movie.summary}</p>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="mb-0">👥 Bu filmi favorileyen kullanıcılar</h2>
+        <Link
+          href={`/${locale}/admin/favorites`}
+          className="btn btn-outline-secondary btn-sm"
+        >
+          ← Geri dön
+        </Link>
+      </div>
 
-      <button
-        className="btn btn-outline-secondary"
-        onClick={() => router.push(`/${locale}/dashboard/favorites`)}
-      >
-        ← Back to Favorites
-      </button>
+      {users.length === 0 ? (
+        <p className="text-muted">Bu filmi henüz kimse favorilememiş.</p>
+      ) : (
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Ad Soyad</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u, idx) => (
+              <tr key={u.id}>
+                <td>{idx + 1}</td>
+                <td>{u.username}</td>
+                <td>{u.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

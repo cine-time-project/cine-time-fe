@@ -892,7 +892,10 @@
     "hall_saved_success": "La salle a été enregistrée avec succès.",
     "hall_create_failed": "Échec de la création de la salle.",
     "hall_duplicate_error": "Une salle portant ce nom existe déjà dans le cinéma sélectionné.",
-    "errorDelete": "Une erreur s'est produite lors de la suppression de la salle."
+    "errorDelete": "Une erreur s'est produite lors de la suppression de la salle.",
+    "needAdminToEdit": "Vous devez être administrateur pour modifier",
+    "needAdminToDelete": "Vous devez être administrateur pour supprimer",
+    "needAdmin": "Vous devez être administrateur"
   },
 
   "movie": {
@@ -989,5 +992,9 @@
     "confirm": "OK",
     "cancel": "Annuler",
     "delete": "Supprimer"
+    "successCreateMovie": "Le film a été créé avec succès.",
+    "needAdminToEdit": "Vous devez être administrateur pour modifier",
+    "needAdminToDelete": "Vous devez être administrateur pour supprimer",
+    "needAdmin": "Vous devez être administrateur"
   }
 }
