@@ -20,7 +20,6 @@ export const HeroCard = ({ movie, slideNumber }) => {
     e.stopPropagation(); // Prevent event bubbling
 
     if (!isLoggedIn) {
-      console.log("User must be logged in to add favorites");
       return;
     }
 

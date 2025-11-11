@@ -38,8 +38,8 @@ export const userUpdateByIdApi = (userId) => `${API}/${userId}/admin`; // PUT
 
 // -------------------- Contact Messages --------------------
 export const CONTACT_CREATE_API = `${API}/contactmessages`; // POST
-
-
+export const CONTACT_LIST_API = `${API}/contactmessages`; // GET (Admin/Employee)
+export const contactMessageByIdApi = (id) => `${API}/contactmessages/${id}`; // GET/DELETE (Admin/Employee)
 
 // -------------------- Cinemas --------------------
 export const CINEMA_LIST_API = `${API}/cinemas`;            // GET
@@ -53,6 +53,19 @@ export const cinemaHallsApi = (id) => `${API}/cinemas/${id}/halls`;    // GET
 export const HALL_LIST_API = `${API}/hall`;     // GET
 export const HALL_CREATE_API = `${API}/hall`;   // POST
 export const hallByIdApi = (hallId) => `${API}/hall/${hallId}`; // GET/PUT/DELETE
+
+
+// -------------------- Special Hall Assignments (Hall + Type bağlama) --------------------
+export const SPECIALHALL_ASSIGNMENTS_API = `${API}/special-hall-assignments`;                 // GET (paged) + POST
+export const specialHallAssignmentByIdApi = (id) => `${API}/special-hall-assignments/${id}`;  // GET/PUT/DELETE
+
+// -------------------- Special Hall Types --------------------
+export const SPECIALHALL_TYPES_API = `${API}/special-hall-types`;
+export const specialHallTypeByIdApi = (id) => `${API}/special-hall-types/${id}`;
+
+export const SPECIAL_HALL_TYPES_API = `${API}/special-hall-types`;
+
+
 
 // -------------------- Movies --------------------
 export const MOVIE_SAVE_API = `${API}/movies/save`;                 // POST

@@ -1,0 +1,160 @@
+.contact-messages-dashboard {
+  .contact-message-card {
+    border: 1px solid #e3e6f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: #fff;
+    height: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: #4f46e5;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    // Label styling - more prominent
+    .label-section {
+      .label-text {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+        display: inline-block;
+      }
+    }
+
+    // Sender name styling
+    .sender-name {
+      color: #1f2937;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+
+    // Subject styling
+    .subject-text {
+      color: #374151;
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    // Contact section
+    .contact-section {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0.75rem;
+      border-left: 3px solid #e5e7eb;
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+
+        .contact-text {
+          font-size: 0.875rem;
+          color: #6b7280;
+          font-weight: 400;
+        }
+
+        .contact-link {
+          font-size: 0.875rem;
+          color: #4f46e5;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          cursor: pointer;
+
+          &:hover {
+            color: #7c3aed;
+            text-decoration: underline !important;
+            transform: translateX(2px);
+          }
+
+          &:focus {
+            outline: 2px solid #4f46e5;
+            outline-offset: 2px;
+            border-radius: 2px;
+          }
+
+          &:active {
+            color: #6366f1;
+            transform: scale(0.98);
+          }
+        }
+      }
+    }
+
+    // Message section
+    .message-section {
+      .message-content {
+        background: #fafbfc;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1rem;
+        max-height: 120px;
+        overflow-y: auto;
+
+        .message-text {
+          color: #374151;
+          font-size: 0.875rem;
+          line-height: 1.5;
+          white-space: pre-wrap;
+        }
+      }
+    }
+
+    // Delete button
+    .delete-btn {
+      border-radius: 8px;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+      }
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .contact-message-card {
+      .card-body {
+        padding: 1rem;
+      }
+
+      .sender-name {
+        font-size: 1rem;
+      }
+
+      .subject-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Utility classes
+.fs-7 {
+  font-size: 0.875rem;
+}
+
+.fs-8 {
+  font-size: 0.75rem;
+}
