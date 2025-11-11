@@ -31,7 +31,7 @@ export const makeUserAdminApi = (userId) => `${API}/${userId}/admin`;    // PUT
 export const revokeUserAdminApi = (userId) => `${API}/${userId}/admin`;  // DELETE
 
 //List Users
-export const USER_LIST_API = `${API}/users/4/admin`; // GET
+export const USER_LIST_API = `${API}/users/admin/all`; // GET
 
 // Update User By Id
 export const userUpdateByIdApi = (userId) => `${API}/${userId}/admin`; // PUT
