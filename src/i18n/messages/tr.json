@@ -101,7 +101,9 @@
     "search": "Ara",
     "page": "Sayfa",
     "total": "Toplam",
-    "rows": "Satır"
+    "rows": "Satır",
+     "actions": "İşlemler",
+    "create": "Oluştur"
   },
 
   "status": {
@@ -578,13 +580,6 @@
     "skipToContent": "İçeriğe geç",
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat"
-  },
-  "swal": {
-    "confirm": "Onayla",
-    "cancel": "İptal",
-    "deny": "Reddet",
-    "successTitle": "Başarılı",
-    "errorTitle": "Hata"
   },
   "contact": {
     "reasons": {
@@ -1192,7 +1187,11 @@
   "alerts": {
     "warnings": {
       "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
-      "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı."
+      "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı.",
+       "typeUpdated": "Özel salon türü güncellendi.",
+  "typeUpdateFailed": "Özel salon türü güncellenemedi.",
+  "typeDeleted": "Özel salon türü silindi.",
+  "typeDeleteFailed": "Özel salon türü silinemedi."
     },
     "pwdUpdated": "Şifren başarıyla güncellendi.",
     "deleteTitle": "Emin misin?",
@@ -1239,6 +1238,131 @@
   "swal": {
     "confirm": "Tamam",
     "cancel": "İptal",
-    "delete": "Sil"
+    "delete": "Sil",
+    "deny": "Reddet",
+    "successTitle": "Başarılı",
+    "errorTitle": "Hata",
+    "areYouSure": "Emin misiniz?",
+    "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
+    "yes": "Evet",
+    "no": "Hayır",
+    "ok": "OK"
+  },
+  
+  "specialHall": {
+    "confirmDelete": "\"{name}\" özel salon silinecek. Emin misiniz?",
+    "edit": {  "title": "Özel Salonu Düzenle",
+      "updated": "Özel salon başarıyla güncellendi."},
+      "alerts": {
+      "typeCreated": "Özel salon türü oluşturuldu.",
+      "typeCreateFailed": "Özel salon türü oluşturulamadı.",
+       "typeDeleted": "Özel salon türü silindi.",
+    "typeDeleteFailed": "Özel salon türü silinemedi.",
+    "typeInUse": "\"{name}\" türünde özel salon(lar) bulunmaktadır. Önce bu salonları silmeli ya da türlerini değiştirmelisiniz."
+    },
+    "list": { "title": "Özel Salonlar" },
+    "headers": {
+      "id": "#",
+      "cinema": "Sinema",
+      "hall": "Salon",
+      "type": "Tür",
+      "seatCap": "Kapasite",
+      "basePrice": "Taban Fiyat",
+      "surchargePercent": "Fark (%)",
+      "finalPrice": "Nihai Fiyat",
+      "isActive": "Aktif",
+      "actions": "İşlemler"
+    },
+    "buttons": { "new": "+ Yeni" },
+    "name": "Tür Adı",
+    "percent": "Fiyat Farkı (%)",
+    "columns": {
+      "id": "ID",
+      "name": "Ad",
+      "percent": "Fiyat Farkı (%)",
+      "actions": "İşlemler"
+    },
+    "namePlaceholder": "Tür adını girin (örn. IMAX)",
+    "percentPlaceholder": "0–100",
+    "listTitle": "Özel Salonlar",
+    "createTitle": "Özel Salon Oluştur",
+    "updateTitle": "Özel Salonu Düzenle",
+    "typesTitle": "Özel Salon Türleri",
+    "newButton": "Yeni",
+    "editButton": "Düzenle",
+    "deleteButton": "Sil",
+    "deleteConfirm": "\"{name}\" silinsin mi?",
+    "searchPlaceholder": "Salon veya tür ara...",
+    "showAllButton": "Tümünü Göster",
+    "noData": "Özel salon bulunamadı.",
+    "table": {
+      "id": "ID",
+      "hall": "Salon",
+      "cinema": "Sinema",
+      "type": "Tür",
+      "basePrice": "Taban Fiyat",
+      "surchargePercent": "Fark (%)",
+      "finalPrice": "Nihai Fiyat",
+      "isActive": "Aktif",
+      "actions": "İşlemler"
+    },
+    "new": {
+      "title": "Özel Salon Oluştur"
+    },
+    
+    "form": {
+      "hall": "Salon",
+      "type": "Tür",
+      "basePrice": "Taban Fiyat",
+      "surchargePercent": "Fiyat Farkı (%)",
+      "isActive": "Aktif",
+      "hallLabel": "Salon",
+      "typeLabel": "Tür",
+      "selectPlaceholder": "Seçiniz...",
+      "selectHall": "Salon seçin",
+      "selectType": "Tür seçin",
+      "newType": "Yeni tür",
+      "manage": "Türleri yönet",
+      "optionPercentSuffix": "(+%{percent})"
+    },
+    "validations": {
+      "hallRequired": "Salon zorunludur.",
+      "typeRequired": "Tür zorunludur.",
+      "basePriceRequired": "Taban fiyat zorunludur.",
+      "surchargeRange": "Fiyat farkı 0–100 arasında olmalıdır."
+    },
+    "messages": {
+      "created": "Özel salon oluşturuldu.",
+      "updated": "Özel salon güncellendi.",
+      "deleted": "Özel salon silindi.",
+      "loadError": "Özel salon verileri yüklenemedi.",
+      "operationFailed": "İşlem başarısız."
+      
+    },
+    "filters": {
+      "cinema": "Sinema",
+      "type": "Tür",
+      "active": "Aktif"
+    },
+    "typeModal": {
+      "title": "Özel Salon Türü Yönetimi",
+      "nameLabel": "Tür adı",
+      "namePlaceholder": "Örn. IMAX, 4DX",
+      "percentLabel": "Fiyat farkı (%)",
+      "percentPlaceholder": "0–100 arası değer girin",
+      "cancel": "İptal",
+      "save": "Kaydet",
+      "errors": {
+        "nameRequired": "Tür adı zorunludur.",
+        "percentRequired": "Fiyat farkı zorunludur.",
+        "percentRange": "0 ile 100 arasında bir değer girin."
+      }
+    },
+    "actions": {
+      "save": "Kaydet",
+      "delete": "Sil",
+      "close": "Kapat"
+    }
   }
 }
+

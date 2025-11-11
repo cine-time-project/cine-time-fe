@@ -596,13 +596,7 @@
     "ctaBtn": "Acheter des billets"
   },
 
-  "swal": {
-    "confirm": "Confirmer",
-    "cancel": "Annuler",
-    "deny": "Refuser",
-    "successTitle": "Succès",
-    "errorTitle": "Erreur"
-  },
+
   "contact": {
     "title": "Contact",
     "subtitle": "Nous sommes là pour vous aider ! Une question, besoin d’assistance ou envie d’en savoir plus ? Écrivez-nous. Remplissez le formulaire ou utilisez les coordonnées indiquées — nous vous répondrons au plus vite.",
@@ -991,10 +985,18 @@
   "swal": {
     "confirm": "OK",
     "cancel": "Annuler",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
     "successCreateMovie": "Le film a été créé avec succès.",
     "needAdminToEdit": "Vous devez être administrateur pour modifier",
     "needAdminToDelete": "Vous devez être administrateur pour supprimer",
-    "needAdmin": "Vous devez être administrateur"
+    "needAdmin": "Vous devez être administrateur",
+  "deny": "Refuser",
+  "successTitle": "Succès",
+  "errorTitle": "Erreur",
+  "areYouSure": "Êtes-vous sûr(e) ?",
+  "willBeDeleted": "\"{name}\" sera supprimé définitivement.",
+  "yes": "Oui",
+  "no": "Non",
+  "ok": "OK"
   }
 }

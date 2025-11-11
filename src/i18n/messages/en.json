@@ -102,7 +102,9 @@
     "search": "Search",
     "page": "Page",
     "total": "Total",
-    "rows": "Rows"
+    "rows": "Rows",
+    "actions": "Actions",
+    "create": "Create"
   },
 
   "status": {
@@ -660,14 +662,6 @@
     "ctaBody": "Find a theater near you and grab your tickets.",
     "ctaBtn": "Buy Tickets"
   },
-
-  "swal": {
-    "confirm": "Confirm",
-    "cancel": "Cancel",
-    "deny": "Deny",
-    "successTitle": "Success",
-    "errorTitle": "Error"
-  },
   "contact": {
     "reasons": {
       "title": "Quick choose :",
@@ -709,6 +703,7 @@
       "failNetwork": "Network error. Please check your connection.",
       "failTimeout": "Request timed out. Please try again.",
       "failGeneric": "An unexpected error occurred. Please try again."
+      
     },
     "errors": {
       "fullNameRequired": "Full name is required.",
@@ -1226,6 +1221,130 @@
   "swal": {
     "confirm": "OK",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "deny": "Deny",
+    "successTitle": "Success",
+    "errorTitle": "Error",
+   "areYouSure": "Are you sure?",
+  "willBeDeleted": "\"{name}\" will be permanently deleted.",
+  "yes": "Yes",
+  "no": "No",
+  "ok": "OK"
+  },
+    
+  "specialHall": {
+    "confirmDelete": "“{name}” special hall will be deleted. Are you sure?",
+    "edit": { "title": "Edit Special Hall",
+      "updated": "Special hall updated successfully." },
+      "alerts": {
+      "typeCreated": "Special hall type has been created.",
+      "typeCreateFailed": "Failed to create special hall type.",
+      "typeUpdated": "Special hall type updated.",
+   "typeUpdateFailed": "Failed to update special hall type.",
+   "typeDeleted": "Special hall type deleted.",
+   "typeDeleteFailed": "Failed to delete special hall type.",
+    "typeInUse": "Type \"{name}\" is used by existing special halls. Please remove or change those halls first."
+    },
+    "list": { "title": "Special Halls" },
+    "headers": {
+      "id": "#",
+      "cinema": "Cinema",
+      "hall": "Hall",
+      "type": "Type",
+      "seatCap": "Capacity",
+      "basePrice": "Base Price",
+      "surchargePercent": "Price Diff (%)",
+      "finalPrice": "Final Price",
+      "isActive": "Active",
+      "actions": "Actions"
+    },
+    "buttons": { "new": "+ New" },
+     "name": "Name",
+    "percent": "Price Diff (%)",
+    "columns": {
+     "id": "ID",
+      "name": "Name",
+      "percent": "Price Diff (%)",
+      "actions": "Actions"
+    },
+    "namePlaceholder": "Enter type name (e.g., IMAX)",
+    "percentPlaceholder": "0–100",
+    "listTitle": "Special Halls",
+    "createTitle": "Create Special Hall",
+    "updateTitle": "Edit Special Hall",
+    "typesTitle": "Special Hall Types",
+    "newButton": "New",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+    "deleteConfirm": "Delete \"{name}\"?",
+    "searchPlaceholder": "Search hall or type...",
+    "showAllButton": "Show All",
+    "noData": "No special halls found.",
+    "table": {
+      "id": "ID",
+      "hall": "Hall",
+      "cinema": "Cinema",
+      "type": "Type",
+      "basePrice": "Base Price",
+      "surchargePercent": "Diff (%)",
+      "finalPrice": "Final Price",
+      "isActive": "Active",
+      "actions": "Actions"
+    },
+    "new": {
+      "title": "Create Special Hall"
+    },
+    "form": {
+      "hall": "Hall",
+      "type": "Type",
+      "basePrice": "Base Price",
+      "surchargePercent": "Price Diff (%)",
+      "isActive": "Active",
+      "hallLabel": "Hall",
+      "typeLabel": "Type",
+      "selectPlaceholder": "Select...",
+      "selectHall": "Select hall",
+      "selectType": "Select type",
+      "newType": "New type",
+      "manage": "Manage types",
+      "optionPercentSuffix": "(+%{percent})"
+    },
+    "validations": {
+      "hallRequired": "Hall is required.",
+      "typeRequired": "Type is required.",
+      "basePriceRequired": "Base price is required.",
+      "surchargeRange": "Price difference must be between 0–100."
+    },
+    "messages": {
+      "created": "Special hall created.",
+      "updated": "Special hall updated.",
+      "deleted": "Special hall deleted.",
+      "loadError": "Failed to load special hall data.",
+      "operationFailed": "Operation failed."
+    },
+    "filters": {
+      "cinema": "Cinema",
+      "type": "Type",
+      "active": "Active"
+    },
+    "typeModal": {
+      "title": "Special Hall Type Management",
+      "nameLabel": "Type name",
+      "namePlaceholder": "e.g., IMAX, 4DX",
+      "percentLabel": "Surcharge (%)",
+      "percentPlaceholder": "Enter a value between 0–100",
+      "cancel": "Cancel",
+      "save": "Save",
+      "errors": {
+        "nameRequired": "Type name is required.",
+        "percentRequired": "Surcharge is required.",
+        "percentRange": "Enter a value between 0 and 100."
+      }
+    },
+    "actions": {
+      "save": "Save",
+      "delete": "Delete",
+      "close": "Close"
+    }
   }
 }
