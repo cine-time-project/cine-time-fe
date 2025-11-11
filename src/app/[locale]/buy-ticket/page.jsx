@@ -11,8 +11,9 @@ import {
   cinemaByIdApi,
   movieByIdApi,
   cinemaHallsApi,
+  cinemaHallsPricingApi, // GET /cinemas/{id}/halls/pricing
 } from "@/helpers/api-routes";
-import { savePendingOrder } from "@/lib/utils/checkout"; // <-- handoff to payment
+import { savePendingOrder } from "@/lib/utils/checkout";
 
 export default function BuyTicketPage() {
   const params = useSearchParams();
@@ -21,63 +22,40 @@ export default function BuyTicketPage() {
   const localeSegment = pathname?.split("/")?.[1] || "tr";
   const basePath = `/${localeSegment}`;
 
-  // --- query params from TicketSelector ---
-  const cityId = params.get("cityId");
+  // --- Query Params ---
   const cinemaId = params.get("cinemaId");
-  const date = params.get("date"); // YYYY-MM-DD
+  const date = params.get("date");       // YYYY-MM-DD
   const movieId = params.get("movieId");
-  const timeFromUrlRaw = params.get("time"); // "20:00" from previous page
+  const timeFromUrlRaw = params.get("time"); // "20:00"
 
-  // normalize ?time=20:00 -> "20:00:00"
-  const timeFromUrl = timeFromUrlRaw
-    ? timeFromUrlRaw.length === 5
-      ? timeFromUrlRaw + ":00"
-      : timeFromUrlRaw
-    : "";
+  const timeFromUrl =
+    timeFromUrlRaw ? (timeFromUrlRaw.length === 5 ? timeFromUrlRaw + ":00" : timeFromUrlRaw) : "";
 
-  // --- page state ---
+  // --- State ---
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // names for payload
   const [cinema, setCinema] = useState(null); // { id, name }
-  const [movie, setMovie] = useState(null); // { id, title }
+  const [movie, setMovie] = useState(null);   // { id, title }
 
-  // halls+showtimes payload (from /show-times/cinema/{cinemaId})
-  // shape from backend:
-  // [
-  //   {
-  //     name: "Hall 1",
-  //     movies: [
-  //       {
-  //         movie: { id: 2063, title: "Avatar..." },
-  //         times: ["2025-10-26T20:00:00", "2025-10-26T22:00:00"]
-  //       }
-  //     ]
-  //   },
-  //   ...
-  // ]
-  const [halls, setHalls] = useState([]);
+  const [halls, setHalls] = useState([]);     // [{id,name,movies:[...]}]
+  // hallId -> { isSpecial, label, percent, fixed }
+  const [specialByHallId, setSpecialByHallId] = useState({});
 
-  // user selections
-  const [selectedHall, setSelectedHall] = useState(""); // "Hall 1"
-  const [selectedTime, setSelectedTime] = useState(""); // "HH:mm:ss"
-  const [selectedSeats, setSelectedSeats] = useState([]); // ["A1","A2",...]
+  const [selectedHallId, setSelectedHallId] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
-  // after we auto-fill from URL the first time, we mark it so we don't instantly wipe it
   const didAutoSelectRef = useRef(false);
-
-  // refs that hold the initial guess for hall/time so they survive remounts / hydration mismatch
-  const initialHallRef = useRef("");
+  const initialHallIdRef = useRef(null);
   const initialTimeRef = useRef("");
 
-  // SeatMap grid config
-  const ROWS = 8; // A..H
-  const COLS = 12; // 1..12
+  // Seat grid
+  const ROWS = 8;
+  const COLS = 12;
 
-  // --- PRICING -------------------------------------------------
-  const getUnitPrice = () => 9.99; // USD
-  const unitPrice = getUnitPrice();
+  // Helpers
+  const BASE_PRICE = 9.99;
 
   const formatUSD = (n) => {
     try {
@@ -92,15 +70,56 @@ export default function BuyTicketPage() {
     }
   };
 
-  const seatCount = selectedSeats.length;
-  const totalPrice = seatCount * unitPrice;
+  const normTime = (iso) => String(iso).slice(11, 19);
+  const findHallById = (id) =>
+    halls.find((h) => String(h?.id ?? h?.hallId) === String(id)) || null;
 
-  // --- fetch basics (cinema, movie, halls/showtimes) -----------
+  // fallback special meta
+  function readSpecialMetaFromHallObj(h) {
+    if (!h) return { isSpecial: false, label: "", percent: 0, fixed: 0 };
+    const isSpecial =
+      !!h?.isSpecial ||
+      !!h?.specialHall ||
+      !!h?.specialType ||
+      !!h?.type ||
+      (Number(h?.surchargePercent) > 0) ||
+      (Number(h?.surchargeFixed) > 0);
+
+    const typeObj = h?.specialHall?.type || h?.specialType || h?.type || {};
+    const label =
+      typeObj?.name || h?.specialHall?.name || h?.label || (isSpecial ? "Special Hall" : "");
+    const percent =
+      Number(
+        typeObj?.surchargePercent ??
+          typeObj?.priceDeltaPercent ??
+          h?.surchargePercent ??
+          0
+      ) || 0;
+    const fixed =
+      Number(
+        typeObj?.surchargeFixed ??
+          typeObj?.priceDeltaFixed ??
+          h?.surchargeFixed ??
+          0
+      ) || 0;
+
+    return { isSpecial, label, percent, fixed };
+  }
+
+  function getHallSpecialMetaById(hallId) {
+    if (!hallId) return { isSpecial: false, label: "", percent: 0, fixed: 0 };
+    const hit = specialByHallId[String(hallId)];
+    if (hit) return hit;
+    return readSpecialMetaFromHallObj(findHallById(hallId));
+  }
+
+  const effectiveHallId = selectedHallId ?? initialHallIdRef.current ?? null;
+  const effectiveTime = selectedTime || initialTimeRef.current || "";
+
+  /* =============================== Fetch =============================== */
   useEffect(() => {
     if (!cinemaId || !movieId || !date) {
-      setError(
-        "Gerekli parametreler eksik. Lütfen seçim sayfasına geri dönün."
-      );
+      setError("Gerekli parametreler eksik. Lütfen seçim sayfasına geri dönün.");
       setLoading(false);
       return;
     }
@@ -110,26 +129,80 @@ export default function BuyTicketPage() {
         setLoading(true);
         setError(null);
 
-        // cinema name
-        const cRes = await axios.get(cinemaByIdApi(cinemaId), {
-          headers: authHeaders(),
-        });
+        // cinema
+        const cRes = await axios.get(cinemaByIdApi(cinemaId), { headers: authHeaders() });
         const cBody = cRes.data?.returnBody ?? cRes.data;
         setCinema({ id: cinemaId, name: cBody?.name });
 
-        // movie title
-        const mRes = await axios.get(movieByIdApi(movieId), {
-          headers: authHeaders(),
-        });
+        // movie
+        const mRes = await axios.get(movieByIdApi(movieId), { headers: authHeaders() });
         const mBody = mRes.data?.returnBody ?? mRes.data;
         setMovie({ id: movieId, title: mBody?.title });
 
         // halls + showtimes
-        const sRes = await axios.get(cinemaHallsApi(cinemaId), {
-          headers: authHeaders(),
-        });
+        const sRes = await axios.get(cinemaHallsApi(cinemaId), { headers: authHeaders() });
         const sBody = sRes.data?.returnBody ?? sRes.data;
-        setHalls(Array.isArray(sBody) ? sBody : []);
+        const hallsArr = Array.isArray(sBody) ? sBody : [];
+        setHalls(hallsArr);
+
+        // pricing (id-bazlı)
+        try {
+          const pRes = await axios.get(cinemaHallsPricingApi(cinemaId), {
+            headers: authHeaders(),
+            validateStatus: () => true,
+          });
+
+          const raw = pRes.data?.returnBody ?? pRes.data ?? [];
+          const list = Array.isArray(raw) ? raw : raw?.content ?? [];
+          const byId = {};
+
+          for (const row of list) {
+            const hallId =
+              row?.hallId ?? row?.id ?? row?.hall?.id ?? row?.hallID ?? row?.hall_id;
+            if (hallId == null) continue;
+
+            const isSpecial = Boolean(
+              row?.isSpecial ?? row?.special ?? row?.specialHall ?? row?.type
+            );
+
+            const percentRaw =
+              row?.surchargePercent ??
+              row?.priceDeltaPercent ??
+              row?.deltaPercent ??
+              row?.extraPercent ??
+              row?.percent ??
+              row?.surcharge?.percent ??
+              row?.type?.surchargePercent ??
+              row?.type?.priceDeltaPercent ??
+              row?.type?.percent ??
+              0;
+
+            const fixedRaw =
+              row?.surchargeFixed ??
+              row?.priceDeltaFixed ??
+              row?.deltaFixed ??
+              row?.extraFixed ??
+              row?.fixed ??
+              row?.surcharge?.fixed ??
+              row?.type?.surchargeFixed ??
+              row?.type?.priceDeltaFixed ??
+              row?.type?.fixed ??
+              0;
+
+            const toNumber = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+            let percent = toNumber(percentRaw);
+            if (percent > 0 && percent < 1) percent = Number((percent * 100).toFixed(4));
+            const fixed = toNumber(fixedRaw);
+
+            const label = row?.typeName ?? row?.type?.name ?? (isSpecial ? "Special Hall" : "");
+
+            byId[String(hallId)] = { isSpecial, label, percent, fixed };
+          }
+
+          setSpecialByHallId(byId);
+        } catch {
+          // pricing yoksa base ile devam
+        }
       } catch (e) {
         console.error(e);
         setError("Veriler yüklenemedi. Lütfen tekrar deneyin.");
@@ -139,103 +212,102 @@ export default function BuyTicketPage() {
     })();
   }, [cinemaId, movieId, date]);
 
-  // --- sessions available for this date + movie (group by hall) ---
-  // we flatten backend shape into:
-  // [
-  //   { hallName: "Hall 1", times: ["20:00:00","22:00:00"] },
-  //   { hallName: "Hall 2", times: ["18:30:00"] }
-  // ]
+  /* ============================ Sessions ============================ */
   const sessions = useMemo(() => {
     if (!halls?.length || !date || !movieId) return [];
     return halls
       .map((h) => {
-        const times = (h.movies || [])
+        const id = h?.id ?? h?.hallId;
+        const name = h?.name ?? h?.hallName ?? `Hall ${id ?? "?"}`;
+        const times = (h?.movies || [])
           .filter((mm) => String(mm?.movie?.id) === String(movieId))
-          .flatMap((mm) => mm.times || [])
+          .flatMap((mm) => mm?.times || [])
           .filter((iso) => String(iso).slice(0, 10) === date)
-          .map((iso) => String(iso).slice(11, 19)); // "HH:mm:ss"
-        return { hallName: h.name, times: [...new Set(times)] };
+          .map(normTime);
+        return { hallId: id, hallName: name, times: [...new Set(times)] };
       })
-      .filter((x) => x.times.length > 0);
+      .filter((x) => x.hallId != null && x.times.length > 0);
   }, [halls, movieId, date]);
 
-  // --- PREFILL hall/time from URL ---
-  // 1. When sessions load, try to match the ?time= param to a hall
-  // 2. Store that in both state AND refs
-  // 3. Refs survive hot reload / hydration mismatch so dropdown still shows correct default visually
+  /* =================== Prefill hall/time from URL =================== */
   useEffect(() => {
-    if (!sessions.length) return;
-    if (!timeFromUrl) return;
-
-    // if we already stored an initial guess, don't redo it
-    if (initialHallRef.current && initialTimeRef.current) return;
+    if (!sessions.length || !timeFromUrl) return;
+    if (initialHallIdRef.current && initialTimeRef.current) return;
 
     const match = sessions.find((s) => s.times.includes(timeFromUrl));
     if (match) {
-      initialHallRef.current = match.hallName;
+      initialHallIdRef.current = match.hallId;
       initialTimeRef.current = timeFromUrl;
-
-      setSelectedHall(match.hallName);
+      setSelectedHallId(match.hallId);
       setSelectedTime(timeFromUrl);
       didAutoSelectRef.current = true;
     }
   }, [sessions, timeFromUrl]);
 
-  // --- keep selections valid if sessions change after initial load ---
+  /* ========== Keep selections valid if sessions change ========== */
   useEffect(() => {
-    // If nothing is chosen at all, don't touch anything
     if (
       !didAutoSelectRef.current &&
-      !selectedHall &&
+      !selectedHallId &&
       !selectedTime &&
-      !initialHallRef.current &&
+      !initialHallIdRef.current &&
       !initialTimeRef.current
     ) {
       return;
     }
 
-    // figure out what hall/time we're "showing" right now:
-    const effectiveHall = selectedHall || initialHallRef.current || "";
-    const effectiveTime = selectedTime || initialTimeRef.current || "";
-
-    // check hall still exists
-    const hallStillValid = sessions.some((s) => s.hallName === effectiveHall);
-
+    const hallStillValid = sessions.some((s) => String(s.hallId) === String(effectiveHallId));
     if (!hallStillValid) {
-      // wipe everything because that hall isn't in sessions anymore
-      initialHallRef.current = "";
+      initialHallIdRef.current = null;
       initialTimeRef.current = "";
-      setSelectedHall("");
+      setSelectedHallId(null);
       setSelectedTime("");
       setSelectedSeats([]);
       return;
     }
 
-    // hall exists. does that hall still have this time?
-    const hallObj = sessions.find((s) => s.hallName === effectiveHall);
+    const hallObj = sessions.find((s) => String(s.hallId) === String(effectiveHallId));
     if (hallObj && !hallObj.times.includes(effectiveTime)) {
-      // time is gone, keep hall but drop time
       initialTimeRef.current = "";
       setSelectedTime("");
       setSelectedSeats([]);
       return;
     }
 
-    // If hall/time changed, always clear seats
     setSelectedSeats([]);
-  }, [sessions, selectedHall, selectedTime]);
+  }, [sessions, selectedHallId, selectedTime, effectiveHallId, effectiveTime]);
 
-  // ---- CONTINUE TO PAYMENT (save order -> navigate) ----
+  /* ============================ Pricing ============================ */
+  const specialMeta = useMemo(
+    () => getHallSpecialMetaById(effectiveHallId),
+    [effectiveHallId, specialByHallId, halls]
+  );
+
+  const unitPrice = useMemo(() => {
+    const base = BASE_PRICE;
+    const extraFromPercent = base * (Number(specialMeta.percent || 0) / 100);
+    const extraFromFixed = Number(specialMeta.fixed || 0);
+    return Number((base + extraFromPercent + extraFromFixed).toFixed(2));
+  }, [specialMeta]);
+
+  const seatCount = selectedSeats.length;
+  const totalPrice = useMemo(
+    () => Number((seatCount * unitPrice).toFixed(2)),
+    [seatCount, unitPrice]
+  );
+
+  /* ============== CONTINUE TO PAYMENT (save -> nav) ============== */
   const continueToPayment = () => {
     setError(null);
 
-    const effectiveHall = selectedHall || initialHallRef.current || "";
-    const effectiveTime = selectedTime || initialTimeRef.current || "";
+    const hallObj = findHallById(effectiveHallId);
+    const hallName = hallObj?.name ?? hallObj?.hallName ?? "";
 
     if (
       !movie?.title ||
       !cinema?.name ||
-      !effectiveHall ||
+      !effectiveHallId ||
+      !hallName ||
       !date ||
       !effectiveTime ||
       selectedSeats.length === 0
@@ -251,13 +323,21 @@ export default function BuyTicketPage() {
       movieTitle: movie.title,
       date,
       time: effectiveTime,
-      hall: effectiveHall,
+      hallId: effectiveHallId,
+      hall: hallName,
       seats: [...selectedSeats],
       pricing: {
-        unitPrice,
         currency: "USD",
-        total: totalPrice,
+        baseUnit: BASE_PRICE,
+        special: {
+          isSpecial: !!specialMeta.isSpecial,
+          label: specialMeta.label || "",
+          percent: Number(specialMeta.percent || 0),
+          fixed: Number(specialMeta.fixed || 0),
+        },
+        unitPrice,
         seats: selectedSeats.length,
+        total: totalPrice,
       },
     };
 
@@ -265,11 +345,7 @@ export default function BuyTicketPage() {
     router.push(`${basePath}/payment`);
   };
 
-  // seat picker is only active if we have a hall+time picked
-  const effectiveHall = selectedHall || initialHallRef.current || "";
-  const effectiveTime = selectedTime || initialTimeRef.current || "";
-  const canPickSeats = Boolean(effectiveHall && effectiveTime);
-
+  /* =============================== Render =============================== */
   if (loading)
     return (
       <div className="container py-4">
@@ -282,37 +358,23 @@ export default function BuyTicketPage() {
       <div className="p-3 bg-dark text-light rounded">
         <h4 className="text-warning mb-3">🎟️ Bilet Satın Al</h4>
 
-        {error && (
-          <Alert variant="danger" className="mb-3">
-            {error}
-          </Alert>
-        )}
+        {error && <Alert variant="danger" className="mb-3">{error}</Alert>}
 
-        {/* context */}
         <div className="mb-3">
-          <div>
-            <b>Sinema:</b> {cinema?.name}
-          </div>
-          <div>
-            <b>Tarih:</b> {date}
-          </div>
-          <div>
-            <b>Film:</b> {movie?.title}
-          </div>
+          <div><b>Sinema:</b> {cinema?.name}</div>
+          <div><b>Tarih:</b> {date}</div>
+          <div><b>Film:</b> {movie?.title}</div>
         </div>
 
-        {/* hall */}
+        {/* hall (value = hallId) */}
         <Form.Group className="mb-3">
           <Form.Label className="text-muted">Salon</Form.Label>
           <Form.Select
-            value={selectedHall || initialHallRef.current || ""}
+            value={String(selectedHallId ?? initialHallIdRef.current ?? "")}
             onChange={(e) => {
-              // user manually changed hall, so from now on we trust state, not ref
-              const newHall = e.target.value;
-              initialHallRef.current = newHall;
-              setSelectedHall(newHall);
-
-              // when hall changes, reset time + seats
+              const newId = e.target.value ? Number(e.target.value) : null;
+              initialHallIdRef.current = newId;
+              setSelectedHallId(newId);
               initialTimeRef.current = "";
               setSelectedTime("");
               setSelectedSeats([]);
@@ -320,7 +382,7 @@ export default function BuyTicketPage() {
           >
             <option value="">Salon Seçiniz</option>
             {sessions.map((s) => (
-              <option key={s.hallName} value={s.hallName}>
+              <option key={s.hallId} value={s.hallId}>
                 {s.hallName}
               </option>
             ))}
@@ -333,36 +395,24 @@ export default function BuyTicketPage() {
           <Form.Select
             value={selectedTime || initialTimeRef.current || ""}
             onChange={(e) => {
-              // user manually changed time, so trust state, not ref
               const newTime = e.target.value;
               initialTimeRef.current = newTime;
               setSelectedTime(newTime);
-
-              // when time changes, reset seats
               setSelectedSeats([]);
             }}
-            disabled={!(selectedHall || initialHallRef.current)}
+            disabled={!effectiveHallId}
           >
             <option value="">Saat Seçiniz</option>
-            {(
-              sessions.find(
-                (s) =>
-                  s.hallName === (selectedHall || initialHallRef.current || "")
-              )?.times ?? []
-            ).map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
+            {(sessions.find((s) => String(s.hallId) === String(effectiveHallId))?.times ?? [])
+              .map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
           </Form.Select>
         </Form.Group>
 
         {/* price summary */}
         <div className="mb-3">
-          <div
-            className="p-3 rounded"
-            style={{ background: "#22252b", border: "1px solid #333" }}
-          >
+          <div className="p-3 rounded" style={{ background: "#22252b", border: "1px solid #333" }}>
             <div className="d-flex flex-wrap align-items-center gap-3">
               <div>
                 <div className="text-muted small">Bilet Sayısı</div>
@@ -371,23 +421,33 @@ export default function BuyTicketPage() {
               <div className="vr" />
               <div>
                 <div className="text-muted small">Birim Fiyat</div>
-                <div className="fs-5">{formatUSD(unitPrice)}</div>
+                <div className="fs-5">
+                  {formatUSD(unitPrice)}{" "}
+                  {specialMeta.isSpecial && (
+                    <Badge bg="warning" className="ms-2 text-dark">
+                      {specialMeta.label || "Special"}
+                      {specialMeta.fixed ? ` +${formatUSD(specialMeta.fixed)}` : ""}
+                      {specialMeta.percent ? ` +${specialMeta.percent}%` : ""}
+                    </Badge>
+                  )}
+                </div>
+                {specialMeta.isSpecial && (
+                  <div className="small text-secondary">
+                    Base: {formatUSD(BASE_PRICE)}
+                    {specialMeta.fixed ? <> · Fixed: {formatUSD(specialMeta.fixed)}</> : null}
+                    {specialMeta.percent ? <> · %: {specialMeta.percent}%</> : null}
+                  </div>
+                )}
               </div>
               <div className="vr" />
               <div className="flex-grow-1">
                 <div className="text-muted small">Seçilen Koltuklar</div>
                 <div className="d-flex flex-wrap gap-2">
-                  {selectedSeats.length === 0 ? (
-                    <span className="text-secondary">Koltuk seçilmedi</span>
-                  ) : (
-                    selectedSeats
-                      .sort((a, b) => a.localeCompare(b))
-                      .map((s) => (
-                        <Badge key={s} bg="secondary" className="px-2 py-1">
-                          {s}
-                        </Badge>
-                      ))
-                  )}
+                  {selectedSeats.length === 0
+                    ? <span className="text-secondary">Koltuk seçilmedi</span>
+                    : selectedSeats.sort((a, b) => a.localeCompare(b)).map((s) => (
+                        <Badge key={s} bg="secondary" className="px-2 py-1">{s}</Badge>
+                      ))}
                 </div>
               </div>
               <div className="vr" />
@@ -406,24 +466,20 @@ export default function BuyTicketPage() {
             rows={ROWS}
             cols={COLS}
             movieName={movie?.title || ""}
-            hall={effectiveHall}
+            hall={findHallById(effectiveHallId)?.name || ""}
             cinema={cinema?.name || ""}
             dateISO={date}
             timeISO={effectiveTime}
             value={selectedSeats}
             onChange={setSelectedSeats}
             lockWhenMissingFields={true}
-            // SeatPickerRemote should already ignore clicks if hall/time missing,
-            // but we also computed canPickSeats if you want to gray it out, etc.
           />
         </div>
 
         <Button
           variant="warning"
           className="w-100"
-          disabled={
-            !effectiveHall || !effectiveTime || selectedSeats.length === 0
-          }
+          disabled={!effectiveHallId || !effectiveTime || selectedSeats.length === 0}
           onClick={continueToPayment}
         >
           {seatCount > 0 ? `Devam Et — ${formatUSD(totalPrice)}` : "Devam Et"}

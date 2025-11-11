@@ -37,9 +37,17 @@ export const HallEditForm = ({ hall, locale }) => {
 
   useEffect(() => {
     if (!state) return;
-    const message = state.ok ? t("successUpdate") : t("errorOperation");
-    swAlert(message, state.ok ? "success" : "error");
-  }, [state, t]);
+    if (state.errors && Object.keys(state.errors || {}).length > 0) {
+      swAlert("Lütfen zorunlu alanları doldurunuz.", "error");
+      return;
+    }
+    const message =
+      state.message ?? (state.ok ? t("successUpdate") : t("errorOperation"));
+
+    swAlert(message, state.ok ? "success" : "error").then(() => {
+      if (state.ok) window.location.href = `/${locale}/admin/halls`;
+    });
+  }, [state, t, locale]);
 
   return (
     <div>

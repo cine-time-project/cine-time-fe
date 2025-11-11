@@ -57,6 +57,19 @@ export const createMovieAction = async (prevState, formData) => {
   } catch (error) {
     console.error("Creation Error:", error);
 
+    if (error.name === "ValidationError") {
+      const errors = {};
+      error.inner.forEach((e) => {
+        if (e.path && !errors[e.path]) errors[e.path] = e.message;
+      });
+
+      return {
+        ok: false,
+        message: "Lütfen zorunlu alanları doldurunuz.",
+        errors,
+      };
+    }
+
     if (error.message?.includes("409")) {
       return response(false, "A movie with this title already exists.", null);
     }
@@ -107,6 +120,21 @@ export const updateMovieAction = async (prevState, formData) => {
     return response(true, "Movie updated successfully", null);
   } catch (error) {
     console.error("updateMovieAction error:", error);
+
+    if (error.name === "ValidationError") {
+      const errors = {};
+      error.inner.forEach((e) => {
+        if (e.path && !errors[e.path]) {
+          errors[e.path] = e.message;
+        }
+      });
+
+      return {
+        ok: false,
+        message: "Please fill in the required fields.",
+        errors,
+      };
+    }
     if (error instanceof YupValidationError) {
       return transformYupErrors(error.inner);
     }
@@ -115,7 +143,7 @@ export const updateMovieAction = async (prevState, formData) => {
     if (isSuccess) {
       const locale = formData.get("locale") || "en";
       revalidatePath(`/${locale}/admin/movies`);
-      redirect(`/${locale}/admin/movies`);
+      //redirect(`/${locale}/admin/movies`);
     }
   }
 };

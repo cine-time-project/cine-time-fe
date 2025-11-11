@@ -48,6 +48,7 @@ export const cinemaByIdApi = (id) => `${API}/cinemas/${id}`;           // GET/PU
 export const CINEMA_SPECIAL_HALLS_API = `${API}/special-halls`;        // GET
 export const CINEMA_FAVORITES_AUTH_API = `${API}/favorites/auth`;      // GET
 export const cinemaHallsApi = (id) => `${API}/cinemas/${id}/halls`;    // GET
+export const cinemaHallsPricingApi = (id) => `${API}/cinemas/${id}/halls/pricing`;
 
 // -------------------- Halls --------------------
 export const HALL_LIST_API = `${API}/hall`;     // GET
