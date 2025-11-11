@@ -1153,12 +1153,18 @@
       "deleteFailed": "Account deletion failed."
     }
   },
-   "specialHall": {
+    
+  "specialHall": {
+    "confirmDelete": "“{name}” special hall will be deleted. Are you sure?",
     "edit": { "title": "Edit Special Hall",
       "updated": "Special hall updated successfully." },
       "alerts": {
       "typeCreated": "Special hall type has been created.",
-      "typeCreateFailed": "Failed to create special hall type."
+      "typeCreateFailed": "Failed to create special hall type.",
+      "typeUpdated": "Special hall type updated.",
+   "typeUpdateFailed": "Failed to update special hall type.",
+   "typeDeleted": "Special hall type deleted.",
+   "typeDeleteFailed": "Failed to delete special hall type."
     },
     "list": { "title": "Special Halls" },
     "headers": {
@@ -1222,7 +1228,7 @@
       "selectType": "Select type",
       "newType": "New type",
       "manage": "Manage types",
-      "optionPercentSuffix": "%"
+      "optionPercentSuffix": "(+%{percent})"
     },
     "validations": {
       "hallRequired": "Hall is required.",

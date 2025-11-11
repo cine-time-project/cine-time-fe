@@ -19,6 +19,7 @@ export default function SpecialHallForm({
   submitLabel, 
   busy = false,
 }) {
+  
   const t = useTranslations();
   const tSH = useTranslations("specialHall");
 

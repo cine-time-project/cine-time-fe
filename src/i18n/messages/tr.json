@@ -1155,7 +1155,11 @@
   "alerts": {
     "warnings": {
       "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
-      "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı."
+      "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı.",
+       "typeUpdated": "Özel salon türü güncellendi.",
+  "typeUpdateFailed": "Özel salon türü güncellenemedi.",
+  "typeDeleted": "Özel salon türü silindi.",
+  "typeDeleteFailed": "Özel salon türü silinemedi."
     },
     "pwdUpdated": "Şifren başarıyla güncellendi.",
     "deleteTitle": "Emin misin?",
@@ -1168,6 +1172,7 @@
   },
   
   "specialHall": {
+    "confirmDelete": "\"{name}\" özel salon silinecek. Emin misiniz?",
     "edit": {  "title": "Özel Salonu Düzenle",
       "updated": "Özel salon başarıyla güncellendi."},
       "alerts": {
@@ -1237,7 +1242,7 @@
       "selectType": "Tür seçin",
       "newType": "Yeni tür",
       "manage": "Türleri yönet",
-      "optionPercentSuffix": "%"
+      "optionPercentSuffix": "(+%{percent})"
     },
     "validations": {
       "hallRequired": "Salon zorunludur.",
@@ -1251,6 +1256,7 @@
       "deleted": "Özel salon silindi.",
       "loadError": "Özel salon verileri yüklenemedi.",
       "operationFailed": "İşlem başarısız."
+      
     },
     "filters": {
       "cinema": "Sinema",

@@ -3,22 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Table, Button, Spinner, Pagination } from "react-bootstrap";
+import { useTranslations, useLocale } from "next-intl";
 import { fetchSpecialHalls } from "@/service/special-hall-service";
 import { deleteSpecialHallAction } from "@/action/special-hall-actions";
-import { useTranslations, useLocale } from "next-intl";
+import { swAlert } from "@/helpers/sweetalert";
 
 export default function SpecialHallListTable() {
   const tSH = useTranslations("specialHall");
   const tCommon = useTranslations("common");
-  const locale = useLocale();                       
+  const locale = useLocale();
 
   const [page, setPage] = useState(0);
   const [size] = useState(10);
-  const [data, setData] = useState({
-    content: [],
-    totalPages: 0,
-    totalElements: 0,
-  });
+  const [data, setData] = useState({ content: [], totalPages: 0, totalElements: 0 });
   const [busy, setBusy] = useState(false);
 
   const load = async () => {
@@ -36,20 +33,60 @@ export default function SpecialHallListTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, size]);
 
-  const handleDelete = async (id) => {
-    if (!confirm(tSH("confirmDelete"))) return;
-    const res = await deleteSpecialHallAction(id);
-    if (res?.ok) load();
+  /* ---------------- helpers (field normalizasyonu) ---------------- */
+  const pctOf = (v) => {
+    const n = Number(v ?? 0);
+    return Number.isFinite(n) ? n : 0;
   };
+
+  const getCinemaName = (row) =>
+    row.cinemaName ??
+    row.cinema?.name ??
+    row.hall?.cinema?.name ??
+    (row.cinemaId ? `#${row.cinemaId}` : "—");
+
+  const getSeatCap = (row) =>
+    row.seatCapacity ?? row.hallSeatCapacity ?? row.hall?.seatCapacity ?? "—";
+
+  const getTypeName = (row) =>
+    row.typeName ?? row.type?.name ?? row.type ?? row.specialTypeName ?? "—";
+
+  const getTypePercent = (row) =>
+    row.priceDiffPercent ??
+    row.type?.priceDiffPercent ??
+    row.typePercent ??
+    row.surchargePercent ??
+    row.percent ??
+    row.diffPercent ??
+    0;
 
   const renderTypeCell = (row) => {
-    const name =
-      row.typeName ?? row.type?.name ?? row.type ?? row.specialTypeName ?? "—";
-    const pct = row.priceDiffPercent ?? row.type?.priceDiffPercent;
-    return pct != null ? `${name} (+%${Number(pct)})` : name;
+    const name = getTypeName(row);
+    const p = pctOf(getTypePercent(row));
+    return p ? `${name} (+%${p})` : name;
   };
 
-  // ---- doğru pathler
+  /* ---------------- actions ---------------- */
+  const handleDelete = async (row) => {
+    const name =
+      row?.hallName ||
+      row?.hall?.name ||
+      row?.typeName ||
+      row?.type?.name ||
+      getCinemaName(row) ||
+      `#${row?.id}`;
+
+    if (!confirm(tSH("confirmDelete", { name }))) return;
+
+    const res = await deleteSpecialHallAction(row.id);
+    if (res?.ok) {
+      swAlert(tSH("messages.deleted"), "success");
+      load();
+    } else {
+      swAlert(tSH("messages.operationFailed"), "error");
+    }
+  };
+
   const basePath = `/${locale}/admin/special-halls`;
   const newHref = `${basePath}/new`;
 
@@ -83,13 +120,13 @@ export default function SpecialHallListTable() {
           </thead>
           <tbody>
             {(data?.content ?? []).map((row) => {
-              const editHref = `${basePath}/${row.id}`; // <-- dosya yolunla uyumlu
+              const editHref = `${basePath}/${row.id}`;
               return (
                 <tr key={row.id}>
                   <td>{row.id}</td>
-                  <td>{row.cinemaName || `#${row.cinemaId}`}</td>
+                  <td>{getCinemaName(row)}</td>
                   <td>{renderTypeCell(row)}</td>
-                  <td>{row.seatCapacity ?? row.hallSeatCapacity ?? "-"}</td>
+                  <td>{getSeatCap(row)}</td>
                   <td className="text-end">
                     <div className="d-inline-flex gap-2">
                       <Link
@@ -109,7 +146,7 @@ export default function SpecialHallListTable() {
                         style={{ width: 32, height: 32 }}
                         aria-label={tCommon("delete")}
                         title={tCommon("delete")}
-                        onClick={() => handleDelete(row.id)}
+                        onClick={() => handleDelete(row)}
                       >
                         <i className="pi pi-trash" />
                       </Button>
