@@ -1154,7 +1154,12 @@
     }
   },
    "specialHall": {
-    "edit": { "title": "Edit Special Hall" },
+    "edit": { "title": "Edit Special Hall",
+      "updated": "Special hall updated successfully." },
+      "alerts": {
+      "typeCreated": "Special hall type has been created.",
+      "typeCreateFailed": "Failed to create special hall type."
+    },
     "list": { "title": "Special Halls" },
     "headers": {
       "id": "#",

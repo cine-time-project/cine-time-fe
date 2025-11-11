@@ -1168,7 +1168,12 @@
   },
   
   "specialHall": {
-    "edit": { "title": "Özel Salonu Düzenle" },
+    "edit": {  "title": "Özel Salonu Düzenle",
+      "updated": "Özel salon başarıyla güncellendi."},
+      "alerts": {
+      "typeCreated": "Özel salon türü oluşturuldu.",
+      "typeCreateFailed": "Özel salon türü oluşturulamadı."
+    },
     "list": { "title": "Özel Salonlar" },
     "headers": {
       "id": "#",
