@@ -4,18 +4,28 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import MovieCardInCinemaDetail from "./MovieCardInCinemaDetail";
+import { useState } from "react";
 
 export default function MovieList({ movies, tCinemas }) {
+  const [selectedMovieID, setSelectedMovieID] = useState(null);
+
   if (!movies.length)
     return <p className="text-muted">{tCinemas("noMovieForCinema")}</p>;
+
+  const isDisabled = selectedMovieID !== null;
 
   return (
     <div>
       <h3 className="fw-bold mb-3 text-light">{tCinemas("currentMovies")}</h3>
       <Swiper
-        style={{ overflowX: "hidden", padding: "20px" }}
-        navigation
+        style={{ overflowX: "hidden", padding: "40px 0" }}
+        navigation={!isDisabled}           // ← okları gizle/engelle
         modules={[Navigation]}
+        allowTouchMove={!isDisabled}       // ← dokunarak kaydırmayı kapat
+        allowSlideNext={!isDisabled}       // ← ileri kaydırmayı kapat
+        allowSlidePrev={!isDisabled}       // ← geri kaydırmayı kapat
+        keyboard={{ enabled: !isDisabled }} // ← klavye yön tuşlarını kapat
         spaceBetween={20}
         slidesPerGroup={1}
         slidesOffsetBefore={30}
@@ -31,7 +41,11 @@ export default function MovieList({ movies, tCinemas }) {
       >
         {movies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ height: "100%" }}>
-            <MovieCard movie={movie} isMoviePage={false} />
+            <MovieCardInCinemaDetail
+              movie={movie}
+              selectedMovieID={selectedMovieID}
+              setSelectedMovieID={setSelectedMovieID}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
