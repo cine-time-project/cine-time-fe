@@ -61,21 +61,32 @@ export default function SpecialHallTypeManager({ show, onClose }) {
   };
 
   const handleDelete = async (row) => {
-   
-    if (!(await swAlert("question", tSwal("areYouSure"), tSwal("willBeDeleted"))))
-      return;
+  const name = row?.name || row?.typeName || `#${row?.id}`;
 
-    setBusyId(row.id);
-    try {
-      await deleteSpecialHallType(row.id);
-      swAlert("success", tSH("messages.deleted"));
-      await load();
-    } catch (e) {
-      swAlert("error", e?.message || tCommon("error"));
-    } finally {
-      setBusyId(null);
-    }
-  };
+  // Başlık: swal.areYouSure varsa onu kullan, yoksa fallback ver
+  const title =
+    (() => {
+      try { return tSwal("areYouSure"); } 
+      catch { return "Emin misiniz?"; }
+    })();
+
+  // Metin: mevcut ve kesin olan key
+  const text = tSH("deleteConfirm", { name });
+
+  if (!(await swAlert("question", title, text))) return;
+
+  setBusyId(row.id);
+  try {
+    await deleteSpecialHallType(row.id);
+    swAlert("success", tSH("messages.deleted"));
+    await load();
+  } catch (e) {
+     swAlert("error", e?.message || tSH("messages.operationFailed"));
+  } finally {
+    setBusyId(null);
+  }
+};
+
 
   return (
     <Modal show={show} onHide={onClose} size="lg" centered>

@@ -586,7 +586,11 @@
     "cancel": "İptal",
     "deny": "Reddet",
     "successTitle": "Başarılı",
-    "errorTitle": "Hata"
+    "errorTitle": "Hata",
+    "areYouSure": "Emin misiniz?",
+  "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
+  "yes": "Evet",
+  "no": "Hayır"
   },
   "contact": {
     "reasons": {

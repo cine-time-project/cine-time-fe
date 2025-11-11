@@ -668,7 +668,11 @@
     "cancel": "Cancel",
     "deny": "Deny",
     "successTitle": "Success",
-    "errorTitle": "Error"
+    "errorTitle": "Error",
+      "areYouSure": "Are you sure?",
+  "willBeDeleted": "\"{name}\" will be permanently deleted.",
+  "yes": "Yes",
+  "no": "No"
   },
   "contact": {
     "reasons": {
