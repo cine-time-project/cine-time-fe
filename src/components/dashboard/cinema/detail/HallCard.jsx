@@ -8,7 +8,6 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
-import { ShowtimeDateSelector } from "./ShowtimeDateSelector";
 
 export function HallCard({ hall, tCinemas, isEditMode }) {
   if (!hall) {
@@ -25,8 +24,6 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
       </div>
     );
   }
-
-  const [selectedDate, setSelectedDate] = useState(null);
 
   return (
     <div
@@ -119,14 +116,6 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
       >
         {tCinemas("showtimes")}
       </h5>
-      
-      <ShowtimeDateSelector
-        dates={hall.showtimes
-          .map((s) => s.date)
-          .filter((v, i, a) => a.indexOf(v) === i)}
-        onDateChange={(date) => setSelectedDate(date)}
-        tCinemas={tCinemas}
-      />
 
       {hall.showtimes && hall.showtimes.length > 0 ? (
         <Swiper
@@ -147,7 +136,6 @@ export function HallCard({ hall, tCinemas, isEditMode }) {
           }}
         >
           {hall.showtimes
-            .filter((s) => s.date === selectedDate)
             .map((showtime) => (
               <SwiperSlide key={showtime.id} style={{ height: "100%" }}>
                 <ShowtimeCard showtime={showtime} tCinemas={tCinemas} />

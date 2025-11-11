@@ -7,8 +7,7 @@ import "swiper/css/navigation";
 import MovieCardInCinemaDetail from "./MovieCardInCinemaDetail";
 import { useState } from "react";
 
-export default function MovieList({ movies, tCinemas }) {
-  const [selectedMovieID, setSelectedMovieID] = useState(null);
+export default function MovieList({ movies, tCinemas, selectedMovieID, pickMovie }) {
 
   if (!movies.length)
     return <p className="text-muted">{tCinemas("noMovieForCinema")}</p>;
@@ -44,7 +43,7 @@ export default function MovieList({ movies, tCinemas }) {
             <MovieCardInCinemaDetail
               movie={movie}
               selectedMovieID={selectedMovieID}
-              setSelectedMovieID={setSelectedMovieID}
+              setSelectedMovieID={pickMovie}
             />
           </SwiperSlide>
         ))}

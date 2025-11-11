@@ -42,8 +42,8 @@ export const ShowtimeCard = ({ showtime, tCinemas }) => {
 
         <div className={styles.info}>
           <p className={styles.title}>
-            {showtime.movieTitle?.length > 25
-              ? showtime.movieTitle.substring(0, 25) + "..."
+            {showtime.movieTitle?.length > 35
+              ? showtime.movieTitle.substring(0, 35) + "..."
               : showtime.movieTitle}
           </p>
           <p className={styles.date}>

@@ -11,9 +11,12 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
 import { CinemaDetailCard } from "@/components/dashboard/cinema/detail/CinemaDetailCard";
+import { useState } from "react";
 
 export default function CinemaDetailPage() {
   const { cinemaId } = useParams();
+
+  const [selectedMovieID, setSelectedMovieID] = useState(null);
 
   const tCinemas = useTranslations("cinemas");
 
@@ -54,11 +57,11 @@ export default function CinemaDetailPage() {
       {/* Halls and Movies section */}
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieList movies={cinema.movies || []} tCinemas={tCinemas} />
+          <MovieList movies={cinema.movies || []} tCinemas={tCinemas} selectedMovieID={selectedMovieID} pickMovie={setSelectedMovieID} />
         </Col>
 
         <Col xs={12}>
-          <HallList cinema={cinema} tCinemas={tCinemas} />
+          <HallList cinema={cinema} tCinemas={tCinemas} selectedMovieID={selectedMovieID} />
         </Col>
       </Row>
     </Container>
