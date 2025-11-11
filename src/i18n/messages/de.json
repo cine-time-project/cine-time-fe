@@ -607,13 +607,6 @@
     "ctaBtn": "Tickets kaufen"
   },
 
-  "swal": {
-    "confirm": "Bestätigen",
-    "cancel": "Abbrechen",
-    "deny": "Ablehnen",
-    "successTitle": "Erfolgreich",
-    "errorTitle": "Fehler"
-  },
   "contact": {
     "title": "Kontakt",
     "subtitle": "Wir helfen gern! Haben Sie Fragen, benötigen Unterstützung oder möchten mehr erfahren? Schreiben Sie uns einfach. Füllen Sie das Formular aus oder nutzen Sie die angegebenen Kontaktinformationen – wir melden uns schnellstmöglich.",
@@ -1001,10 +994,18 @@
   "swal": {
     "confirm": "OK",
     "cancel": "Abbrechen",
-    "delete": "Löschen"
+    "delete": "Löschen",
     "successCreateMovie": "Der Film wurde erfolgreich erstellt.",
     "needAdminToEdit": "Sie müssen ein Administrator sein, um zu bearbeiten",
     "needAdminToDelete": "Sie müssen ein Administrator sein, um zu löschen",
-    "needAdmin": "Sie müssen ein Administrator sein"
+    "needAdmin": "Sie müssen ein Administrator sein",
+  "deny": "Ablehnen",
+  "successTitle": "Erfolg",
+  "errorTitle": "Fehler",
+  "areYouSure": "Sind Sie sicher?",
+  "willBeDeleted": "\"{name}\" wird dauerhaft gelöscht.",
+  "yes": "Ja",
+  "no": "Nein",
+  "ok": "OK"
   }
 }

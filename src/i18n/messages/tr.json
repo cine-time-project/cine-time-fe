@@ -1243,10 +1243,10 @@
     "successTitle": "Başarılı",
     "errorTitle": "Hata",
     "areYouSure": "Emin misiniz?",
-  "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
-  "yes": "Evet",
-  "no": "Hayır",
-  "ok": "OK"
+    "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
+    "yes": "Evet",
+    "no": "Hayır",
+    "ok": "OK"
   },
   
   "specialHall": {
