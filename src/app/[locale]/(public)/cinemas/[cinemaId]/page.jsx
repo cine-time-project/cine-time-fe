@@ -13,6 +13,8 @@ import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
 import { CinemaDetailCard } from "@/components/dashboard/cinema/detail/CinemaDetailCard";
 import { useEffect, useState } from "react";
 import { ShowtimeDateSelector } from "@/components/dashboard/cinema/detail/ShowtimeDateSelector";
+import Link from "next/link";
+import { CinemaHeroCard } from "@/components/dashboard/cinema/detail/CinemaHeroCard";
 
 export default function CinemaDetailPage() {
   const { cinemaId } = useParams();
@@ -83,10 +85,10 @@ useEffect(() => {
       {/* Page header */}
       <PageHeader
         title={tCinemas("cinemaDetails")}
-        leftActions={<BackButton />}
+        leftActions={<BackButton variant="outline-light" icon="angle-left"/>}
       />
 
-      <CinemaDetailCard cinema={cinema} tCinemas={tCinemas} />
+      <CinemaHeroCard cinema={cinema} tCinemas={tCinemas} />
       {/* Halls and Movies section */}
       <Row className="mt-5">
         <Col xs={12} className="mb-4">
