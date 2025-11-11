@@ -102,7 +102,7 @@
     "page": "Sayfa",
     "total": "Toplam",
     "rows": "Satır",
-     "actions": "İşlemler",
+    "actions": "İşlemler",
     "create": "Oluştur"
   },
 
@@ -1188,10 +1188,10 @@
     "warnings": {
       "enterPasswords": "Lütfen mevcut ve yeni şifreyi girin.",
       "passwordsMustMatch": "Yeni şifre ile doğrulama şifresi aynı olmalı.",
-       "typeUpdated": "Özel salon türü güncellendi.",
-  "typeUpdateFailed": "Özel salon türü güncellenemedi.",
-  "typeDeleted": "Özel salon türü silindi.",
-  "typeDeleteFailed": "Özel salon türü silinemedi."
+      "typeUpdated": "Özel salon türü güncellendi.",
+      "typeUpdateFailed": "Özel salon türü güncellenemedi.",
+      "typeDeleted": "Özel salon türü silindi.",
+      "typeDeleteFailed": "Özel salon türü silinemedi."
     },
     "pwdUpdated": "Şifren başarıyla güncellendi.",
     "deleteTitle": "Emin misin?",
@@ -1248,17 +1248,19 @@
     "no": "Hayır",
     "ok": "OK"
   },
-  
+
   "specialHall": {
     "confirmDelete": "\"{name}\" özel salon silinecek. Emin misiniz?",
-    "edit": {  "title": "Özel Salonu Düzenle",
-      "updated": "Özel salon başarıyla güncellendi."},
-      "alerts": {
+    "edit": {
+      "title": "Özel Salonu Düzenle",
+      "updated": "Özel salon başarıyla güncellendi."
+    },
+    "alerts": {
       "typeCreated": "Özel salon türü oluşturuldu.",
       "typeCreateFailed": "Özel salon türü oluşturulamadı.",
-       "typeDeleted": "Özel salon türü silindi.",
-    "typeDeleteFailed": "Özel salon türü silinemedi.",
-    "typeInUse": "\"{name}\" türünde özel salon(lar) bulunmaktadır. Önce bu salonları silmeli ya da türlerini değiştirmelisiniz."
+      "typeDeleted": "Özel salon türü silindi.",
+      "typeDeleteFailed": "Özel salon türü silinemedi.",
+      "typeInUse": "\"{name}\" türünde özel salon(lar) bulunmaktadır. Önce bu salonları silmeli ya da türlerini değiştirmelisiniz."
     },
     "list": { "title": "Özel Salonlar" },
     "headers": {
@@ -1306,10 +1308,7 @@
       "isActive": "Aktif",
       "actions": "İşlemler"
     },
-    "new": {
-      "title": "Özel Salon Oluştur"
-    },
-    
+    "new": { "title": "Özel Salon Oluştur" },
     "form": {
       "hall": "Salon",
       "type": "Tür",
@@ -1337,7 +1336,6 @@
       "deleted": "Özel salon silindi.",
       "loadError": "Özel salon verileri yüklenemedi.",
       "operationFailed": "İşlem başarısız."
-      
     },
     "filters": {
       "cinema": "Sinema",
@@ -1363,6 +1361,153 @@
       "delete": "Sil",
       "close": "Kapat"
     }
+  },
+
+  "admin": {
+    "payments": {
+      "title": "Ödemeler",
+      "loading": "Ödemeler yükleniyor…",
+      "loadError": "Ödemeler yüklenemedi.",
+      "apply": "Uygula",
+      "clear": "Temizle",
+      "perPageSuffix": "satır / sayfa",
+      "showing": "{from}–{to} / Toplam {total}",
+      "filters": {
+        "userId": "Kullanıcı ID",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "status": "Durum",
+        "search": "Arama",
+        "from": "Başlangıç",
+        "to": "Bitiş",
+        "min": "Min",
+        "max": "Maks",
+        "provider": "Sağlayıcı Ref",
+        "key": "Idempotency"
+      },
+      "table": {
+        "idx": "#",
+        "date": "Tarih",
+        "user": "Kullanıcı",
+        "email": "E-posta",
+        "amount": "Tutar",
+        "currency": "Para Birimi",
+        "status": "Durum",
+        "providerRef": "Sağlayıcı Ref",
+        "idempotencyKey": "Idempotency",
+        "actions": "İşlemler",
+        "empty": "Kayıt bulunamadı"
+      },
+      "buttons": {
+        "refund": "İade"
+      },
+      "status": {
+        "SUCCESS": "BAŞARILI",
+        "FAILED": "BAŞARISIZ",
+        "REFUNDED": "İADE EDİLDİ",
+        "PARTIALLY_REFUNDED": "KISMİ İADE"
+      }
+    },
+    "roles": {
+      "title": "Kullanıcılar",
+      "loading": "Kullanıcılar yükleniyor…",
+      "loadError": "Kullanıcılar getirilemedi.",
+      "filters": {
+        "search": "Ara",
+        "searchPlaceholder": "E-posta veya telefon ile ara"
+      },
+      "table": {
+        "name": "Ad",
+        "surname": "Soyad",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "roles": "Roller",
+        "actions": "İşlemler",
+        "empty": "Kullanıcı bulunamadı"
+      },
+      "buttons": {
+        "editRoles": "Rolleri Düzenle"
+      },
+      "swal": {
+        "editTitle": "Rolleri Düzenle — {name}",
+        "save": "Kaydet",
+        "selectOne": "En az bir rol seçin",
+        "updated": "Güncellendi",
+        "updatedText": "Roller başarıyla güncellendi.",
+        "updateFailed": "Güncelleme başarısız"
+      },
+      "showing": "{from}–{to} / Toplam {total}"
+    },
+    "location": {
+  "title": "Konum Yöneticisi",
+  "subtitle": "Ülkeler → Şehirler → İlçeler",
+  "loading": "Yükleniyor…",
+  "empty": {
+    "countries": "Ülke yok.",
+    "cities": "Bu ülke için şehir yok.",
+    "districts": "Bu şehir için ilçe yok."
+  },
+  "countries": {
+    "title": "Ülkeler",
+    "search": "Ara…",
+    "newPlaceholder": "Yeni ülke adı",
+    "add": "Ekle",
+    "headers": { "name": "Ülke", "actions": "İşlemler" },
+    "buttons": { "edit": "Düzenle", "delete": "Sil" },
+    "swal": {
+      "renameTitle": "Ülke adını değiştir",
+      "save": "Kaydet",
+      "updated": "Ülke güncellendi",
+      "deleteTitle": "{name} silinsin mi?",
+      "deleteText": "Bu işlem geri alınamaz.",
+      "deleted": "Ülke silindi"
+    }
+  },
+  "cities": {
+    "title": "Şehirler",
+    "of": "· {country}",
+    "search": "Ara…",
+    "newPlaceholder": "Yeni şehir adı",
+    "selectCountryFirst": "Önce bir ülke seçin",
+    "add": "Ekle",
+    "headers": { "name": "Şehir", "actions": "İşlemler" },
+    "buttons": { "edit": "Düzenle", "delete": "Sil" },
+    "swal": {
+      "renameTitle": "Şehir adını değiştir",
+      "save": "Kaydet",
+      "updated": "Şehir güncellendi",
+      "deleteTitle": "{name} silinsin mi?",
+      "deleteText": "Bu işlem geri alınamaz.",
+      "deleted": "Şehir silindi"
+    },
+    "prompts": { "selectCountry": "Şehirleri görmek için ülke seçin." }
+  },
+  "districts": {
+    "title": "İlçeler",
+    "of": "· {city}",
+    "selectCity": "· Şehir seçin",
+    "newPlaceholder": "Yeni ilçe adı",
+    "selectCityFirst": "Önce bir şehir seçin",
+    "add": "Ekle",
+    "headers": { "name": "İlçe", "actions": "İşlemler" },
+    "buttons": { "edit": "Düzenle", "delete": "Sil" },
+    "swal": {
+      "renameTitle": "İlçe adını değiştir",
+      "save": "Kaydet",
+      "updated": "İlçe güncellendi",
+      "deleteTitle": "{name} silinsin mi?",
+      "deleteText": "Bu işlem geri alınamaz.",
+      "deleted": "İlçe silindi"
+    },
+    "prompts": { "selectCity": "İlçeleri görmek için şehir seçin." }
+  },
+  "pagination": {
+    "first": "« İlk",
+    "prev": "‹ Önceki",
+    "page": "Sayfa {page} / {total}",
+    "next": "Sonraki ›",
+    "last": "Son »"
   }
 }
-
+  }
+}
