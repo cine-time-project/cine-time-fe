@@ -12,6 +12,7 @@ export const CinemaTableHeader = ({
   onCreate,
   canCreate,
   canDelete,
+  translate
 }) => (
   <div className="d-flex flex-wrap align-items-center justify-content-between">
   
@@ -21,14 +22,14 @@ export const CinemaTableHeader = ({
           disabled={selectedCount === 0}
           onClick={onDelete}
         >
-          <i className="pi pi-trash"></i> Delete
+          <i className="pi pi-trash"></i> {translate("delete")}
           {selectedCount > 0 && <span> ({selectedCount})</span>}
         </Button>
       )}
       {canCreate && (
         <OverlayTrigger
           placement="bottom" // Tooltip position (top, right, bottom, left)
-          overlay={<Tooltip id={`tooltip-new-cinema`}>Add New Cinema</Tooltip>}
+          overlay={<Tooltip id={`tooltip-new-cinema`}>{translate("addNewCinema")}</Tooltip>}
         >
           <Button variant="success" onClick={onCreate}>
             <i className="pi pi-plus"></i>

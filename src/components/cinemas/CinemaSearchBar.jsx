@@ -22,13 +22,13 @@ export const CinemaSearchBar = ({ cityFilter, setCityFilter }) => {
 
   const handleSearch = useCallback(() => {
     if (!searchInput) return;
-    setCityFilter(searchInput);
+    setCityFilter(searchInput.toLocaleLowerCase());
   }, [searchInput, setCityFilter]);
 
   const handleClear = useCallback(() => {
     setSearchInput("");
     setCityFilter("");
-  }, []);
+  }, [setCityFilter]);
 
   return (
     <Container className={styles.searchBarContainer}>
@@ -37,12 +37,21 @@ export const CinemaSearchBar = ({ cityFilter, setCityFilter }) => {
           type="text"
           placeholder={tCinemas("searchCity")}
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value === "") {
+              handleClear(); // kullanıcı input'u sildiyse temizle
+            }
+            setSearchInput(value);
+          }}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className={styles.searchInput}
         />
         {searchInput && (
-          <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("clear")}</Tooltip>}>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip>{tCinemas("clear")}</Tooltip>}
+          >
             <Button variant="outline-info" onClick={handleClear}>
               <i className="pi pi-times"></i>
             </Button>

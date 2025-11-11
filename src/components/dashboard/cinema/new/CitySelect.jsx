@@ -24,7 +24,7 @@ import { listAllCities, addCity } from "@/action/city-actions";
  *  - onCityChange: Callback invoked when city selection changes
  *  - token: Authentication token for API requests
  */
-export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, token }) {
+export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, token, tCinemas }) {
   // -----------------------------
   // Component state
   // -----------------------------
@@ -54,8 +54,7 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
         );
         setCities(filtered);
       } catch (err) {
-        console.error("Error loading cities:", err);
-        Swal.fire("Error", "Failed to load cities", "error");
+        Swal.fire(`${tCinemas("error")}`, `${tCinemas("errorLoadingCities")}`, "error");
       } finally {
         setLoadingCities(false);
       }
@@ -69,11 +68,11 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
   // -----------------------------
   const handleSaveCity = async () => {
     if (!newCityName.trim()) {
-      Swal.fire("Error", "City name is required", "error");
+      Swal.fire(`${tCinemas("error")}`, `${tCinemas("cityNameRequired")}`, "error");
       return;
     }
     if (!selectedCountryId) {
-      Swal.fire("Error", "Select a country first", "error");
+      Swal.fire(`${tCinemas("error")}`, `${tCinemas("selectCountry")}`, "error");
       return;
     }
 
@@ -95,13 +94,12 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
       setCities((prev) => [...prev, finalCity]);
       onCityChange(finalCity.id);
 
-      Swal.fire("Success", "City added successfully", "success");
+      Swal.fire(`${tCinemas("cityAddedSuccess")}`, "success");
 
       // Reset input and exit add mode
       setNewCityName("");
       setIsAdding(false);
     } catch (err) {
-      console.error("Error adding city:", err);
       Swal.fire("Error", err.response?.data?.message || err.message, "error");
     } finally {
       setSavingCity(false);
@@ -114,7 +112,7 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
   return (
     <Form.Group className="mb-3" as={Row}>
       <Form.Label column sm="2" className="text-nowrap">
-        City
+        {tCinemas("city")}
       </Form.Label>
       <Col sm="10">
         {isAdding ? (
@@ -125,17 +123,17 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
           <InputGroup>
             <Form.Control
               className="bg-warning-subtle"
-              placeholder="Enter new city"
+              placeholder={tCinemas("addNewCity")}
               value={newCityName}
               onChange={(e) => setNewCityName(e.target.value)}
               disabled={savingCity}
             />
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Save</Tooltip>}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("save")}</Tooltip>}>
               <Button variant="success" onClick={handleSaveCity} disabled={savingCity}>
                 {savingCity ? <Spinner animation="border" size="sm" /> : <i className="pi pi-check"></i>}
               </Button>
             </OverlayTrigger>
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Cancel</Tooltip>}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("cancel")}</Tooltip>}>
               <Button variant="danger" onClick={() => setIsAdding(false)} disabled={savingCity}>
                 <i className="pi pi-times"></i>
               </Button>
@@ -153,7 +151,7 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
               disabled={!selectedCountryId || loadingCities}
             >
               <option value="">
-                {loadingCities ? "Loading cities..." : "Select a city"}
+                {loadingCities ? tCinemas("loading") : tCinemas("selectCity")}
               </option>
               {cities.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -161,7 +159,7 @@ export function CitySelect({ selectedCountryId, selectedCityId, onCityChange, to
                 </option>
               ))}
             </Form.Select>
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Add new city</Tooltip>}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("addNewCity")}</Tooltip>}>
               <Button
                 variant="warning"
                 onClick={() => setIsAdding(true)}

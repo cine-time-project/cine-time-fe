@@ -69,6 +69,13 @@
   margin-top: 1rem;
 }
 
+.rightActions {
+  position: absolute; 
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1.5rem;
+}
+
 .leftActions{
   position: absolute;
   top: 50%;
