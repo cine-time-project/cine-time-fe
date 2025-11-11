@@ -23,22 +23,28 @@ export default function FavoriteUsersPage() {
       return;
     }
 
-    fetch(`${API_BASE}/favorites/movies/${movieId}/users`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
+    async function fetchUsers() {
+      try {
+        const res = await fetch(
+          `${API_BASE}/favorites/movies/${movieId}/users`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
         if (!res.ok) throw new Error("Favorileyen kullanıcılar alınamadı");
-        return res.json();
-      })
-      .then((data) => {
-        const list = data.returnBody || [];
-        setUsers(list);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [movieId]);
+
+        const data = await res.json();
+        setUsers(data.returnBody || []);
+      } catch (err) {
+        setError(err.message || "Veri alınamadı");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUsers();
+  }, [movieId, API_BASE, locale, router]);
 
   if (loading) return <div className="text-center py-5">⏳ Yükleniyor...</div>;
   if (error) return <div className="alert alert-danger m-3">{error}</div>;
@@ -59,13 +65,16 @@ export default function FavoriteUsersPage() {
         <p className="text-muted">Henüz kimse bu filmi favorilememiş.</p>
       ) : (
         <ul className="list-group shadow-sm">
-          {users.map((u) => (
+          {users.map((u, idx) => (
             <li
-              key={u.id}
-              className="list-group-item d-flex justify-content-between"
+              key={u.id || `${u.email || "user"}-${idx}`} // 🔧 garantili benzersiz key
+              className="list-group-item d-flex justify-content-between align-items-center"
             >
-              <span>{u.username || u.email}</span>
-              <span className="text-muted small">{u.email}</span>
+              <div>
+                <strong>{u.username || "Bilinmeyen Kullanıcı"}</strong>
+                <div className="text-muted small">{u.email || "-"}</div>
+              </div>
+              <span className="badge bg-primary">❤️ Favori</span>
             </li>
           ))}
         </ul>
