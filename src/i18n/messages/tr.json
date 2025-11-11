@@ -590,7 +590,9 @@
     "areYouSure": "Emin misiniz?",
   "willBeDeleted": "\"{name}\" kalıcı olarak silinecek.",
   "yes": "Evet",
-  "no": "Hayır"
+  "no": "Hayır",
+  "ok": "OK"
+
   },
   "contact": {
     "reasons": {
@@ -1181,7 +1183,10 @@
       "updated": "Özel salon başarıyla güncellendi."},
       "alerts": {
       "typeCreated": "Özel salon türü oluşturuldu.",
-      "typeCreateFailed": "Özel salon türü oluşturulamadı."
+      "typeCreateFailed": "Özel salon türü oluşturulamadı.",
+       "typeDeleted": "Özel salon türü silindi.",
+    "typeDeleteFailed": "Özel salon türü silinemedi.",
+    "typeInUse": "\"{name}\" türünde özel salon(lar) bulunmaktadır. Önce bu salonları silmeli ya da türlerini değiştirmelisiniz."
     },
     "list": { "title": "Özel Salonlar" },
     "headers": {

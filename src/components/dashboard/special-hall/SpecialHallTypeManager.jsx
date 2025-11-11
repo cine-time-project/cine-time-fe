@@ -60,32 +60,34 @@ export default function SpecialHallTypeManager({ show, onClose }) {
     }
   };
 
-  const handleDelete = async (row) => {
-  const name = row?.name || row?.typeName || `#${row?.id}`;
+const handleDelete = async (row) => {
+  const name = row?.name || "—";
 
-  // Başlık: swal.areYouSure varsa onu kullan, yoksa fallback ver
-  const title =
-    (() => {
-      try { return tSwal("areYouSure"); } 
-      catch { return "Emin misiniz?"; }
-    })();
-
-  // Metin: mevcut ve kesin olan key
-  const text = tSH("deleteConfirm", { name });
-
-  if (!(await swAlert("question", title, text))) return;
+  // {name} parametresini gönder!
+  const ok = await swAlert(
+    "question",
+    tSwal("areYouSure"),
+    tSwal("willBeDeleted", { name })
+  );
+  if (!ok) return;
 
   setBusyId(row.id);
   try {
     await deleteSpecialHallType(row.id);
-    swAlert("success", tSH("messages.deleted"));
+    swAlert("success", tSH("alerts.typeDeleted"));
     await load();
   } catch (e) {
-     swAlert("error", e?.message || tSH("messages.operationFailed"));
+    const msg = String(e?.message || "");
+    if (/fk_special_hall_type|foreign key/i.test(msg)) {
+      swAlert("warning", tSH("alerts.typeInUse", { name }));
+    } else {
+      swAlert("error", tSH("alerts.typeDeleteFailed"));
+    }
   } finally {
     setBusyId(null);
   }
 };
+
 
 
   return (

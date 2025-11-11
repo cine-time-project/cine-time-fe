@@ -672,7 +672,8 @@
       "areYouSure": "Are you sure?",
   "willBeDeleted": "\"{name}\" will be permanently deleted.",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "ok": "OK"  
   },
   "contact": {
     "reasons": {
@@ -715,6 +716,7 @@
       "failNetwork": "Network error. Please check your connection.",
       "failTimeout": "Request timed out. Please try again.",
       "failGeneric": "An unexpected error occurred. Please try again."
+      
     },
     "errors": {
       "fullNameRequired": "Full name is required.",
@@ -1168,7 +1170,8 @@
       "typeUpdated": "Special hall type updated.",
    "typeUpdateFailed": "Failed to update special hall type.",
    "typeDeleted": "Special hall type deleted.",
-   "typeDeleteFailed": "Failed to delete special hall type."
+   "typeDeleteFailed": "Failed to delete special hall type.",
+    "typeInUse": "Type \"{name}\" is used by existing special halls. Please remove or change those halls first."
     },
     "list": { "title": "Special Halls" },
     "headers": {
