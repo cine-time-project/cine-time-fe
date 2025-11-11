@@ -1,0 +1,61 @@
+/* cinemasGrid.scss veya global.scss içine ekle */
+
+.custom-pagination {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 1.5rem;
+
+  .page-item {
+    .page-link {
+      min-width: 40px;
+      min-height: 40px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      color: #fff;
+      background-color: #343434;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-link:hover {
+      background-color: #ff8c00;
+      border-color: #ffee00;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    &.disabled .page-link {
+      background-color: #555;
+      color: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    &.active .page-link {
+      background-color: #ffee00;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+/* Küçük ekranlar için responsive */
+@media (max-width: 768px) {
+  .custom-pagination {
+    gap: 4px;
+
+    .page-item .page-link {
+      min-width: 32px;
+      min-height: 32px;
+      font-size: 14px;
+    }
+  }
+}

@@ -144,11 +144,11 @@ export default function AdminCinemaDetailPage() {
         </Card.Body>
       </Card>
 
-      <Row className="mt-4">
+       <Row className="mt-4">{/*
         <Col xs={12} className="mb-4">
           <MovieList movies={cinema.movies || []} tCinemas={tCinemas} />
         </Col>
-
+*/}
         <Col xs={12}>
           <HallList
             cinema={cinema}
@@ -156,7 +156,7 @@ export default function AdminCinemaDetailPage() {
             isEditMode={isEditMode}
           />
         </Col>
-      </Row>
+      </Row> 
     </Container>
   );
 }
