@@ -35,17 +35,25 @@ export const HallCreateForm = ({ locale }) => {
   }, [token]);
 
   useEffect(() => {
+    if (!state) return;
+
+    if (state.errors && Object.keys(state.errors).length > 0) {
+      swAlert("Lütfen zorunlu alanları doldurunuz.", "error");
+      return;
+    }
+
     if (state?.message) {
       if (state.ok) {
         state.message = t("successCreate");
       } else {
         state.message = t("duplicateName");
       }
+
       swAlert(state.message, state.ok ? "success" : "error").then(() => {
         if (state.ok) window.location.href = `/${locale}/admin/halls`;
       });
     }
-  }, [state, locale]);
+  }, [state, locale, t]);
 
   return (
     <div>
