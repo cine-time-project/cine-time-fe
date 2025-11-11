@@ -8,11 +8,12 @@ import { fetchSpecialHalls } from "@/service/special-hall-service";
 import { deleteSpecialHallAction } from "@/action/special-hall-actions";
 import { swAlert } from "@/helpers/sweetalert";
 
+
 export default function SpecialHallListTable() {
   const tSH = useTranslations("specialHall");
   const tCommon = useTranslations("common");
   const locale = useLocale();
-
+  const tSwal = useTranslations("swal");  
   const [page, setPage] = useState(0);
   const [size] = useState(10);
   const [data, setData] = useState({ content: [], totalPages: 0, totalElements: 0 });
@@ -67,23 +68,29 @@ export default function SpecialHallListTable() {
   };
 
   /* ---------------- actions ---------------- */
-  const handleDelete = async (row) => {
+   const handleDelete = async (row) => {
     const name =
       row?.hallName ||
       row?.hall?.name ||
       row?.typeName ||
       row?.type?.name ||
-      getCinemaName(row) ||
+      row?.cinemaName ||
       `#${row?.id}`;
 
-    if (!confirm(tSH("confirmDelete", { name }))) return;
+    // SweetAlert ile onay (başlık + açıklama)
+    const ok = await swAlert(
+      "question",
+      tSwal("areYouSure"),
+      tSH("confirmDelete", { name })
+    );
+    if (!ok) return;
 
     const res = await deleteSpecialHallAction(row.id);
     if (res?.ok) {
-      swAlert(tSH("messages.deleted"), "success");
+      await swAlert("success", tSH("messages.deleted"));
       load();
     } else {
-      swAlert(tSH("messages.operationFailed"), "error");
+      swAlert("error", tSH("messages.operationFailed"));
     }
   };
 
