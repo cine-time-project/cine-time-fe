@@ -12,7 +12,7 @@ import { ShowtimeCard } from "./ShowtimeCard";
 export function HallCard({
   hall,
   tCinemas,
-  isEditMode,
+  isEditMode = false,
   selectedMovieID,
   selectedDate,
 }) {
