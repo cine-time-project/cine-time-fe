@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Spinner, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas }) => {
+export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -62,10 +62,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
       await uploadImage(cinema.id, file, token);
 
       // 2️⃣ Parent'tan cinema'yi yeniden fetch et
-      if (onUpdateCinema) {
-        const updatedCinema = await onUpdateCinema(); // async fetch yapılacak
-        setPreviewUrl(updatedCinema.imageUrl); // preview da güncellendi
-      }
+      refreshCinema();
 
       Swal.fire(`${tCinemas("imageUploadSuccess")}`, "success");
       setFile(null);
@@ -117,7 +114,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
             variant="danger"
             type="button"
             disabled={!file}
-            onClick={handleCancel} // artık handleCancel fonksiyonunu kullanıyoruz
+            onClick={handleCancel} 
           >
             {tCinemas("cancel")}
           </Button>

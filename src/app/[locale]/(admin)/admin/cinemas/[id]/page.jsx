@@ -84,10 +84,8 @@ export default function AdminCinemaDetailPage() {
               <CinemaImageUploader
                 tCinemas={tCinemas}
                 cinema={cinema}
-                onUpdateCinema={async () => {
-                  refreshCinema();
-                  return fresh;
-                }}
+                refreshCinema={refreshCinema}
+                token={token}
               />
             </Col>
 

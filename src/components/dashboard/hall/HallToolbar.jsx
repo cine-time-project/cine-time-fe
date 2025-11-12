@@ -65,10 +65,8 @@ export const HallToolbar = ({ row, locale, onDeleted, isAdmin }) => {
       <OverlayTrigger
         placement="top"
         overlay={
-          !isAdmin ? (
+          !isAdmin && (
             <Tooltip id="tooltip-edit">{t("needAdminToEdit")}</Tooltip>
-          ) : (
-            <></>
           )
         }
       >
