@@ -18,7 +18,7 @@ import Link from "next/link";
 
 import { authHeaders, isAdmin } from "@/lib/utils/http";
 // If you keep all routes in one place, expose a base/route like this:
-import { PAYMENT_LIST_API /*, paymentRefundApi */ } from "@/helpers/api-routes";
+import { PAYMENT_LIST_API, DELETE_PAYMENT } from "@/helpers/api-routes";
 
  
 
@@ -169,59 +169,39 @@ export default function PaymentsPage() {
     q,
   ]);
 
-  const onRefund = async (payment) => {
-    if (!isAdmin()) return; // safety check
 
-    const { value: formValues, isConfirmed } = await Swal.fire({
-      title: `Refund Payment #${payment.paymentId}`,
-      html: `
-        <div style="text-align:left">
-          <div style="margin-bottom:.5rem;">
-            <label>Amount (optional, default full):</label>
-            <input id="ref-amount" class="swal2-input" type="number" step="0.01" min="0" placeholder="${
-              payment.paymentAmount ?? ""
-            }">
-          </div>
-          <div>
-            <label>Reason (required):</label>
-            <textarea id="ref-reason" class="swal2-textarea" placeholder="Reason for refund" rows="3"></textarea>
-          </div>
-        </div>
-      `,
-      focusConfirm: false,
+  const onDeletePayment = async (payment) => {
+    if (!isAdmin()) return;
+    const pid = payment?.paymentId ?? payment?.id;
+    if (!pid) {
+      await Swal.fire({ icon: "error", title: "Delete failed", text: "Missing payment id." });
+      return;
+    }
+
+    const { isConfirmed } = await Swal.fire({
+      icon: "warning",
+      title: `Delete Payment #${pid}?`,
+      text: "This will delete the payment and all its tickets.",
       showCancelButton: true,
-      confirmButtonText: "Refund",
-      preConfirm: () => {
-        const amt = document.getElementById("ref-amount")?.value;
-        const reason = document.getElementById("ref-reason")?.value?.trim();
-        if (!reason) {
-          Swal.showValidationMessage("Reason is required");
-          return;
-        }
-        const payload = {};
-        if (amt && Number(amt) > 0) payload.amount = Number(amt);
-        payload.reason = reason;
-        return payload;
-      },
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc3545"
     });
-
     if (!isConfirmed) return;
 
-    // TODO: uncomment when refund endpoint exists
-    // try {
-    //   await axios.post(paymentRefundApi(payment.paymentId), formValues, {
-    //     headers: authHeaders({ "Content-Type": "application/json" }),
-    //   });
-    //   await Swal.fire({ icon: "success", title: "Refunded", text: "Refund created successfully." });
-    //   fetchData();
-    // } catch (e) {
-    //   await Swal.fire({ icon: "error", title: "Refund failed", text: e?.response?.data?.message || e?.message || "Failed to refund." });
-    // }
-    await Swal.fire({
-      icon: "info",
-      title: "TODO",
-      text: "Wire refund endpoint when ready.",
-    });
+    try {
+      await axios.delete(DELETE_PAYMENT(pid), {
+        headers: authHeaders({ Accept: "application/json" }),
+      });
+      await Swal.fire({ icon: "success", title: "Deleted", text: "Payment deleted successfully." });
+      fetchData();
+    } catch (e) {
+      await Swal.fire({
+        icon: "error",
+        title: "Delete failed",
+        text: e?.response?.data?.message || e?.message || "Unable to delete payment."
+      });
+    }
   };
 
   const onClearFilters = () => {
@@ -288,7 +268,9 @@ export default function PaymentsPage() {
               <option value="SUCCESS">{t("status.SUCCESS")}</option>
               <option value="FAILED">{t("status.FAILED")}</option>
               <option value="REFUNDED">{t("status.REFUNDED")}</option>
-              <option value="PARTIALLY_REFUNDED">{t("status.PARTIALLY_REFUNDED")}</option>
+              <option value="PARTIALLY_REFUNDED">
+                {t("status.PARTIALLY_REFUNDED")}
+              </option>
               {/* add others if your enum has more */}
             </Form.Select>
           </Col>
@@ -431,10 +413,10 @@ export default function PaymentsPage() {
             <th>{t("table.user")}</th>
             <th>{t("table.email")}</th>
             <th>{t("table.amount")}</th>
-            <th>{t("table.currency")}</th>
+            <th>Seats</th>
             <th>{t("table.status")}</th>
-            <th>{t("table.providerRef")}</th>
-            <th>{t("table.idempotencyKey")}</th>
+            <th>Cinema</th>
+            <th>Movie</th>
             <th style={{ width: 110 }}>{t("table.actions")}</th>
           </tr>
         </thead>
@@ -457,7 +439,10 @@ export default function PaymentsPage() {
                 <td>
                   {(() => {
                     const nameText =
-                      p.userName ?? (p.user ? `${p.user.name ?? ""} ${p.user.surname ?? ""}`.trim() : "");
+                      p.userName ??
+                      (p.user
+                        ? `${p.user.name ?? ""} ${p.user.surname ?? ""}`.trim()
+                        : "");
                     const uid = p.userId ?? p.user?.id;
                     if (!uid || !nameText) return nameText;
                     return (
@@ -469,7 +454,24 @@ export default function PaymentsPage() {
                 </td>
                 <td>{p.userEmail ?? p.user?.email ?? ""}</td>
                 <td>{p.paymentAmount ?? ""}</td>
-                <td>{p.paymentCurrency ?? ""}</td>
+                <td className="text-truncate" style={{ maxWidth: 160 }}>
+                  {(() => {
+                    const seats = Array.isArray(p.tickets)
+                      ? [
+                          ...new Set(
+                            p.tickets
+                              .map((t) =>
+                                t && t.seatLetter && (t.seatNumber !== undefined && t.seatNumber !== null)
+                                  ? `${t.seatLetter}${t.seatNumber}`
+                                  : null
+                              )
+                              .filter(Boolean)
+                          ),
+                        ]
+                      : [];
+                    return seats.length ? seats.join(", ") : "";
+                  })()}
+                </td>
                 <td>
                   <Badge
                     bg={
@@ -482,20 +484,33 @@ export default function PaymentsPage() {
                   </Badge>
                 </td>
                 <td className="text-truncate" style={{ maxWidth: 160 }}>
-                  {p.paymentProviderReference ?? ""}
+                  {(() => {
+                    const cinemas = Array.isArray(p.tickets)
+                      ? [...new Set(p.tickets.map((t) => t?.cinema).filter(Boolean))]
+                      : [];
+                    return cinemas.length ? cinemas.join(", ") : "";
+                  })()}
                 </td>
-                <td className="text-truncate" style={{ maxWidth: 160 }}>
-                  {p.paymentIdempotencyKey ?? ""}
+                <td className="text-truncate" style={{ maxWidth: 220 }}>
+                  {(() => {
+                    const names = Array.isArray(p.tickets)
+                      ? [
+                          ...new Set(
+                            p.tickets.map((t) => t?.movieName).filter(Boolean)
+                          ),
+                        ]
+                      : [];
+                    return names.length ? names.join(", ") : "";
+                  })()}
                 </td>
-                <td className="text-nowrap">
-                  {/* TODO: View modal/drawer to show tickets */}
+                <td className="text-nowrap d-flex gap-2">
                   {isAdmin() && (
                     <Button
                       size="sm"
-                      variant="outline-danger"
-                      onClick={() => onRefund(p)}
+                      variant="danger"
+                      onClick={() => onDeletePayment(p)}
                     >
-                      {t("buttons.refund")}
+                      Delete
                     </Button>
                   )}
                 </td>

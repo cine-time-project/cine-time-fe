@@ -163,7 +163,7 @@ export default function AdminRolesPage() {
 
   return (
     <div className="container-fluid py-3">
-      <h2 className="mb-3">{t("title")}</h2>
+      <h1 className="mb-3 text-white">{t("title")}</h1>
 
       {loading && (
         <div className="d-flex align-items-center gap-2">
