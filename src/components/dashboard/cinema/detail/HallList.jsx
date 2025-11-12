@@ -7,6 +7,7 @@ export default function HallList({
   halls,
   tCinemas,
   isEditMode = false,
+  isDashboard = false,
   selectedMovieID,
   selectedDate
 }) {
@@ -26,6 +27,7 @@ export default function HallList({
           hall={hall}
           tCinemas={tCinemas}
           isEditMode={isEditMode}
+          isDashboard={isDashboard}
           selectedMovieID={selectedMovieID}
           selectedDate={selectedDate}
         />

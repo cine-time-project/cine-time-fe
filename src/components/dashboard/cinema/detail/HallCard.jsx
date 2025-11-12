@@ -2,16 +2,18 @@
 
 import React from "react";
 import { Tag } from "primereact/tag";
-import { Button } from "primereact/button";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
+import { Button } from "react-bootstrap";
 
 export function HallCard({
   hall,
   tCinemas,
+  isDashboard = false,
   isEditMode = false,
   selectedMovieID,
   selectedDate,
@@ -32,13 +34,12 @@ export function HallCard({
   }
 
   const filteredShowtimes = hall?.showtimes?.filter((showtime) => {
-  const matchDate = showtime.date === selectedDate;
-  const matchMovie = selectedMovieID
-    ? showtime.movieId === Number(selectedMovieID)
-    : true;
-  return matchDate && matchMovie;
-});
-
+    const matchDate = showtime.date === selectedDate;
+    const matchMovie = selectedMovieID
+      ? showtime.movieId === Number(selectedMovieID)
+      : true;
+    return matchDate && matchMovie;
+  });
 
   return (
     <div
@@ -82,29 +83,22 @@ export function HallCard({
                 icon="pi pi-star"
                 style={{
                   backgroundColor: "#2a2a2a",
-                  color: "#ffd700",
+                  color: "#ffc107",
                   border: "none",
                 }}
               />
             )}
           </div>
         </div>
-        {isEditMode && (
-          <Button
-            label={tCinemas("edit") || "Add Showtime"}
-            icon="pi pi-plus"
-            className="p-button-rounded p-button-text"
-            style={{
-              color: "#00b4ff",
-              border: "1px solid #2f2f2f",
-              fontWeight: "500",
-            }}
-          />
+        {isDashboard && isEditMode && (
+          <Button variant="outline-warning">
+            <i className="pi pi-plus"></i> {tCinemas("edit") || "Add Showtime"}
+          </Button>
         )}
       </div>
 
       {/* META INFO */}
-      {isEditMode && (
+      {isDashboard && (
         <p style={{ color: "#888", fontSize: "0.85rem" }}>
           {tCinemas("created")}:{" "}
           <span style={{ color: "#ccc" }}>

@@ -25,7 +25,7 @@ export default function CinemaDetailPage() {
   const [allDates, setAllDates] = useState([]);
 
   // Fetch cinema details and permissions
-  const { cinema, loading, canEdit } = useCinemaDetails(cinemaId);
+  const { cinema, loading } = useCinemaDetails(cinemaId);
 
   // -----------------------------
   // Extract unique and sorted upcoming showtime dates
@@ -204,7 +204,6 @@ export default function CinemaDetailPage() {
               tCinemas={tCinemas}
               selectedMovieID={selectedMovieID}
               selectedDate={selectedDate}
-              isEditMode={canEdit}
             />
           ) : (
             <Alert variant="warning" className="mt-3">
