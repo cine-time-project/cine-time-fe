@@ -28,8 +28,8 @@ export default function MovieList({ movies, tCinemas, selectedMovieID, pickMovie
         keyboard={{ enabled: !isDisabled }} // ← klavye yön tuşlarını kapat
         spaceBetween={20}
         slidesPerGroup={1}
-        slidesOffsetBefore={30}
-        slidesOffsetAfter={30}
+        slidesOffsetBefore={40}
+        slidesOffsetAfter={40}
         breakpoints={{
           320: { slidesPerView: 1, spaceBetween: 20, slidesPerGroup: 1 },
           640: { slidesPerView: 2, spaceBetween: 20, slidesPerGroup: 1 },
