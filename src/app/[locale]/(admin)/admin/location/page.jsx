@@ -282,7 +282,7 @@ export default function LocationManagerPage() {
       title: t("cities.swal.updated"),
       timer: 1200,
       showConfirmButton: false,
-      background: "#0f0f12",
+      background: "#1a1d24",
       color: "#e5e7eb",
     });
   };
@@ -295,7 +295,7 @@ export default function LocationManagerPage() {
       showCancelButton: true,
       confirmButtonText: t("cities.buttons.delete"),
       confirmButtonColor: "#ef4444",
-      background: "#0f0f12",
+      background: "#1a1d24",
       color: "#e5e7eb",
     });
     if (!isConfirmed) return;
@@ -310,7 +310,7 @@ export default function LocationManagerPage() {
       title: t("cities.swal.deleted"),
       timer: 1000,
       showConfirmButton: false,
-      background: "#0f0f12",
+      background: "#1a1d24",
       color: "#e5e7eb",
     });
   };
@@ -331,7 +331,7 @@ export default function LocationManagerPage() {
       inputValue: d.name || "",
       showCancelButton: true,
       confirmButtonText: t("districts.swal.save"),
-      background: "#0f0f12",
+      background: "#1a1d24",
       color: "#e5e7eb",
     });
     if (!isConfirmed) return;
