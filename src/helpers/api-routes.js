@@ -154,3 +154,4 @@ export const districtDeleteApi = (districtId) => `${API}/districts/${districtId}
 
 // -------------------- Payments --------------------
 export const PAYMENT_LIST_API = `${API}/payment`;
+export const DELETE_PAYMENT = (paymentId) => `${API}/payment/${paymentId}`; // DELETE
