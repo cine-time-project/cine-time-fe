@@ -21,11 +21,12 @@ import { BackButton } from "@/components/common/form-fields/BackButton";
 import { useTranslations } from "next-intl";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
+import { useAuth } from "@/lib/auth/useAuth";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
   const { id } = useParams();
-
+  const { token } = useAuth();
   const tCinemas = useTranslations("cinemas");
 
   // -----------------------------
@@ -56,7 +57,7 @@ export default function AdminCinemaDetailPage() {
       {/* Page header */}
       <PageHeader
         title={tCinemas("cinemaDetails")}
-        leftActions={<BackButton />}
+        leftActions={<BackButton title={tCinemas("back")} />}
       />
 
       <Card
@@ -93,11 +94,12 @@ export default function AdminCinemaDetailPage() {
             {/* Right column: Cinema form or read-only view */}
             <Col md={6}>
               <CinemaForm
+                token={token}
                 tCinemas={tCinemas}
                 cinema={cinema}
                 locale="en"
                 isEditMode={true}
-                refreshCinema // parent state update callback
+                refreshCinema={refreshCinema} // parent state update callback
               />
             </Col>
           </Row>

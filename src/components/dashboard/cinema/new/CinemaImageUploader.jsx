@@ -10,6 +10,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [inputKey, setInputKey] = useState(Date.now()); // input reset için
 
   // 🎬 Eğer edit modundaysak mevcut resmi göster
   useEffect(() => {
@@ -27,6 +28,19 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
       const localPreview = URL.createObjectURL(selected);
       setPreviewUrl(localPreview); // seçilen resmi anında önizle
     }
+  };
+
+  const handleCancel = () => {
+    setFile(null);
+
+    if (isUpdate && cinema?.imageUrl) {
+      setPreviewUrl(cinema.imageUrl);
+    } else {
+      setPreviewUrl(null);
+    }
+
+    // input'u yeniden render ederek dosya adını temizle
+    setInputKey(Date.now());
   };
 
   const handleUpload = async (e) => {
@@ -55,6 +69,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
 
       Swal.fire(`${tCinemas("imageUploadSuccess")}`, "success");
       setFile(null);
+      setInputKey(Date.now()); // input'u sıfırla
     } catch (error) {
       Swal.fire(`${tCinemas("error")}`, `${tCinemas("errorUploadImage")}`, "error");
     } finally {
@@ -69,6 +84,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
           {isUpdate ? tCinemas("update") : tCinemas("save")}
         </Form.Label>
         <Form.Control
+          key={inputKey} // her cancel veya upload sonrası input sıfırlanacak
           type="file"
           accept="image/*"
           onChange={handleFileChange}
@@ -101,15 +117,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas })
             variant="danger"
             type="button"
             disabled={!file}
-            onClick={() => {
-              setFile(null);
-              // Mevcut resmi koru (edit modundaysa), yoksa tamamen sıfırla
-              if (isUpdate && cinema?.imageUrl) {
-                setPreviewUrl(cinema.imageUrl);
-              } else {
-                setPreviewUrl(null);
-              }
-            }}
+            onClick={handleCancel} // artık handleCancel fonksiyonunu kullanıyoruz
           >
             {tCinemas("cancel")}
           </Button>
