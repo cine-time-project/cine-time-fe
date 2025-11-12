@@ -1,19 +1,16 @@
 "use client";
 
-import { Spinner, Container, Row, Col, Card } from "react-bootstrap";
+import { useEffect, useState, useMemo } from "react";
+import { Spinner, Container, Row, Col, Alert } from "react-bootstrap";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import HallList from "@/components/dashboard/cinema/detail/HallList";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { BackButton } from "@/components/common/form-fields/BackButton";
-import { useTranslations } from "next-intl";
-
-import { useParams } from "next/navigation";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
-import { CinemaDetailCard } from "@/components/dashboard/cinema/detail/CinemaDetailCard";
-import { useEffect, useState } from "react";
 import { ShowtimeDateSelector } from "@/components/dashboard/cinema/detail/ShowtimeDateSelector";
-import Link from "next/link";
 import { CinemaHeroCard } from "@/components/dashboard/cinema/detail/CinemaHeroCard";
 
 export default function CinemaDetailPage() {
@@ -26,84 +23,172 @@ export default function CinemaDetailPage() {
   const [selectedMovieID, setSelectedMovieID] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [allDates, setAllDates] = useState([]);
-  const {
-    cinema,
-    loading,
-    canEdit, // Determines if user has edit permissions
-    refreshCinema, // Function to refetch & refresh cinema data
-  } = useCinemaDetails(cinemaId);
 
-useEffect(() => {
-  if (!cinema) return;
+  // Fetch cinema details and permissions
+  const { cinema, loading, canEdit } = useCinemaDetails(cinemaId);
 
-  // Tüm showtime tarihlerini al ve unique yap
-  const allShowtimeDates = [
-    ...new Set(
-      cinema.halls.flatMap((hall) => hall.showtimes.map((s) => s.date))
-    ),
-  ];
+  // -----------------------------
+  // Extract unique and sorted upcoming showtime dates
+  // -----------------------------
+  useEffect(() => {
+    if (!cinema) return;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Sadece tarih karşılaştırması için
+    const allShowtimeDates = [
+      ...new Set(
+        cinema.halls?.flatMap((hall) => hall.showtimes?.map((s) => s.date))
+      ),
+    ];
 
-  // Bugünden önceki tarihleri çıkar ve sırala
-  const upcomingDates = allShowtimeDates
-    .map((d) => new Date(d))
-    .filter((date) => date >= today)
-    .sort((a, b) => a - b)
-    .map((d) => d.toISOString().split("T")[0]); // YYYY-MM-DD format
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  setAllDates(upcomingDates);
+    const upcomingDates = allShowtimeDates
+      .map((d) => new Date(d))
+      .filter((date) => date >= today)
+      .sort((a, b) => a - b)
+      .map((d) => d.toISOString().split("T")[0]); // YYYY-MM-DD
 
-  // selectedDate yoksa ilk uygun tarihi set et
-  if (!selectedDate && upcomingDates.length > 0) {
-    setSelectedDate(upcomingDates[0]);
-  }
-}, [cinema]);
+    setAllDates(upcomingDates);
 
-useEffect(() => {
-  setSelectedMovieID(null);
-}, [selectedDate]);
+    // Automatically pick the first date if none selected
+    if (!selectedDate && upcomingDates.length > 0) {
+      setSelectedDate(upcomingDates[0]);
+    }
+  }, [cinema, selectedDate]);
 
+  // Reset selected movie when date changes
+  useEffect(() => {
+    setSelectedMovieID(null);
+  }, [selectedDate]);
 
+  // -----------------------------
+  // Movie filtering logic
+  // -----------------------------
+  const filteredMovies = useMemo(() => {
+    if (!cinema) return [];
 
-  if (loading)
+    // Case 1: Filter by selected date (and movie if selected)
+    if (selectedDate) {
+      const movieIdsForDate = new Set(
+        cinema.halls?.flatMap((hall) =>
+          hall.showtimes
+            ?.filter((s) => s.date === selectedDate)
+            .map((s) => s.movieId)
+        )
+      );
+      return cinema.movies?.filter((m) => movieIdsForDate.has(m.id)) || [];
+    }
+
+    // Case 2: Only selectedMovieID (no date)
+    if (selectedMovieID) {
+      return cinema.movies?.filter((m) => m.id === selectedMovieID) || [];
+    }
+
+    // Case 3: No filters — show all
+    return cinema.movies || [];
+  }, [cinema, selectedDate, selectedMovieID]);
+
+  // -----------------------------
+  // Hall filtering logic
+  // -----------------------------
+  const filteredHalls = useMemo(() => {
+    if (!cinema) return [];
+
+    // Case 1: Filter by selected date (and movie if selected)
+    if (selectedDate) {
+      return cinema.halls?.filter((hall) =>
+        hall.showtimes?.some((s) => {
+          const matchDate = s.date === selectedDate;
+          const matchMovie = selectedMovieID
+            ? s.movieId === selectedMovieID
+            : true;
+          return matchDate && matchMovie;
+        })
+      );
+    }
+
+    // Case 2: Only selectedMovieID (no date)
+    if (selectedMovieID) {
+      return cinema.halls?.filter((hall) =>
+        hall.showtimes?.some((s) => s.movieId === selectedMovieID)
+      );
+    }
+
+    // Case 3: No filters — show all
+    return cinema.halls || [];
+  }, [cinema, selectedDate, selectedMovieID]);
+
+  // -----------------------------
+  // Loading & empty state handling
+  // -----------------------------
+  if (loading && !cinema) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         <Spinner animation="border" />
       </div>
     );
+  }
 
-  if (!cinema)
-    return <p className="text-center mt-5">{tCinemas("noCinemaData")}</p>;
+  if (!loading && !cinema) {
+    return <Alert variant="danger">{tCinemas("noCinemaData")}</Alert>;
+  }
+
+  if (!selectedDate) {
+    return (
+      <Container className="my-4">
+        {/* Page header with back navigation */}
+        <PageHeader
+          title={tCinemas("cinemaDetails")}
+          leftActions={<BackButton variant="outline-light" icon="angle-left" />}
+        />
+
+        {/* Cinema info section */}
+        <CinemaHeroCard cinema={cinema} tCinemas={tCinemas} />
+
+        <Alert variant="danger" className="text-center fs-3 py-5 my-5">
+          {tCinemas("noShowtimes")}
+        </Alert>
+      </Container>
+    );
+  }
 
   // -----------------------------
   // Main render
   // -----------------------------
   return (
     <Container className="my-4">
-      {/* Page header */}
+      {/* Page header with back navigation */}
       <PageHeader
         title={tCinemas("cinemaDetails")}
-        leftActions={<BackButton variant="outline-light" icon="angle-left"/>}
+        leftActions={<BackButton variant="outline-light" icon="angle-left" />}
       />
 
+      {/* Cinema info section */}
       <CinemaHeroCard cinema={cinema} tCinemas={tCinemas} />
-      {/* Halls and Movies section */}
+
       <Row className="mt-5">
+        {/* Movie list section with date selector */}
         <Col xs={12} className="mb-4">
-          <div className="d-flex gap-3 align-items-center">
-            <ShowtimeDateSelector
-              dates={allDates}
-              tCinemas={tCinemas}
-              onDateChange={setSelectedDate}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
-            <h3 className="fw-bold mb-3 text-warning">{tCinemas("currentMovies")}</h3>
-          </div>
+          {allDates.length > 0 ? (
+            <div className="d-flex gap-3 align-items-center">
+              <ShowtimeDateSelector
+                dates={allDates}
+                tCinemas={tCinemas}
+                selectedDate={selectedDate}
+                onDateChange={setSelectedDate}
+              />
+              <h3 className="fw-bold mb-3 text-warning">
+                {tCinemas("currentMovies")}
+              </h3>
+            </div>
+          ) : (
+            <Alert variant="danger" className="text-center fs-3 py-5">
+              {tCinemas("noShowtimes")}
+            </Alert>
+          )}
+
           <MovieList
-            cinema={cinema}
+            movies={filteredMovies}
             tCinemas={tCinemas}
             selectedMovieID={selectedMovieID}
             pickMovie={setSelectedMovieID}
@@ -111,13 +196,21 @@ useEffect(() => {
           />
         </Col>
 
+        {/* Hall list section */}
         <Col xs={12}>
-          <HallList
-            cinema={cinema}
-            tCinemas={tCinemas}
-            selectedMovieID={selectedMovieID}
-            selectedDate={selectedDate}
-          />
+          {filteredHalls?.length > 0 ? (
+            <HallList
+              halls={filteredHalls}
+              tCinemas={tCinemas}
+              selectedMovieID={selectedMovieID}
+              selectedDate={selectedDate}
+              isEditMode={canEdit}
+            />
+          ) : (
+            <Alert variant="warning" className="mt-3">
+              {tCinemas("noHalls")}
+            </Alert>
+          )}
         </Col>
       </Row>
     </Container>

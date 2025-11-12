@@ -9,7 +9,6 @@ export const ShowtimeDateSelector = ({
   dates = [],
   onDateChange,
   selectedDate,
-  setSelectedDate,
 }) => {
   const locale = useLocale(); // Kullanıcının geçerli locale'i
 
@@ -30,7 +29,7 @@ export const ShowtimeDateSelector = ({
       <div className="custom-select-wrapper">
         <Form.Select
           value={selectedDate || ""}
-          onChange={(e) => setSelectedDate(e.target.value)}
+          onChange={(e) => onDateChange(e.target.value)}
           className="custom-select"
         >
           {dates.map((d) => {

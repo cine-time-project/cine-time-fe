@@ -10,6 +10,7 @@ function MovieCardInCinemaDetail({
   movie,
   selectedMovieID,
   setSelectedMovieID,
+  isDashboard = false,
 }) {
   const t = useTranslations(); // Translation hook
   const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();

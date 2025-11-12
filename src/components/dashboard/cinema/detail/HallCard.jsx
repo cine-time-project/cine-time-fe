@@ -31,7 +31,7 @@ export function HallCard({
     );
   }
 
-  const filteredShowtimes = hall.showtimes.filter((showtime) => {
+  const filteredShowtimes = hall?.showtimes?.filter((showtime) => {
   const matchDate = showtime.date === selectedDate;
   const matchMovie = selectedMovieID
     ? showtime.movieId === Number(selectedMovieID)

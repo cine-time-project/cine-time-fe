@@ -5,28 +5,14 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import MovieCardInCinemaDetail from "./MovieCardInCinemaDetail";
+import { Alert } from "react-bootstrap";
 
 
-export default function MovieList({ cinema, tCinemas, selectedMovieID, pickMovie, selectedDate }) {
+export default function MovieList({ movies, tCinemas, selectedMovieID, pickMovie }) {
 
-  if (!cinema.movies.length)
-    return <p className="text-muted">{tCinemas("noMovieForCinema")}</p>;
+  if (!movies?.length)
+    return <Alert variant="warning">{tCinemas("noMovieForCinema")}</Alert>;
 
-  const movieIdsForDate = new Set(
-    cinema.halls.flatMap((hall) =>
-      hall.showtimes
-        .filter((s) => s.date === selectedDate)
-        .map((s) => s.movieId)
-    )
-  );
-
-  // Filmleri selectedDate'e göre filtrele
-  const filteredMovies = cinema.movies.filter((m) =>
-    movieIdsForDate.has(m.id)
-  );
-
-  if (!filteredMovies.length)
-    return <p className="text-muted">{tCinemas("noMovieForCinema")}</p>;
 
   const isDisabled = selectedMovieID !== null;
 
@@ -53,7 +39,7 @@ export default function MovieList({ cinema, tCinemas, selectedMovieID, pickMovie
           1600: { slidesPerView: 5, spaceBetween: 20, slidesPerGroup: 1 },
         }}
       >
-        {filteredMovies.map((movie) => (
+        {movies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ height: "100%" }}>
             <MovieCardInCinemaDetail
               movie={movie}

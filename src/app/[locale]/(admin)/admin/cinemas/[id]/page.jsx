@@ -13,17 +13,16 @@ import {
 } from "react-bootstrap";
 
 import HallList from "@/components/dashboard/cinema/detail/HallList";
-import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
 import { CinemaReadOnlyForm } from "@/components/dashboard/cinema/detail/CinemaReadOnlyForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
 import { CinemaImageReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaImageReadOnlyView";
-import { getDetailedCinema } from "@/service/cinema-service";
 import { useParams, useSearchParams } from "next/navigation";
 import { BackButton } from "@/components/common/form-fields/BackButton";
 import { useTranslations } from "next-intl";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
+import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
@@ -144,14 +143,14 @@ export default function AdminCinemaDetailPage() {
         </Card.Body>
       </Card>
 
-       <Row className="mt-4">{/*
+       <Row className="mt-4">
         <Col xs={12} className="mb-4">
           <MovieList movies={cinema.movies || []} tCinemas={tCinemas} />
         </Col>
-*/}
+
         <Col xs={12}>
           <HallList
-            cinema={cinema}
+            halls={cinema?.halls}
             tCinemas={tCinemas}
             isEditMode={isEditMode}
           />
