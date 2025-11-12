@@ -94,7 +94,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, refreshCinema, t
 
         // Navigate to the new cinema detail page
         const newId = res?.returnBody?.id;
-        router.push(
+        router.replace(
           newId
             ? `/${locale}/admin/cinemas/${newId}?editMode=true`
             : `/${locale}/admin/cinemas/`
