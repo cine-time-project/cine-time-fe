@@ -43,7 +43,6 @@ export default function ShowtimesSearchBar({
   const loadCinemas = (q) => searchCinemasByName(q);
 
   const loadHalls = (q) => {
-    console.log("🔍 loadHalls çağrıldı:", form.cinemaId, q);
     return form.cinemaId
       ? searchHallsByName(form.cinemaId, q)
       : Promise.resolve([]);
@@ -115,7 +114,6 @@ export default function ShowtimesSearchBar({
           isClearable
           styles={selectStyles}
           loadOptions={(q) => {
-            console.log("🔍 loadHalls çağrıldı:", form.cinemaId, q);
             return form.cinemaId
               ? searchHallsByName(form.cinemaId, q)
               : Promise.resolve([]);
