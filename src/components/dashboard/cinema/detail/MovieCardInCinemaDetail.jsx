@@ -1,47 +1,34 @@
 "use client";
 
 import Card from "react-bootstrap/Card";
-import styles from "./movie-card.module.scss";
+import styles from "@/components/movies/movie-card/movie-card.module.scss";
 import React, { useCallback } from "react";
-import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useFavorites } from "@/lib/hooks/useFavorites";
-import { BuyTicketCardButton } from "./BuyTicketCardButton";
-import { FindShowtimeButton } from "@/components/dashboard/cinema/detail/FindShowtimeButton";
 
-/**
- * MovieCard Component
- * -------------------
- * Displays a movie card with poster, title, rating, release year, and summary.
- * Includes buttons for "Favorite" and "Buy Ticket".
- * Clicking the card navigates to the movie's detail page, respecting locale.
- */
-function MovieCard({ movie }) {
+function MovieCardInCinemaDetail({
+  movie,
+  selectedMovieID,
+  setSelectedMovieID,
+}) {
   const t = useTranslations(); // Translation hook
-  const router = useRouter(); // Next.js router
   const { isFavorite, toggleFavorite, isLoggedIn } = useFavorites();
-  const locale = useLocale(); // Current locale segment
 
   const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
   const imageUrl =
     poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
 
+  const selectionStyle = selectedMovieID
+    ? selectedMovieID === movie.id
+      ? styles["selected"]
+      : styles["unselected"]
+    : null;
+
   // Check if this movie is in favorites
   const isMovieFavorite = isFavorite(movie.id);
 
-  // Prefix the URL with locale if available
-  const prefix = locale ? `/${locale}` : "";
-
-  // Construct detail page URL using movie ID
-  const detailsHref = movie?.slug
-    ? `${prefix}/movies/${movie.slug}`
-    : `${prefix}/movies/${movie.id}`;
-
-  /**
-   * Navigate to movie detail page
-   */
   const handleClick = () => {
-    router.push(detailsHref);
+    setSelectedMovieID((prevID) => (prevID === movie.id ? null : movie.id));
   };
 
   /**
@@ -57,15 +44,10 @@ function MovieCard({ movie }) {
 
   return (
     <Card
-      className={styles["movie-card"]}
+      className={`${styles["movie-card"]} ${selectionStyle}`}
       onClick={handleClick}
-      title={t("movies.detailsTitle")}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
-      }}
-      aria-label={`Go to details for ${movie.title}`}
     >
       {/* Movie Poster */}
       <div className={styles["movie-card__image-wrapper"]}>
@@ -109,11 +91,6 @@ function MovieCard({ movie }) {
         )}
       </div>
 
-      {/* Buy ticket button (top-right) */}
-      
-        <BuyTicketCardButton movie={movie} />
-    
-
       {/* Card body: title, release date, rating, summary */}
       <Card.Body className={styles["movie-card__body"]}>
         <Card.Title className={styles["movie-card__title"]}>
@@ -121,11 +98,6 @@ function MovieCard({ movie }) {
         </Card.Title>
         <Card.Subtitle>
           <div className={styles["movie-card__details"]}>
-            {movie.releaseDate && (
-              <div className={styles["movie-card__details__releaseDate"]}>
-                {movie.releaseDate.substring(0, 4)}
-              </div>
-            )}
             {movie.rating != null && movie.rating !== 0 && (
               <div className={styles["movie-card__details__rating"]}>
                 <span className={styles["movie-card__details__rating__text"]}>
@@ -135,6 +107,12 @@ function MovieCard({ movie }) {
                   className="pi pi-star-fill"
                   style={{ fontSize: "0.7rem" }}
                 ></i>
+              </div>
+            )}
+
+            {movie.duration && (
+              <div className={styles["movie-card__details__releaseDate"]}>
+                {movie.duration} {t("movies.minutes")}
               </div>
             )}
           </div>
@@ -150,4 +128,4 @@ function MovieCard({ movie }) {
 }
 
 // Optimize re-rendering: only rerender if movie prop changes
-export default React.memo(MovieCard);
+export default React.memo(MovieCardInCinemaDetail);

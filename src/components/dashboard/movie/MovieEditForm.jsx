@@ -12,6 +12,7 @@ import { SubmitButton } from "@/components/common/form-fields/SubmitButton";
 import { swAlert } from "@/helpers/sweetalert";
 import { getToken } from "@/lib/utils/http";
 import { ALL_GENRES } from "@/helpers/data/genres";
+import { useRouter } from "next/navigation";
 
 export const MovieEditForm = ({ movie, genres = [] }) => {
   const [state, formAction, isPending] = useActionState(
@@ -20,6 +21,7 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
   );
 
   const [token, setToken] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     setToken(getToken());
@@ -29,7 +31,17 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
     ALL_GENRES.some((opt) => opt.value === g)
   );
 
-  if (state?.message) swAlert(state.message, state.ok ? "success" : "error");
+  useEffect(() => {
+    if (state?.message) {
+      swAlert(state.message, state.ok ? "success" : "error");
+      if (state.ok) {
+        setTimeout(() => {
+          router.push("/tr/admin/movies");
+          router.refresh();
+        }, 1000);
+      }
+    }
+  }, [state, router]);
 
   return (
     <FormContainer>
@@ -100,8 +112,8 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
         <MultipleSelect
           name="genre"
           label="Genres *"
-          values={selectedGenres} 
-          options={ALL_GENRES} 
+          values={selectedGenres}
+          options={ALL_GENRES}
           optionLabel="label"
           optionValue="value"
           className="mb-3"

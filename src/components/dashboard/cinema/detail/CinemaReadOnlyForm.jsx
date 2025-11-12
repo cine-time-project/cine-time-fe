@@ -2,60 +2,63 @@
 
 import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
+import "./cinemaDetailCard.scss";
 
-/**
- * CinemaReadOnlyForm
- * ------------------
- * Displays cinema information in a read-only format.
- *
- * Props:
- *  - cinema: object (Cinema entity with name, slug, city, country info)
- */
-export function CinemaReadOnlyForm({ cinema }) {
-  if (!cinema) return <p>No cinema data available.</p>;
+export function CinemaReadOnlyForm({ cinema, tCinemas }) {
+  if (!cinema)
+    return <p className="cinema-no-data">{tCinemas("noCinemaData")}</p>;
 
   return (
-    <div className="p-4 h-100">
-      {/* Cinema Name */}
+    <div className="cinema-readonly-form">
       <Form.Group className="mb-3" as={Row}>
-        <Form.Label column sm="2" className="text-nowrap">
-          Name:
+        <Form.Label column sm="3" className="cinema-form-label">
+          {tCinemas("name")}:
         </Form.Label>
-        <Col sm="10">
-          <Form.Control value={cinema.name || ""} readOnly />
-        </Col>
-      </Form.Group>
-
-      {/* Cinema Slug */}
-      <Form.Group className="mb-3" as={Row}>
-        <Form.Label column sm="2" className="text-nowrap">
-          Slug:
-        </Form.Label>
-        <Col sm="10">
-          <Form.Control value={cinema.slug || ""} readOnly />
-        </Col>
-      </Form.Group>
-
-      {/* Country */}
-      <Form.Group className="mb-3" as={Row}>
-        <Form.Label column  sm="2" xl className="text-nowrap">
-          Country:
-        </Form.Label>
-        <Col sm="10">
+        <Col sm="9">
           <Form.Control
-            value={cinema.city?.countryMiniResponse?.name || ""}
+            value={cinema.name || ""}
             readOnly
+            className="cinema-form-control"
           />
         </Col>
       </Form.Group>
 
-      {/* City */}
       <Form.Group className="mb-3" as={Row}>
-        <Form.Label column sm="2" className="text-nowrap">
-          City:
+        <Form.Label column sm="3" className="cinema-form-label">
+          Slug:
         </Form.Label>
-        <Col sm="10">
-          <Form.Control value={cinema.city?.name || ""} readOnly />
+        <Col sm="9">
+          <Form.Control
+            value={cinema.slug || ""}
+            readOnly
+            className="cinema-form-control"
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group className="mb-3" as={Row}>
+        <Form.Label column sm="3" className="cinema-form-label">
+          {tCinemas("country")}:
+        </Form.Label>
+        <Col sm="9">
+          <Form.Control
+            value={cinema.city?.countryMiniResponse?.name || ""}
+            readOnly
+            className="cinema-form-control"
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group className="mb-3" as={Row}>
+        <Form.Label column sm="3" className="cinema-form-label">
+          {tCinemas("city")}:
+        </Form.Label>
+        <Col sm="9">
+          <Form.Control
+            value={cinema.city?.name || ""}
+            readOnly
+            className="cinema-form-control"
+          />
         </Col>
       </Form.Group>
     </div>

@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 import { useLocale, useTranslations } from "next-intl";
 import CinemaCard from "./CinemaCard";
-import useFirstDates from "@/components/cinemas/useFirstDate";
 import SectionTitle from "@/components/common/SectionTitle";
 
 export default function CinemasGrid({
@@ -24,7 +23,6 @@ export default function CinemasGrid({
 }) {
   const t = useTranslations("cinemas");
   const locale = useLocale;
-  const firstDatesByCinema = useFirstDates(cinemas);
 
   if (loading)
     return (
@@ -34,9 +32,12 @@ export default function CinemasGrid({
       </div>
     );
 
-  if (error) return <Alert variant="danger">{t("noCinemas")}</Alert>;
-  if (!cinemas.length)
-    return <div className="text-secondary py-5">{t("empty")}</div>;
+  if (error || !cinemas.length)
+    return (
+      <Container>
+        <Alert variant="danger">{t("noCinemas")}</Alert>
+      </Container>
+    );
 
   const { page, totalPages } = pagination || {};
   const maxButtons = 5;
@@ -55,19 +56,23 @@ export default function CinemasGrid({
   return (
     <Container className="my-5">
       {!isWhole ? (
-        <SectionTitle textColor="text-light">{t("aroundCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}</SectionTitle>
+        <SectionTitle textColor="text-light">
+          {t("aroundCinemas", { city: cityFilter.toLocaleUpperCase(locale) })}
+        </SectionTitle>
       ) : cityFilter.toLocaleUpperCase(locale) ? (
-        <Alert variant="danger">
-          {t("aroundNoCinemas", {city: cityFilter.toLocaleUpperCase(locale)})}
-          <SectionTitle>{t("allCinemas")}</SectionTitle>
-        </Alert>
+        <div>
+          <Alert variant="danger">
+            {t("aroundNoCinemas", { city: cityFilter.toLocaleUpperCase(locale) })}
+          </Alert>
+          <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
+        </div>
       ) : (
         <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
       )}
       <Row xs={1} sm={2} md={3} lg={3} xl={3} className="g-5">
         {cinemas.map((c) => (
           <Col key={c.id} className="d-flex align-items-stretch">
-            <CinemaCard cinema={c} firstDate={firstDatesByCinema[c.id]} L={L} />
+            <CinemaCard cinema={c} L={L} />
           </Col>
         ))}
       </Row>

@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Spinner, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
+export const CinemaImageUploader = ({ cinema, token, onUpdateCinema, tCinemas }) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -33,12 +33,12 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
     e.preventDefault();
 
     if (!cinema?.id) {
-      Swal.fire("Error", "Cinema ID is missing", "error");
+      Swal.fire(`${tCinemas("error")}`, `${tCinemas("noImage")}`, "error");
       return;
     }
 
     if (!file) {
-      Swal.fire("Error", "Please select an image file", "error");
+      Swal.fire(`${tCinemas("error")}`, `${tCinemas("selectImage")}`, "error");
       return;
     }
 
@@ -53,11 +53,10 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
         setPreviewUrl(updatedCinema.imageUrl); // preview da güncellendi
       }
 
-      Swal.fire("Success", "Image uploaded successfully!", "success");
+      Swal.fire(`${tCinemas("imageUploadSuccess")}`, "success");
       setFile(null);
     } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "Failed to upload image", "error");
+      Swal.fire(`${tCinemas("error")}`, `${tCinemas("errorUploadImage")}`, "error");
     } finally {
       setLoading(false);
     }
@@ -67,7 +66,7 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
     <Form onSubmit={handleUpload} className="p-3 border rounded bg-light h-100">
       <Form.Group className="mb-3">
         <Form.Label>
-          {isUpdate ? "Update Cinema Image" : "Upload Cinema Image"}
+          {isUpdate ? tCinemas("update") : tCinemas("save")}
         </Form.Label>
         <Form.Control
           type="file"
@@ -90,8 +89,8 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
           />
           <p className="text-muted mt-2 small">
             {isUpdate
-              ? "Current / New image preview"
-              : "Selected image preview"}
+              ? tCinemas("currentImagePreview")
+              : tCinemas("selectedImagePreview")}
           </p>
         </div>
       )}
@@ -112,12 +111,12 @@ export const CinemaImageUploader = ({ cinema, token, onUpdateCinema }) => {
               }
             }}
           >
-            Cancel
+            {tCinemas("cancel")}
           </Button>
         )}
 
         <Button variant="primary" type="submit" disabled={loading || !file}>
-          {loading ? <Spinner size="sm" animation="border" /> : "Save Image"}
+          {loading ? <Spinner size="sm" animation="border" /> : tCinemas("save")}
         </Button>
       </div>
     </Form>

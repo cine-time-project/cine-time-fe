@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { listCountries, addCountry } from "@/action/city-actions";
+import { useTranslations } from "next-intl";
 
 /**
  * CountrySelect Component
@@ -23,7 +24,7 @@ import { listCountries, addCountry } from "@/action/city-actions";
  *  - onCountryChange: Callback invoked when country selection changes
  *  - token: Authentication token for API requests
  */
-export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
+export function CountrySelect({ selectedCountryId, onCountryChange, token, tCinemas }) {
   // -----------------------------
   // Component state
   // -----------------------------
@@ -43,8 +44,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
         const data = await listCountries();
         setCountries(data || []);
       } catch (err) {
-        console.error("Error loading countries:", err);
-        Swal.fire("Error", "Failed to load countries", "error");
+        Swal.fire(`${tCinemas("error")}`, `${tCinemas("errorLoadingCountry")}`, "error");
       } finally {
         setLoadingCountries(false);
       }
@@ -57,7 +57,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
   // -----------------------------
   const handleSaveCountry = async () => {
     if (!newCountryName.trim()) {
-      Swal.fire("Error", "Country name is required", "error");
+      Swal.fire(`${tCinemas("error")}`, `${tCinemas("countryNameRequired")}`, "error");
       return;
     }
 
@@ -73,14 +73,14 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
       // Select the newly added country
       onCountryChange(newCountry.id);
 
-      Swal.fire("Success", "Country added successfully", "success");
+      Swal.fire(`${tCinemas("countryAddedSuccess")}`, "success");
 
       // Reset input and exit add mode
       setNewCountryName("");
       setIsAdding(false);
     } catch (err) {
-      console.error("Error adding country:", err);
-      Swal.fire("Error", err.response?.data?.message || err.message, "error");
+      console.error(`${tCinemas("errorAddingCountry")}`, err);
+      Swal.fire(`${tCinemas("error")}`, err.response?.data?.message || err.message, "error");
     } finally {
       setSavingCountry(false);
     }
@@ -92,7 +92,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
   return (
     <Form.Group className="mb-3" as={Row}>
       <Form.Label column sm="2" className="text-nowrap">
-        Country
+        {tCinemas("country")}
       </Form.Label>
       <Col sm="10">
         {isAdding ? (
@@ -103,17 +103,17 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
           <InputGroup>
             <Form.Control
               className="bg-warning-subtle"
-              placeholder="Enter new country"
+              placeholder={tCinemas("addNewCountry")}
               value={newCountryName}
               onChange={(e) => setNewCountryName(e.target.value)}
               disabled={savingCountry}
             />
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Save</Tooltip>}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("save")}</Tooltip>}>
               <Button variant="success" onClick={handleSaveCountry} disabled={savingCountry}>
                 {savingCountry ? <Spinner animation="border" size="sm" /> : <i className="pi pi-check"></i>}
               </Button>
             </OverlayTrigger>
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Cancel</Tooltip>}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("cancel")}</Tooltip>}>
               <Button variant="danger" onClick={() => setIsAdding(false)} disabled={savingCountry}>
                 <i className="pi pi-times"></i>
               </Button>
@@ -131,7 +131,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
               disabled={loadingCountries}
             >
               <option value="">
-                {loadingCountries ? "Loading countries..." : "Select a country"}
+                {loadingCountries ? tCinemas("loading") : tCinemas("selectCountry")}
               </option>
               {countries.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -139,7 +139,7 @@ export function CountrySelect({ selectedCountryId, onCountryChange, token }) {
                 </option>
               ))}
             </Form.Select>
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>Add new country</Tooltip>}>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{tCinemas("addNewCountry")}</Tooltip>}>
               <Button
                 variant="warning"
                 onClick={() => {

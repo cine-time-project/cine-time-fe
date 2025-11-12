@@ -9,7 +9,6 @@ import { useFavorites } from "@/lib/hooks/useFavorites";
 import { Skeleton } from "primereact/skeleton";
 import { Message } from "primereact/message";
 import { Button } from "primereact/button";
-import MovieCard from "@/components/movies/movie-card/MovieCard";
 import FavoriteMovieCard from "@/components/movies/movie-card/FavoriteMovieCard";
 import SectionTitle from "@/components/common/SectionTitle";
 
