@@ -113,7 +113,6 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   );
 
   const handleMovieEdit = (movieId) => {
-    console.log("Edit clicked:", movieId);
     router.push(`/${locale}/admin/movies/${movieId}`);
 
     // burada dilediğin işlemi yapabilirsin (örneğin sayfa yönlendirmesi)
