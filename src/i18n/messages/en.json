@@ -818,8 +818,8 @@
     "ctaTitle": "Join the CineTime Experience",
     "ctaBody": "Reserve your seat and be part of our exclusive cinematic celebrations.",
     "ctaBtn": "Buy Ticket",
-      "ctaButtonOpen": "Get Tickets",
-  "ctaButtonClose": "Hide Section"
+    "ctaButtonOpen": "Get Tickets",
+    "ctaButtonClose": "Hide Section"
   },
   "campaigns": {
     "heroTitle": "CineTime Campaigns",
@@ -863,7 +863,10 @@
     },
     "ctaTitle": "Take Advantage of Campaigns",
     "ctaBody": "Don’t miss out, get your ticket now.",
-    "ctaBtn": "Buy Ticket"
+    "ctaBtn": "Buy Ticket",
+    "ctaButtonOpen": "Buy Ticket",
+    "ctaButtonClose": "Hide Section"
+
   },
 
   "comingSoon": {
