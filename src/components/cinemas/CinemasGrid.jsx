@@ -10,6 +10,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import CinemaCard from "./CinemaCard";
 import SectionTitle from "@/components/common/SectionTitle";
+import "./cinemasGrid.scss";
 
 export default function CinemasGrid({
   cinemas = [],
@@ -22,7 +23,7 @@ export default function CinemasGrid({
   L,
 }) {
   const t = useTranslations("cinemas");
-  const locale = useLocale;
+  const locale = useLocale();
 
   if (loading)
     return (
@@ -62,7 +63,9 @@ export default function CinemasGrid({
       ) : cityFilter.toLocaleUpperCase(locale) ? (
         <div>
           <Alert variant="danger">
-            {t("aroundNoCinemas", { city: cityFilter.toLocaleUpperCase(locale) })}
+            {t("aroundNoCinemas", {
+              city: cityFilter.toLocaleUpperCase(locale),
+            })}
           </Alert>
           <SectionTitle textColor="text-light">{t("allCinemas")}</SectionTitle>
         </div>
@@ -72,13 +75,13 @@ export default function CinemasGrid({
       <Row xs={1} sm={2} md={3} lg={3} xl={3} className="g-5">
         {cinemas.map((c) => (
           <Col key={c.id} className="d-flex align-items-stretch">
-            <CinemaCard cinema={c} L={L} />
+            <CinemaCard cinema={c} L={L} t={t} />
           </Col>
         ))}
       </Row>
 
       {pagination?.totalPages > 1 && (
-        <Pagination className="justify-content-center mt-4">
+        <Pagination className="custom-pagination">
           <Pagination.First onClick={() => setPage(0)} disabled={page === 0} />
           <Pagination.Prev
             onClick={() => setPage(Math.max(page - 1, 0))}

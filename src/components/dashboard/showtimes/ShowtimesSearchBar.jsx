@@ -16,7 +16,12 @@ const AsyncSelect = dynamic(() => import("react-select/async"), { ssr: false });
 const selectStyles = {
   control: (b) => ({ ...b, minHeight: 38, height: 38 }),
   indicatorsContainer: (b) => ({ ...b, height: 38 }),
-  valueContainer: (b) => ({ ...b, height: 38, paddingTop: 4, paddingBottom: 4 }),
+  valueContainer: (b) => ({
+    ...b,
+    height: 38,
+    paddingTop: 4,
+    paddingBottom: 4,
+  }),
 };
 
 const loadHalls = (q) =>
@@ -28,35 +33,49 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
 
   const [form, setForm] = useState({
     cinemaId: initial.cinemaId ?? null,
-    hallId:   initial.hallId   ?? null,
-    movieId:  initial.movieId  ?? null,
+    hallId: initial.hallId ?? null,
+    movieId: initial.movieId ?? null,
     dateFrom: initial.dateFrom ?? "",
-    dateTo:   initial.dateTo   ?? "",
+    dateTo: initial.dateTo ?? "",
   });
 
   const loadCinemas = (q) => searchCinemasByName(q);
-  const loadHalls   = (q) =>
-    form.cinemaId ? searchHallsByName(form.cinemaId, q) : Promise.resolve([]);
-  const loadMovies  = (q) => searchMoviesByTitle(q);
+
+  const loadHalls = (q) => {
+    return form.cinemaId
+      ? searchHallsByName(form.cinemaId, q)
+      : Promise.resolve([]);
+  };
+
+  const loadMovies = (q) => searchMoviesByTitle(q);
 
   const handleSearch = (e) => {
     e?.preventDefault?.();
     onSearch?.({
       cinemaId: form.cinemaId ?? undefined,
-      hallId:   form.hallId   ?? undefined,
-      movieId:  form.movieId  ?? undefined,
+      hallId: form.hallId ?? undefined,
+      movieId: form.movieId ?? undefined,
       dateFrom: form.dateFrom || undefined,
-      dateTo:   form.dateTo   || undefined,
+      dateTo: form.dateTo || undefined,
     });
   };
 
   const handleClear = () => {
-    setForm({ cinemaId: null, hallId: null, movieId: null, dateFrom: "", dateTo: "" });
+    setForm({
+      cinemaId: null,
+      hallId: null,
+      movieId: null,
+      dateFrom: "",
+      dateTo: "",
+    });
     onClear?.();
   };
 
   return (
-    <form onSubmit={handleSearch} className="row g-2 align-items-end whiteLabels mb-3">
+    <form
+      onSubmit={handleSearch}
+      className="row g-2 align-items-end whiteLabels mb-3"
+    >
       {/* Cinema */}
       <div className="col-12 col-xl-3 col-lg-3">
         <label className="form-label text-white">
@@ -68,9 +87,15 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
           isClearable
           styles={selectStyles}
           loadOptions={loadCinemas}
-          placeholder={t("placeholders.searchCinema", { default: "Search cinema…" })}
+          placeholder={t("placeholders.searchCinema", {
+            default: "Search cinema…",
+          })}
           onChange={(opt) =>
-            setForm((v) => ({ ...v, cinemaId: opt?.value ?? null, hallId: null }))
+            setForm((v) => ({
+              ...v,
+              cinemaId: opt?.value ?? null,
+              hallId: null,
+            }))
           }
         />
       </div>
@@ -110,8 +135,12 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
           isClearable
           styles={selectStyles}
           loadOptions={loadMovies}
-          placeholder={t("placeholders.searchMovie", { default: "Search movie…" })}
-          onChange={(opt) => setForm((v) => ({ ...v, movieId: opt?.value ?? null }))}
+          placeholder={t("placeholders.searchMovie", {
+            default: "Search movie…",
+          })}
+          onChange={(opt) =>
+            setForm((v) => ({ ...v, movieId: opt?.value ?? null }))
+          }
         />
       </div>
 

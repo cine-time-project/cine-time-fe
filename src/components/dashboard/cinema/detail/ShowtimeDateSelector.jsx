@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Form from "react-bootstrap/Form";
+import { useLocale } from "next-intl";
 import "./ShowtimeDateSelector.scss";
 
 export const ShowtimeDateSelector = ({
   dates = [],
   onDateChange,
-  tCinemas,
+  selectedDate,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(dates[0] || "");
+  const locale = useLocale(); // Kullanıcının geçerli locale'i
 
   const formatLocalDate = (iso) => {
     const d = new Date(iso);
@@ -25,16 +26,15 @@ export const ShowtimeDateSelector = ({
 
   return (
     <div className="showtime-date-selector">
-
       <div className="custom-select-wrapper">
         <Form.Select
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
+          value={selectedDate || ""}
+          onChange={(e) => onDateChange(e.target.value)}
           className="custom-select"
         >
           {dates.map((d) => {
             const date = new Date(d);
-            const label = date.toLocaleDateString("tr-TR", {
+            const label = date.toLocaleDateString(locale, {
               weekday: "long",
               day: "2-digit",
               month: "short",
@@ -46,7 +46,9 @@ export const ShowtimeDateSelector = ({
             );
           })}
         </Form.Select>
-        <span className="dropdown-icon"><i className="pi pi-angle-down"></i></span>
+        <span className="dropdown-icon">
+          <i className="pi pi-angle-down"></i>
+        </span>
       </div>
     </div>
   );
