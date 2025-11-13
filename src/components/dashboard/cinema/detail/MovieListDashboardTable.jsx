@@ -16,7 +16,7 @@ import "./MovieListDashboardTable.scss";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
+export default function MovieListDashboardTable({ movies, cinema }) {
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations();
@@ -27,7 +27,7 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   if (!movies?.length) {
-    return <Alert variant="warning">{t("cinema.noMovieForCinema")}</Alert>;
+    return <Alert variant="warning">{t("cinemas.noMovieForCinema")}</Alert>;
   }
 
   const movieIdsWithShowtime = useMemo(() => {
@@ -122,7 +122,7 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   return (
     <div className="mt-4">
       <div className="d-flex align-items-center gap-3 mb-3 flex-wrap">
-        <h3 className="fw-bold text-light mb-0">{tCinemas("currentMovies")}</h3>
+        <h3 className="fw-bold text-light mb-0">{t("cinemas.currentMovies")}</h3>
 
         <Dropdown
           value={filter}

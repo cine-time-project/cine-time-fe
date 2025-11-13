@@ -9,7 +9,6 @@ import {
   Card,
 } from "react-bootstrap";
 
-import HallList from "@/components/dashboard/cinema/detail/HallList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
@@ -104,7 +103,7 @@ export default function AdminCinemaDetailPage() {
 
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieListDashboardTable movies={cinema.movies || []} tCinemas={tCinemas} />
+          <MovieListDashboardTable movies={cinema.movies || []} />
         </Col>
 
         <Col xs={12}>

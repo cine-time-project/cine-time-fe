@@ -16,6 +16,8 @@ export const ShowtimeCard = ({ showtime, tCinemas }) => {
     router.push(movieDetailUrl);
   };
 
+  console.log(showtime);
+
   return (
     <Card className={styles.showtimeCard}>
       {/* Header: SHOWTIME */}
