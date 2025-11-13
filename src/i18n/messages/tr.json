@@ -1651,4 +1651,32 @@
       }
     }
   }
-}
+  
+,
+  "movieShowtimes": {
+  "titleWithMovie": "{title} Filminin Gösterimi Olan Sinemalar",
+  "titleGeneric": "Filmin Gösterimi Olan Sinemalar",
+  "paramLabel": "Param:",
+  "filters": {
+    "country": "Ülke",
+    "countryPlaceholder": "Ülke seçiniz…",
+    "city": "Şehir",
+    "cityPlaceholder": "Şehir seçiniz…",
+    "date": "Tarih",
+    "datePlaceholder": "Tarih seçiniz…"
+  },
+  "loading": "Yükleniyor…",
+  "errors": {
+    "generic": "Sinemalar yüklenemedi."
+  },
+  "movie": {
+    "titleFallback": "Film",
+    "directorLabel": "Yönetmen:",
+    "details": "Detay"
+  },
+  "messages": {
+    "selectFiltersHint": "Ülke, şehir ve tarih seçtiğinizde seanslar burada görünecek.",
+    "noShowtimes": "Seans yok",
+    "selectDateHint": "Bir tarih seçiniz."
+  }
+  }}

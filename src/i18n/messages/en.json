@@ -1644,5 +1644,33 @@
         "last": "Last »"
       }
     }
+  },
+
+  "movieShowtimes": {
+    "titleWithMovie": "Cinemas Showing {title}",
+    "titleGeneric": "Cinemas Showing the Movie",
+    "paramLabel": "Param:",
+    "filters": {
+      "country": "Country",
+      "countryPlaceholder": "Select country…",
+      "city": "City",
+      "cityPlaceholder": "Select city…",
+      "date": "Date",
+      "datePlaceholder": "Select date…"
+    },
+    "loading": "Loading…",
+    "errors": {
+      "generic": "Failed to load cinemas."
+    },
+    "movie": {
+      "titleFallback": "Movie",
+      "directorLabel": "Director:",
+      "details": "Details"
+    },
+    "messages": {
+      "selectFiltersHint": "Showtimes will appear here after you select country, city, and date.",
+      "noShowtimes": "No showtimes",
+      "selectDateHint": "Please select a date."
+    }
   }
 }
