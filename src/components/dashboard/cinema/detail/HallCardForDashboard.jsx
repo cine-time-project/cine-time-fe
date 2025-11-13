@@ -44,7 +44,6 @@ export function HallCardForDashboard({
   };
 
   const handleEditShowtime = (showtimeId) => {
-    console.log("Edit showtime:", showtimeId)
     router.push(`/${locale}/admin/showtimes/${showtimeId}`);
   };
 
