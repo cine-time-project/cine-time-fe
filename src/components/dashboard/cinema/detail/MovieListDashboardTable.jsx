@@ -12,10 +12,12 @@ import "primereact/resources/themes/lara-light-blue/theme.css"; // 🌞 Light te
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "./MovieListDashboardTable.scss";
-import { useTranslations } from "next-intl";
-
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
+  const locale = useLocale();
+  const router = useRouter();
   const t = useTranslations();
   const FILTERS = { ALL: "all", WITH: "with", WITHOUT: "without" };
   const ROW_OPTIONS = [5, 10, 15, 20];
@@ -69,23 +71,32 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   const showtimeBodyTemplate = (movie) => {
     const hasShowtime = movieIdsWithShowtime.includes(movie.id);
     return hasShowtime ? (
-      <Tag value={t("common.yes")} severity="success" icon="pi pi-check" size="large" />
+      <Tag
+        value={t("common.yes")}
+        severity="success"
+        icon="pi pi-check"
+        size="large"
+      />
     ) : (
-      <Tag value={t("common.no")} severity="danger" icon="pi pi-times" size="large" />
+      <Tag
+        value={t("common.no")}
+        severity="danger"
+        icon="pi pi-times"
+        size="large"
+      />
     );
   };
 
   const editBodyTemplate = (movie) => (
-  <Button
-    icon="pi pi-pen-to-square"
-    onClick={() => handleMovieEdit(movie.id)}
-    text
-    severity="warning"
-    label={t("cinemas.edit")}
-    size="large"
-  />
-);
-
+    <Button
+      icon="pi pi-pen-to-square"
+      onClick={() => handleMovieEdit(movie.id)}
+      text
+      severity="warning"
+      label={t("cinemas.edit")}
+      size="large"
+    />
+  );
 
   const indexBodyTemplate = (rowData, options) => options.rowIndex + 1;
 
@@ -101,11 +112,12 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
     />
   );
 
-const handleMovieEdit = (movieId) => {
-  console.log("Edit clicked:", movieId);
-  // burada dilediğin işlemi yapabilirsin (örneğin sayfa yönlendirmesi)
-};
+  const handleMovieEdit = (movieId) => {
+    console.log("Edit clicked:", movieId);
+    router.push(`/${locale}/admin/movies/${movieId}`);
 
+    // burada dilediğin işlemi yapabilirsin (örneğin sayfa yönlendirmesi)
+  };
 
   return (
     <div className="mt-4">
@@ -155,10 +167,7 @@ const handleMovieEdit = (movieId) => {
             body={showtimeBodyTemplate}
             style={{ width: "140px" }}
           />
-          <Column
-            body={editBodyTemplate}
-            style={{ width: "100px" }}
-          />
+          <Column body={editBodyTemplate} style={{ width: "100px" }} />
         </DataTable>
       )}
     </div>
