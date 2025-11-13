@@ -332,7 +332,7 @@ export default function MovieShowtimeCinemasPage() {
   });
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 movie-showtimes-page">
       <h1 className="mb-1">
         {movieTitle
           ? `${movieTitle} Filminin Gösterimi Olan Sinemalar`
@@ -407,9 +407,9 @@ export default function MovieShowtimeCinemasPage() {
                   <div className="movie-mini__media">
                     <Image
                       src={
-                        (movieData?.posterUrl) ||
-                        (movieData?.images?.find((img) => img?.poster)?.url) ||
-                        (movieData?.images?.[0]?.url) ||
+                        movieData?.posterUrl ||
+                        movieData?.images?.find((img) => img?.poster)?.url ||
+                        movieData?.images?.[0]?.url ||
                         "/no-poster.png"
                       }
                       alt={movieMeta.title || "Poster"}
@@ -444,7 +444,8 @@ export default function MovieShowtimeCinemasPage() {
                     <div className="showtime-row mt-2">
                       {!selectedDate || !selectedCountry || !selectedCity ? (
                         <span className="text-muted small">
-                          Ülke, şehir ve tarih seçtiğinizde seanslar burada görünecek.
+                          Ülke, şehir ve tarih seçtiğinizde seanslar burada
+                          görünecek.
                         </span>
                       ) : (
                         <span className="text-muted">Seans yok</span>
@@ -483,9 +484,10 @@ export default function MovieShowtimeCinemasPage() {
                       <div className="movie-mini__media">
                         <Image
                           src={
-                            (movieData?.posterUrl) ||
-                            (movieData?.images?.find((img) => img?.poster)?.url) ||
-                            (movieData?.images?.[0]?.url) ||
+                            movieData?.posterUrl ||
+                            movieData?.images?.find((img) => img?.poster)
+                              ?.url ||
+                            movieData?.images?.[0]?.url ||
                             "/no-poster.png"
                           }
                           alt={movieMeta.title || "Poster"}
@@ -562,6 +564,26 @@ export default function MovieShowtimeCinemasPage() {
       )}
 
       <style jsx>{`
+        .movie-showtimes-page {
+          color: #fff;
+        }
+
+        .movie-showtimes-page h1,
+        .movie-showtimes-page p,
+        .movie-showtimes-page label,
+        .movie-showtimes-page strong,
+        .movie-showtimes-page .text-muted,
+        .movie-showtimes-page select,
+        .movie-showtimes-page option {
+          color: #fff !important;
+        }
+
+        .movie-showtimes-page .form-select {
+          background-color: #2a2c33 !important;
+          color: #fff !important;
+          border-color: #3a3d45 !important;
+        }
+
         .cinema-grid {
           display: grid;
           gap: 18px;
