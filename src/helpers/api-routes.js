@@ -1,4 +1,3 @@
-import { authHeaders } from "@/lib/utils/http";
 import { config } from "./config";
 const API = config.apiURL;
 

@@ -41,6 +41,7 @@ export default async function EventsPage({ params }) {
 
   return (
     <section className="events container">
+      {/* Hero */}
       <header className="events__hero">
         <div className="hero__copy">
           <h1 className="hero__title">{t("heroTitle")}</h1>
@@ -59,9 +60,10 @@ export default async function EventsPage({ params }) {
         </div>
       </header>
 
+      {/* Grid */}
       <ZoomableEventsGrid items={eventItems} />
 
-      {/* 🔥 Burada artık fonksiyon değil sadece string gönderiyoruz */}
+      {/* CTA – Collapse */}
       <TicketCollapse
         title={t("ctaTitle")}
         body={t("ctaBody")}
