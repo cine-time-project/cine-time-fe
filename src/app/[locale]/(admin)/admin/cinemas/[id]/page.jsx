@@ -22,6 +22,7 @@ import { useTranslations } from "next-intl";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
 import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { useAuth } from "@/lib/auth/useAuth";
+import MovieListDashboard from "@/components/dashboard/cinema/detail/MovieListDashboard";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
@@ -106,7 +107,7 @@ export default function AdminCinemaDetailPage() {
 
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieList movies={cinema.movies || []} tCinemas={tCinemas} />
+          <MovieListDashboard movies={cinema.movies || []} tCinemas={tCinemas} />
         </Col>
 
         <Col xs={12}>
