@@ -7,7 +7,8 @@ import { Dropdown } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { Alert } from "react-bootstrap";
-import "primereact/resources/themes/md-dark-deeppurple/theme.css";
+import "primereact/resources/themes/lara-dark-blue/theme.css";
+
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "./MovieListDashboardTable.scss";
