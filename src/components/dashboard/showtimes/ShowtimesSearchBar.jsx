@@ -19,6 +19,9 @@ const selectStyles = {
   valueContainer: (b) => ({ ...b, height: 38, paddingTop: 4, paddingBottom: 4 }),
 };
 
+const loadHalls = (q) =>
+    form.cinemaId ? searchHallsByName(form.cinemaId, q) : Promise.resolve([]);
+
 export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) {
   const t = useTranslations("showtimes");
   const tCommon = useTranslations("common");
@@ -72,26 +75,29 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
         />
       </div>
 
-      {/* Hall (dependent) */}
-      <div className="col-12 col-xl-2 col-lg-2">
-        <label className="form-label text-white">
-          {t("filters.hall", { default: "Hall" })}
-        </label>
-        <AsyncSelect
-          isDisabled={!form.cinemaId}
-          cacheOptions
-          defaultOptions={false}
-          isClearable
-          styles={selectStyles}
-          loadOptions={loadHalls}
-          placeholder={
-            form.cinemaId
-              ? t("placeholders.searchHall", { default: "Search hall…" })
-              : t("placeholders.selectCinemaFirst", { default: "Select a cinema first" })
-          }
-          onChange={(opt) => setForm((v) => ({ ...v, hallId: opt?.value ?? null }))}
-        />
-      </div>
+
+  {/* Hall (dependent) */}
+  <div className="col-12 col-xl-2 col-lg-2">
+    <label className="form-label text-white">
+      {t("filters.hall", { default: "Hall" })}
+    </label>
+    <AsyncSelect
+      key={form.cinemaId || "no-cinema"}   
+      isDisabled={!form.cinemaId}
+      cacheOptions
+      defaultOptions                       
+      isClearable
+      styles={selectStyles}
+      loadOptions={loadHalls}
+      placeholder={
+        form.cinemaId
+          ? t("placeholders.searchHall", { default: "Search hall…" })
+          : t("placeholders.selectCinemaFirst", { default: "Select a cinema first" })
+      }
+      onChange={(opt) => setForm((v) => ({ ...v, hallId: opt?.value ?? null }))}
+    />
+  </div>
+
 
       {/* Movie */}
       <div className="col-12 col-xl-3 col-lg-3">
