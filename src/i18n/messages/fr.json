@@ -979,8 +979,14 @@
     "title": "TABLEAU DE BORD",
     "logout": "Déconnexion",
     "tiles": {
-      "cinemas": { "title": "Cinémas", "desc": "Succursales et cartographie des salles" },
-      "halls": { "title": "Salles", "desc": "Dispositions des salles et modèles de sièges" },
+      "cinemas": {
+        "title": "Cinémas",
+        "desc": "Succursales et cartographie des salles"
+      },
+      "halls": {
+        "title": "Salles",
+        "desc": "Dispositions des salles et modèles de sièges"
+      },
       "times": { "title": "Séances", "desc": "Planification et calendrier" },
       "images": { "title": "Images", "desc": "Affiches et gestion des médias" },
       "cinemaimg": {
@@ -988,24 +994,39 @@
         "desc": "Gestion des images de cinéma"
       },
       "movies": { "title": "Films", "desc": "Catalogue de films" },
-      "users": { "title": "Utilisateurs", "desc": "Recherche et gestion des utilisateurs" },
+      "users": {
+        "title": "Utilisateurs",
+        "desc": "Recherche et gestion des utilisateurs"
+      },
       "tickets": {
         "title": "Billets (Admin)",
         "desc": "Ventes et opérations de billetterie"
       },
       "cities": { "title": "Villes", "desc": "Listes de villes / régions" },
-      "vip": { "title": "Salles Spéciales", "desc": "Types de salles VIP / spéciales" },
-      "contact": { "title": "Messages de Contact", "desc": "Boîte de réception des messages" },
+      "vip": {
+        "title": "Salles Spéciales",
+        "desc": "Types de salles VIP / spéciales"
+      },
+      "contact": {
+        "title": "Messages de Contact",
+        "desc": "Boîte de réception des messages"
+      },
       "reports": {
         "title": "Rapports",
         "desc": "Résumés et rapports de performance"
       },
-      "locations": { "title": "Emplacements", "desc": "Liste des emplacements" },
+      "locations": {
+        "title": "Emplacements",
+        "desc": "Liste des emplacements"
+      },
       "districts": {
         "title": "Quartiers",
         "desc": "Listes de quartiers / arrondissements"
       },
-      "payments": { "title": "Paiements", "desc": "Enregistrements de paiement" },
+      "payments": {
+        "title": "Paiements",
+        "desc": "Enregistrements de paiement"
+      },
       "favorites": { "title": "Favoris", "desc": "Favoris des utilisateurs" },
       "roles": { "title": "Rôles", "desc": "Rôles et permissions" }
     },
@@ -1621,7 +1642,9 @@
           "deleteText": "Cette action ne peut pas être annulée.",
           "deleted": "Ville supprimée"
         },
-        "prompts": { "selectCountry": "Sélectionnez un pays pour voir les villes." }
+        "prompts": {
+          "selectCountry": "Sélectionnez un pays pour voir les villes."
+        }
       },
       "districts": {
         "title": "Quartiers",
@@ -1640,7 +1663,9 @@
           "deleteText": "Cette action ne peut pas être annulée.",
           "deleted": "Quartier supprimé"
         },
-        "prompts": { "selectCity": "Sélectionnez une ville pour voir les quartiers." }
+        "prompts": {
+          "selectCity": "Sélectionnez une ville pour voir les quartiers."
+        }
       },
       "pagination": {
         "first": "« Premier",
@@ -1650,5 +1675,33 @@
         "last": "Dernier »"
       }
     }
-  } 
+  },
+
+  "movieShowtimes": {
+    "titleWithMovie": "Cinémas proposant {title}",
+    "titleGeneric": "Cinémas proposant le film",
+    "paramLabel": "Param :",
+    "filters": {
+      "country": "Pays",
+      "countryPlaceholder": "Sélectionnez un pays…",
+      "city": "Ville",
+      "cityPlaceholder": "Sélectionnez une ville…",
+      "date": "Date",
+      "datePlaceholder": "Sélectionnez une date…"
+    },
+    "loading": "Chargement…",
+    "errors": {
+      "generic": "Impossible de charger les cinémas."
+    },
+    "movie": {
+      "titleFallback": "Film",
+      "directorLabel": "Réalisateur :",
+      "details": "Détails"
+    },
+    "messages": {
+      "selectFiltersHint": "Les séances s’afficheront ici une fois le pays, la ville et la date sélectionnés.",
+      "noShowtimes": "Aucune séance",
+      "selectDateHint": "Veuillez sélectionner une date."
+    }
+  }
 }

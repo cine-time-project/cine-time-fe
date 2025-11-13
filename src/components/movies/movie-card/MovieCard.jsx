@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { BuyTicketCardButton } from "./BuyTicketCardButton";
-import { FindShowtimeButton } from "@/components/dashboard/cinema/detail/FindShowtimeButton";
 
 /**
  * MovieCard Component

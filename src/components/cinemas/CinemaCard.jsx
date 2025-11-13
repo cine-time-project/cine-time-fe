@@ -1,53 +1,31 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Card, Badge, Row, Col } from "react-bootstrap";
-import styles from "./cinemas.module.scss";
+import { Card } from "react-bootstrap";
+import styles from "./cinemaCard.module.scss";
 import { resolveCinemaImage } from "./utils";
 
-export default function CinemaCard({ cinema, L }) {
+export default function CinemaCard({ cinema, L, t }) {
+  
+  if (!cinema) return null;
 
-  const imgSrc = resolveCinemaImage(cinema);
-
-  const cityName = cinema.city?.name;
-
+  const imageUrl = resolveCinemaImage(cinema) || "";
+  const city = cinema.city?.name || "";
   const detailHref = L(`cinemas/${cinema.id}`);
 
   return (
     <Card
-      className={`${styles.cinemaCard} bg-dark text-light`}
       as={Link}
+      title={t("cinemaDetails")}
       href={detailHref}
+      className={styles.cinemaHeroCard}
+      style={{ backgroundImage: `url(${imageUrl})` }}
     >
-      <Row className="g-0 flex-column flex-lg-row">
-        {/* Image Section — 2/3 on large screens */}
-        <Col xs={12} lg={6}>
-          <div className={styles.mediaWrap}>
-            <Image
-              src={imgSrc}
-              alt={cinema.name}
-              fill
-              unoptimized
-              sizes="(max-width: 1000px) 100vw, 420px"
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-        </Col>
+      <div className={styles.cinemaHeroOverlay} />
 
-        {/* Body Section — 1/3 on large screens */}
-        <Col xs={12} lg={6}>
-          <Card.Body className={styles.cardBody}>
-            <div>
-              <Card.Title className={styles.title}>{cinema.name}</Card.Title>
-              {cityName && (
-                <Badge bg="warning" className={styles.cityLabel}>
-                  {cityName}
-                </Badge>
-              )}
-            </div>
-          </Card.Body>
-        </Col>
-      </Row>
+      <div className={styles.cinemaHeroContent}>
+        <h2 className={styles.cinemaHeroTitle}>{cinema.name || "No Name"}</h2>
+        <p className={styles.cinemaHeroLocation}>{city}</p>
+      </div>
     </Card>
   );
 }

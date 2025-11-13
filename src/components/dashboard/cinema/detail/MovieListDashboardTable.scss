@@ -1,0 +1,68 @@
+/* Dark table with soft rounded corners and amber highlights */
+.dark-table {
+  border-radius: 12px;
+  overflow: hidden; 
+  background-color: #1c1c1c; 
+  border: none;
+
+  /* Table header */
+  .p-datatable-thead > tr > th {
+    border-bottom: none;
+    background-color: #222222; 
+    color: #fcb10e; 
+    font-weight: 600;
+  }
+
+  /* Table rows */
+  .p-datatable-tbody > tr {
+    transition: background-color 0.2s ease-in-out;
+    border-bottom: 1px solid #2a2a2a;
+    background-color: #1f1f1f; /* Normal satır rengi */
+    color: #f0f0f0; /* Satır yazısı */
+    
+    &:hover {
+      background-color: #2a2a2a; /* Hover rengi */
+    }
+  }
+
+  .p-datatable-tbody > tr > td {
+    border: none;
+    padding: 0.75rem 1rem;
+    color: inherit;
+  }
+
+  .p-datatable-sm .p-datatable-tbody > tr > td {
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Pagination */
+  .p-paginator {
+    border-top: none;
+    background-color: #222222;
+    border-radius: 0 0 12px 12px;
+    color: #fcb10e;
+  }
+
+  /* Dropdown inside table */
+  .dark-dropdown {
+    background-color: #222222;
+    color: #f0f0f0;
+    border-radius: 8px;
+    border: 1px solid #444444;
+    .p-dropdown-label {
+      color: #f0f0f0;
+    }
+  }
+
+  /* Badges/Tags */
+  .p-tag {
+    font-weight: 500;
+    border-radius: 6px;
+  }
+}
+
+/* Poster images soft corners */
+.movie-poster {
+  border-radius: 8px;
+  object-fit: cover;
+}

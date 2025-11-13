@@ -40,8 +40,13 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
   const [resetKey, setResetKey] = useState(0);
 
   const loadCinemas = (q) => searchCinemasByName(q);
-  const loadHalls = (q) =>
-    form.cinemaId ? searchHallsByName(form.cinemaId, q) : Promise.resolve([]);
+
+  const loadHalls = (q) => {
+    return form.cinemaId
+      ? searchHallsByName(form.cinemaId, q)
+      : Promise.resolve([]);
+  };
+
   const loadMovies = (q) => searchMoviesByTitle(q);
 
   const handleSearch = (e) => {
@@ -63,10 +68,6 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
       dateFrom: "",
       dateTo: "",
     });
-
-    // 👇 Tüm AsyncSelect bileşenlerini yeniden yarat
-    setResetKey((k) => k + 1);
-
     onClear?.();
   };
 
@@ -91,11 +92,7 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
             default: "Search cinema…",
           })}
           onChange={(opt) =>
-            setForm((v) => ({
-              ...v,
-              cinemaId: opt?.value ?? null,
-              hallId: null, // cinema değişince salonu da sıfırla
-            }))
+            setForm((v) => ({ ...v, cinemaId: opt?.value ?? null, hallId: null }))
           }
         />
       </div>

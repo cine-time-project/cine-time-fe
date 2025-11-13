@@ -15,7 +15,7 @@ export default function CreateCinemaPage() {
   const tCinemas = useTranslations("cinemas");
   return (
     <Container>
-      <PageHeader title={tCinemas("addNewCinema")} leftActions={<BackButton title={tCinemas("backButton")} />} />
+      <PageHeader title={tCinemas("addNewCinema")} leftActions={<BackButton title={tCinemas("back")} />} />
       {/* Step 1: Form */}
 
       <Card>

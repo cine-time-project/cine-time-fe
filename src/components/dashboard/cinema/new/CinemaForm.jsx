@@ -26,7 +26,7 @@ import { Card, Col, Form, Row } from "react-bootstrap";
  *  - isEditMode: Boolean indicating if the form is in edit mode
  *  - setCinema: Callback to update parent state after edit
  */
-export function CinemaForm({ cinema, token, locale, isEditMode, setCinema, tCinemas }) {
+export function CinemaForm({ cinema, token, locale, isEditMode, refreshCinema, tCinemas }) {
   const router = useRouter();
 
   // -----------------------------
@@ -80,8 +80,8 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema, tCine
         Swal.fire(`${tCinemas("updateSuccessful")}`, "success");
 
         // Refresh parent state from backend after update
-        const updated = await getDetailedCinema(cinema.id, token);
-        setCinema(updated);
+        await getDetailedCinema(cinema.id, token);
+        refreshCinema();
       } else {
         // -----------------------------
         // Create new cinema
@@ -94,7 +94,7 @@ export function CinemaForm({ cinema, token, locale, isEditMode, setCinema, tCine
 
         // Navigate to the new cinema detail page
         const newId = res?.returnBody?.id;
-        router.push(
+        router.replace(
           newId
             ? `/${locale}/admin/cinemas/${newId}?editMode=true`
             : `/${locale}/admin/cinemas/`
