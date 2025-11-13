@@ -1619,7 +1619,9 @@
           "deleteText": "Diese Aktion kann nicht rückgängig gemacht werden.",
           "deleted": "Stadt gelöscht"
         },
-        "prompts": { "selectCountry": "Wählen Sie ein Land aus, um Städte anzuzeigen." }
+        "prompts": {
+          "selectCountry": "Wählen Sie ein Land aus, um Städte anzuzeigen."
+        }
       },
       "districts": {
         "title": "Bezirke",
@@ -1638,7 +1640,9 @@
           "deleteText": "Diese Aktion kann nicht rückgängig gemacht werden.",
           "deleted": "Bezirk gelöscht"
         },
-        "prompts": { "selectCity": "Wählen Sie eine Stadt aus, um Bezirke anzuzeigen." }
+        "prompts": {
+          "selectCity": "Wählen Sie eine Stadt aus, um Bezirke anzuzeigen."
+        }
       },
       "pagination": {
         "first": "« Erste",
@@ -1647,6 +1651,33 @@
         "next": "Weiter ›",
         "last": "Letzte »"
       }
+    }
+  },
+  "movieShowtimes": {
+    "titleWithMovie": "Kinos, die {title} zeigen",
+    "titleGeneric": "Kinos, die den Film zeigen",
+    "paramLabel": "Param:",
+    "filters": {
+      "country": "Land",
+      "countryPlaceholder": "Land auswählen…",
+      "city": "Stadt",
+      "cityPlaceholder": "Stadt auswählen…",
+      "date": "Datum",
+      "datePlaceholder": "Datum auswählen…"
+    },
+    "loading": "Wird geladen…",
+    "errors": {
+      "generic": "Kinos konnten nicht geladen werden."
+    },
+    "movie": {
+      "titleFallback": "Film",
+      "directorLabel": "Regie:",
+      "details": "Details"
+    },
+    "messages": {
+      "selectFiltersHint": "Vorstellungen werden angezeigt, nachdem Sie Land, Stadt und Datum ausgewählt haben.",
+      "noShowtimes": "Keine Vorstellungen",
+      "selectDateHint": "Bitte ein Datum auswählen."
     }
   }
 }

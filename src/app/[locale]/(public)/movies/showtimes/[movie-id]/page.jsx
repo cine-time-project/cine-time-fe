@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import { config } from "@/helpers/config.js";
+import { useTranslations } from "next-intl";
 
 // Local YYYY-MM-DD for "today"
 function todayYMD() {
@@ -38,20 +39,26 @@ function extractPosterUrlFromMovie(movie) {
   const images = Array.isArray(movie.images) ? movie.images : [];
   const posterObj =
     images.find((img) => img && img.poster === true) ||
-    images.find((img) => String(img?.name || "").toLowerCase().includes("poster")) ||
+    images.find((img) =>
+      String(img?.name || "")
+        .toLowerCase()
+        .includes("poster")
+    ) ||
     images[0];
 
-  let raw =
-    movie.posterUrl ||
-    movie.poster_url ||
-    posterObj?.url ||
-    null;
+  let raw = movie.posterUrl || movie.poster_url || posterObj?.url || null;
 
   // Fallbacks if only ids are present
-  if (!raw && (typeof movie.posterId === "number" || typeof movie.posterId === "string")) {
+  if (
+    !raw &&
+    (typeof movie.posterId === "number" || typeof movie.posterId === "string")
+  ) {
     raw = `${base}/api/images/${movie.posterId}`;
   }
-  if (!raw && (typeof movie.heroId === "number" || typeof movie.heroId === "string")) {
+  if (
+    !raw &&
+    (typeof movie.heroId === "number" || typeof movie.heroId === "string")
+  ) {
     raw = `${base}/api/images/${movie.heroId}`;
   }
 
@@ -68,6 +75,7 @@ function useLocale() {
 
 export default function MovieShowtimeCinemasPage() {
   const locale = useLocale();
+  const t = useTranslations("movieShowtimes");
   const params = useParams();
   const movieId = params?.["movie-id"]; // folder name has a hyphen
 
@@ -217,7 +225,7 @@ export default function MovieShowtimeCinemasPage() {
         setSelectedDate("");
       } catch (e) {
         if (!ignore) {
-          setError(e?.message || "Cinemas could not be loaded.");
+          setError(e?.message || t("errors.generic"));
           setCinemas([]);
           setShowByCinemaDate({});
           setShowIndex([]);
@@ -230,7 +238,7 @@ export default function MovieShowtimeCinemasPage() {
     return () => {
       ignore = true;
     };
-  }, [movieId]);
+  }, [movieId, t]);
 
   // Always fetch poster (and optionally other movie fields) from /movies/id/{id}
   useEffect(() => {
@@ -264,7 +272,7 @@ export default function MovieShowtimeCinemasPage() {
     return () => {
       ignore = true;
     };
-  }, [movieId]);
+  }, [movieId, movieTitle]);
 
   // Recompute available dates when country/city changes (only future dates)
   useEffect(() => {
@@ -335,15 +343,15 @@ export default function MovieShowtimeCinemasPage() {
     <div className="container py-4 movie-showtimes-page">
       <h1 className="mb-1">
         {movieTitle
-          ? `${movieTitle} Filminin Gösterimi Olan Sinemalar`
-          : "Filmin Gösterimi Olan Sinemalar"}
+          ? t("titleWithMovie", { title: movieTitle })
+          : t("titleGeneric")}
       </h1>
       <p className="text-muted mb-4">
-        Param: <strong>{String(movieId)}</strong>
+        {t("paramLabel")} <strong>{String(movieId)}</strong>
       </p>
 
       <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
-        <label className="form-label me-2 mb-0">Country</label>
+        <label className="form-label me-2 mb-0">{t("filters.country")}</label>
         <select
           className="form-select form-select-sm w-auto"
           value={selectedCountry}
@@ -352,7 +360,7 @@ export default function MovieShowtimeCinemasPage() {
             setSelectedCity("");
           }}
         >
-          <option value="">Select country…</option>
+          <option value="">{t("filters.countryPlaceholder")}</option>
           {countries.map((n) => (
             <option key={n} value={n}>
               {n}
@@ -360,7 +368,7 @@ export default function MovieShowtimeCinemasPage() {
           ))}
         </select>
 
-        <label className="form-label ms-3 me-2 mb-0">City</label>
+        <label className="form-label ms-3 me-2 mb-0">{t("filters.city")}</label>
         <select
           className="form-select form-select-sm w-auto"
           value={selectedCity}
@@ -370,7 +378,7 @@ export default function MovieShowtimeCinemasPage() {
           }}
           disabled={!selectedCountry || cities.length === 0}
         >
-          <option value="">Select city…</option>
+          <option value="">{t("filters.cityPlaceholder")}</option>
           {cities.map((n) => (
             <option key={n} value={n}>
               {n}
@@ -378,14 +386,14 @@ export default function MovieShowtimeCinemasPage() {
           ))}
         </select>
 
-        <label className="form-label ms-3 me-2 mb-0">Date</label>
+        <label className="form-label ms-3 me-2 mb-0">{t("filters.date")}</label>
         <select
           className="form-select form-select-sm w-auto"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
           disabled={dates.length === 0}
         >
-          <option value="">Select date…</option>
+          <option value="">{t("filters.datePlaceholder")}</option>
           {dates.map((d) => (
             <option key={d} value={d}>
               {d}
@@ -394,7 +402,7 @@ export default function MovieShowtimeCinemasPage() {
         </select>
       </div>
 
-      {loading && <div className="py-5">Loading…</div>}
+      {loading && <div className="py-5">{t("loading")}</div>}
       {error && <div className="alert alert-danger">{error}</div>}
 
       {!loading && !error && (
@@ -423,11 +431,13 @@ export default function MovieShowtimeCinemasPage() {
                     <div className="d-flex align-items-start justify-content-between gap-3">
                       <div>
                         <div className="movie-mini__title">
-                          {movieMeta.title || movieTitle || "Film"}
+                          {movieMeta.title ||
+                            movieTitle ||
+                            t("movie.titleFallback")}
                         </div>
                         {movieMeta?.director && (
                           <div className="text-muted small">
-                            Yönetmen: {movieMeta.director}
+                            {t("movie.directorLabel")} {movieMeta.director}
                           </div>
                         )}
                       </div>
@@ -436,7 +446,7 @@ export default function MovieShowtimeCinemasPage() {
                           className="btn btn-sm btn-outline-light"
                           href={L(`movies/${movieMeta.id}`)}
                         >
-                          Detay
+                          {t("movie.details")}
                         </Link>
                       )}
                     </div>
@@ -444,11 +454,12 @@ export default function MovieShowtimeCinemasPage() {
                     <div className="showtime-row mt-2">
                       {!selectedDate || !selectedCountry || !selectedCity ? (
                         <span className="text-muted small">
-                          Ülke, şehir ve tarih seçtiğinizde seanslar burada
-                          görünecek.
+                          {t("messages.selectFiltersHint")}
                         </span>
                       ) : (
-                        <span className="text-muted">Seans yok</span>
+                        <span className="text-muted">
+                          {t("messages.noShowtimes")}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -502,11 +513,13 @@ export default function MovieShowtimeCinemasPage() {
                         <div className="d-flex align-items-start justify-content-between gap-3">
                           <div>
                             <div className="movie-mini__title">
-                              {movieMeta.title || movieTitle || "Film"}
+                              {movieMeta.title ||
+                                movieTitle ||
+                                t("movie.titleFallback")}
                             </div>
                             {movieMeta?.director && (
                               <div className="text-muted small">
-                                Yönetmen: {movieMeta.director}
+                                {t("movie.directorLabel")} {movieMeta.director}
                               </div>
                             )}
                           </div>
@@ -515,7 +528,7 @@ export default function MovieShowtimeCinemasPage() {
                               className="btn btn-sm btn-outline-light"
                               href={L(`movies/${movieMeta.id}`)}
                             >
-                              Detay
+                              {t("movie.details")}
                             </Link>
                           )}
                         </div>
@@ -523,10 +536,12 @@ export default function MovieShowtimeCinemasPage() {
                         <div className="showtime-row mt-2">
                           {!selectedDate ? (
                             <span className="text-muted small">
-                              Bir tarih seçiniz.
+                              {t("messages.selectDateHint")}
                             </span>
                           ) : !times.length ? (
-                            <span className="text-muted">Seans yok</span>
+                            <span className="text-muted">
+                              {t("messages.noShowtimes")}
+                            </span>
                           ) : (
                             times
                               .sort((a, b) =>
@@ -539,7 +554,7 @@ export default function MovieShowtimeCinemasPage() {
                                 const buyHref = L(
                                   `buy-ticket?cinemaId=${cinemaId}&movieId=${
                                     movieMeta.id || movieId
-                                  }&date=${s.date}&time=${time}`
+                                  }&date=${s.date}&time={time}`
                                 );
                                 return (
                                   <Link
