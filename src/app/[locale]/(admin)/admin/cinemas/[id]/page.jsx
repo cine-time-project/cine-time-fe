@@ -31,6 +31,7 @@ export default function AdminCinemaDetailPage() {
   // -----------------------------
   const {
     cinema,
+    setCinema,
     loading,
     canEdit, // Determines if user has edit permissions
     refreshCinema, // Function to refetch & refresh cinema data
@@ -45,6 +46,8 @@ export default function AdminCinemaDetailPage() {
 
   if (!cinema)
     return <p className="text-center mt-5">{tCinemas("noCinemaData")}</p>;
+
+  console.log(cinema);
 
   // -----------------------------
   // Main render
@@ -94,7 +97,7 @@ export default function AdminCinemaDetailPage() {
                 cinema={cinema}
                 locale="en"
                 isEditMode={true}
-                refreshCinema={refreshCinema} // parent state update callback
+                setCinema={setCinema} // parent state update callback
               />
             </Col>
           </Row>

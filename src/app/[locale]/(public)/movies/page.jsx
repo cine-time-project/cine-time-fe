@@ -92,19 +92,6 @@ export default function MoviesPage() {
   }, [filters]);
 
   // -------------------------
-  // Determine number of columns per row (for skeletons, optional)
-  // -------------------------
-  const getColsPerRow = () => {
-    if (typeof window === "undefined") return 4;
-    const w = window.innerWidth;
-    if (w >= 1200) return 4; // lg
-    if (w >= 992) return 4; // lg
-    if (w >= 768) return 3; // md
-    if (w >= 576) return 2; // sm
-    return 1; // xs
-  };
-
-  // -------------------------
   // Render movies with skeletons
   // -------------------------
   const renderMoviesWithSkeletons = () => {

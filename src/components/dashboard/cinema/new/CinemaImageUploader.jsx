@@ -14,10 +14,10 @@ export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) 
 
   // 🎬 Eğer edit modundaysak mevcut resmi göster
   useEffect(() => {
-    if (cinema?.imageUrl) {
+    if (cinema?.cinemaImageUrl) {
       setIsUpdate(true);
     }
-    setPreviewUrl(cinema?.imageUrl || null);
+    setPreviewUrl(cinema?.cinemaImageUrl || null);
   }, [cinema]);
 
   const handleFileChange = (e) => {
@@ -33,8 +33,8 @@ export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) 
   const handleCancel = () => {
     setFile(null);
 
-    if (isUpdate && cinema?.imageUrl) {
-      setPreviewUrl(cinema.imageUrl);
+    if (isUpdate && cinema?.cinemaImageUrl) {
+      setPreviewUrl(cinema.cinemaImageUrl);
     } else {
       setPreviewUrl(null);
     }
@@ -61,8 +61,8 @@ export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) 
       // 1️⃣ Upload image
       await uploadImage(cinema.id, file, token);
 
-      // 2️⃣ Parent'tan cinema'yi yeniden fetch et
-      refreshCinema();
+     
+      setPreviewUrl(cinema.cinemaImageUrl);
 
       Swal.fire(`${tCinemas("imageUploadSuccess")}`, "success");
       setFile(null);

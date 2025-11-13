@@ -95,6 +95,7 @@ export function useCinemaDetails(cinemaId) {
   // -----------------------------
   return {
     cinema,           // Sorted cinema object
+    setCinema,
     loading,          // Loading state
     canEdit,          // Boolean flag for edit permission
     isEditMode,       // Current edit mode state
