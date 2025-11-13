@@ -140,43 +140,73 @@
         }
     }
 
-    /* ========================
-     CTA
-     ======================== */
-    &__cta {
-        margin-top: 1.25rem;
-        background: linear-gradient(180deg, #161616, #0e0e0e);
-        border: 1px solid #232323;
-        border-radius: 16px;
-        padding: 3rem 1.5rem;
-        text-align: center;
-
-        h3 {
-            color: #fff;
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            max-width: 600px;
-            margin: 0 auto 1.5rem auto;
-            color: #c9c9c9;
-        }
-
-        .btn-cta {
-            display: inline-block;
-            padding: .75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            background: #ffc107;
-            color: #222;
-            text-decoration: none;
-            transition: transform .15s ease-in-out, background-color .3s;
-
-            &:hover {
-                transform: translateY(-2px);
-                background-color: #e6b107;
+        /* ========================
+       CTA (Ticket Collapse)
+       — Campaigns ile %100 aynı —
+    ======================== */
+        &__cta {
+            margin-top: 3rem;
+            background: linear-gradient(180deg, #161616, #0e0e0e);
+            border: 1px solid #232323;
+            border-radius: 16px;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            width: 100%;
+    
+            h3 {
+                color: #fff;
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+                font-weight: 700;
+            }
+    
+            p {
+                max-width: 600px;
+                margin: 0 auto 1.5rem auto;
+                color: #c9c9c9;
+                font-size: 1.05rem;
+                line-height: 1.6;
+            }
+    
+            .ticket-btn {
+                display: inline-block;
+                padding: 0.75rem 2rem;
+                border-radius: 9999px;
+                font-weight: 600;
+                background: #ffc107;
+                color: #222;
+                text-decoration: none;
+                cursor: pointer;
+                font-size: 1rem;
+                border: none;
+                transition: transform 0.15s ease-in-out, background-color 0.3s;
+    
+                &:hover {
+                    transform: translateY(-2px);
+                    background-color: #e6b107;
+                }
+            }
+    
+            .ticket-panel {
+                margin-top: 2rem;
+                background: #1a1a1a;
+                border: 1px solid #262626;
+                border-radius: 16px;
+                padding: 2rem 1.5rem;
+                animation: fadeIn 0.25s ease forwards;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
             }
         }
-    }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+    
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 }
