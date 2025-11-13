@@ -61,50 +61,53 @@ export const HallToolbar = ({ row, locale, onDeleted, isAdmin }) => {
 
   return (
     <div className="d-flex gap-2 justify-content-end">
-      {/* Edit Button with Tooltip */}
-      <OverlayTrigger
-        placement="top"
-        overlay={
-          !isAdmin && (
-            <Tooltip id="tooltip-edit">{t("needAdminToEdit")}</Tooltip>
-          )
-        }
-      >
-        {/* Wrap in <span> so tooltip still works even when button is disabled */}
-        <span className="d-inline-block">
-          <Button
-            disabled={!isAdmin}
-            variant="secondary"
-            onClick={handleEdit}
-            style={!isAdmin ? { pointerEvents: "none" } : {}}
-          >
-            <i className="pi pi-file-edit"></i>
-          </Button>
-        </span>
-      </OverlayTrigger>
+      {/* Edit Button */}
+      {!isAdmin ? (
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id="tooltip-edit">{t("needAdminToEdit")}</Tooltip>}
+        >
+          <span className="d-inline-block">
+            <Button
+              disabled={true}
+              variant="secondary"
+              onClick={handleEdit}
+              style={{ pointerEvents: "none" }}
+            >
+              <i className="pi pi-file-edit"></i>
+            </Button>
+          </span>
+        </OverlayTrigger>
+      ) : (
+        <Button variant="secondary" onClick={handleEdit}>
+          <i className="pi pi-file-edit"></i>
+        </Button>
+      )}
 
-      {/* Delete Button with Tooltip */}
-      <OverlayTrigger
-        placement="top"
-        overlay={
-          !isAdmin ? (
+      {/* Delete Button */}
+      {!isAdmin ? (
+        <OverlayTrigger
+          placement="top"
+          overlay={
             <Tooltip id="tooltip-delete">{t("needAdminToDelete")}</Tooltip>
-          ) : (
-            <></>
-          )
-        }
-      >
-        <span className="d-inline-block">
-          <Button
-            disabled={!isAdmin}
-            variant="secondary"
-            onClick={handleDelete}
-            style={!isAdmin ? { pointerEvents: "none" } : {}}
-          >
-            <i className="pi pi-trash"></i>
-          </Button>
-        </span>
-      </OverlayTrigger>
+          }
+        >
+          <span className="d-inline-block">
+            <Button
+              disabled={true}
+              variant="secondary"
+              onClick={handleDelete}
+              style={{ pointerEvents: "none" }}
+            >
+              <i className="pi pi-trash"></i>
+            </Button>
+          </span>
+        </OverlayTrigger>
+      ) : (
+        <Button variant="secondary" onClick={handleDelete}>
+          <i className="pi pi-trash"></i>
+        </Button>
+      )}
     </div>
   );
 };

@@ -24,11 +24,10 @@ const selectStyles = {
   }),
 };
 
-export default function ShowtimesSearchBar({
-  initial = {},
-  onSearch,
-  onClear,
-}) {
+const loadHalls = (q) =>
+    form.cinemaId ? searchHallsByName(form.cinemaId, q) : Promise.resolve([]);
+
+export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) {
   const t = useTranslations("showtimes");
   const tCommon = useTranslations("common");
 
@@ -101,36 +100,29 @@ export default function ShowtimesSearchBar({
         />
       </div>
 
-      {/* Hall (dependent) */}
-      <div className="col-12 col-xl-2 col-lg-2">
-        <label className="form-label text-white">
-          {t("filters.hall", { default: "Hall" })}
-        </label>
-        <AsyncSelect
-          key={form.cinemaId || "no-cinema"} // 🎯 ZORUNLU — cinema değişince bileşen resetlenir
-          isDisabled={!form.cinemaId}
-          cacheOptions
-          defaultOptions={!!form.cinemaId} // cinema seçiliyse otomatik sorgu başlatır
-          isClearable
-          styles={selectStyles}
-          loadOptions={(q) => {
-            return form.cinemaId
-              ? searchHallsByName(form.cinemaId, q)
-              : Promise.resolve([]);
-          }}
-          placeholder={
-            form.cinemaId
-              ? t("placeholders.searchHall", { default: "Search hall…" })
-              : t("placeholders.selectCinemaFirst", {
-                  default: "Select a cinema first",
-                })
-          }
-          onChange={(opt) => {
-            console.log("🎭 Hall seçildi:", opt);
-            setForm((v) => ({ ...v, hallId: opt?.value ?? null }));
-          }}
-        />
-      </div>
+
+  {/* Hall (dependent) */}
+  <div className="col-12 col-xl-2 col-lg-2">
+    <label className="form-label text-white">
+      {t("filters.hall", { default: "Hall" })}
+    </label>
+    <AsyncSelect
+      key={form.cinemaId || "no-cinema"}   
+      isDisabled={!form.cinemaId}
+      cacheOptions
+      defaultOptions                       
+      isClearable
+      styles={selectStyles}
+      loadOptions={loadHalls}
+      placeholder={
+        form.cinemaId
+          ? t("placeholders.searchHall", { default: "Search hall…" })
+          : t("placeholders.selectCinemaFirst", { default: "Select a cinema first" })
+      }
+      onChange={(opt) => setForm((v) => ({ ...v, hallId: opt?.value ?? null }))}
+    />
+  </div>
+
 
       {/* Movie */}
       <div className="col-12 col-xl-3 col-lg-3">
