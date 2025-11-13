@@ -2,6 +2,7 @@
 
 import { HallCard } from "./HallCard";
 import { Alert } from "react-bootstrap";
+import { HallCardForDashboard } from "./HallCardForDashboard";
 
 export default function HallList({
   halls,
@@ -9,9 +10,8 @@ export default function HallList({
   isEditMode = false,
   isDashboard = false,
   selectedMovieID,
-  selectedDate
+  selectedDate,
 }) {
-
   // No halls at all
   if (!halls?.length) {
     return <Alert variant="warning">{tCinemas("noHalls")}</Alert>;
@@ -21,17 +21,29 @@ export default function HallList({
     <>
       <h3 className="fw-bold mb-3 text-light">{tCinemas("halls")}</h3>
 
-      {halls.map((hall) => (
-        <HallCard
-          key={hall.id}
-          hall={hall}
-          tCinemas={tCinemas}
-          isEditMode={isEditMode}
-          isDashboard={isDashboard}
-          selectedMovieID={selectedMovieID}
-          selectedDate={selectedDate}
-        />
-      ))}
+      {halls.map((hall) =>
+        isEditMode ? (
+          <HallCardForDashboard
+            key={hall.id}
+            hall={hall}
+            tCinemas={tCinemas}
+            isEditMode={isEditMode}
+            isDashboard={isDashboard}
+            selectedMovieID={selectedMovieID}
+            selectedDate={selectedDate}
+          />
+        ) : (
+          <HallCard
+            key={hall.id}
+            hall={hall}
+            tCinemas={tCinemas}
+            isEditMode={isEditMode}
+            isDashboard={isDashboard}
+            selectedMovieID={selectedMovieID}
+            selectedDate={selectedDate}
+          />
+        )
+      )}
     </>
   );
 }

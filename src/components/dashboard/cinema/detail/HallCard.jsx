@@ -9,12 +9,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
 import { Button } from "react-bootstrap";
+import { useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export function HallCard({
   hall,
   tCinemas,
-  isDashboard = false,
-  isEditMode = false,
   selectedMovieID,
   selectedDate,
 }) {
@@ -33,6 +33,9 @@ export function HallCard({
     );
   }
 
+  const router = useRouter();
+  const locale = useLocale();
+
   const filteredShowtimes = hall?.showtimes?.filter((showtime) => {
     const matchDate = showtime.date === selectedDate;
     const matchMovie = selectedMovieID
@@ -40,6 +43,11 @@ export function HallCard({
       : true;
     return matchDate && matchMovie;
   });
+
+  const handleEditHall = () => {
+    console.log(hall.id);
+    router.push(`/${locale}/admin/halls/${hall.id}`);
+  }
 
   return (
     <div
@@ -90,26 +98,8 @@ export function HallCard({
             )}
           </div>
         </div>
-        {isDashboard && isEditMode && (
-          <Button variant="outline-warning">
-            <i className="pi pi-plus"></i> {tCinemas("edit") || "Add Showtime"}
-          </Button>
-        )}
+        
       </div>
-
-      {/* META INFO */}
-      {isDashboard && (
-        <p style={{ color: "#888", fontSize: "0.85rem" }}>
-          {tCinemas("created")}:{" "}
-          <span style={{ color: "#ccc" }}>
-            {new Date(hall.createdAt).toLocaleString()}
-          </span>{" "}
-          • {tCinemas("updated")}:{" "}
-          <span style={{ color: "#ccc" }}>
-            {new Date(hall.updatedAt).toLocaleString()}
-          </span>
-        </p>
-      )}
 
       <hr style={{ borderColor: "#2a2a2a" }} />
 

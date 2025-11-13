@@ -10,10 +10,16 @@ import { useMemo, useState } from "react";
 import { Alert } from "react-bootstrap";
 
 import "primeicons/primeicons.css";
+import "primereact/resources/themes/lara-light-blue/theme.css"; // 🌞 Light tema
 import "primereact/resources/primereact.min.css";
 import "./MovieListDashboardTable.scss";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
+  const locale = useLocale();
+  const router = useRouter();
+  const t = useTranslations();
   const FILTERS = { ALL: "all", WITH: "with", WITHOUT: "without" };
   const ROW_OPTIONS = [5, 10, 15, 20];
 
@@ -21,7 +27,7 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   if (!movies?.length) {
-    return <Alert variant="warning">{tCinemas("noMovieForCinema")}</Alert>;
+    return <Alert variant="warning">{t("cinema.noMovieForCinema")}</Alert>;
   }
 
   const movieIdsWithShowtime = useMemo(() => {
@@ -45,52 +51,73 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   }, [filter, movies, movieIdsWithShowtime]);
 
   const thumbnailBodyTemplate = (movie) => {
-  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
-  const imageUrl = poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
-  return (
-    <img
-      src={imageUrl}
-      alt={movie.title}
-      className="movie-poster"
-      style={{
-        width: "80px",
-        height: "120px",
-        objectFit: "cover",
-        display: "block",
-      }}
-    />
-  );
-};
-
+    const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
+    const imageUrl =
+      poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
+    return (
+      <img
+        src={imageUrl}
+        alt={movie.title}
+        className="movie-poster"
+        style={{
+          width: "80px",
+          height: "120px",
+          objectFit: "cover",
+          display: "block",
+        }}
+      />
+    );
+  };
 
   const showtimeBodyTemplate = (movie) => {
     const hasShowtime = movieIdsWithShowtime.includes(movie.id);
     return hasShowtime ? (
-      <Tag value={tCinemas("withShowtime")} severity="success" />
+      <Tag
+        value={t("common.yes")}
+        severity="success"
+        icon="pi pi-check"
+        size="large"
+      />
     ) : (
-      <Tag value={tCinemas("withoutShowtime")} severity="danger" />
+      <Tag
+        value={t("common.no")}
+        severity="danger"
+        icon="pi pi-times"
+        size="large"
+      />
     );
   };
 
   const editBodyTemplate = (movie) => (
     <Button
-      icon="pi pi-pencil"
-      className="p-button-rounded p-button-warning"
-      onClick={() => {}}
+      icon="pi pi-pen-to-square"
+      onClick={() => handleMovieEdit(movie.id)}
+      text
+      severity="warning"
+      label={t("cinemas.edit")}
+      size="large"
     />
   );
 
   const indexBodyTemplate = (rowData, options) => options.rowIndex + 1;
 
-  // Rows per page dropdown component for paginatorRight
   const paginatorRightTemplate = (
     <Dropdown
       value={rowsPerPage}
       onChange={(e) => setRowsPerPage(e.value)}
-      options={ROW_OPTIONS.map((r) => ({ label: `${r} ${tCinemas("perPage")}`, value: r }))}
-      className="w-24 dark-dropdown"
+      options={ROW_OPTIONS.map((r) => ({
+        label: `${r} ${t("cinemas.movie")}`,
+        value: r,
+      }))}
+      className="w-24"
     />
   );
+
+  const handleMovieEdit = (movieId) => {
+    router.push(`/${locale}/admin/movies/${movieId}`);
+
+    // burada dilediğin işlemi yapabilirsin (örneğin sayfa yönlendirmesi)
+  };
 
   return (
     <div className="mt-4">
@@ -101,38 +128,46 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
           value={filter}
           onChange={(e) => setFilter(e.value)}
           options={[
-            { label: tCinemas("all"), value: FILTERS.ALL },
-            { label: tCinemas("withShowtime"), value: FILTERS.WITH },
-            { label: tCinemas("withoutShowtime"), value: FILTERS.WITHOUT },
+            { label: t("movies.all"), value: FILTERS.ALL },
+            { label: t("cinemas.withShowtime"), value: FILTERS.WITH },
+            { label: t("cinemas.withoutShowtime"), value: FILTERS.WITHOUT },
           ]}
-          placeholder={tCinemas("selectFilter")}
-          className="w-32 dark-dropdown"
+          placeholder={t("search.filters")}
+          className="w-32"
         />
       </div>
 
       {filteredMovies.length === 0 ? (
-        <Alert variant="info">{tCinemas("noMoviesMatchingFilter")}</Alert>
+        <Alert variant="info">{t("movies.noMovies")}</Alert>
       ) : (
         <DataTable
           value={filteredMovies}
           paginator
-          rows={rowsPerPage} // dynamic rows per page
+          rows={rowsPerPage}
           responsiveLayout="scroll"
           rowHover
-          className="p-datatable-sm p-datatable-striped dark-table"
-          paginatorRight={paginatorRightTemplate} // dropdown on pagination right
+          className="p-datatable-sm p-datatable-striped "
+          paginatorRight={paginatorRightTemplate}
         >
-          <Column header="#" body={indexBodyTemplate} style={{ width: "50px" }} />
-          <Column header={tCinemas("poster")} body={thumbnailBodyTemplate} style={{ width: "100px" }} />
-          <Column field="title" header={tCinemas("title")} sortable />
+          <Column
+            header="#"
+            body={indexBodyTemplate}
+            style={{ width: "50px" }}
+          />
+          <Column header={t("cinemas.image")} body={thumbnailBodyTemplate} />
+          <Column field="title" header={t("cinemas.movie")} sortable />
           <Column
             field="duration"
-            header={tCinemas("duration")}
-            body={(movie) => `${movie.duration} ${tCinemas("minutes")}`}
+            header={t("movies.duration")}
+            body={(movie) => `${movie.duration} ${t("common.minutes")}`}
             sortable
           />
-          <Column header={tCinemas("showtime")} body={showtimeBodyTemplate} style={{ width: "140px" }} />
-          <Column header={tCinemas("actions")} body={editBodyTemplate} style={{ width: "100px" }} />
+          <Column
+            header={t("tickets.showtime")}
+            body={showtimeBodyTemplate}
+            style={{ width: "140px" }}
+          />
+          <Column body={editBodyTemplate} style={{ width: "100px" }} />
         </DataTable>
       )}
     </div>
