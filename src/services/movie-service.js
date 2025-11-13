@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE, MOVIE_SEARCH_API, MOVIE_STATUS_API, MOVIE_FILTER_API, MOVIE_GENRE_LIST } from "@/helpers/api-routes.js";
+import { MOVIE_SEARCH_API, MOVIE_STATUS_API, MOVIE_FILTER_API, MOVIE_GENRE_LIST } from "@/helpers/api-routes.js";
 import { config } from "@/helpers/config";
 
 /**

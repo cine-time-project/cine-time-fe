@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Dropdown } from "primereact/dropdown";
-import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
-import { Alert } from "react-bootstrap";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import { Dropdown } from "primereact/dropdown";
 import "primereact/resources/themes/lara-dark-blue/theme.css";
+import { Tag } from "primereact/tag";
+import { useMemo, useState } from "react";
+import { Alert } from "react-bootstrap";
 
-import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import "primereact/resources/primereact.min.css";
 import "./MovieListDashboardTable.scss";
 
 export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
@@ -76,7 +76,7 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
     <Button
       icon="pi pi-pencil"
       className="p-button-rounded p-button-warning"
-      onClick={() => console.log("Edit clicked:", movie.id)}
+      onClick={() => {}}
     />
   );
 

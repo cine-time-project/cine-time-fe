@@ -1,15 +1,12 @@
 "use client";
 
 import {
-  IMAGES_ADMIN_LIST_API,
   MOVIES_ADMIN_LIST_API,
   imageByIdApi,
   imageUploadForMovieApi,
   imageUpdateApi,
   imageDeleteApi,
   movieImagesApi,
-  moviePosterIdApi,
-  imageDetailsApi,
 } from "@/helpers/api-routes";
 import { authHeaders } from "@/lib/utils/http";
 
