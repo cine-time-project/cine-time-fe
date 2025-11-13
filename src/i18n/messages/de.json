@@ -741,7 +741,9 @@
     },
     "ctaTitle": "Nehmen Sie am CineTime Erlebnis teil",
     "ctaBody": "Reservieren Sie Ihr Ticket und werden Sie Teil der magischen Kinoatmosphäre.",
-    "ctaBtn": "Ticket kaufen"
+    "ctaBtn": "Ticket kaufen",
+      "ctaButtonOpen": "Tickets Kaufen",
+  "ctaButtonClose": "Bereich Ausblenden"
   },
   "campaigns": {
     "heroTitle": "CineTime Kampagnen",

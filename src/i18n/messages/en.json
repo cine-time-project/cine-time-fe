@@ -803,7 +803,9 @@
     },
     "ctaTitle": "Join the CineTime Experience",
     "ctaBody": "Reserve your seat and be part of our exclusive cinematic celebrations.",
-    "ctaBtn": "Buy Ticket"
+    "ctaBtn": "Buy Ticket",
+      "ctaButtonOpen": "Get Tickets",
+  "ctaButtonClose": "Hide Section"
   },
   "campaigns": {
     "heroTitle": "CineTime Campaigns",

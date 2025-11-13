@@ -730,7 +730,9 @@
     },
     "ctaTitle": "Participez à l'expérience CineTime",
     "ctaBody": "Réservez votre billet et plongez dans l'atmosphère magique du cinéma.",
-    "ctaBtn": "Acheter un billet"
+    "ctaBtn": "Acheter un billet",
+      "ctaButtonOpen": "Acheter un billet",
+  "ctaButtonClose": "Masquer la section"
   },
   "campaigns": {
     "heroTitle": "Campagnes CineTime",
