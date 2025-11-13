@@ -2,11 +2,10 @@ import Image from "next/image";
 import "./events.scss";
 import { getTranslations } from "next-intl/server";
 import ZoomableEventsGrid from "./ZoomableGrid";
+import TicketCollapse from "./TicketCollapse";
 
 export default async function EventsPage({ params }) {
-  // ✅ params önce çözülmeli (await)
   const { locale } = await params;
-
   const t = await getTranslations({ locale, namespace: "events" });
 
   const eventItems = [
@@ -47,6 +46,7 @@ export default async function EventsPage({ params }) {
           <h1 className="hero__title">{t("heroTitle")}</h1>
           <p className="hero__subtitle">{t("heroSubtitle")}</p>
         </div>
+
         <div className="hero__media">
           <Image
             src="/images/events/film_festival.jpg"
@@ -61,13 +61,13 @@ export default async function EventsPage({ params }) {
 
       <ZoomableEventsGrid items={eventItems} />
 
-      <section className="events__cta">
-        <h3>{t("ctaTitle")}</h3>
-        <p>{t("ctaBody")}</p>
-        <a className="btn-cta" href={`/${locale}/buy-ticket`}>
-          {t("ctaBtn")}
-        </a>
-      </section>
+      {/* 🔥 Burada artık fonksiyon değil sadece string gönderiyoruz */}
+      <TicketCollapse
+        title={t("ctaTitle")}
+        body={t("ctaBody")}
+        btnOpen={t("ctaButtonOpen")}
+        btnClose={t("ctaButtonClose")}
+      />
     </section>
   );
 }

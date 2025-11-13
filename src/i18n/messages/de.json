@@ -816,9 +816,11 @@
       "desc": "Erleben Sie den roten Teppich und Weltpremieren der neuesten Filme.",
       "date": "8. Juli 2026"
     },
-    "ctaTitle": "Treten Sie dem CineTime-Erlebnis bei",
-    "ctaBody": "Reservieren Sie Ihren Platz und seien Sie Teil unserer exklusiven Kinofeiern.",
-    "ctaBtn": "Ticket kaufen"
+    "ctaTitle": "Nehmen Sie am CineTime Erlebnis teil",
+    "ctaBody": "Reservieren Sie Ihr Ticket und werden Sie Teil der magischen Kinoatmosphäre.",
+    "ctaBtn": "Ticket kaufen",
+      "ctaButtonOpen": "Tickets Kaufen",
+  "ctaButtonClose": "Bereich Ausblenden"
   },
 
   "campaigns": {

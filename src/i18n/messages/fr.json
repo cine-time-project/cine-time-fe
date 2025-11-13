@@ -816,9 +816,11 @@
       "desc": "Vivez le tapis rouge et les premières mondiales des derniers films.",
       "date": "8 juillet 2026"
     },
-    "ctaTitle": "Rejoignez l'Expérience CineTime",
-    "ctaBody": "Réservez votre place et faites partie de nos célébrations cinématographiques exclusives.",
-    "ctaBtn": "Acheter un Billet"
+    "ctaTitle": "Participez à l'expérience CineTime",
+    "ctaBody": "Réservez votre billet et plongez dans l'atmosphère magique du cinéma.",
+    "ctaBtn": "Acheter un billet",
+      "ctaButtonOpen": "Acheter un billet",
+  "ctaButtonClose": "Masquer la section"
   },
 
   "campaigns": {

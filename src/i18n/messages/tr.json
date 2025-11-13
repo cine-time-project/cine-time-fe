@@ -795,6 +795,7 @@
       "title": "Ödül Gecesi",
       "desc": "Yılın en başarılı film ve yönetmenlerinin onurlandırıldığı zarif bir gece.",
       "date": "12 Nisan 2026"
+
     },
     "talk": {
       "alt": "Yönetmen Sohbeti",
@@ -816,7 +817,9 @@
     },
     "ctaTitle": "CineTime Deneyimine Katılın",
     "ctaBody": "Biletinizi ayırtın ve sinemanın büyülü atmosferinin bir parçası olun.",
-    "ctaBtn": "Bilet Al"
+    "ctaBtn": "Bilet Al",
+    "ctaButtonOpen": "Bilet Al",
+  "ctaButtonClose": "Bölümü Gizle"
   },
   "campaigns": {
     "heroTitle": "CineTime Kampanyaları",
