@@ -27,7 +27,9 @@ export const SelectInput = ({
           name={name}
           placeholder={label}
           isInvalid={!!errorMessage}
-          defaultValue=""
+          {...("value" in rest
+            ? { value: rest.value || "" }
+            : { defaultValue: "" })}
           {...rest}
         >
           <option value="">Select</option>
