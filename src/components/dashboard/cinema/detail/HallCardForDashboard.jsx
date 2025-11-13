@@ -43,6 +43,11 @@ export function HallCardForDashboard({
     router.push(`/${locale}/admin/halls/${hall.id}`);
   };
 
+  const handleEditShowtime = (showtimeId) => {
+    console.log("Edit showtime:", showtimeId)
+    router.push(`/${locale}/admin/showtimes/${showtimeId}`);
+  };
+
   const filteredShowtimes = hall?.showtimes?.filter((showtime) => {
     const matchDate = selectedDate ? showtime.date === selectedDate : true;
     const matchMovie = selectedMovieID
@@ -79,7 +84,7 @@ export function HallCardForDashboard({
     <Button
       variant="outline-warning"
       size="sm"
-      onClick={() => console.log("Edit showtime:", showtime.id)}
+      onClick={() => handleEditShowtime(showtime.id)}
     >
       <i className="pi pi-pencil"></i>
     </Button>
