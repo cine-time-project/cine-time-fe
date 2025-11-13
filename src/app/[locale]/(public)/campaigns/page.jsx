@@ -2,6 +2,7 @@ import Image from "next/image";
 import "./campaigns.scss";
 import { getTranslations } from "next-intl/server";
 import ZoomableCampaignsGrid from "./ZoomableCampaignsGrid";
+import CampaignsCollapse from "./CampaignsCollapse";
 
 export default async function CampaignsPage({ params }) {
   const { locale } = await params;
@@ -54,12 +55,12 @@ export default async function CampaignsPage({ params }) {
 
   return (
     <section className="campaigns container">
-      {/* Hero */}
       <header className="campaigns__hero">
         <div className="hero__copy">
           <h1 className="hero__title">{t("heroTitle")}</h1>
           <p className="hero__subtitle">{t("heroSubtitle")}</p>
         </div>
+
         <div className="hero__media">
           <Image
             src="/images/campaigns/hero_campaign.jpg"
@@ -72,18 +73,15 @@ export default async function CampaignsPage({ params }) {
         </div>
       </header>
 
-      {/* Zoomable Grid */}
       <ZoomableCampaignsGrid items={gridItems} />
 
-      {/* CTA */}
-      <section className="campaigns__cta">
-        <h3>{t("ctaTitle")}</h3>
-        <p>{t("ctaBody")}</p>
-        <a className="btn-cta" href={`/${locale}/buy-ticket`}>
-          {t("ctaBtn")}
-        </a>
-      </section>
+      {/* CTA: Artık collapse */}
+      <CampaignsCollapse
+        title={t("ctaTitle")}
+        body={t("ctaBody")}
+        btnOpen={t("ctaButtonOpen")}
+        btnClose={t("ctaButtonClose")}
+      />
     </section>
   );
 }
-

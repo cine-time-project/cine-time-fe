@@ -819,8 +819,8 @@
     "ctaTitle": "Participez à l'expérience CineTime",
     "ctaBody": "Réservez votre billet et plongez dans l'atmosphère magique du cinéma.",
     "ctaBtn": "Acheter un billet",
-      "ctaButtonOpen": "Acheter un billet",
-  "ctaButtonClose": "Masquer la section"
+    "ctaButtonOpen": "Acheter un billet",
+    "ctaButtonClose": "Masquer la section"
   },
 
   "campaigns": {
@@ -865,7 +865,10 @@
     },
     "ctaTitle": "Profitez des Campagnes",
     "ctaBody": "Ne manquez pas, obtenez votre billet maintenant.",
-    "ctaBtn": "Acheter un Billet"
+    "ctaBtn": "Acheter un Billet",
+    "ctaButtonOpen": "Acheter un Billet",
+    "ctaButtonClose": "Masquer la Section"
+
   },
 
   "comingSoon": {

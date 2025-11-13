@@ -819,7 +819,7 @@
     "ctaBody": "Biletinizi ayırtın ve sinemanın büyülü atmosferinin bir parçası olun.",
     "ctaBtn": "Bilet Al",
     "ctaButtonOpen": "Bilet Al",
-  "ctaButtonClose": "Bölümü Gizle"
+    "ctaButtonClose": "Bölümü Gizle"
   },
   "campaigns": {
     "heroTitle": "CineTime Kampanyaları",
@@ -863,7 +863,9 @@
     },
     "ctaTitle": "Kampanyalardan Yararlanın",
     "ctaBody": "Fırsatları kaçırmayın, biletinizi hemen alın.",
-    "ctaBtn": "Bilet Al"
+    "ctaBtn": "Bilet Al",
+    "ctaButtonOpen": "Bilet Al",
+    "ctaButtonClose": "Bölümü Gizle"
   },
 
   "comingSoon": {
