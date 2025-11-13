@@ -70,6 +70,9 @@ export default function PaymentPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  // Member Role
+   const [hasMemberRole, setHasMemberRole] = useState(true);
+   const [roleMessage, setRoleMessage] = useState("");
 
   // QR Code
   const [qrData, setQrData] = useState("");
@@ -112,25 +115,48 @@ export default function PaymentPage() {
           validateStatus: () => true,
         });
 
-        if (res.status === 200) {
-          const body = res.data?.returnBody ?? res.data ?? {};
-          const f = (body?.name || "").trim();
-          const l = (body?.surname || "").trim();
-          const em = (body?.email || "").trim();
-          const ph = (body?.phoneNumber || "").trim();
+               if (res.status === 200) {
+                 const body = res.data?.returnBody ?? res.data ?? {};
+                 const f = (body?.name || "").trim();
+                 const l = (body?.surname || "").trim();
+                 const em = (body?.email || "").trim();
+                 const ph = (body?.phoneNumber || "").trim();
 
-          if (!isMounted) return;
+                 if (!isMounted) return;
 
-          // Only set if user hasn't typed yet
-          if (!firstName && f) setFirstName(f);
-          if (!lastName && l) setLastName(l);
-          if (!email && em) setEmail(em);
-          if (!phone && ph) setPhone(ph);
+                 // Only set if user hasn't typed yet
+                 if (!firstName && f) setFirstName(f);
+                 if (!lastName && l) setLastName(l);
+                 if (!email && em) setEmail(em);
+                 if (!phone && ph) setPhone(ph);
 
-          // Suggest card holder name from profile if empty
-          const fullName = `${f} ${l}`.trim();
-          if (!cardName && fullName) setCardName(fullName);
-        }
+                 // Suggest card holder name from profile if empty
+                 const fullName = `${f} ${l}`.trim();
+                 if (!cardName && fullName) setCardName(fullName);
+
+                 // ---- MEMBER role check ----
+                 const rawRoles = Array.isArray(body?.roles) ? body.roles : [];
+                 const normalizedRoles = rawRoles
+                   .map((r) => {
+                     if (typeof r === "string") return r.toUpperCase();
+                     if (r && typeof r === "object") {
+                       if (typeof r.roleName === "string")
+                         return r.roleName.toUpperCase();
+                       if (typeof r.name === "string")
+                         return r.name.toUpperCase();
+                     }
+                     return String(r || "").toUpperCase();
+                   })
+                   .filter(Boolean);
+
+                 const isMember = normalizedRoles.includes("MEMBER");
+                 setHasMemberRole(isMember);
+                 setRoleMessage(
+                   isMember
+                     ? ""
+                     : "You have to be a MEMBER to purchase a ticket."
+                 );
+               }
       } catch (_e) {
         // ignore prefill failures; do not block checkout
       }
@@ -172,93 +198,185 @@ export default function PaymentPage() {
       ));
   }, [order]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!order) return;
-    if (!policy) {
-      setError("Lütfen gizlilik/politika kutucuğunu onaylayın.");
-      return;
-    }
+    const digitsOnly = (value) => (value || "").replace(/\D/g, "");
+      const validateCardFields = (cardNumber, expMonth, expYear, cvc) => {
+        const cleanedCardNumber = digitsOnly(cardNumber);
+        const cleanedExpMonth = digitsOnly(expMonth);
+        const cleanedExpYear = digitsOnly(expYear);
+        const cleanedCvc = digitsOnly(cvc);
 
-    setSubmitting(true);
-    setError(null);
-    setSuccess(null);
+        // Card number: if present, must be exactly 16 digits
+        if (cleanedCardNumber && cleanedCardNumber.length !== 16) {
+          return "Lütfen 16 haneli bir kart numarası girin.";
+        }
 
-    try {
-      // Deterministic idempotency key
-      const idempotencyKey = [
-        "BUY",
-        order.cinemaId,
-        order.movieId,
-        order.hall,
-        order.date,
-        order.time,
-        order.seats.slice().sort().join("_"),
-      ].join("-");
+        // Expiry month: when 2 digits entered, validate range 01-12
+        if (cleanedExpMonth && cleanedExpMonth.length === 2) {
+          const month = parseInt(cleanedExpMonth, 10);
+          if (Number.isNaN(month) || month < 1 || month > 12) {
+            return "Geçerli bir ay (01-12) girin.";
+          }
+        }
 
-      // Optimistically set QR data
-      setQrData(idempotencyKey);
+        // Expiry year: when 4 digits entered, validate format + not past
+        if (cleanedExpYear && cleanedExpYear.length === 4) {
+          const year = parseInt(cleanedExpYear, 10);
+          if (Number.isNaN(year)) {
+            return "Geçerli bir yıl (YYYY) girin.";
+          }
 
-      // Backend payload
-      const payload = {
-        movieName: order.movieTitle,
-        cinema: order.cinemaName,
-        hall: order.hall,
-        date: order.date,
-        showtime: order.time,
-        seatInformation: order.seats.map((s) => ({
-          seatLetter: s[0],
-          seatNumber: Number(s.slice(1)),
-        })),
-        pricing: order.pricing, // { unitPrice: 9.99, currency: "USD", total, seats }
-        purchaser: { firstName, lastName, phone, email }, // optional
-        card: { cardName, cardNumber, expMonth, expYear, cvc }, // optional
+          if (cleanedExpMonth.length === 2) {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth() + 1; // 1-12
+            const month = parseInt(cleanedExpMonth, 10);
+
+            if (
+              year < currentYear ||
+              (year === currentYear && month < currentMonth)
+            ) {
+              return "Kart son kullanma tarihi geçmiş görünüyor.";
+            }
+          }
+        }
+
+        // CVC: if present, must be 3–4 digits
+        if (cleanedCvc && (cleanedCvc.length < 3 || cleanedCvc.length > 4)) {
+          return "Geçerli bir CVC/CVV girin.";
+        }
+
+        return null;
       };
 
-      const headers = authHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Idempotency-Key": idempotencyKey,
-      });
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      if (!order) return;
 
-      const res = await axios.post(`${API}/tickets/buy-ticket`, payload, {
-        headers,
-        validateStatus: () => true,
-      });
+      // Normalize numeric card fields
+      const cleanedCardNumber = digitsOnly(cardNumber);
+      const cleanedExpMonth = digitsOnly(expMonth);
+      const cleanedExpYear = digitsOnly(expYear);
+      const cleanedCvc = digitsOnly(cvc);
 
-      if (res.status === 401) {
-        setError("Unauthorized (401). Giriş gerekli olabilir.");
-        setSubmitting(false);
-        return;
-      }
-      if (res.status >= 400) {
-        setError(res.data?.message || `Ödeme başarısız: ${res.status}`);
-        setSubmitting(false);
+      // Policy must be accepted
+      if (!policy) {
+        setError("Lütfen gizlilik/politika kutucuğunu onaylayın.");
         return;
       }
 
-      clearPendingOrder();
-      const rb = res.data?.returnBody;
-      setSuccess(rb || { message: "Ödeme başarılı." });
-
-      const backendQr =
-        rb?.qrData ||
-        rb?.ticketCode ||
-        (rb?.paymentId != null ? String(rb.paymentId) : null) ||
-        idempotencyKey;
-
-      if (backendQr) {
-        setQrData(backendQr);
-      } else {
-        setQrData(buildFallbackQr());
+      // Basic required checks (empty fields)
+      if (!cleanedCardNumber) {
+        setError("Lütfen 16 haneli bir kart numarası girin.");
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      setError("Ödeme sırasında bir hata oluştu. Lütfen tekrar deneyin.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+
+      if (!cleanedExpMonth || !cleanedExpYear) {
+        setError("Geçerli bir son kullanma tarihi girin.");
+        return;
+      }
+
+      if (!cleanedCvc) {
+        setError("Geçerli bir CVC/CVV girin.");
+        return;
+      }
+
+      // Detailed validation (also used for live validation)
+      const validationError = validateCardFields(
+        cardNumber,
+        expMonth,
+        expYear,
+        cvc
+      );
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+
+      setSubmitting(true);
+      setError(null);
+      setSuccess(null);
+
+      try {
+        // Deterministic idempotency key
+        const idempotencyKey = [
+          "BUY",
+          order.cinemaId,
+          order.movieId,
+          order.hall,
+          order.date,
+          order.time,
+          order.seats.slice().sort().join("_"),
+        ].join("-");
+
+        // Optimistically set QR data
+        setQrData(idempotencyKey);
+
+        // Backend payload
+        const payload = {
+          movieName: order.movieTitle,
+          cinema: order.cinemaName,
+          hall: order.hall,
+          date: order.date,
+          showtime: order.time,
+          seatInformation: order.seats.map((s) => ({
+            seatLetter: s[0],
+            seatNumber: Number(s.slice(1)),
+          })),
+          pricing: order.pricing, // { unitPrice: 9.99, currency: "USD", total, seats }
+          purchaser: { firstName, lastName, phone, email }, // optional
+          card: {
+            cardName,
+            cardNumber: cleanedCardNumber,
+            expMonth: cleanedExpMonth,
+            expYear: cleanedExpYear,
+            cvc: cleanedCvc,
+          }, // optional
+        };
+
+        const headers = authHeaders({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Idempotency-Key": idempotencyKey,
+        });
+
+        const res = await axios.post(`${API}/tickets/buy-ticket`, payload, {
+          headers,
+          validateStatus: () => true,
+        });
+
+        if (res.status === 401) {
+          setError("Unauthorized (401). Giriş gerekli olabilir.");
+          setSubmitting(false);
+          return;
+        }
+        if (res.status >= 400) {
+          setError(res.data?.message || `Ödeme başarısız: ${res.status}`);
+          setSubmitting(false);
+          return;
+        }
+
+        clearPendingOrder();
+        const rb = res.data?.returnBody;
+        setSuccess(rb || { message: "Ödeme başarılı." });
+
+        const backendQr =
+          rb?.qrData ||
+          rb?.ticketCode ||
+          (rb?.paymentId != null ? String(rb.paymentId) : null) ||
+          idempotencyKey;
+
+        if (backendQr) {
+          setQrData(backendQr);
+        } else {
+          setQrData(buildFallbackQr());
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Ödeme sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+      } finally {
+        setSubmitting(false);
+      }
+    };
 
   if (!order) {
     return (
@@ -451,7 +569,17 @@ export default function PaymentPage() {
                     <Form.Control
                       placeholder="Kart Numarası"
                       value={cardNumber}
-                      onChange={(e) => setCardNumber(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setCardNumber(value);
+                        const err = validateCardFields(
+                          value,
+                          expMonth,
+                          expYear,
+                          cvc
+                        );
+                        setError(err);
+                      }}
                       required
                       inputMode="numeric"
                     />
@@ -460,7 +588,17 @@ export default function PaymentPage() {
                     <Form.Control
                       placeholder="AA"
                       value={expMonth}
-                      onChange={(e) => setExpMonth(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setExpMonth(value);
+                        const err = validateCardFields(
+                          cardNumber,
+                          value,
+                          expYear,
+                          cvc
+                        );
+                        setError(err);
+                      }}
                       required
                       inputMode="numeric"
                     />
@@ -469,7 +607,17 @@ export default function PaymentPage() {
                     <Form.Control
                       placeholder="YYYY"
                       value={expYear}
-                      onChange={(e) => setExpYear(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setExpYear(value);
+                        const err = validateCardFields(
+                          cardNumber,
+                          expMonth,
+                          value,
+                          cvc
+                        );
+                        setError(err);
+                      }}
                       required
                       inputMode="numeric"
                     />
@@ -478,7 +626,17 @@ export default function PaymentPage() {
                     <Form.Control
                       placeholder="CVV"
                       value={cvc}
-                      onChange={(e) => setCvc(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setCvc(value);
+                        const err = validateCardFields(
+                          cardNumber,
+                          expMonth,
+                          expYear,
+                          value
+                        );
+                        setError(err);
+                      }}
                       required
                       inputMode="numeric"
                     />
@@ -498,7 +656,7 @@ export default function PaymentPage() {
                 <Button
                   type="submit"
                   variant="warning"
-                  disabled={submitting}
+                  disabled={submitting || !hasMemberRole}
                   className="w-100"
                 >
                   {submitting ? (
@@ -515,6 +673,9 @@ export default function PaymentPage() {
                     `Devam Et — ${formatUSD(order.pricing.total)}`
                   )}
                 </Button>
+                {!hasMemberRole && roleMessage && (
+                  <div className="mt-2 text-danger small">{roleMessage}</div>
+                )}
               </Form>
             ) : (
               <div className="p-4 bg-dark rounded border border-success-subtle">
