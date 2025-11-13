@@ -6,6 +6,7 @@ import { Form, Button, Alert, Spinner, Badge } from "react-bootstrap";
 import { loadPendingOrder, clearPendingOrder } from "@/lib/utils/checkout";
 import { API_BASE as API, authHeaders } from "@/lib/utils/http";
 import { useAuth } from "@/components/providers/AuthProvider";
+import QRCode from "react-qr-code";
 
 // --- UI helpers ---
 const fmtDateLong = (dateStr) => {
@@ -69,6 +70,9 @@ export default function PaymentPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  // QR Code
+  const [qrData, setQrData] = useState("");
 
   // Form fields
   const [firstName, setFirstName] = useState("");
@@ -137,6 +141,25 @@ export default function PaymentPage() {
     };
   }, [API]);
 
+  // Helper: deterministic QR payload builder
+  const buildFallbackQr = () => {
+    if (!order) return "";
+    try {
+      const sortedSeats = (order.seats || []).slice().sort().join("_");
+      return [
+        "TICKET",
+        order.cinemaId,
+        order.movieId,
+        order.hall,
+        order.date,
+        order.time,
+        sortedSeats,
+      ].join("-");
+    } catch {
+      return "";
+    }
+  };
+
   const seatBadges = useMemo(() => {
     if (!order?.seats?.length) return null;
     return order.seats
@@ -172,6 +195,9 @@ export default function PaymentPage() {
         order.time,
         order.seats.slice().sort().join("_"),
       ].join("-");
+
+      // Optimistically set QR data
+      setQrData(idempotencyKey);
 
       // Backend payload
       const payload = {
@@ -212,7 +238,20 @@ export default function PaymentPage() {
       }
 
       clearPendingOrder();
-      setSuccess(res.data?.returnBody || { message: "Ödeme başarılı." });
+      const rb = res.data?.returnBody;
+      setSuccess(rb || { message: "Ödeme başarılı." });
+
+      const backendQr =
+        rb?.qrData ||
+        rb?.ticketCode ||
+        (rb?.paymentId != null ? String(rb.paymentId) : null) ||
+        idempotencyKey;
+
+      if (backendQr) {
+        setQrData(backendQr);
+      } else {
+        setQrData(buildFallbackQr());
+      }
     } catch (err) {
       console.error(err);
       setError("Ödeme sırasında bir hata oluştu. Lütfen tekrar deneyin.");
@@ -264,14 +303,22 @@ export default function PaymentPage() {
                 )}
               </div>
 
-              {/* QR placeholder */}
+              {/* QR Code */}
               <div className="d-flex justify-content-center my-3">
-                <div className="qr-circle">
-                  <img
-                    src="/images/qr-placeholder.png"
-                    alt="QR Code"
-                    className="qr-img"
-                  />
+                <div className="qr-circle d-flex align-items-center justify-content-center">
+                  {success || qrData ? (
+                    <QRCode
+                      value={qrData || buildFallbackQr()}
+                      size={104}
+                      viewBox="0 0 104 104"
+                    />
+                  ) : (
+                    <img
+                      src="/images/qr-placeholder.png"
+                      alt="QR Code"
+                      className="qr-img"
+                    />
+                  )}
                 </div>
               </div>
 
