@@ -1269,7 +1269,8 @@
     "successCreateMovie": "Film créé avec succès.",
     "needAdminToEdit": "Vous devez être un administrateur pour modifier",
     "needAdminToDelete": "Vous devez être un administrateur pour supprimer",
-    "needAdmin": "Vous devez être un administrateur"
+    "needAdmin": "Vous devez être un administrateur",
+    "fillRequiredFields": "Veuillez remplir les champs obligatoires."
   },
 
   "users": {
