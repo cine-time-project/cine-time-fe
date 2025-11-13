@@ -79,15 +79,19 @@ function pickFromImages(images = []) {
 
 /** BE -> UI normalize */
 function normalizeMovie(dto = {}) {
-  // 1) images içinden poster id'sini al (poster=true / isPoster=true / ilk görsel)
-  const imgId =
-    dto?.images?.find?.(x => x?.poster === true || x?.isPoster === true)?.id ??
-    dto?.images?.[0]?.id ??
-    null;
+  // 0) images içinden poster+backdrop URL’ini çek
+  const { poster: imgPoster, backdrop: imgBackdrop } = pickFromImages(dto.images);
 
-  // 2) backend’in verdiği posterUrl/backdropUrl vs (fallback için)
-  const posterRaw   = dto.posterUrl   || dto.poster   || dto.posterPath   || null;
-  const backdropRaw = dto.backdropUrl || dto.backdrop || dto.backdropPath || dto.heroImage || null;
+  // 1) backend’in verdiği poster/backdrop url/path’leri (fallback için)
+  const posterRaw =
+    dto.posterUrl || dto.poster || dto.posterPath || null;
+
+  const backdropRaw =
+    dto.backdropUrl || dto.backdrop || dto.backdropPath || dto.heroImage || null;
+
+  // 2) absUrl ile hepsini mutlak hale getir
+  const posterUrl   = imgPoster   || absUrl(posterRaw);
+  const backdropUrl = imgBackdrop || absUrl(backdropRaw);
 
   return {
     id: dto.id,
@@ -96,20 +100,35 @@ function normalizeMovie(dto = {}) {
     summary: dto.summary || dto.overview,
     rating: dto.imdbRating ?? dto.rating ?? null,
     releaseDate: dto.releaseDate,
-    releaseYear: dto.releaseYear || (dto.releaseDate ? new Date(dto.releaseDate).getFullYear() : null),
+    releaseYear:
+      dto.releaseYear ||
+      (dto.releaseDate ? new Date(dto.releaseDate).getFullYear() : null),
     duration: dto.duration || dto.runtime || null,
     genres: dto.genres || dto.genre || [],
     director: dto.director,
     cast: dto.cast || dto.actors || [],
-    // 🔑 Öncelik images -> yoksa BE posterUrl
-    posterUrl: imgId ? absUrl(`/api/images/${imgId}`) : absUrl(posterRaw),
-    backdropUrl: absUrl(backdropRaw), // istersen burada da benzer öncelik kur
+
+    // 🎯 Kartlarda kullanacağın poster
+    posterUrl,
+
+    // 🎯 Hero’da kullanacağın geniş görsel
+    backdropUrl,
+
+    // İstersen ileride lazım olur diye orijinal images’ı da normalize et
+    images: Array.isArray(dto.images)
+      ? dto.images.map((img) => ({
+          ...img,
+          url: absUrl(img.url),
+        }))
+      : [],
+
     trailerUrl: dto.trailerUrl,
     status: dto.status,
     specialHalls: dto.specialHalls || "",
     formats: dto.formats || [],
   };
 }
+
 
 
 /* ===========================
