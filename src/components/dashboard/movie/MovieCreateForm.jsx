@@ -29,11 +29,22 @@ export const MovieCreateForm = ({ locale }) => {
 
   useEffect(() => {
     if (state?.message) {
-      swAlert(state.message, state.ok ? "success" : "error").then(() => {
+      let translatedMessage = state.message;
+
+      // Backend'ten gelen sabit İngilizce mesajı i18n key'ine bağla
+      if (state.message === "Movie created successfully") {
+        translatedMessage = t("successCreateMovie");
+      } else if (state.message === "Movie updated successfully") {
+        translatedMessage = t("successUpdate");
+      } else if (state.message === "Movie deleted successfully") {
+        translatedMessage = t("successDelete");
+      }
+
+      swAlert(translatedMessage, state.ok ? "success" : "error").then(() => {
         if (state.ok) window.location.href = `/${locale}/admin/movies`;
       });
     }
-  }, [state, locale]);
+  }, [state, locale, t]);
 
   useEffect(() => {
     const loadData = async () => {

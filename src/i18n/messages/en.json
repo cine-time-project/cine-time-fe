@@ -1245,7 +1245,8 @@
     "successCreateMovie": "Movie created successfully.",
     "needAdminToEdit": "You need to be an admin to edit",
     "needAdminToDelete": "You need to be an admin to delete",
-    "needAdmin": "You need to be an admin"
+    "needAdmin": "You need to be an admin",
+    "fillRequiredFields": "Please fill in the required fields."
   },
 
   "users": {

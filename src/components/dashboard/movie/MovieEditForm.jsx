@@ -35,7 +35,17 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
 
   useEffect(() => {
     if (state?.message) {
-      swAlert(state.message, state.ok ? "success" : "error");
+      let translatedMessage = state.message;
+
+      if (state.message === "Movie updated successfully") {
+        translatedMessage = t("successUpdate");
+      } else if (state.message === "Movie created successfully") {
+        translatedMessage = t("successCreateMovie");
+      } else if (state.message === "Movie deleted successfully") {
+        translatedMessage = t("successDelete");
+      }
+
+      swAlert(translatedMessage, state.ok ? "success" : "error");
       if (state.ok) {
         setTimeout(() => {
           router.push("/tr/admin/movies");
@@ -43,7 +53,7 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
         }, 1000);
       }
     }
-  }, [state, router]);
+  }, [state, router, t]);
 
   return (
     <FormContainer>
