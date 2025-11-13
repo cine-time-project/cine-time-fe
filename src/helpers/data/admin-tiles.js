@@ -49,7 +49,7 @@ export const ADMIN_TILES = [
   { key: "halls",     title: "Halls",          desc: "Salon planları, koltuk şablonları", href: "/admin/halls",       roles: ["ADMIN","EMPLOYEE"] },
   { key: "times",     title: "Showtimes",      desc: "Seans planlama ve takvim",        href: "/admin/showtimes",     roles: ["ADMIN","EMPLOYEE"] },
   { key: "images",    title: "Images",         desc: "Afiş ve görsel yönetimi",         href: "/admin/images",        roles: ["ADMIN","EMPLOYEE"] },
-  { key: "cinemaimg", title: "Cinema Images",  desc: "Sinema resimleri yönetimi",       href: "/admin/cinema-images", roles: ["ADMIN","EMPLOYEE"] },
+  // { key: "cinemaimg", title: "Cinema Images",  desc: "Sinema resimleri yönetimi",       href: "/admin/cinema-images", roles: ["ADMIN","EMPLOYEE"] },
 
   { key: "movies",    title: "Movies",         desc: "Filmler ve içerik listesi",       href: "/admin/movies",        roles: ["ADMIN","EMPLOYEE"] },
   { key: "users",     title: "Users",          desc: "Kullanıcı arama ve yönetim",      href: "/admin/users",         roles: ["ADMIN","EMPLOYEE"] },
