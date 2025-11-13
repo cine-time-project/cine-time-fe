@@ -14,6 +14,7 @@ import "primeicons/primeicons.css";
 import "./MovieListDashboardTable.scss";
 import { useTranslations } from "next-intl";
 
+
 export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   const t = useTranslations();
   const FILTERS = { ALL: "all", WITH: "with", WITHOUT: "without" };
@@ -75,15 +76,16 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
   };
 
   const editBodyTemplate = (movie) => (
-    <Button
-      icon="pi pi-pen-to-square"
-      onClick={() => console.log("Edit clicked:", movie.id)}
-      text
-       severity="warning"
-      label={t("cinemas.edit")}
-      size="large"
-    />
-  );
+  <Button
+    icon="pi pi-pen-to-square"
+    onClick={() => handleMovieEdit(movie.id)}
+    text
+    severity="warning"
+    label={t("cinemas.edit")}
+    size="large"
+  />
+);
+
 
   const indexBodyTemplate = (rowData, options) => options.rowIndex + 1;
 
@@ -98,6 +100,12 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
       className="w-24"
     />
   );
+
+const handleMovieEdit = (movieId) => {
+  console.log("Edit clicked:", movieId);
+  // burada dilediğin işlemi yapabilirsin (örneğin sayfa yönlendirmesi)
+};
+
 
   return (
     <div className="mt-4">
