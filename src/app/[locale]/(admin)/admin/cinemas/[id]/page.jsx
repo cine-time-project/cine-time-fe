@@ -1,36 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Spinner,
   Container,
   Row,
   Col,
-  OverlayTrigger,
-  Tooltip,
-  Button,
   Card,
 } from "react-bootstrap";
 
 import HallList from "@/components/dashboard/cinema/detail/HallList";
-import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
-import { CinemaReadOnlyForm } from "@/components/dashboard/cinema/detail/CinemaReadOnlyForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
-import { CinemaImageReadOnlyView } from "@/components/dashboard/cinema/detail/CinemaImageReadOnlyView";
-import { getDetailedCinema } from "@/service/cinema-service";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { BackButton } from "@/components/common/form-fields/BackButton";
 import { useTranslations } from "next-intl";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
+import { useAuth } from "@/lib/auth/useAuth";
+import MovieListDashboardTable from "@/components/dashboard/cinema/detail/MovieListDashboardTable";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
   const { id } = useParams();
-  const searchParams = useSearchParams();
-  const editMode = searchParams.get("editMode") === "true";
-
+  const { token } = useAuth();
   const tCinemas = useTranslations("cinemas");
 
   // -----------------------------
@@ -40,15 +33,8 @@ export default function AdminCinemaDetailPage() {
     cinema,
     loading,
     canEdit, // Determines if user has edit permissions
-    isEditMode, // Toggles edit vs read-only UI
-    toggleEditMode,
     refreshCinema, // Function to refetch & refresh cinema data
   } = useCinemaDetails(id);
-
-  //If ADMIN came from new Cinema Registration page, turn on editMode automatically.
-  useEffect(() => {
-    if (editMode && canEdit) toggleEditMode();
-  }, []);
 
   if (loading)
     return (
@@ -68,27 +54,7 @@ export default function AdminCinemaDetailPage() {
       {/* Page header */}
       <PageHeader
         title={tCinemas("cinemaDetails")}
-        leftActions={<BackButton />}
-        rightActions={
-          canEdit ? (
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>{tCinemas("edit")}</Tooltip>}
-            >
-              <Button
-                onClick={toggleEditMode}
-                className="btn rounded shadow-sm"
-                variant={isEditMode ? "secondary" : "warning"}
-              >
-                <i
-                  className={`pi ${isEditMode ? "pi-times" : "pi-file-edit"}`}
-                  style={{ fontSize: 20 }}
-                />{" "}
-                {tCinemas("edit")}
-              </Button>
-            </OverlayTrigger>
-          ) : null
-        }
+        leftActions={<BackButton title={tCinemas("back")} />}
       />
 
       <Card
@@ -112,33 +78,24 @@ export default function AdminCinemaDetailPage() {
           <Row>
             {/* Left column: Cinema image management (upload or read-only view) */}
             <Col md={6}>
-              {isEditMode ? (
-                <CinemaImageUploader
-                  tCinemas={tCinemas}
-                  cinema={cinema}
-                  onUpdateCinema={async () => {
-                    refreshCinema();
-                    return fresh;
-                  }}
-                />
-              ) : (
-                <CinemaImageReadOnlyView cinema={cinema} tCinemas={tCinemas} />
-              )}
+              <CinemaImageUploader
+                tCinemas={tCinemas}
+                cinema={cinema}
+                refreshCinema={refreshCinema}
+                token={token}
+              />
             </Col>
 
             {/* Right column: Cinema form or read-only view */}
             <Col md={6}>
-              {isEditMode ? (
-                <CinemaForm
-                  tCinemas={tCinemas}
-                  cinema={cinema}
-                  locale="en"
-                  isEditMode={true}
-                  refreshCinema // parent state update callback
-                />
-              ) : (
-                <CinemaReadOnlyForm cinema={cinema} tCinemas={tCinemas} />
-              )}
+              <CinemaForm
+                token={token}
+                tCinemas={tCinemas}
+                cinema={cinema}
+                locale="en"
+                isEditMode={true}
+                refreshCinema={refreshCinema} // parent state update callback
+              />
             </Col>
           </Row>
         </Card.Body>
@@ -146,14 +103,15 @@ export default function AdminCinemaDetailPage() {
 
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieList movies={cinema.movies || []} tCinemas={tCinemas} />
+          <MovieListDashboardTable movies={cinema.movies || []} tCinemas={tCinemas} />
         </Col>
 
         <Col xs={12}>
           <HallList
-            cinema={cinema}
+            halls={cinema?.halls}
             tCinemas={tCinemas}
-            isEditMode={isEditMode}
+            isEditMode={canEdit}
+            isDashboard={true}
           />
         </Col>
       </Row>

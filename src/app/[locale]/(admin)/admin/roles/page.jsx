@@ -35,7 +35,8 @@ export default function AdminRolesPage() {
   );
 
   const L = useMemo(() => {
-    return (rest = "") => (rest ? `/${locale}/${rest.replace(/^\/+/,'')}` : `/${locale}`);
+    return (rest = "") =>
+      rest ? `/${locale}/${rest.replace(/^\/+/, "")}` : `/${locale}`;
   }, [locale]);
 
   useEffect(() => {
@@ -44,7 +45,6 @@ export default function AdminRolesPage() {
 
   // ========= Data Fetch =========
   useEffect(() => {
-    console.log(isAdmin());
     let cancelled = false;
     async function load() {
       setLoading(true);
@@ -60,9 +60,7 @@ export default function AdminRolesPage() {
         }
       } catch (e) {
         if (!cancelled)
-          setError(
-            e?.response?.data?.message || e?.message || t("loadError")
-          );
+          setError(e?.response?.data?.message || e?.message || t("loadError"));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -111,7 +109,9 @@ export default function AdminRolesPage() {
     }).join("");
 
     const { isConfirmed } = await Swal.fire({
-      title: t("swal.editTitle", { name: `${user.name ?? ''} ${user.surname ?? ''}`.trim() }),
+      title: t("swal.editTitle", {
+        name: `${user.name ?? ""} ${user.surname ?? ""}`.trim(),
+      }),
       html: `<div>${optionsHtml}</div>`,
       focusConfirm: false,
       showCancelButton: true,
@@ -157,7 +157,11 @@ export default function AdminRolesPage() {
     } catch (e) {
       const msg =
         e?.response?.data?.message || e?.message || t("swal.updateFailed");
-      await Swal.fire({ icon: "error", title: t("swal.updateFailed"), text: msg });
+      await Swal.fire({
+        icon: "error",
+        title: t("swal.updateFailed"),
+        text: msg,
+      });
     }
   }
 
@@ -212,10 +216,16 @@ export default function AdminRolesPage() {
                     <td>{(page - 1) * PAGE_SIZE + idx + 1}</td>
                     <td>
                       {(() => {
-                        const nameText = `${u.name ?? ''} ${u.surname ?? ''}`.trim();
+                        const nameText = `${u.name ?? ""} ${
+                          u.surname ?? ""
+                        }`.trim();
                         const uid = u.id;
                         if (!uid || !nameText) return nameText;
-                        return (<Link href={L(`admin/users/${uid}`)} prefetch>{nameText}</Link>);
+                        return (
+                          <Link href={L(`admin/users/${uid}`)} prefetch>
+                            {nameText}
+                          </Link>
+                        );
                       })()}
                     </td>
                     <td>{u.surname}</td>
@@ -239,7 +249,11 @@ export default function AdminRolesPage() {
 
           <div className="d-flex justify-content-between align-items-center">
             <small className="text-muted">
-              {t("showing", { from: (page - 1) * PAGE_SIZE + 1, to: Math.min(page * PAGE_SIZE, filtered.length), total: filtered.length })}
+              {t("showing", {
+                from: (page - 1) * PAGE_SIZE + 1,
+                to: Math.min(page * PAGE_SIZE, filtered.length),
+                total: filtered.length,
+              })}
             </small>
 
             <Pagination className="mb-0">

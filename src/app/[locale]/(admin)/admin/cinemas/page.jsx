@@ -7,6 +7,7 @@ import { useCinemas } from "@/components/dashboard/cinema/useCinemas";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import Spacer from "@/components/common/Spacer";
 import { useTranslations } from "next-intl";
+import { BackButton } from "@/components/common/form-fields/BackButton";
 
 /**
  * AdminCinemasPage
@@ -41,7 +42,7 @@ export default function AdminCinemasPage() {
 
   return (
     <div className="p-3">
-      <PageHeader title={tCinemas("listTitle")} />
+      <PageHeader title={tCinemas("listTitle")} leftActions={<BackButton title={tCinemas("back")}/>} />
       <Spacer />
       <CinemaTable
         data={cinemas}

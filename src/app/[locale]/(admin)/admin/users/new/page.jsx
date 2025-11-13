@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { config } from "@/helpers/config";
+import { useTranslations } from "next-intl";
 
 export default function NewUserPage() {
   const [form, setForm] = useState({
@@ -20,7 +21,8 @@ export default function NewUserPage() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
+  const t = useTranslations("users");
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   // 🔹 Telefon formatlama
   const formatPhone = (value) => {
@@ -88,13 +90,11 @@ export default function NewUserPage() {
 
       if (!res.ok) {
         console.error("API Hatası:", data);
-        alert(
-          data.message || JSON.stringify(data) || "Kullanıcı ekleme başarısız."
-        );
+        alert(data.message || JSON.stringify(data) || t("errorMessage"));
         return;
       }
 
-      sessionStorage.setItem("actionMessage", "Kullanıcı başarıyla eklendi!");
+      sessionStorage.setItem("actionMessage", t("successMessage"));
       router.push(`/${locale}/admin/users`);
     } catch (err) {
       alert(err.message);
@@ -105,11 +105,11 @@ export default function NewUserPage() {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">Yeni Kullanıcı Ekle</h1>
+      <h1 className="mb-4">{t("newTitle")}</h1>
 
       <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
         <div className="mb-3">
-          <label className="form-label">Ad</label>
+          <label className="form-label">{t("form.name")}</label>
           <input
             type="text"
             className="form-control"
@@ -121,7 +121,7 @@ export default function NewUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Soyad</label>
+          <label className="form-label">{t("form.surname")}</label>
           <input
             type="text"
             className="form-control"
@@ -133,7 +133,7 @@ export default function NewUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Email</label>
+          <label className="form-label">{t("form.email")}</label>
           <input
             type="email"
             className="form-control"
@@ -145,7 +145,7 @@ export default function NewUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Şifre</label>
+          <label className="form-label">{t("form.password")}</label>
           <input
             type="password"
             className="form-control"
@@ -157,7 +157,7 @@ export default function NewUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Telefon</label>
+          <label className="form-label">{t("form.phone")}</label>
           <input
             type="text"
             className="form-control"
@@ -171,7 +171,7 @@ export default function NewUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Cinsiyet</label>
+          <label className="form-label">{t("form.gender")}</label>
           <select
             className="form-select"
             name="gender"
@@ -179,29 +179,29 @@ export default function NewUserPage() {
             onChange={handleChange}
             required
           >
-            <option value="">Seçiniz</option>
-            <option value="MALE">Erkek</option>
-            <option value="FEMALE">Kadın</option>
+            <option value="">{t("form.selectOption")}</option>
+            <option value="MALE">{t("genders.MALE")}</option>
+            <option value="FEMALE">{t("genders.FEMALE")}</option>
           </select>
         </div>
 
         {/* ✅ Rol seçimi */}
         <div className="mb-3">
-          <label className="form-label">Rol</label>
+          <label className="form-label">{t("form.role")}</label>
           <select
             className="form-select"
             name="role"
             value={form.role}
             onChange={handleChange}
           >
-            <option value="MEMBER">Member</option>
-            <option value="EMPLOYEE">Employee</option>
-            <option value="ADMIN">Admin</option>
+            <option value="MEMBER">{t("roles.MEMBER")}</option>
+            <option value="EMPLOYEE">{t("roles.EMPLOYEE")}</option>
+            <option value="ADMIN">{t("roles.ADMIN")}</option>
           </select>
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Doğum Tarihi</label>
+          <label className="form-label">{t("form.birthDate")}</label>
           <input
             type="date"
             className="form-control"
@@ -219,14 +219,14 @@ export default function NewUserPage() {
             disabled={loading}
             style={{ backgroundColor: "#f26522", border: "none" }}
           >
-            {loading ? "Kaydediliyor..." : "Kaydet"}
+            {loading ? t("form.saving") : t("saveButton")}
           </button>
 
           <Link
             href={`/${locale}/admin/users`}
             className="btn btn-outline-secondary"
           >
-            ← Kullanıcılara Dön
+            {t("backButton")}
           </Link>
         </div>
       </form>

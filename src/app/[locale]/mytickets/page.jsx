@@ -249,8 +249,6 @@ export default function PastTicketsPage() {
         params: { page: p, size: PAGE_SIZE },
       });
 
-      if (DEBUG) console.log("passed-tickets raw:", res.data);
-
       if (res.status === 401)
         throw new Error("Unauthorized. Please sign in again.");
       if (res.status >= 400)
@@ -287,8 +285,6 @@ export default function PastTicketsPage() {
         headers: { Accept: "application/json", ...authHeadersFromAuth(user) },
         params: { page: p, size: PAGE_SIZE }, // fine even if backend ignores it
       });
-
-      if (DEBUG) console.log("current-tickets raw:", res.data);
 
       if (res.status === 401)
         throw new Error("Unauthorized. Please sign in again.");
@@ -448,7 +444,7 @@ export default function PastTicketsPage() {
         }
         .ticket-card__title {
           margin: 0;
-          color: #fff;
+          color: rgba(255,255,255,0.92) !important;
           font-weight: 700;
           font-size: 14px;
           line-height: 1.25;
@@ -456,6 +452,14 @@ export default function PastTicketsPage() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+        .ticket-card__body :global(.text-secondary.small) {
+          color: rgba(255,255,255,0.92) !important;
+        }
+        /* Force all text inside the ticket body to white */
+        .ticket-card,
+        .ticket-card__body * {
+          color: rgba(255,255,255,0.92) !important;
         }
         :global(.badge) {
           font-size: 11px;
@@ -467,6 +471,16 @@ export default function PastTicketsPage() {
             grid-template-columns: 1fr;
           }
         }
+ 
+.mb-1 {
+    color: rgba(255,255,255,0.92) !important;
+  }
+
+  .h4.mb-3 {
+    color: rgba(255,255,255,0.92) !important;
+  }
+ 
+
       `}</style>
     </div>
   );

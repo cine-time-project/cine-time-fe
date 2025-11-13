@@ -1,42 +1,42 @@
 {
   "app": {
     "name": "CineTime",
-    "tagline": "Système de cinéma et de billets"
+    "tagline": "Cinéma & Système de Billetterie"
   },
 
   "nav": {
     "home": "Accueil",
     "movies": "Films",
     "cinemas": "Cinémas",
-    "comingsoon": "Bientôt",
+    "comingsoon": "Prochainement",
     "events": "Événements",
     "campaigns": "Campagnes",
     "contact": "Contact",
     "favorites": "Mes Favoris",
     "account": "Compte",
     "login": "Connexion",
-    "register": "Inscription",
+    "register": "S'inscrire",
     "logout": "Déconnexion",
     "myTickets": "Mes Billets",
-    "buy": "Acheter un billet",
+    "buy": "Acheter un Billet",
     "search": "Rechercher",
-    "about": "À propos"
+    "about": "À Propos"
   },
 
   "footer": {
     "sections": {
       "quickLinks": {
-        "title": "Liens rapides"
+        "title": "Liens Rapides"
       },
       "premiumCinemas": {
-        "title": "Salles premium"
+        "title": "Salles Premium"
       },
       "contact": {
         "title": "Contact"
       },
       "newsletter": {
-        "title": "Actualités cinéma",
-        "description": "Recevez en avant-première les dernières sorties et nos offres exclusives."
+        "title": "Actualités Cinéma",
+        "description": "Soyez le premier informé des dernières sorties et offres exclusives."
       },
       "social": {
         "title": "Suivez-nous"
@@ -48,15 +48,15 @@
       "cinemas": "Cinémas",
       "campaigns": "Campagnes",
       "events": "Événements",
-      "about": "À propos",
+      "about": "À Propos",
       "contact": "Contact"
     },
     "premium": {
       "vip": "🎬 CineTime VIP",
       "imax": "🌌 Expérience IMAX",
-      "fourdx": "💨 Salle 4DX dynamique",
+      "fourdx": "💨 Salle 4DX Motion",
       "dolby": "🔊 Dolby Atmos",
-      "family": "👨‍👩‍👧‍👦 Salon famille"
+      "family": "👨‍👩‍👧‍👦 Salon Familial"
     },
     "contact": {
       "address": "Istanbul, Turquie",
@@ -65,12 +65,13 @@
     },
     "newsletter": {
       "placeholder": "Entrez votre adresse e-mail",
-      "button": "S’abonner"
+      "button": "S'abonner"
     },
     "legal": {
       "rights": "CineTime. Tous droits réservés."
     }
   },
+
   "common": {
     "name": "Nom",
     "note": "Note",
@@ -96,14 +97,21 @@
     "showMore": "Afficher plus",
     "showLess": "Afficher moins",
     "retry": "Réessayer",
-    "minutes": "min"
+    "minutes": "min",
+    "new": "Nouveau",
+    "search": "Rechercher",
+    "page": "Page",
+    "total": "Total",
+    "rows": "Lignes",
+    "actions": "Actions",
+    "create": "Créer"
   },
 
   "status": {
     "active": "Actif",
     "inactive": "Inactif",
-    "upcoming": "Bientôt",
-    "nowShowing": "À l’affiche",
+    "upcoming": "Prochainement",
+    "nowShowing": "À l'affiche",
     "ended": "Terminé",
     "paid": "Payé",
     "unpaid": "Non payé",
@@ -113,13 +121,13 @@
 
   "forms": {
     "email": "E-mail",
-    "emailOrPhone": "Téléphone portable / E-mail",
+    "emailOrPhone": "Numéro de mobile / E-mail",
     "password": "Mot de passe",
-    "passwordRepeat": "Mot de passe (Répétition)",
+    "passwordRepeat": "Mot de passe (Répéter)",
     "currentPassword": "Mot de passe actuel",
     "newPassword": "Nouveau mot de passe",
-    "name": "Prénom",
-    "surname": "Nom",
+    "name": "Nom",
+    "surname": "Prénom",
     "phone": "Téléphone",
     "city": "Ville",
     "date": "Date",
@@ -129,37 +137,37 @@
     "searchPlaceholder": "Rechercher un film, un cinéma ou une ville...",
     "optional": "Optionnel",
     "birthDate": "Date de naissance",
-    "gender": "Sexe",
+    "gender": "Genre",
     "genderFemale": "Femme",
     "genderMale": "Homme",
     "day": "Jour",
     "month": "Mois",
     "year": "Année",
     "verificationCode": "Code de vérification",
-    "confirmPassword": "Confirmation du mot de passe"
+    "confirmPassword": "Confirmer le mot de passe"
   },
 
   "validation": {
     "required": "Ce champ est obligatoire",
-    "email": "Saisissez une adresse e-mail valide",
+    "email": "Entrez un e-mail valide",
     "minLength": "Au moins {min} caractères",
-    "maxLength": "Au maximum {max} caractères",
+    "maxLength": "Au plus {max} caractères",
     "passwordMismatch": "Les mots de passe ne correspondent pas",
-    "invalidPhone": "Saisissez un numéro de téléphone valide",
-    "phoneFormat": "Le format du téléphone doit être « {format} »"
+    "invalidPhone": "Entrez un numéro de téléphone valide",
+    "phoneFormat": "Le format du téléphone doit être '{format}'"
   },
 
   "pagination": {
     "prev": "Précédent",
     "next": "Suivant",
     "page": "Page",
-    "of": "sur"
+    "of": "de"
   },
 
   "search": {
     "title": "Recherche",
     "results": "Résultats de recherche",
-    "noResults": "Aucun résultat trouvé.",
+    "noResults": "Aucun résultat ne correspond à votre recherche.",
     "filters": "Filtres",
     "sort": "Trier"
   },
@@ -179,39 +187,40 @@
 
   "auth": {
     "loginEyebrow": "CineTime",
-    "loginWelcome": "Bienvenue chez CineTime",
+    "loginWelcome": "Bienvenue sur CineTime",
     "titleLogin": "Connexion",
     "titleRegister": "Créer un compte",
     "titleReset": "Réinitialiser le mot de passe",
-    "loginDescription": "Rejoignez l’expérience CineTime et découvrez des avantages exclusifs en vous connectant.",
+    "loginDescription": "Rejoignez l'expérience CineTime et explorez les avantages exclusifs en vous connectant.",
     "login": "Connexion",
     "loggingIn": "Connexion en cours...",
     "register": "S'inscrire",
     "logout": "Déconnexion",
     "forgotPassword": "Mot de passe oublié",
     "haveAccount": "Vous avez déjà un compte ?",
-    "noAccount": "Vous n’avez pas de compte ?",
+    "noAccount": "Vous n'avez pas de compte ?",
     "or": "ou",
     "withGoogle": "Continuer avec Google",
     "successLogin": "Connexion réussie.",
     "googleLogin": "Continuer avec Google",
     "emailSent": "E-mail envoyé.",
     "invalidCredentials": "E-mail ou mot de passe invalide.",
-    "locked": "Compte bloqué. Veuillez réessayer plus tard.",
+    "locked": "Compte verrouillé. Veuillez réessayer plus tard.",
     "notRobot": "Je ne suis pas un robot",
     "captchaNote": "Cette session est protégée par la technologie Google reCAPTCHA.",
     "registerEyebrow": "CINE TIME CLUB",
-    "registerWelcome": "Rejoignez le CineTime Club",
-    "registerDescription": "Créez votre compte CineTime Club ; gérez vos billets, restez informé des promotions et profitez d’avantages exclusifs.",
+    "registerWelcome": "Rejoignez CineTime Club",
+    "registerDescription": "Créez votre compte CineTime Club ; gérez vos billets, restez informé des campagnes et profitez de privilèges cinéma exclusifs.",
     "registerCta": "S'inscrire",
     "registering": "Inscription en cours...",
-    "successRegister": "Inscription réussie.",
+    "successRegister": "Inscription terminée avec succès.",
     "accountExists": "Un compte avec cet e-mail existe déjà.",
     "registerMarketingSms": "Je souhaite recevoir des notifications par SMS.",
+    "loginRequired": "Connexion requise",
     "registerMarketingEmail": "Je souhaite recevoir des notifications par e-mail.",
-    "registerPrivacy": "CineTime Digital Services traite mes données personnelles conformément à la <lawLink>loi n°6698 sur la protection des données personnelles</lawLink> avec mon consentement.",
+    "registerPrivacy": "CineTime Digital Services Inc. traite mes données personnelles conformément à <lawLink>la loi n° 6698 sur la protection des données personnelles</lawLink> avec mon consentement.",
     "birthDate": "Date de naissance",
-    "gender": "Sexe",
+    "gender": "Genre",
     "genderFemale": "Femme",
     "genderMale": "Homme",
     "day": "Jour",
@@ -222,11 +231,11 @@
     "forgot": {
       "tab": "Mot de passe oublié",
       "title": "Mot de passe oublié ?",
-      "subtitle": "Saisissez votre adresse e-mail pour recevoir un lien de réinitialisation.",
+      "subtitle": "Entrez votre adresse e-mail pour recevoir un lien de réinitialisation.",
       "submit": "Envoyer le lien",
       "success": "Si un compte existe pour cet e-mail, un lien de réinitialisation a été envoyé.",
       "notFound": "Aucun compte trouvé avec cet e-mail.",
-      "rateLimit": "Trop de tentatives. Veuillez réessayer plus tard."
+      "rateLimit": "Trop de demandes. Veuillez réessayer plus tard."
     },
 
     "reset": {
@@ -249,38 +258,60 @@
 
     "errors": {
       "email": {
-        "already_in_use": "L'adresse e-mail est déjà utilisée."
+        "already_in_use": "E-mail déjà utilisé."
       }
     }
   },
 
   "logout": {
     "eyebrow": "CINE TIME CLUB",
-    "title": "Déconnectez-vous de votre compte",
-    "subtitle": "Vous êtes sur le point de vous déconnecter. Confirmer ?",
+    "title": "Se déconnecter de votre compte",
+    "subtitle": "Vous êtes sur le point de vous déconnecter. Êtes-vous sûr ?",
     "cta": "Se déconnecter",
-    "processing": "Déconnexion en cours…",
-    "cancel": "Annuler et revenir à l’accueil",
+    "processing": "Déconnexion...",
+    "cancel": "Annuler et retourner à l'accueil",
     "doneTitle": "À bientôt !",
-    "doneSubtitle": "Vous vous êtes déconnecté(e) en toute sécurité.",
+    "doneSubtitle": "Vous vous êtes déconnecté en toute sécurité.",
     "loginAgain": "Se reconnecter",
-    "redirecting": "Redirection dans un instant…",
+    "redirecting": "Vous serez redirigé sous peu…",
     "login": "Se connecter",
     "register": "S'inscrire",
-    "error": "Une erreur est survenue lors de la déconnexion.",
-    "loginRequired": "Connexion requise"
+    "error": "Une erreur s'est produite lors de la déconnexion."
   },
 
   "account": {
-    "title": "Mon compte",
+    "title": "Mon Compte",
     "profile": "Profil",
     "security": "Sécurité",
-    "orders": "Mes commandes",
+    "orders": "Mes Commandes",
     "favorites": "Favoris",
     "updateProfile": "Mettre à jour le profil",
     "changePassword": "Changer le mot de passe",
     "deleteAccount": "Supprimer le compte",
-    "saved": "Profil mis à jour."
+    "saved": "Profil mis à jour.",
+    "fields": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "oldPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe"
+    },
+    "hints": {
+      "phone": "ex. +15551112233"
+    },
+    "validations": {
+      "phone": "Numéro de téléphone invalide"
+    },
+    "actions": {
+      "resetPassword": "Mettre à jour le mot de passe",
+      "deleteAccount": "Supprimer mon compte"
+    },
+    "dangerZone": "Zone dangereuse",
+    "delete": {
+      "warn": "Si vous supprimez votre compte, toutes vos données seront définitivement supprimées."
+    }
   },
 
   "movies": {
@@ -292,21 +323,33 @@
     "minutes": "min",
     "language": "Langue",
     "subtitles": "Sous-titres",
-    "ageRating": "Classification",
+    "ageRating": "Classification par âge",
     "genres": "Genres",
     "releaseDate": "Date de sortie",
-    "releaseDateAfter": "Date de sortie (après)",
+    "releaseDateAfter": "Date de sortie (Après)",
     "showtimes": "Séances",
     "seeShowtimes": "Voir les séances",
     "addToFavorites": "Ajouter aux favoris",
     "removeFromFavorites": "Retirer des favoris",
     "noMovies": "Aucun film à afficher.",
-    "comingSoon": "Bientôt au cinéma",
-    "inTheaters": "Au cinéma",
+    "comingSoon": "Prochainement",
+    "inTheaters": "En salles",
     "preSale": "Prévente",
     "posterAlt": "Affiche du film",
-    "summaryEllipsis": "...",
+    "summary": "Résumé",
+    "details": "Détails",
+    "related": "Films similaires",
+    "noCast": "Aucune information sur la distribution trouvée.",
+    "nearby": "Cinémas et séances à proximité",
     "buyTicket": "Acheter un billet",
+    "trailer": "Bande-annonce",
+    "trailerAvailable": "Bande-annonce disponible - survolez pour prévisualiser",
+    "behindTheScenes": "Coulisses",
+    "share": "Partager",
+    "statusLabel": "Statut de diffusion",
+    "formats": "Format",
+    "actionsAria": "Actions du film",
+    "primeTrial": "Profitez du visionnage avec Cine Time",
     "all": "Tous",
     "rating": "Note",
     "specialHalls": "Salles spéciales",
@@ -315,9 +358,14 @@
     "invalidDate": "Date invalide",
     "retry": "Réessayer",
     "failed": "Échec du chargement des films",
+    "loginToFavorite": "Connectez-vous pour ajouter aux favoris",
+    "addedToFavoritesToast": "Ajouté aux favoris.",
+    "removedFromFavoritesToast": "Retiré des favoris.",
+    "favoritesNeutral": "Favoris",
+    "halls": "Salles spéciales",
     "status": {
-      "in_theaters": "Au cinéma",
-      "coming_soon": "Bientôt",
+      "in_theaters": "En salles",
+      "coming_soon": "Prochainement",
       "ended": "Terminé",
       "presale": "Prévente"
     }
@@ -330,17 +378,17 @@
     "features": "Caractéristiques",
     "halls": "Salles",
     "selectCinema": "Sélectionner un cinéma",
-    "noCinemas": "Aucun cinéma trouvé.",
+    "noCinemas": "Aucun cinéma trouvé à lister.",
     "findMore": "Trouver plus",
-    "locating": "Localisation en cours",
+    "locating": "Obtention de la localisation",
     "noLocation": "Localisation non disponible",
-    "noLocPermission": "Autorisation de localisation refusée",
-    "noCity": "Ville non trouvée !",
+    "noLocPermission": "Permission de localisation refusée",
+    "noCity": "Ville introuvable !",
     "searchCity": "Rechercher une ville",
     "findAround": "Trouver près de moi",
-    "location": "Emplacement",
+    "location": "Localisation",
     "cinemasLoading": "Chargement des cinémas...",
-    "noCinemaYet": "Aucun cinéma trouvé pour le moment..",
+    "noCinemaYet": "Aucun cinéma trouvé pour l'instant..",
     "search": "Rechercher",
     "details": "Détails",
     "buyTicket": "Acheter un billet",
@@ -368,7 +416,7 @@
     "selectCity": "Veuillez sélectionner une ville",
     "selectCountry": "Veuillez sélectionner un pays",
     "updateSuccessful": "Cinéma mis à jour avec succès !",
-    "enterName": "Entrez le nom du cinéma",
+    "enterName": "Entrez un nom de cinéma",
     "enterSlug": "Entrez un slug ou laissez vide",
     "update": "Mettre à jour",
     "create": "Créer",
@@ -377,7 +425,7 @@
     "countryNameRequired": "Le nom du pays est requis",
     "cityNameRequired": "Le nom de la ville est requis",
     "countryAddedSuccess": "Pays ajouté avec succès",
-    "errorAddingCountry": "Erreur lors de l’ajout du pays : ",
+    "errorAddingCountry": "Erreur lors de l'ajout du pays : ",
     "addNewCountry": "Ajouter un nouveau pays",
     "addNewCity": "Ajouter une nouvelle ville",
     "save": "Enregistrer",
@@ -396,13 +444,14 @@
     "noCinemaData": "Aucune donnée de cinéma disponible.",
     "back": "Retour",
     "noMovieForCinema": "Aucun film lié à ce cinéma.",
-    "currentMovies": "Films à l’affiche",
+    "currentMovies": "Films à l'affiche",
     "min": "min",
     "specialHall": "Salle spéciale",
     "capacity": "Capacité",
     "created": "Créé",
     "updated": "Mis à jour",
     "showtimes": "Séances",
+    "noHalls": "Aucune salle disponible",
     "noShowtimes": "Aucune séance disponible",
     "date": "Date",
     "start": "Début",
@@ -418,27 +467,43 @@
     "format": "Format",
     "price": "Prix",
     "select": "Sélectionner",
-    "noShowtimes": "Aucune séance trouvée."
+    "noShowtimes": "Aucune séance trouvée.",
+    "title": "Séances",
+    "confirmDelete": "La séance #{id} sera supprimée. Continuer ?",
+    "deleteError": "Une erreur s'est produite lors de la suppression.",
+    "filters": {
+      "cinema": "Cinéma",
+      "hall": "Salle",
+      "movie": "Film",
+      "dateFrom": "Date de début",
+      "dateTo": "Date de fin"
+    },
+    "placeholders": {
+      "searchCinema": "Rechercher un cinéma…",
+      "searchHall": "Rechercher une salle…",
+      "selectCinemaFirst": "Sélectionnez d'abord un cinéma",
+      "searchMovie": "Rechercher un film…"
+    }
   },
 
   "seats": {
-    "title": "Choix des sièges",
+    "title": "Sélection des sièges",
     "screen": "Écran",
     "selected": "Sélectionné",
     "available": "Disponible",
-    "unavailable": "Occupé",
-    "yourSeats": "Vos choix",
+    "unavailable": "Indisponible",
+    "yourSeats": "Votre sélection",
     "row": "Rangée",
     "seat": "Siège",
-    "reset": "Réinitialiser la sélection",
+    "reset": "Effacer la sélection",
     "continue": "Procéder au paiement",
-    "maxSeats": "Nombre maximum de sièges atteint."
+    "maxSeats": "Vous avez atteint le nombre maximum de sièges."
   },
 
   "tickets": {
-    "title": "Mes billets",
+    "title": "Mes Billets",
     "ticket": "Billet",
-    "code": "Code billet",
+    "code": "Code du billet",
     "movie": "Film",
     "cinema": "Cinéma",
     "date": "Date",
@@ -446,16 +511,16 @@
     "seats": "Sièges",
     "status": "Statut",
     "price": "Montant",
-    "download": "Télécharger le PDF",
-    "showQr": "Afficher le QR",
+    "download": "Télécharger PDF",
+    "showQr": "Afficher QR",
     "refund": "Annuler/Rembourser",
-    "noTickets": "Vous n’avez pas encore de billet.",
+    "noTickets": "Vous n'avez pas encore de billets.",
     "details": "Détails",
-    "subtitle": "Vous pouvez consulter ici tous vos billets achetés.",
+    "subtitle": "Vous pouvez consulter tous vos billets achetés ici.",
     "loading": "Chargement...",
-    "errorLoading": "Une erreur est survenue lors du chargement des billets.",
-    "currentTickets": "Billets Actifs",
-    "pastTickets": "Billets Passés",
+    "errorLoading": "Une erreur s'est produite lors de la récupération des données de billet.",
+    "currentTickets": "Billets actifs",
+    "pastTickets": "Billets passés",
     "noCurrent": "Aucun billet actif trouvé.",
     "noPast": "Aucun billet passé trouvé.",
     "hall": "Salle",
@@ -472,13 +537,13 @@
     "added": "Ajouté aux favoris.",
     "removed": "Retiré des favoris.",
     "loginToView": "Connectez-vous pour voir vos favoris.",
-    "browseMovies": "Parcourir les Films",
-    "totalCount": "Vous avez un total de {count} films préférés."
+    "browseMovies": "Parcourir les films",
+    "totalCount": "Vous avez un total de {count} films favoris."
   },
 
   "checkout": {
     "title": "Paiement",
-    "summary": "Récapitulatif",
+    "summary": "Résumé",
     "items": "Sélections",
     "total": "Total",
     "payNow": "Payer maintenant",
@@ -491,12 +556,12 @@
   "payment": {
     "cardName": "Nom sur la carte",
     "cardNumber": "Numéro de carte",
-    "expiry": "Date d’expiration",
+    "expiry": "Date d'expiration",
     "cvc": "CVC",
     "billingAddress": "Adresse de facturation",
-    "method": "Moyen de paiement",
+    "method": "Méthode de paiement",
     "mockPay": "Paiement test",
-    "processing": "Paiement en cours..."
+    "processing": "Traitement du paiement..."
   },
 
   "order": {
@@ -504,40 +569,41 @@
     "thanks": "Merci ! Votre billet est prêt.",
     "download": "Télécharger le billet",
     "share": "Partager",
-    "backToHome": "Retour à l’accueil"
+    "backToHome": "Retour à l'accueil"
   },
 
   "qr": {
     "title": "Code QR",
-    "instruction": "Présentez ce code QR à l’entrée."
+    "instruction": "Montrez ce code QR à l'entrée."
   },
 
   "empty": {
     "favorites": "Votre liste de favoris est vide.",
-    "tickets": "Aucun enregistrement de billet.",
-    "search": "Aucun résultat de recherche.",
+    "tickets": "Aucun enregistrement de billet pour le moment.",
+    "search": "Aucun résultat de recherche trouvé.",
     "cinemas": "Aucun cinéma disponible.",
     "movies": "Aucun film listé."
   },
 
   "errors": {
     "401": "Vous devez vous connecter pour accéder à cette ressource.",
-    "403": "Vous n’avez pas l’autorisation.",
-    "404": "Page non trouvée.",
-    "500": "Une erreur inattendue est survenue.",
+    "403": "Vous n'avez pas la permission.",
+    "404": "Page introuvable.",
+    "500": "Une erreur inattendue s'est produite.",
     "network": "Erreur réseau. Veuillez vérifier votre connexion.",
     "timeout": "La requête a expiré.",
-    "unknown": "Erreur inconnue.",
+    "unknown": "Une erreur inconnue s'est produite.",
     "required": "Ce champ est obligatoire.",
-    "min": "Saisissez au moins {min} caractères.",
-    "max": "Saisissez au maximum {max} caractères.",
-    "invalidEmail": "Veuillez saisir une adresse e-mail valide.",
+    "min": "Entrez au moins {min} caractères.",
+    "max": "Entrez au plus {max} caractères.",
+    "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
     "authRequired": "Vous devez vous connecter pour accéder à cette ressource.",
-    "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
+    "invalid": "Requête invalide. Veuillez vérifier vos informations.",
     "passwordMismatch": "Les mots de passe ne correspondent pas.",
     "invalidCode": "Code invalide ou expiré.",
-    "validationFailedForObject": "Échec de la validation pour l'objet « {object} ». Nombre d'erreurs : {count}",
-    "fetchFailed": "Échec du chargement des données. Veuillez vérifier votre connexion Internet ou le serveur.",
+    "userNotFound": "Utilisateur introuvable avec {email}",
+    "validationFailedForObject": "La validation a échoué pour object='{object}'. Nombre d'erreurs : {count}",
+    "fetchFailed": "Échec de la récupération des données. Veuillez vérifier votre connexion Internet ou le serveur.",
     "variableNotDefined": "{variable} n'est pas défini.",
     "fullAuthRequired": "Une authentification complète est requise pour accéder à cette ressource."
   },
@@ -557,28 +623,28 @@
   },
 
   "placeholders": {
-    "enterEmail": "Saisissez votre adresse e-mail",
-    "enterPassword": "Saisissez votre mot de passe",
-    "enterName": "Saisissez votre prénom",
-    "enterSurname": "Saisissez votre nom",
-    "enterPromo": "Saisissez votre code",
-    "enterEmailOrPhone": "Saisissez votre numéro de mobile ou votre adresse e-mail",
+    "enterEmail": "Entrez votre adresse e-mail",
+    "enterPassword": "Entrez votre mot de passe",
+    "enterName": "Entrez votre nom",
+    "enterSurname": "Entrez votre prénom",
+    "enterPromo": "Entrez votre code",
+    "enterEmailOrPhone": "Entrez votre numéro de mobile ou votre adresse e-mail",
     "enterPhone": "Entrez votre numéro de téléphone",
     "enterCode": "Entrez le code à 6 chiffres",
-    "repeatPassword": "Répétez le nouveau mot de passe"
+    "repeatPassword": "Répétez le mot de passe"
   },
 
   "a11y": {
-    "skipToContent": "Aller au contenu",
+    "skipToContent": "Passer au contenu",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu"
   },
 
   "about": {
-    "title": "À propos de CineTime",
-    "heroLead": "Les fondations de CineTime ont été posées au milieu des années 90, à l'époque où la projection cinématographique évoluait de l'analogique au numérique. Conçue avec une vision ouverte à l'innovation, la marque a défini l'expérience cinématographique non seulement comme une activité de visionnage, mais comme une atmosphère à part entière.",
-    "heroP2": "Notre première salle a ouvert avec une capacité de 180 sièges. Dans ce voyage qui a commencé avec des projecteurs 35 mm, le confort des spectateurs a toujours été une priorité grâce aux investissements dans la scène, l'écran et les systèmes acoustiques.",
-    "heroAlt": "Salle deluxe – sièges spacieux et éclairage d'ambiance",
+    "title": "À Propos de CineTime",
+    "heroLead": "Les fondations de CineTime ont été posées au milieu des années 90, à l'époque où la projection cinématographique est passée de l'analogique au numérique. Construit avec une vision ouverte à l'innovation, la marque a défini l'expérience cinématographique non seulement comme une activité de visionnage, mais comme une atmosphère en soi.",
+    "heroP2": "Notre première salle a ouvert avec une capacité de 180 places. Dans ce voyage qui a commencé avec des projecteurs 35 mm, le confort du spectateur a toujours été une priorité grâce aux investissements dans la scène, l'écran et les systèmes acoustiques.",
+    "heroAlt": "Salle de luxe – sièges lounge et éclairage d'ambiance",
 
     "stats": {
       "locations": "Emplacements",
@@ -587,145 +653,167 @@
     },
 
     "missionTitle": "Notre Mission",
-    "missionBody": "Nous rendons le cinéma accessible, confortable et agréable pour tous. Nous rassemblons les cinémas de votre ville sur une seule plateforme, offrant une billetterie rapide et des recommandations personnalisées.",
+    "missionBody": "Nous rendons le cinéma accessible, confortable et agréable. Nous unifions les salles de votre ville, offrons une billetterie rapide et des choix personnalisés.",
 
     "grid1": {
-      "title": "Salles de technologie avancée",
-      "body": "Clarté dans chaque scène avec projection 4K, HDR et acoustique équilibrée. L'inclinaison des sièges et l'angle de vision sont optimisés.",
+      "title": "Salles avancées",
+      "body": "Projection 4K, HDR et acoustique accordée pour des scènes cristallines. Les angles de siège et les lignes de vue sont optimisés.",
       "alt": "Salle avec grand écran et panneaux acoustiques"
     },
     "grid2": {
-      "title": "Buffet riche",
-      "body": "Pop-corn fraîchement éclaté, boissons gastronomiques et collations. Commandez en ligne, récupérez rapidement.",
-      "alt": "Zone pop-corn et buffet"
+      "title": "Concessions soignées",
+      "body": "Pop-corn frais, boissons et snacks gastronomiques. Commandez en ligne et récupérez rapidement.",
+      "alt": "Pop-corn et zone de concession"
     },
     "grid3": {
-      "title": "Espace d'attente confortable",
-      "body": "Salon moderne pour les rencontres avant le spectacle : sièges confortables, unités de charge et Wi-Fi rapide.",
-      "alt": "Espace d'attente salon confortable"
+      "title": "Salon relaxant",
+      "body": "Un salon moderne pour les rencontres avant le spectacle : sièges confortables, points de recharge et Wi-Fi rapide.",
+      "alt": "Zone d'attente salon confortable"
     },
 
-    "timelineTitle": "Notre Histoire",
-    "timelineAria": "Histoire de CineTime",
+    "timelineTitle": "Notre Chronologie",
+    "timelineAria": "Historique de CineTime",
 
     "m1995": {
-      "title": "Fondation et première salle",
-      "desc": "Les fondations de CineTime ont été posées au milieu des années 90, à l'époque où la projection cinématographique évoluait de l'analogique au numérique.",
-      "p1": "Notre première salle a ouvert avec une capacité de 180 sièges.",
-      "p2": "Début avec des projecteurs 35 mm ; investissement dans l'écran, l'acoustique et l'ergonomie des sièges.",
-      "p3": "Billetterie locale et réservation téléphonique.",
-      "p4": "Culture d'entreprise familiale : relations avec les invités et normes élevées de propreté."
+      "title": "Fondation & Premier Écran",
+      "desc": "Au milieu du passage de l'analogique au numérique des années 90, CineTime a posé ses racines.",
+      "p1": "Ouverture de la première salle avec 180 places.",
+      "p2": "Démarrage avec des projecteurs 35 mm ; accent important sur l'écran, l'acoustique et l'ergonomie des sièges.",
+      "p3": "Billetterie locale et réservations par téléphone.",
+      "p4": "Culture familiale : service client exceptionnel et propreté."
     },
     "m2005": {
-      "title": "Transformation numérique",
-      "desc": "Avec la transition vers la projection numérique et les complexes multi-salles, l'échelle a commencé à croître.",
-      "p1": "Premier projecteur numérique 2K et renforcement de l'infrastructure.",
-      "p2": "Transition vers les logiciels de planification multi-salles.",
-      "p3": "Premier programme de fidélité et intégrations de campagne."
+      "title": "Transformation Numérique",
+      "desc": "La mise à l'échelle a commencé avec la projection numérique et les complexes multi-écrans.",
+      "p1": "Premier projecteur numérique 2K et mises à niveau d'infrastructure.",
+      "p2": "Migration vers des systèmes de planification multi-écrans.",
+      "p3": "Lancement de notre premier programme de fidélité et promotions."
     },
     "m2015": {
-      "title": "Billets en ligne et mobile",
-      "desc": "L'expérience en ligne et mobile a été centrée ; les files d'attente ont diminué, la gestion de l'occupation s'est améliorée.",
-      "p1": "Sélection de siège et e-billet sans contact via le web.",
-      "p2": "Applications iOS/Android, code d'entrée QR.",
+      "title": "Billetterie en Ligne & Mobile",
+      "desc": "Nous avons placé l'en ligne et le mobile au centre ; les files d'attente ont diminué, l'occupation s'est améliorée.",
+      "p1": "Sélection de sièges et billets électroniques sans contact sur le web.",
+      "p2": "Applications iOS/Android avec codes d'entrée QR.",
       "p3": "Visibilité en temps réel des sessions/occupation.",
-      "p4": "Panneau d'opération : rapports et tarification dynamique."
+      "p4": "Console opérationnelle pour les rapports et la tarification dynamique."
     },
     "m2020": {
-      "title": "Données et personnalisation",
-      "desc": "Les recommandations basées sur ML et les campagnes ciblées ont été activées.",
-      "p1": "Recommandations de films basées sur les préférences/historique.",
-      "p3": "Prévention avancée de la fraude/rétrofacturation."
+      "title": "Données & Personnalisation",
+      "desc": "Des recommandations alimentées par ML et des campagnes ciblées ont été lancées.",
+      "p1": "Suggestions de films basées sur les préférences/historique.",
+      "p3": "Atténuation avancée de la fraude/rétrofacturation."
     },
     "m2025": {
-      "title": "Écosystème et expérience premium",
-      "desc": "Aujourd'hui, nous offrons une expérience de bout en bout avec des sièges premium, un buffet sélectionné et des réseaux de partenaires.",
-      "p1": "60+ salles, projection 4K et salles compatibles Dolby.",
-      "p2": "Intégrations partenaires avec transport, nourriture, forfaits événements.",
+      "title": "Écosystème & Expérience Premium",
+      "desc": "Aujourd'hui, nous offrons des expériences de bout en bout avec des sièges premium, des concessions soignées et des réseaux partenaires.",
+      "p1": "Plus de 60 écrans, projection 4K et salles équipées Dolby.",
+      "p2": "Intégrations partenaires pour le transport, la nourriture et les forfaits événementiels.",
       "p4": "Durabilité : efficacité énergétique et réduction des déchets."
     },
 
-    "ctaTitle": "Prêt ?",
-    "ctaBody": "Découvrez les salles à proximité et obtenez votre billet maintenant.",
-    "ctaBtn": "Acheter des billets"
+    "ctaTitle": "Prêt à partir ?",
+    "ctaBody": "Trouvez une salle près de chez vous et achetez vos billets.",
+    "ctaBtn": "Acheter des Billets"
   },
 
   "contact": {
-    "title": "Contact",
-    "subtitle": "Nous sommes là pour vous aider ! Une question, besoin d’assistance ou envie d’en savoir plus ? Écrivez-nous. Remplissez le formulaire ou utilisez les coordonnées indiquées — nous vous répondrons au plus vite.",
+    "reasons": {
+      "title": "Choix rapide :",
+      "refund": "Remboursement de billet",
+      "payment": "Problème de paiement",
+      "general": "Question générale"
+    },
+    "title": "Contactez-nous",
+    "subtitle": "Nous sommes là pour vous aider ! Que vous ayez une question, besoin d'assistance ou que vous souhaitiez en savoir plus sur ce que nous faisons, n'hésitez pas à nous contacter. Remplissez le formulaire ci-dessous ou utilisez les coordonnées—nous vous répondrons dès que possible.",
     "info": {
       "address": "Adresse",
       "email": "E-mail",
       "phone": "Téléphone",
-      "hours": "Horaires"
+      "hours": "Heures d'ouverture"
     },
     "form": {
-      "fullName": "Nom et prénom",
+      "fullName": "Nom complet",
       "email": "E-mail",
       "phoneNumber": "Numéro de téléphone",
-      "subject": "Objet",
+      "subject": "Sujet",
       "message": "Message",
       "placeholders": {
-        "fullName": "Entrez votre nom et prénom",
-        "email": "jean.dupont@exemple.com",
+        "fullName": "Entrez votre nom complet",
+        "email": "john.doe@example.com",
         "phoneNumber": "(555) 123-4567",
-        "subject": "Saisissez l’objet",
+        "subject": "Écrivez un sujet",
         "message": "Écrivez votre message"
       },
       "helper": {
         "phoneMask": "Format : (XXX) XXX-XXXX"
       },
       "submit": "Envoyer",
-      "sending": "Envoi…"
+      "sending": "Envoi..."
     },
     "alerts": {
       "sentTitle": "Message envoyé",
       "sentText": "Nous vous répondrons dès que possible.",
-      "failTitle": "Échec de l’envoi",
+      "failTitle": "Non envoyé",
       "failNetwork": "Erreur réseau. Veuillez vérifier votre connexion.",
-      "failTimeout": "Délai dépassé. Veuillez réessayer.",
-      "failGeneric": "Une erreur inattendue s’est produite. Veuillez réessayer."
+      "failTimeout": "La requête a expiré. Veuillez réessayer.",
+      "failGeneric": "Une erreur inattendue s'est produite. Veuillez réessayer."
     },
     "errors": {
-      "fullNameRequired": "Le nom et prénom sont obligatoires.",
-      "emailRequired": "L’e-mail est obligatoire.",
+      "fullNameRequired": "Le nom complet est requis.",
+      "emailRequired": "L'e-mail est requis.",
       "emailInvalid": "Entrez un e-mail valide.",
-      "phoneRequired": "Le téléphone est obligatoire.",
+      "phoneRequired": "Le numéro de téléphone est requis.",
       "phoneInvalid": "Entrez un numéro de téléphone valide.",
-      "phoneMask": "Le format du téléphone doit être « (XXX) XXX-XXXX ».",
-      "subjectRequired": "L’objet est obligatoire.",
-      "messageRequired": "Le message est obligatoire.",
+      "phoneMask": "Le format du téléphone doit être '(XXX) XXX-XXXX'.",
+      "subjectRequired": "Le sujet est requis.",
+      "messageRequired": "Le message est requis.",
       "invalidPhone": "Veuillez entrer un numéro de téléphone valide.",
       "invalidDate": "Veuillez sélectionner une date valide.",
-      "userNotFound": "Aucun utilisateur trouvé avec {email}"
-    }
+      "401": "Vous devez vous connecter pour accéder à cette ressource.",
+      "403": "Vous n'avez pas la permission.",
+      "404": "Page introuvable.",
+      "500": "Une erreur inattendue s'est produite.",
+      "network": "Erreur réseau. Veuillez vérifier votre connexion.",
+      "timeout": "La requête a expiré.",
+      "unknown": "Une erreur inconnue s'est produite.",
+      "required": "Ce champ est obligatoire.",
+      "min": "Entrez au moins {min} caractères.",
+      "max": "Entrez au plus {max} caractères.",
+      "invalidEmail": "Entrez une adresse e-mail valide.",
+      "authRequired": "Vous devez vous connecter pour accéder à cette ressource.",
+      "invalid": "Requête invalide. Veuillez vérifier vos informations.",
+      "userNotFound": "Aucun utilisateur trouvé avec cette adresse e-mail : {email}"
+    },
+    "ctaWhatsAppShort": "Contacter via WhatsApp",
+    "defaultText": "Bonjour, j'ai besoin d'assistance."
   },
+
   "events": {
     "heroTitle": "Événements CineTime",
-    "heroSubtitle": "Célébrez le cinéma avec des rencontres et festivals uniques.",
-    "heroAlt": "Image Hero des événements CineTime",
+    "heroSubtitle": "Célébrez le cinéma à travers des rassemblements et festivals exclusifs.",
+    "heroAlt": "Héros Événements CineTime",
     "awards": {
-      "alt": "Soirée des Récompenses",
-      "title": "Soirée des Récompenses",
-      "desc": "Une soirée élégante honorant les films et réalisateurs les plus réussis de l'année.",
+      "alt": "Gala des Récompenses",
+      "title": "Gala des Récompenses",
+      "desc": "Une soirée élégante honorant les cinéastes et films exceptionnels.",
       "date": "12 avril 2026"
     },
     "talk": {
-      "alt": "Discussion avec le réalisateur",
-      "title": "Discussion avec le réalisateur",
-      "desc": "Un voyage dans les profondeurs de l'art cinématographique avec des réalisateurs visionnaires.",
+      "alt": "Discussion avec le Réalisateur",
+      "title": "Discussion avec le Réalisateur",
+      "desc": "Discussions approfondies avec des réalisateurs visionnaires partageant leur métier.",
       "date": "3 mai 2026"
     },
     "festival": {
-      "alt": "Festival de cinéma",
-      "title": "Festival de cinéma",
-      "desc": "Une célébration colorée où se rencontrent le cinéma international et de nouvelles perspectives.",
-      "date": "20–25 juin 2026"
+      "alt": "Festival du Film",
+      "title": "Festival du Film",
+      "desc": "Une vitrine vibrante du cinéma international et de nouvelles perspectives.",
+      "date": "20-25 juin 2026"
     },
     "premiere": {
-      "alt": "Soirée Gala",
-      "title": "Soirée Gala",
-      "desc": "Une soirée fascinante avec tapis rouge et premières mondiales.",
+      "alt": "Soirée Première",
+      "title": "Soirée Première",
+      "desc": "Vivez le tapis rouge et les premières mondiales des derniers films.",
       "date": "8 juillet 2026"
     },
     "ctaTitle": "Participez à l'expérience CineTime",
@@ -734,86 +822,254 @@
       "ctaButtonOpen": "Acheter un billet",
   "ctaButtonClose": "Masquer la section"
   },
+
   "campaigns": {
     "heroTitle": "Campagnes CineTime",
-    "heroSubtitle": "Découvrez les offres et avantages exclusifs au cinéma.",
-    "heroAlt": "Image Hero Campagnes CineTime",
+    "heroSubtitle": "Découvrez les offres cinéma et avantages exclusifs.",
+    "heroAlt": "Image Héros Campagnes CineTime",
     "discount": {
-      "alt": "Billet Réduit",
-      "title": "Billet Réduit",
-      "desc": "Ne manquez pas les réductions spéciales sur les films sélectionnés.",
-      "date": "1–30 Octobre 2025"
+      "alt": "Billet à prix réduit",
+      "title": "Billet à prix réduit",
+      "desc": "Ne manquez pas les réductions spéciales sur une sélection de films.",
+      "date": "1-30 oct. 2025"
     },
     "earlybird": {
-      "alt": "Early Bird",
-      "title": "Early Bird",
-      "desc": "Réservez tôt et recevez des cadeaux surprises.",
-      "date": "1–15 Novembre 2025"
+      "alt": "Lève-tôt",
+      "title": "Lève-tôt",
+      "desc": "Réservez tôt et obtenez des cadeaux surprises.",
+      "date": "1-15 nov. 2025"
     },
     "festival": {
       "alt": "Offre Festival",
       "title": "Offre Festival",
       "desc": "Tarifs spéciaux pendant les jours de festival.",
-      "date": "20–25 Décembre 2025"
+      "date": "20-25 déc. 2025"
     },
     "freepopcorn": {
-      "alt": "Popcorn Gratuit",
-      "title": "Popcorn Gratuit",
-      "desc": "Popcorn offert pour certaines séances.",
+      "alt": "Pop-corn Gratuit",
+      "title": "Pop-corn Gratuit",
+      "desc": "Obtenez du pop-corn gratuit avec certaines séances.",
       "date": "Tous les vendredis"
     },
     "member": {
       "alt": "Avantages Membres",
       "title": "Avantages Membres",
-      "desc": "Réductions et campagnes exclusives pour les membres CineTime.",
+      "desc": "Réductions exclusives et campagnes pour les membres CineTime.",
       "date": "Illimité"
     },
     "nightshow": {
-      "alt": "Séance de Nuit",
-      "title": "Séance de Nuit",
-      "desc": "Séances spéciales de nuit avec événements surprises.",
+      "alt": "Séance Nocturne",
+      "title": "Séance Nocturne",
+      "desc": "Séances nocturnes spéciales avec événements surprises.",
       "date": "Tous les samedis"
     },
     "ctaTitle": "Profitez des Campagnes",
-    "ctaBody": "Ne ratez rien, réservez votre billet maintenant.",
+    "ctaBody": "Ne manquez pas, obtenez votre billet maintenant.",
     "ctaBtn": "Acheter un Billet"
   },
 
   "comingSoon": {
-    "title": "Bientôt au cinéma",
-    "description": "Films bientôt dans les salles de cinéma",
-    "heading": "Bientôt au cinéma",
+    "title": "Prochainement",
+    "description": "Films prochainement en salles",
+    "heading": "Prochainement",
     "loading": "Chargement…",
     "loadingMovies": "Chargement des films...",
-    "noItems": "Aucun film à afficher.",
-    "prev": "Précédent",
-    "next": "Suivant",
+    "noItems": "Il n'y a pas de films à afficher.",
+    "prev": "Préc",
+    "next": "Suiv",
     "genre": "Genre",
     "formats": "Formats",
-    "releaseTBA": "Date de sortie : à venir",
-    "bookNow": "Réserver",
+    "releaseTBA": "Date de sortie : À déterminer",
+    "bookNow": "Réserver maintenant",
     "details": "Détails",
     "trailer": "Bande-annonce",
-    "trailerAvailable": "Bande-annonce disponible - survolez pour un aperçu",
     "favorite": "Favori",
-    "favorited": "Favori ajouté",
+    "favorited": "En favori",
     "addToFavorites": "Ajouter aux favoris",
     "removeFromFavorites": "Retirer des favoris",
     "unfavorite": "Retirer des favoris",
-    "loginToFavorite": "Connectez-vous pour ajouter aux favoris",
+    "loginToFavorite": "Connexion pour ajouter aux favoris",
     "error": "Erreur",
     "apiConnectionCheck": "Veuillez vérifier la connexion API :"
   },
 
+  "experiences": {
+    "shared": {
+      "bookNow": "Acheter un Billet",
+      "reserve": "Réserver",
+      "laserProjection": "Projection laser",
+      "immersiveAudio": "Audio immersif",
+      "premiumSeats": "Sièges premium",
+      "crystalClear": "Image cristalline",
+      "massiveScreen": "Écran massif",
+      "preciseSound": "Son précis"
+    },
+
+    "imax": {
+      "title": "Expérience IMAX",
+      "subtitle": "Échelle et clarté à couper le souffle",
+      "body": "IMAX fusionne un écran mur à mur, une géométrie de salle spécialement conçue et une projection laser pour pousser la taille et la fidélité de l'image à la limite. Une luminosité et un contraste améliorés préservent les détails même dans les scènes les plus sombres, tandis que le système sonore accordé délivre chaque nuance avec puissance et précision. Le résultat est une expérience cinématographique qui semble plus grande que nature.",
+      "tile1": "Luminosité et contraste maximums : la projection laser rend des noirs plus profonds, des blancs plus brillants et des couleurs précises de scène en scène—idéal pour la cinématographie à grande gamme dynamique.",
+      "tile2": "Immersion du sol au plafond : l'écran géant légèrement incurvé remplit votre champ de vision pour que vous perceviez plus de cadre sans tourner la tête.",
+      "tile3": "Son que vous pouvez ressentir : un système multicanal personnalisé garde les chuchotements clairs et les impacts tonitruants, avec une direction et une distance convaincantes."
+    },
+
+    "4dx": {
+      "title": "Salle 4DX Motion",
+      "subtitle": "Ressentez chaque scène",
+      "body": "4DX apporte l'action hors de l'écran et dans votre siège avec des effets de mouvement et d'environnement. Le vent, la pluie, l'odeur et les indices lumineux sont synchronisés à l'image, élevant l'adrénaline et la présence sans compromettre le confort.",
+      "motion": "Sièges en Mouvement",
+      "motionDesc": "Les sièges bougent de haut en bas, de gauche à droite et d'avant en arrière pour simuler l'accélération, les vibrations et les virages—chronométrés précisément au rythme de la scène.",
+      "scent": "Parfum",
+      "scentDesc": "Arômes subtils déclenchés à des moments sélectionnés pour renforcer le cadre et l'ambiance, appliqués avec parcimonie pour éviter la fatigue.",
+      "wind": "Vent",
+      "windDesc": "De la brise légère aux rafales de tempête, le vent améliore les séquences de vitesse et d'extérieur avec une sensation naturelle.",
+      "rain": "Pluie",
+      "rainDesc": "Brume fine et gouttelettes pour soutenir les scènes de pluie et d'éclaboussures ; contrôlées par région pour le confort.",
+      "dynamicChairs": "Sièges dynamiques",
+      "environmentFX": "Effets de vent, pluie et parfum"
+    },
+
+    "atmos": {
+      "title": "Dolby Atmos",
+      "subtitle": "Audio 3D basé sur les objets",
+      "body": "Dolby Atmos traite les sons comme des objets individuels et ajoute des canaux supérieurs pour introduire la hauteur. Un hélicoptère peut passer de manière convaincante au-dessus de vous, et la pluie peut tomber autour de vous avec une direction et une distance naturelles. Une large gamme dynamique et un faible bruit gardent même les plus petits détails intacts.",
+      "objectAudio": "Audio basé sur les objets",
+      "objectAudioDesc": "Chaque élément sonore porte des métadonnées de position précises, mixées pour la salle et calibrées pour qu'il soit entendu exactement là où il appartient.",
+      "ceilingSpeakers": "Haut-parleurs au plafond",
+      "ceilingDesc": "La couche de hauteur complète un véritable espace 3D, ajoutant du réalisme à la pluie, au vol et aux effets d'ambiance.",
+      "precision": "Précision de qualité studio",
+      "placement": "Placement précis"
+    },
+
+    "vip": {
+      "title": "CineTime VIP",
+      "subtitle": "Confort maximum, bruit minimal",
+      "body": "CineTime VIP transforme l'expérience cinéma en confort personnel. Des fauteuils inclinables spacieux et un espace supplémentaire pour les jambes vous maintiennent détendu dans les longs métrages, tandis qu'une atmosphère plus calme, une capacité limitée et un service dédié minimisent les distractions.",
+      "recliners": "Sièges inclinables",
+      "reclinersDesc": "Support réglable du dos et des jambes pour une posture ergonomique ; rembourrage doux et largeur généreuse pour un confort de longue durée.",
+      "lounge": "Salon",
+      "loungeDesc": "Un espace calme pour se détendre avant ou après le spectacle—rafraîchissements légers, points de recharge et sièges confortables.",
+      "service": "Service",
+      "serviceDesc": "Collations et boissons livrées à votre siège pour ne jamais manquer un moment.",
+      "welcomeDrink": "Boisson de bienvenue",
+      "extraComfort": "Confort supplémentaire",
+      "priorityEntry": "Entrée prioritaire",
+      "priorityEntryDesc": "Avec une entrée dédiée et une voie rapide, vous entrez sans files d'attente et vous installez confortablement dans votre siège."
+    },
+
+    "family": {
+      "title": "Salon Familial",
+      "subtitle": "Cinéma adapté aux familles",
+      "body": "Conçu pour que les parents et les enfants puissent profiter du grand écran ensemble avec facilité. Un éclairage plus doux, des sièges généreux et des commodités pratiques rendent les courtes pauses simples et sans stress. Le volume et les choix de contenu sont équilibrés en tenant compte des attentes familiales.",
+      "kidsArea": "Espace enfants",
+      "kidsAreaDesc": "Un coin sécurisé avec des jouets adaptés à l'âge, des livres de coloriage et des sièges doux. Parfait pour l'énergie avant/après le spectacle ; les lignes de vue ouvertes permettent aux parents de superviser confortablement.",
+      "babyCare": "Coin soins bébé",
+      "babyCareDesc": "Table à langer, station de lingettes et fauteuil d'allaitement confortable—gérez l'essentiel sans quitter le salon. Les lavabos à proximité et les poubelles d'hygiène rationalisent les nettoyages rapides.",
+      "toys": "Jouets et livres",
+      "babyFriendly": "Services adaptés aux bébés"
+    }
+  },
+
   "notFound": {
-    "title": "Page non trouvée",
+    "title": "Page Introuvable",
     "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
-    "home": "Retour à l'accueil"
+    "home": "Retourner à l'accueil"
+  },
+
+  "dashboard": {
+    "title": "TABLEAU DE BORD",
+    "logout": "Déconnexion",
+    "tiles": {
+      "cinemas": {
+        "title": "Cinémas",
+        "desc": "Succursales et cartographie des salles"
+      },
+      "halls": {
+        "title": "Salles",
+        "desc": "Dispositions des salles et modèles de sièges"
+      },
+      "times": { "title": "Séances", "desc": "Planification et calendrier" },
+      "images": { "title": "Images", "desc": "Affiches et gestion des médias" },
+      "cinemaimg": {
+        "title": "Images Cinéma",
+        "desc": "Gestion des images de cinéma"
+      },
+      "movies": { "title": "Films", "desc": "Catalogue de films" },
+      "users": {
+        "title": "Utilisateurs",
+        "desc": "Recherche et gestion des utilisateurs"
+      },
+      "tickets": {
+        "title": "Billets (Admin)",
+        "desc": "Ventes et opérations de billetterie"
+      },
+      "cities": { "title": "Villes", "desc": "Listes de villes / régions" },
+      "vip": {
+        "title": "Salles Spéciales",
+        "desc": "Types de salles VIP / spéciales"
+      },
+      "contact": {
+        "title": "Messages de Contact",
+        "desc": "Boîte de réception des messages"
+      },
+      "reports": {
+        "title": "Rapports",
+        "desc": "Résumés et rapports de performance"
+      },
+      "locations": {
+        "title": "Emplacements",
+        "desc": "Liste des emplacements"
+      },
+      "districts": {
+        "title": "Quartiers",
+        "desc": "Listes de quartiers / arrondissements"
+      },
+      "payments": {
+        "title": "Paiements",
+        "desc": "Enregistrements de paiement"
+      },
+      "favorites": { "title": "Favoris", "desc": "Favoris des utilisateurs" },
+      "roles": { "title": "Rôles", "desc": "Rôles et permissions" }
+    },
+    "contactMessages": {
+      "title": "Messages de Contact",
+      "subtitle": "Tous les messages des utilisateurs",
+      "messageCount": "messages",
+      "refresh": "Actualiser",
+      "loading": "Chargement des messages...",
+      "fromLabel": "De",
+      "subjectLabel": "Sujet",
+      "messageLabel": "Message",
+      "deleteButton": "Supprimer",
+      "empty": {
+        "title": "Pas encore de messages",
+        "text": "Les messages des utilisateurs apparaîtront ici."
+      },
+      "error": {
+        "title": "Une erreur s'est produite",
+        "text": "Erreur lors du chargement des messages",
+        "retry": "Réessayer"
+      },
+      "deleteConfirm": {
+        "title": "Êtes-vous sûr de vouloir supprimer ce message ?",
+        "text": "Cette action ne peut pas être annulée.",
+        "subject": "Sujet"
+      },
+      "deleteSuccess": {
+        "title": "Message supprimé",
+        "text": "Le message a été supprimé avec succès."
+      },
+      "deleteError": {
+        "title": "Erreur de suppression",
+        "text": "Une erreur s'est produite lors de la suppression du message."
+      }
+    }
   },
 
   "images": {
     "title": "Images",
-    "uploadNew": "Télécharger nouveau",
+    "uploadNew": "Télécharger une nouvelle",
     "searchPlaceholder": "Rechercher par ID d'image, nom d'image ou titre de film...",
     "search": "Rechercher",
     "showAll": "Afficher toutes les images",
@@ -821,8 +1077,8 @@
     "imagePreview": "Aperçu de l'image",
     "close": "Fermer",
     "download": "Télécharger",
-    "clickToPreview": "Cliquer pour prévisualiser l'image",
-    "thumbnail": "Vignette",
+    "clickToPreview": "Cliquez pour prévisualiser l'image",
+    "thumbnail": "Miniature",
     "preview": "Aperçu",
     "movie": "Film",
     "type": "Type",
@@ -839,85 +1095,90 @@
     "deleteImage": "Supprimer l'image",
     "deleteConfirm": "Supprimer l'image",
     "deleteWarningPoster": "⚠️ Attention : Ceci est une image d'affiche !",
+    "new": {
+      "title": "Télécharger une Nouvelle Image",
+      "description": "Téléchargez une image et assignez-la à un film",
+      "loadingMovies": "Chargement des films...",
+      "failedToLoadMovies": "Échec du chargement des films",
+      "selectMovie": "Sélectionner un Film",
+      "selectMovieRequired": "Sélectionner un Film *",
+      "selectImageFile": "Sélectionner un Fichier Image",
+      "acceptedFormats": "Formats acceptés : JPEG, PNG, GIF, WebP. Taille maximum : 5 MB",
+      "preview": "Aperçu",
+      "fileName": "Nom du fichier :",
+      "fileSize": "Taille du fichier :",
+      "fileType": "Type de fichier :",
+      "setPoster": "Définir comme affiche du film",
+      "posterWillBeSet": "Cette image sera définie comme affiche principale du film.",
+      "posterCheckInfo": "Cochez cette case si cela doit être l'image d'affiche principale.",
+      "noteTitle": "Note :",
+      "noteText": "Une seule image peut être marquée comme affiche par film. Si vous téléchargez une nouvelle affiche, elle remplacera l'existante.",
+      "selectMovieWarning": "Veuillez sélectionner un film avant de télécharger.",
+      "uploadImage": "Télécharger l'Image",
+      "required": "*"
+    },
     "edit": {
-      "title": "Modifier l'image",
+      "title": "Modifier l'Image",
       "loading": "Chargement...",
       "error": "Erreur",
-      "notFound": "Données d'image non trouvées. Veuillez retourner à la liste des images et réessayer.",
-      "currentImage": "Image actuelle",
-      "currentPoster": "Affiche actuelle",
+      "notFound": "Données d'image introuvables. Veuillez retourner à la liste des images et réessayer.",
+      "currentImage": "Image Actuelle",
+      "currentPoster": "Affiche Actuelle",
       "imageFor": "Image pour :",
-      "movieId": "ID du film :",
+      "movieId": "ID du Film :",
       "unnamed": "Sans nom",
       "unknown": "Inconnu",
       "uploaded": "Téléchargé :",
-      "replaceImage": "Remplacer par une nouvelle image",
+      "replaceImage": "Remplacer par une Nouvelle Image",
       "required": "*",
-      "acceptedFormats": "Formats acceptés : JPEG, PNG, GIF, WebP. Taille maximale : 5MB",
-      "newImagePreview": "Aperçu de la nouvelle image",
+      "acceptedFormats": "Formats acceptés : JPEG, PNG, GIF, WebP. Taille maximum : 5 MB",
+      "newImagePreview": "Aperçu de la Nouvelle Image",
       "fileName": "Nom du fichier :",
       "fileSize": "Taille du fichier :",
       "fileType": "Type de fichier :",
       "setPoster": "Définir comme affiche du film",
       "posterWillBeSet": "Cette image sera définie comme affiche principale du film.",
       "posterWillNotBeUsed": "Cette image ne sera pas utilisée comme affiche.",
-      "posterStatusChanged": "Statut de l'affiche modifié :",
-      "willBecomePoster": "Ceci deviendra la nouvelle image d'affiche.",
+      "posterStatusChanged": "Statut d'Affiche Modifié :",
+      "willBecomePoster": "Cela deviendra la nouvelle image d'affiche.",
       "noLongerPoster": "Cette image ne sera plus l'affiche.",
       "updateNote": "Note : La mise à jour de cette image remplacera son contenu et changera éventuellement son statut d'affiche. L'ID de l'image restera le même.",
-      "updateImage": "Mettre à jour l'image"
-    },
-    "new": {
-      "title": "Télécharger une nouvelle image",
-      "selectImage": "Sélectionner une image",
-      "required": "*",
-      "acceptedFormats": "Formats acceptés : JPEG, PNG, GIF, WebP. Taille maximale : 5 Mo",
-      "imagePreview": "Aperçu de l'image",
-      "fileName": "Nom du fichier :",
-      "fileSize": "Taille du fichier :",
-      "fileType": "Type de fichier :",
-      "selectMovie": "Sélectionner un film",
-      "moviePlaceholder": "Choisir un film...",
-      "setPoster": "Définir comme affiche du film",
-      "posterWillBeSet": "Cette image sera définie comme affiche principale pour le film sélectionné.",
-      "posterWillNotBeUsed": "Cette image ne sera pas utilisée comme affiche.",
-      "uploadImage": "Télécharger l'image",
-      "uploading": "Téléchargement en cours..."
+      "updateImage": "Mettre à jour l'Image"
     }
   },
 
   "buybar": {
-    "title": "🎟️ Acheter un billet",
-    "countryPlaceholder": "Sélectionnez un pays",
-    "cityPlaceholder": "Sélectionnez une ville",
-    "cinemaPlaceholder": "Sélectionnez un cinéma",
-    "datePlaceholder": "Sélectionnez une date",
-    "moviePlaceholder": "Sélectionnez un film",
-    "findTickets": "Rechercher des billets"
+    "title": "🎟️ Acheter un Billet",
+    "countryPlaceholder": "Sélectionner un Pays",
+    "cityPlaceholder": "Sélectionner une Ville",
+    "cinemaPlaceholder": "Sélectionner un Cinéma",
+    "datePlaceholder": "Sélectionner une Date",
+    "moviePlaceholder": "Sélectionner un Film",
+    "findTickets": "Trouver des Billets"
   },
 
   "hall": {
     "listTitle": "Liste des Salles",
-    "createTitle": "Ajouter une nouvelle salle",
+    "createTitle": "Ajouter une Nouvelle Salle",
     "createHeader": "Créer une nouvelle salle",
-    "updateTitle": "Modifier la salle",
-    "updateHeader": "Mettre à jour une salle existante",
+    "updateTitle": "Modifier la Salle",
+    "updateHeader": "Mettre à jour la salle existante",
 
     "newButton": "Nouveau",
     "editButton": "Modifier",
     "deleteButton": "Supprimer",
-    "deleteConfirm": "Voulez-vous vraiment supprimer cette salle",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette salle",
     "searchPlaceholder": "Rechercher par nom de salle...",
     "searchButton": "Rechercher",
-    "showAllButton": "Afficher toutes les salles",
+    "showAllButton": "Afficher Toutes les Salles",
     "noData": "Aucune salle trouvée.",
 
-    "name": "Nom de la salle",
+    "name": "Nom de la Salle",
     "seatCapacity": "Capacité",
-    "isSpecial": "Salle spéciale",
+    "isSpecial": "Salle Spéciale",
     "actions": "Actions",
 
-    "nameRequired": "Nom de la salle *",
+    "nameRequired": "Nom de la Salle *",
     "seatCapacityRequired": "Capacité *",
     "cinemaRequired": "Cinéma *",
     "isSpecialQuestion": "Est-ce une salle spéciale ?",
@@ -932,19 +1193,19 @@
     "notFound": "Salle introuvable.",
     "loading": "Chargement...",
 
-    "successCreate": "Salle ajoutée avec succès.",
+    "successCreate": "Salle créée avec succès.",
     "successUpdate": "Salle mise à jour avec succès.",
     "successDelete": "Salle supprimée avec succès.",
-    "errorOperation": "Échec de l’opération.",
+    "errorOperation": "Échec de l'opération.",
     "successSave": "La salle a été enregistrée avec succès.",
-    "duplicateName": "Une salle nommée  existe déjà pour ce cinéma.",
-    "hall_saved_success": "La salle a été enregistrée avec succès.",
+    "duplicateName": "Ce nom de salle existe déjà pour ce cinéma.",
+    "hall_saved_success": "La salle est enregistrée avec succès.",
     "hall_create_failed": "Échec de la création de la salle.",
-    "hall_duplicate_error": "Une salle portant ce nom existe déjà dans le cinéma sélectionné.",
+    "hall_duplicate_error": "Une salle avec ce nom existe déjà dans le cinéma sélectionné.",
     "errorDelete": "Une erreur s'est produite lors de la suppression de la salle.",
-    "needAdminToEdit": "Vous devez être administrateur pour modifier",
-    "needAdminToDelete": "Vous devez être administrateur pour supprimer",
-    "needAdmin": "Vous devez être administrateur"
+    "needAdminToEdit": "Vous devez être un administrateur pour modifier",
+    "needAdminToDelete": "Vous devez être un administrateur pour supprimer",
+    "needAdmin": "Vous devez être un administrateur"
   },
 
   "movie": {
@@ -957,7 +1218,7 @@
     "newButton": "Nouveau",
     "editButton": "Modifier",
     "deleteButton": "Supprimer",
-    "deleteConfirm": "Voulez-vous vraiment supprimer le film \"{title}\" ?",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer le film \"{title}\" ?",
     "searchPlaceholder": "Rechercher par titre de film...",
     "searchButton": "Rechercher",
     "showAllButton": "Afficher Tous les Films",
@@ -966,28 +1227,32 @@
     "title": "Titre",
     "summary": "Résumé",
     "slug": "Slug",
+    "poster": "Affiche",
     "releaseDate": "Date de Sortie",
     "duration": "Durée (minutes)",
     "rating": "Note",
     "director": "Réalisateur",
-    "cast": "Casting",
+    "cast": "Distribution",
     "formats": "Formats",
     "genre": "Genre",
     "status": "Statut",
-    "posterUrl": "URL de l’Affiche",
-    "trailerUrl": "URL de la Bande-Annonce",
+    "posterUrl": "URL de l'Affiche",
+    "trailerUrl": "URL de la Bande-annonce",
     "actions": "Actions",
 
-    "inTheaters": "En Salle",
-    "comingSoon": "Bientôt Disponible",
+    "inTheaters": "En Salles",
+    "comingSoon": "Prochainement",
     "presale": "Prévente",
 
     "createButton": "Enregistrer",
     "updateButton": "Mettre à jour",
     "backButton": "Retour",
 
+    "confirmYes": "Oui",
+    "confirmCancel": "Annuler",
+
     "loadError": "Échec du chargement de la liste des films.",
-    "notFound": "Film non trouvé.",
+    "notFound": "Film introuvable.",
     "loading": "Chargement...",
 
     "successCreate": "Film créé avec succès.",
@@ -995,45 +1260,136 @@
     "successDelete": "Film supprimé avec succès.",
     "successSave": "Film enregistré avec succès.",
     "duplicateName": "Un film intitulé '{title}' existe déjà pour ce cinéma.",
-    "errorOperation": "Échec de l’opération.",
-    "duplicateTitle": "Un film portant ce titre existe déjà.",
-    "successCreateMovie": "Le film a été créé avec succès."
+    "errorOperation": "Échec de l'opération.",
+    "duplicateTitle": "Un film avec ce titre existe déjà.",
+    "successCreateMovie": "Film créé avec succès.",
+    "needAdminToEdit": "Vous devez être un administrateur pour modifier",
+    "needAdminToDelete": "Vous devez être un administrateur pour supprimer",
+    "needAdmin": "Vous devez être un administrateur"
   },
 
-  "dashboard": {
-    "title": "TABLEAU DE BORD",
-    "contactMessages": {
-      "title": "Messages de Contact",
-      "subtitle": "Tous les messages des utilisateurs",
-      "messageCount": "messages",
-      "refresh": "Actualiser",
-      "loading": "Chargement des messages...",
-      "fromLabel": "De",
-      "subjectLabel": "Sujet",
-      "messageLabel": "Message",
-      "deleteButton": "Supprimer",
-      "empty": {
-        "title": "Aucun message pour le moment",
-        "text": "Les messages des utilisateurs apparaîtront ici."
-      },
-      "error": {
-        "title": "Une erreur s'est produite",
-        "text": "Erreur lors du chargement des messages",
-        "retry": "Réessayer"
-      },
-      "deleteConfirm": {
-        "title": "Êtes-vous sûr de vouloir supprimer ce message ?",
-        "text": "Cette action ne peut pas être annulée.",
-        "subject": "Sujet"
-      },
-      "deleteSuccess": {
-        "title": "Supprimé !",
-        "text": "Message supprimé avec succès."
-      },
-      "deleteError": {
-        "title": "Erreur de suppression",
-        "text": "Erreur lors de la suppression du message."
-      }
+  "users": {
+    "title": "UTILISATEURS",
+    "newButton": "+ Nouvel Utilisateur",
+    "newTitle": "Ajouter un Nouvel Utilisateur",
+    "editTitle": "Modifier l'Utilisateur",
+    "saveButton": "Enregistrer",
+    "backButton": "← Retour aux Utilisateurs",
+    "loading": "Chargement...",
+    "noData": "Aucun utilisateur trouvé.",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "successDelete": "🗑️ Utilisateur supprimé avec succès !",
+    "errorDelete": "Erreur de suppression",
+    "successMessage": "Utilisateur ajouté avec succès !",
+    "successUpdate": "Utilisateur mis à jour avec succès !",
+    "errorMessage": "Échec de la création de l'utilisateur.",
+    "errorNotFound": "Utilisateur introuvable",
+    "errorUpdate": "Échec de la mise à jour.",
+    "table": {
+      "id": "ID",
+      "name": "Nom",
+      "surname": "Prénom",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "roles": "Rôles",
+      "city": "Ville",
+      "district": "Quartier",
+      "gender": "Genre",
+      "birthDate": "Date de Naissance",
+      "actions": "Actions",
+      "edit": "Modifier",
+      "delete": "Supprimer"
+    },
+    "form": {
+      "name": "Nom",
+      "surname": "Prénom",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le Mot de passe",
+      "phone": "Téléphone",
+      "roles": "Rôles",
+      "city": "Ville",
+      "district": "Quartier",
+      "gender": "Genre",
+      "birthDate": "Date de Naissance",
+      "required": "Champ obligatoire",
+      "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+      "passwordMin": "Le mot de passe doit contenir au moins 6 caractères",
+      "passwordsNotMatch": "Les mots de passe ne correspondent pas",
+      "phoneInvalid": "Veuillez entrer un numéro de téléphone valide",
+      "selectRole": "Sélectionner un Rôle",
+      "selectCity": "Sélectionner une Ville",
+      "selectDistrict": "Sélectionner un Quartier",
+      "selectGender": "Sélectionner un Genre",
+      "selectOption": "Sélectionner...",
+      "birthDateInvalid": "Veuillez entrer une date valide"
+    },
+    "roles": {
+      "USER": "Utilisateur",
+      "ADMIN": "Admin",
+      "EMPLOYEE": "Employé",
+      "MEMBER": "Membre",
+      "ANONYMOUS": "Anonyme"
+    },
+    "genders": {
+      "MALE": "Homme",
+      "FEMALE": "Femme",
+      "OTHER": "Autre"
+    }
+  },
+
+  "alerts": {
+    "warnings": {
+      "enterPasswords": "Veuillez entrer le mot de passe actuel et le nouveau.",
+      "passwordsMustMatch": "Le nouveau mot de passe et la confirmation doivent correspondre.",
+      "typeUpdated": "Type de salle spéciale mis à jour.",
+      "typeUpdateFailed": "Échec de la mise à jour du type de salle spéciale.",
+      "typeDeleted": "Type de salle spéciale supprimé.",
+      "typeDeleteFailed": "Échec de la suppression du type de salle spéciale."
+    },
+    "pwdUpdated": "Votre mot de passe a été mis à jour avec succès.",
+    "deleteTitle": "Êtes-vous sûr ?",
+    "deleteText": "Votre compte sera définitivement supprimé.",
+    "deleted": "Votre compte a été supprimé. Déconnexion…",
+    "errors": {
+      "deleteFailedBuiltIn": "L'administrateur intégré ne peut pas être supprimé.",
+      "deleteFailed": "Échec de la suppression du compte."
+    }
+  },
+
+  "contactMessages": {
+    "title": "Messages de Contact",
+    "subtitle": "Tous les messages des utilisateurs",
+    "messageCount": "messages",
+    "refresh": "Actualiser",
+    "loading": "Chargement des messages...",
+    "messageLabel": "Message",
+    "deleteButton": "Supprimer",
+    "empty": {
+      "title": "Pas Encore de Messages",
+      "text": "Les messages des utilisateurs apparaîtront ici."
+    },
+    "error": {
+      "title": "Erreur Survenue",
+      "text": "Une erreur s'est produite lors du chargement des messages",
+      "retry": "Réessayer"
+    },
+    "deleteConfirm": {
+      "title": "Êtes-Vous Sûr de Vouloir Supprimer Ce Message ?",
+      "text": "Cette action ne peut pas être annulée.",
+      "subject": "Sujet"
+    },
+    "deleteSuccess": {
+      "title": "Supprimé !",
+      "text": "Message supprimé avec succès."
+    },
+    "deleteError": {
+      "title": "Impossible de Supprimer",
+      "text": "Une erreur s'est produite lors de la suppression du message. Veuillez réessayer."
     }
   },
 
@@ -1041,19 +1397,134 @@
     "confirm": "OK",
     "cancel": "Annuler",
     "delete": "Supprimer",
-    "successCreateMovie": "Le film a été créé avec succès.",
-    "needAdminToEdit": "Vous devez être administrateur pour modifier",
-    "needAdminToDelete": "Vous devez être administrateur pour supprimer",
-    "needAdmin": "Vous devez être administrateur",
     "deny": "Refuser",
     "successTitle": "Succès",
     "errorTitle": "Erreur",
-    "areYouSure": "Êtes-vous sûr(e) ?",
-    "willBeDeleted": "\"{name}\" sera supprimé définitivement.",
+    "areYouSure": "Êtes-vous sûr ?",
+    "willBeDeleted": "\"{name}\" sera définitivement supprimé.",
     "yes": "Oui",
     "no": "Non",
     "ok": "OK"
   },
+
+  "specialHall": {
+    "confirmDelete": "La salle spéciale \"{name}\" sera supprimée. Êtes-vous sûr ?",
+    "edit": {
+      "title": "Modifier la Salle Spéciale",
+      "updated": "Salle spéciale mise à jour avec succès."
+    },
+    "alerts": {
+      "typeCreated": "Le type de salle spéciale a été créé.",
+      "typeCreateFailed": "Échec de la création du type de salle spéciale.",
+      "typeUpdated": "Type de salle spéciale mis à jour.",
+      "typeUpdateFailed": "Échec de la mise à jour du type de salle spéciale.",
+      "typeDeleted": "Type de salle spéciale supprimé.",
+      "typeDeleteFailed": "Échec de la suppression du type de salle spéciale.",
+      "typeInUse": "Le type \"{name}\" est utilisé par des salles spéciales existantes. Veuillez d'abord supprimer ou modifier ces salles."
+    },
+    "list": { "title": "Salles Spéciales" },
+    "headers": {
+      "id": "#",
+      "cinema": "Cinéma",
+      "hall": "Salle",
+      "type": "Type",
+      "seatCap": "Capacité",
+      "basePrice": "Prix de Base",
+      "surchargePercent": "Diff Prix (%)",
+      "finalPrice": "Prix Final",
+      "isActive": "Actif",
+      "actions": "Actions"
+    },
+    "buttons": { "new": "+ Nouveau" },
+    "name": "Nom",
+    "percent": "Diff Prix (%)",
+    "columns": {
+      "id": "ID",
+      "name": "Nom",
+      "percent": "Diff Prix (%)",
+      "actions": "Actions"
+    },
+    "namePlaceholder": "Entrez le nom du type (ex. IMAX)",
+    "percentPlaceholder": "0–100",
+    "listTitle": "Salles Spéciales",
+    "createTitle": "Créer une Salle Spéciale",
+    "updateTitle": "Modifier la Salle Spéciale",
+    "typesTitle": "Types de Salles Spéciales",
+    "newButton": "Nouveau",
+    "editButton": "Modifier",
+    "deleteButton": "Supprimer",
+    "deleteConfirm": "Supprimer \"{name}\" ?",
+    "searchPlaceholder": "Rechercher une salle ou un type...",
+    "showAllButton": "Afficher Tout",
+    "noData": "Aucune salle spéciale trouvée.",
+    "table": {
+      "id": "ID",
+      "hall": "Salle",
+      "cinema": "Cinéma",
+      "type": "Type",
+      "basePrice": "Prix de Base",
+      "surchargePercent": "Diff (%)",
+      "finalPrice": "Prix Final",
+      "isActive": "Actif",
+      "actions": "Actions"
+    },
+    "new": {
+      "title": "Créer une Salle Spéciale"
+    },
+    "form": {
+      "hall": "Salle",
+      "type": "Type",
+      "basePrice": "Prix de Base",
+      "surchargePercent": "Diff Prix (%)",
+      "isActive": "Actif",
+      "hallLabel": "Salle",
+      "typeLabel": "Type",
+      "selectPlaceholder": "Sélectionner...",
+      "selectHall": "Sélectionner une salle",
+      "selectType": "Sélectionner un type",
+      "newType": "Nouveau type",
+      "manage": "Gérer les types",
+      "optionPercentSuffix": "(+%{percent})"
+    },
+    "validations": {
+      "hallRequired": "La salle est requise.",
+      "typeRequired": "Le type est requis.",
+      "basePriceRequired": "Le prix de base est requis.",
+      "surchargeRange": "La différence de prix doit être entre 0–100."
+    },
+    "messages": {
+      "created": "Salle spéciale créée.",
+      "updated": "Salle spéciale mise à jour.",
+      "deleted": "Salle spéciale supprimée.",
+      "loadError": "Échec du chargement des données de salle spéciale.",
+      "operationFailed": "Échec de l'opération."
+    },
+    "filters": {
+      "cinema": "Cinéma",
+      "type": "Type",
+      "active": "Actif"
+    },
+    "typeModal": {
+      "title": "Gestion du Type de Salle Spéciale",
+      "nameLabel": "Nom du type",
+      "namePlaceholder": "ex. IMAX, 4DX",
+      "percentLabel": "Supplément (%)",
+      "percentPlaceholder": "Entrez une valeur entre 0–100",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "errors": {
+        "nameRequired": "Le nom du type est requis.",
+        "percentRequired": "Le supplément est requis.",
+        "percentRange": "Entrez une valeur entre 0 et 100."
+      }
+    },
+    "actions": {
+      "save": "Enregistrer",
+      "delete": "Supprimer",
+      "close": "Fermer"
+    }
+  },
+
   "admin": {
     "payments": {
       "title": "Paiements",
@@ -1064,17 +1535,17 @@
       "perPageSuffix": "lignes / page",
       "showing": "{from}–{to} / Total {total}",
       "filters": {
-        "userId": "ID utilisateur",
+        "userId": "ID Utilisateur",
         "email": "E-mail",
         "phone": "Téléphone",
         "status": "Statut",
-        "search": "Recherche",
+        "search": "Rechercher",
         "from": "De",
         "to": "À",
         "min": "Min",
         "max": "Max",
-        "provider": "Réf. fournisseur",
-        "key": "Idempotency"
+        "provider": "Réf Fournisseur",
+        "key": "Idempotence"
       },
       "table": {
         "idx": "#",
@@ -1084,25 +1555,26 @@
         "amount": "Montant",
         "currency": "Devise",
         "status": "Statut",
-        "providerRef": "Réf. fournisseur",
-        "idempotencyKey": "Idempotency",
+        "providerRef": "Réf Fournisseur",
+        "idempotencyKey": "Idempotence",
         "actions": "Actions",
-        "empty": "Aucun enregistrement"
+        "empty": "Aucun enregistrement trouvé"
       },
       "buttons": {
         "refund": "Rembourser"
       },
       "status": {
-        "SUCCESS": "RÉUSSI",
-        "FAILED": "ÉCHOUÉ",
+        "SUCCESS": "SUCCÈS",
+        "FAILED": "ÉCHEC",
         "REFUNDED": "REMBOURSÉ",
-        "PARTIELLEMENT_REFUNDED": "PARTIELLEMENT REMBOURSÉ"
+        "PARTIALLY_REFUNDED": "PARTIELLEMENT REMBOURSÉ"
       }
     },
+
     "roles": {
       "title": "Utilisateurs",
       "loading": "Chargement des utilisateurs…",
-      "loadError": "Impossible de charger les utilisateurs.",
+      "loadError": "Échec du chargement des utilisateurs.",
       "filters": {
         "search": "Rechercher",
         "searchPlaceholder": "Rechercher par e-mail ou téléphone"
@@ -1117,10 +1589,10 @@
         "empty": "Aucun utilisateur trouvé"
       },
       "buttons": {
-        "editRoles": "Modifier les rôles"
+        "editRoles": "Modifier les Rôles"
       },
       "swal": {
-        "editTitle": "Modifier les rôles — {name}",
+        "editTitle": "Modifier les Rôles — {name}",
         "save": "Enregistrer",
         "selectOne": "Sélectionnez au moins un rôle",
         "updated": "Mis à jour",
@@ -1129,19 +1601,20 @@
       },
       "showing": "{from}–{to} / Total {total}"
     },
+
     "location": {
-      "title": "Gestion des emplacements",
-      "subtitle": "Pays → Villes → Districts",
+      "title": "Gestionnaire de Localisation",
+      "subtitle": "Pays → Villes → Quartiers",
       "loading": "Chargement…",
       "empty": {
         "countries": "Aucun pays.",
         "cities": "Aucune ville pour ce pays.",
-        "districts": "Aucun district pour cette ville."
+        "districts": "Aucun quartier pour cette ville."
       },
       "countries": {
         "title": "Pays",
         "search": "Rechercher…",
-        "newPlaceholder": "Nouveau nom de pays",
+        "newPlaceholder": "Nom du nouveau pays",
         "add": "Ajouter",
         "headers": { "name": "Pays", "actions": "Actions" },
         "buttons": { "edit": "Modifier", "delete": "Supprimer" },
@@ -1150,7 +1623,7 @@
           "save": "Enregistrer",
           "updated": "Pays mis à jour",
           "deleteTitle": "Supprimer {name} ?",
-          "deleteText": "Cette action est irréversible.",
+          "deleteText": "Cette action ne peut pas être annulée.",
           "deleted": "Pays supprimé"
         }
       },
@@ -1158,8 +1631,8 @@
         "title": "Villes",
         "of": "· {country}",
         "search": "Rechercher…",
-        "newPlaceholder": "Nouveau nom de ville",
-        "selectCountryFirst": "Sélectionnez d’abord un pays",
+        "newPlaceholder": "Nom de la nouvelle ville",
+        "selectCountryFirst": "Sélectionnez d'abord un pays",
         "add": "Ajouter",
         "headers": { "name": "Ville", "actions": "Actions" },
         "buttons": { "edit": "Modifier", "delete": "Supprimer" },
@@ -1168,32 +1641,32 @@
           "save": "Enregistrer",
           "updated": "Ville mise à jour",
           "deleteTitle": "Supprimer {name} ?",
-          "deleteText": "Cette action est irréversible.",
+          "deleteText": "Cette action ne peut pas être annulée.",
           "deleted": "Ville supprimée"
         },
         "prompts": {
-          "selectCountry": "Sélectionnez un pays pour afficher les villes."
+          "selectCountry": "Sélectionnez un pays pour voir les villes."
         }
       },
       "districts": {
-        "title": "Districts",
+        "title": "Quartiers",
         "of": "· {city}",
-        "selectCity": "· Sélectionnez une ville",
-        "newPlaceholder": "Nouveau nom de district",
-        "selectCityFirst": "Sélectionnez d’abord une ville",
+        "selectCity": "· Sélectionner une ville",
+        "newPlaceholder": "Nom du nouveau quartier",
+        "selectCityFirst": "Sélectionnez d'abord une ville",
         "add": "Ajouter",
-        "headers": { "name": "District", "actions": "Actions" },
+        "headers": { "name": "Quartier", "actions": "Actions" },
         "buttons": { "edit": "Modifier", "delete": "Supprimer" },
         "swal": {
-          "renameTitle": "Renommer le district",
+          "renameTitle": "Renommer le quartier",
           "save": "Enregistrer",
-          "updated": "District mis à jour",
+          "updated": "Quartier mis à jour",
           "deleteTitle": "Supprimer {name} ?",
-          "deleteText": "Cette action est irréversible.",
-          "deleted": "District supprimé"
+          "deleteText": "Cette action ne peut pas être annulée.",
+          "deleted": "Quartier supprimé"
         },
         "prompts": {
-          "selectCity": "Sélectionnez une ville pour afficher les districts."
+          "selectCity": "Sélectionnez une ville pour voir les quartiers."
         }
       },
       "pagination": {
@@ -1204,62 +1677,33 @@
         "last": "Dernier »"
       }
     }
-    
   },
-  "dashboard": {
-    "title": "TABLEAU DE BORD",
-    "tiles": {
-      "cinemas": {
-        "title": "Cinémas",
-        "desc": "Succursales et correspondances des salles"
-      },
-      "halls": {
-        "title": "Salles",
-        "desc": "Plans des salles et modèles de sièges"
-      },
-      "times": { "title": "Séances", "desc": "Planification et calendrier des séances" },
-      "images": { "title": "Images", "desc": "Gestion des affiches et visuels" },
-      "cinemaimg": {
-        "title": "Images du Cinéma",
-        "desc": "Gestion des images de cinéma"
-      },
-      "movies": { "title": "Films", "desc": "Liste des films et du contenu" },
-      "users": { "title": "Utilisateurs", "desc": "Recherche et gestion des utilisateurs" },
-      "tickets": {
-        "title": "Billets (Admin)",
-        "desc": "Ventes et opérations de billetterie"
-      },
-      "cities": { "title": "Villes", "desc": "Listes des villes et régions" },
-      "vip": { "title": "Salles Spéciales", "desc": "Types de salles VIP / spéciales" },
-      "contact": {
-        "title": "Messages de Contact",
-        "desc": "Messages de la boîte de contact"
-      },
-      "reports": {
-        "title": "Rapports",
-        "desc": "Résumés et rapports de performance"
-      },
-      "locations": { "title": "Emplacements", "desc": "Liste des emplacements" },
-      "districts": { "title": "Districts", "desc": "Listes des districts / quartiers" },
-      "payments": { "title": "Paiements", "desc": "Enregistrements de paiements" },
-      "favorites": { "title": "Favoris", "desc": "Enregistrements favoris" },
-      "roles": { "title": "Rôles", "desc": "Rôles et autorisations" }
+
+  "movieShowtimes": {
+    "titleWithMovie": "Cinémas proposant {title}",
+    "titleGeneric": "Cinémas proposant le film",
+    "paramLabel": "Param :",
+    "filters": {
+      "country": "Pays",
+      "countryPlaceholder": "Sélectionnez un pays…",
+      "city": "Ville",
+      "cityPlaceholder": "Sélectionnez une ville…",
+      "date": "Date",
+      "datePlaceholder": "Sélectionnez une date…"
     },
-    "contactMessages": {
-      "title": "Messages de Contact",
-      "subtitle": "Tous les messages des utilisateurs",
-      "messageCount": "message",
-      "refresh": "Rafraîchir",
-      "loading": "Chargement des messages...",
-      "fromLabel": "Expéditeur",
-      "subjectLabel": "Sujet",
-      "messageLabel": "Message",
-      "deleteButton": "Supprimer",
-      "empty": {
-        "title": "Aucun message pour le moment",
-        "text": "Les messages des utilisateurs apparaîtront ici."
-      }
+    "loading": "Chargement…",
+    "errors": {
+      "generic": "Impossible de charger les cinémas."
+    },
+    "movie": {
+      "titleFallback": "Film",
+      "directorLabel": "Réalisateur :",
+      "details": "Détails"
+    },
+    "messages": {
+      "selectFiltersHint": "Les séances s’afficheront ici une fois le pays, la ville et la date sélectionnés.",
+      "noShowtimes": "Aucune séance",
+      "selectDateHint": "Veuillez sélectionner une date."
     }
   }
 }
-

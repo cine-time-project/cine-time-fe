@@ -334,6 +334,7 @@
     "comingSoon": "Pek Yakında",
     "inTheaters": "Gösterimde",
     "preSale": "Ön Satış",
+    "posterAlt": "Film Afişi",
     "summary": "Özet",
     "details": "Ayrıntılar",
     "related": "Benzer Filmler",
@@ -348,7 +349,6 @@
     "formats": "Formatı",
     "actionsAria": "Film işlemleri",
     "primeTrial": "Cine Time ile İyi Seyirler",
-    "staus": "Durum",
     "all": "Tümü",
     "rating": "Puan",
     "specialHalls": "Özel Salonlar",
@@ -357,17 +357,17 @@
     "invalidDate": "Geçersiz Tarih",
     "retry": "Tekrar Dene",
     "failed": "Filmler yüklenemedi",
+    "loginToFavorite": "Favoriye eklemek için giriş yap",
+    "addedToFavoritesToast": "Favorilere eklendi.",
+    "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
+    "favoritesNeutral": "Favoriler",
+    "halls": "Özel Salonlar",
     "status": {
       "in_theaters": "Gösterimde",
       "coming_soon": "Pek Yakında",
       "ended": "Gösterim Sona Erdi",
       "presale": "Ön Satış"
-    },
-    "loginToFavorite": "Favoriye eklemek için giriş yap",
-    "addedToFavoritesToast": "Favorilere eklendi.",
-    "removedFromFavoritesToast": "Favorilerden çıkarıldı.",
-    "favoritesNeutral": "Favoriler",
-    "halls": "Özel Salonlar"
+    }
   },
 
   "cinemas": {
@@ -585,6 +585,7 @@
   },
 
   "errors": {
+    "401": "Bu kaynağa erişmek için giriş yapmanız gerekiyor.",
     "403": "Yetkiniz bulunmuyor.",
     "404": "Sayfa bulunamadı.",
     "500": "Beklenmeyen bir hata oluştu.",
@@ -595,8 +596,11 @@
     "min": "En az {min} karakter girin.",
     "max": "En fazla {max} karakter girin.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
+    "authRequired": "Bu kaynağa erişmek için giriş yapmanız gerekiyor.",
     "invalid": "Geçersiz istek. Lütfen bilgilerinizi kontrol edin.",
     "passwordMismatch": "Şifreler eşleşmiyor.",
+    "invalidCode": "Geçersiz veya süresi dolmuş kod.",
+    "userNotFound": "{email} ile kullanıcı bulunamadı.",
     "validationFailedForObject": "Doğrulama başarısız: nesne='{object}'. Hata sayısı: {count}",
     "fetchFailed": "Veri alınamadı. Lütfen internet bağlantınızı veya sunucuyu kontrol edin.",
     "variableNotDefined": "{variable} tanımlı değil.",
@@ -971,43 +975,47 @@
     "home": "Ana sayfaya dön"
   },
   "dashboard": {
-    "title": "DASHBOARD",
+    "title": "KONTROL PANELİ",
+    "logout": "Çıkış",
     "tiles": {
       "cinemas": {
-        "title": "Cinemas",
+        "title": "Sinemalar",
         "desc": "Şubeler ve salon eşleştirmeleri"
       },
       "halls": {
-        "title": "Halls",
+        "title": "Salonlar",
         "desc": "Salon planları, koltuk şablonları"
       },
-      "times": { "title": "Showtimes", "desc": "Seans planlama ve takvim" },
-      "images": { "title": "Images", "desc": "Afiş ve görsel yönetimi" },
+      "times": { "title": "Seanslar", "desc": "Seans planlama ve takvim" },
+      "images": { "title": "Resimler", "desc": "Afiş ve görsel yönetimi" },
       "cinemaimg": {
-        "title": "Cinema Images",
+        "title": "Sinema Resimleri",
         "desc": "Sinema resimleri yönetimi"
       },
-      "movies": { "title": "Movies", "desc": "Filmler ve içerik listesi" },
-      "users": { "title": "Users", "desc": "Kullanıcı arama ve yönetim" },
+      "movies": { "title": "Filmler", "desc": "Filmler ve içerik listesi" },
+      "users": {
+        "title": "Kullanıcılar",
+        "desc": "Kullanıcı arama ve yönetim"
+      },
       "tickets": {
-        "title": "Tickets (Admin)",
+        "title": "Biletler (Admin)",
         "desc": "Satışlar ve bilet işlemleri"
       },
       "cities": { "title": "Cities", "desc": "Şehir / bölge listeleri" },
-      "vip": { "title": "Special Halls", "desc": "VIP / özel salon tipleri" },
+      "vip": { "title": "Özel Salonlar", "desc": "VIP / özel salon tipleri" },
       "contact": {
-        "title": "Contact Messages",
+        "title": "İletişim Mesajları",
         "desc": "İletişim kutusu mesajları"
       },
       "reports": {
-        "title": "Reports",
+        "title": "Raporlar",
         "desc": "Özetler ve performans raporları"
       },
-      "locations": { "title": "Locations", "desc": "Location List" },
+      "locations": { "title": "Konumlar", "desc": "Konum Listesi" },
       "districts": { "title": "Districts", "desc": "İlçe / semt listeleri" },
-      "payments": { "title": "Payments", "desc": "Ödeme kayıtları" },
-      "favorites": { "title": "Favorites", "desc": "Favori kayıtları" },
-      "roles": { "title": "Roles", "desc": "Rol ve yetkiler" }
+      "payments": { "title": "Ödemeler", "desc": "Ödeme kayıtları" },
+      "favorites": { "title": "Favoriler", "desc": "Favori kayıtları" },
+      "roles": { "title": "Roller", "desc": "Rol ve yetkiler" }
     },
     "contactMessages": {
       "title": "İletişim Mesajları",
@@ -1203,6 +1211,7 @@
     "title": "Film Adı",
     "summary": "Özet",
     "slug": "Slug",
+    "poster": "Afiş",
     "releaseDate": "Vizyon Tarihi",
     "duration": "Süre (dakika)",
     "rating": "Puan",
@@ -1223,6 +1232,9 @@
     "updateButton": "Güncelle",
     "backButton": "Geri Dön",
 
+    "confirmYes": "Evet",
+    "confirmCancel": "İptal",
+
     "loadError": "Film listesi yüklenemedi.",
     "notFound": "Film bulunamadı.",
     "loading": "Yükleniyor...",
@@ -1238,6 +1250,80 @@
     "needAdminToEdit": "Düzenlemek için yönetici olmanız gerekiyor",
     "needAdminToDelete": "Silmek için yönetici olmanız gerekiyor",
     "needAdmin": "Yönetici olmanız gerekiyor"
+  },
+
+  "users": {
+    "title": "KULLANICILAR",
+    "newButton": "+ Yeni Kullanıcı",
+    "newTitle": "Yeni Kullanıcı Ekle",
+    "editTitle": "Kullanıcı Düzenle",
+    "saveButton": "Kaydet",
+    "backButton": "← Kullanıcılara Dön",
+    "loading": "Yükleniyor...",
+    "noData": "Hiç kullanıcı bulunamadı.",
+    "deleteConfirm": "Bu kullanıcıyı silmek istediğine emin misin?",
+    "successDelete": "🗑️ Kullanıcı başarıyla silindi!",
+    "errorDelete": "Silme hatası",
+    "successMessage": "Kullanıcı başarıyla eklendi!",
+    "successUpdate": "Kullanıcı başarıyla güncellendi!",
+    "errorMessage": "Kullanıcı ekleme başarısız.",
+    "errorNotFound": "Kullanıcı bulunamadı",
+    "errorUpdate": "Güncelleme başarısız.",
+
+    "table": {
+      "id": "ID",
+      "name": "Ad",
+      "surname": "Soyad",
+      "email": "Email",
+      "phone": "Telefon",
+      "roles": "Roller",
+      "gender": "Cinsiyet",
+      "actions": "İşlem",
+      "edit": "Düzenle",
+      "delete": "Sil"
+    },
+
+    "roles": {
+      "ADMIN": "Yönetici",
+      "EMPLOYEE": "Personel",
+      "MEMBER": "Kullanıcı",
+      "ANONYMOUS": "Anonim"
+    },
+
+    "genders": {
+      "MALE": "Erkek",
+      "FEMALE": "Kadın",
+      "OTHER": "Diğer"
+    },
+
+    "form": {
+      "name": "Ad",
+      "surname": "Soyad",
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "Email",
+      "password": "Şifre",
+      "confirmPassword": "Şifre Doğrulama",
+      "phone": "Telefon",
+      "gender": "Cinsiyet",
+      "role": "Rol",
+      "roles": "Roller",
+      "city": "Şehir",
+      "district": "İlçe",
+      "birthDate": "Doğum Tarihi",
+      "selectOption": "Seçiniz",
+      "selectRole": "Rol Seçiniz",
+      "selectCity": "Şehir Seçiniz",
+      "selectDistrict": "İlçe Seçiniz",
+      "selectGender": "Cinsiyet Seçiniz",
+      "required": "Zorunlu alan",
+      "emailInvalid": "Geçerli bir email adresi girin",
+      "passwordMin": "Şifre en az 6 karakter olmalı",
+      "passwordsNotMatch": "Şifreler eşleşmiyor",
+      "phoneInvalid": "Geçerli bir telefon numarası girin",
+      "birthDateInvalid": "Geçerli bir tarih girin",
+      "saving": "Kaydediliyor..."
+    }
   },
 
   "alerts": {
@@ -1314,6 +1400,8 @@
     "alerts": {
       "typeCreated": "Özel salon türü oluşturuldu.",
       "typeCreateFailed": "Özel salon türü oluşturulamadı.",
+      "typeUpdated": "Özel salon türü güncellendi.",
+      "typeUpdateFailed": "Özel salon türü güncellenemedi.",
       "typeDeleted": "Özel salon türü silindi.",
       "typeDeleteFailed": "Özel salon türü silinemedi.",
       "typeInUse": "\"{name}\" türünde özel salon(lar) bulunmaktadır. Önce bu salonları silmeli ya da türlerini değiştirmelisiniz."
@@ -1495,75 +1583,103 @@
       "showing": "{from}–{to} / Toplam {total}"
     },
     "location": {
-  "title": "Konum Yöneticisi",
-  "subtitle": "Ülkeler → Şehirler → İlçeler",
-  "loading": "Yükleniyor…",
-  "empty": {
-    "countries": "Ülke yok.",
-    "cities": "Bu ülke için şehir yok.",
-    "districts": "Bu şehir için ilçe yok."
-  },
-  "countries": {
-    "title": "Ülkeler",
-    "search": "Ara…",
-    "newPlaceholder": "Yeni ülke adı",
-    "add": "Ekle",
-    "headers": { "name": "Ülke", "actions": "İşlemler" },
-    "buttons": { "edit": "Düzenle", "delete": "Sil" },
-    "swal": {
-      "renameTitle": "Ülke adını değiştir",
-      "save": "Kaydet",
-      "updated": "Ülke güncellendi",
-      "deleteTitle": "{name} silinsin mi?",
-      "deleteText": "Bu işlem geri alınamaz.",
-      "deleted": "Ülke silindi"
+      "title": "Konum Yöneticisi",
+      "subtitle": "Ülkeler → Şehirler → İlçeler",
+      "loading": "Yükleniyor…",
+      "empty": {
+        "countries": "Ülke yok.",
+        "cities": "Bu ülke için şehir yok.",
+        "districts": "Bu şehir için ilçe yok."
+      },
+      "countries": {
+        "title": "Ülkeler",
+        "search": "Ara…",
+        "newPlaceholder": "Yeni ülke adı",
+        "add": "Ekle",
+        "headers": { "name": "Ülke", "actions": "İşlemler" },
+        "buttons": { "edit": "Düzenle", "delete": "Sil" },
+        "swal": {
+          "renameTitle": "Ülke adını değiştir",
+          "save": "Kaydet",
+          "updated": "Ülke güncellendi",
+          "deleteTitle": "{name} silinsin mi?",
+          "deleteText": "Bu işlem geri alınamaz.",
+          "deleted": "Ülke silindi"
+        }
+      },
+      "cities": {
+        "title": "Şehirler",
+        "of": "· {country}",
+        "search": "Ara…",
+        "newPlaceholder": "Yeni şehir adı",
+        "selectCountryFirst": "Önce bir ülke seçin",
+        "add": "Ekle",
+        "headers": { "name": "Şehir", "actions": "İşlemler" },
+        "buttons": { "edit": "Düzenle", "delete": "Sil" },
+        "swal": {
+          "renameTitle": "Şehir adını değiştir",
+          "save": "Kaydet",
+          "updated": "Şehir güncellendi",
+          "deleteTitle": "{name} silinsin mi?",
+          "deleteText": "Bu işlem geri alınamaz.",
+          "deleted": "Şehir silindi"
+        },
+        "prompts": { "selectCountry": "Şehirleri görmek için ülke seçin." }
+      },
+      "districts": {
+        "title": "İlçeler",
+        "of": "· {city}",
+        "selectCity": "· Şehir seçin",
+        "newPlaceholder": "Yeni ilçe adı",
+        "selectCityFirst": "Önce bir şehir seçin",
+        "add": "Ekle",
+        "headers": { "name": "İlçe", "actions": "İşlemler" },
+        "buttons": { "edit": "Düzenle", "delete": "Sil" },
+        "swal": {
+          "renameTitle": "İlçe adını değiştir",
+          "save": "Kaydet",
+          "updated": "İlçe güncellendi",
+          "deleteTitle": "{name} silinsin mi?",
+          "deleteText": "Bu işlem geri alınamaz.",
+          "deleted": "İlçe silindi"
+        },
+        "prompts": { "selectCity": "İlçeleri görmek için şehir seçin." }
+      },
+      "pagination": {
+        "first": "« İlk",
+        "prev": "‹ Önceki",
+        "page": "Sayfa {page} / {total}",
+        "next": "Sonraki ›",
+        "last": "Son »"
+      }
     }
-  },
-  "cities": {
-    "title": "Şehirler",
-    "of": "· {country}",
-    "search": "Ara…",
-    "newPlaceholder": "Yeni şehir adı",
-    "selectCountryFirst": "Önce bir ülke seçin",
-    "add": "Ekle",
-    "headers": { "name": "Şehir", "actions": "İşlemler" },
-    "buttons": { "edit": "Düzenle", "delete": "Sil" },
-    "swal": {
-      "renameTitle": "Şehir adını değiştir",
-      "save": "Kaydet",
-      "updated": "Şehir güncellendi",
-      "deleteTitle": "{name} silinsin mi?",
-      "deleteText": "Bu işlem geri alınamaz.",
-      "deleted": "Şehir silindi"
-    },
-    "prompts": { "selectCountry": "Şehirleri görmek için ülke seçin." }
-  },
-  "districts": {
-    "title": "İlçeler",
-    "of": "· {city}",
-    "selectCity": "· Şehir seçin",
-    "newPlaceholder": "Yeni ilçe adı",
-    "selectCityFirst": "Önce bir şehir seçin",
-    "add": "Ekle",
-    "headers": { "name": "İlçe", "actions": "İşlemler" },
-    "buttons": { "edit": "Düzenle", "delete": "Sil" },
-    "swal": {
-      "renameTitle": "İlçe adını değiştir",
-      "save": "Kaydet",
-      "updated": "İlçe güncellendi",
-      "deleteTitle": "{name} silinsin mi?",
-      "deleteText": "Bu işlem geri alınamaz.",
-      "deleted": "İlçe silindi"
-    },
-    "prompts": { "selectCity": "İlçeleri görmek için şehir seçin." }
-  },
-  "pagination": {
-    "first": "« İlk",
-    "prev": "‹ Önceki",
-    "page": "Sayfa {page} / {total}",
-    "next": "Sonraki ›",
-    "last": "Son »"
   }
-}
+  
+,
+  "movieShowtimes": {
+  "titleWithMovie": "{title} Filminin Gösterimi Olan Sinemalar",
+  "titleGeneric": "Filmin Gösterimi Olan Sinemalar",
+  "paramLabel": "Param:",
+  "filters": {
+    "country": "Ülke",
+    "countryPlaceholder": "Ülke seçiniz…",
+    "city": "Şehir",
+    "cityPlaceholder": "Şehir seçiniz…",
+    "date": "Tarih",
+    "datePlaceholder": "Tarih seçiniz…"
+  },
+  "loading": "Yükleniyor…",
+  "errors": {
+    "generic": "Sinemalar yüklenemedi."
+  },
+  "movie": {
+    "titleFallback": "Film",
+    "directorLabel": "Yönetmen:",
+    "details": "Detay"
+  },
+  "messages": {
+    "selectFiltersHint": "Ülke, şehir ve tarih seçtiğinizde seanslar burada görünecek.",
+    "noShowtimes": "Seans yok",
+    "selectDateHint": "Bir tarih seçiniz."
   }
-}
+  }}
