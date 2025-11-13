@@ -6,30 +6,23 @@ import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
-import { Avatar } from "primereact/avatar";
 import { Alert } from "react-bootstrap";
 import "primereact/resources/themes/md-dark-deeppurple/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import "./MovieListDashboardTable.scss"; // Özel CSS
+import "./MovieListDashboardTable.scss";
 
-/**
- * MovieListDashboardTable with dark theme
- */
 export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
-  const FILTERS = {
-    ALL: "all",
-    WITH: "with",
-    WITHOUT: "without",
-  };
+  const FILTERS = { ALL: "all", WITH: "with", WITHOUT: "without" };
+  const ROW_OPTIONS = [5, 10, 15, 20];
 
   const [filter, setFilter] = useState(FILTERS.ALL);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   if (!movies?.length) {
     return <Alert variant="warning">{tCinemas("noMovieForCinema")}</Alert>;
   }
 
-  // Movie IDs with showtime
   const movieIdsWithShowtime = useMemo(() => {
     if (!cinema?.halls?.length) return [];
     return [
@@ -39,7 +32,6 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
     ];
   }, [cinema]);
 
-  // Filtered movies
   const filteredMovies = useMemo(() => {
     switch (filter) {
       case FILTERS.WITH:
@@ -51,14 +43,25 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
     }
   }, [filter, movies, movieIdsWithShowtime]);
 
-  // Thumbnail column
   const thumbnailBodyTemplate = (movie) => {
-    const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
-    const imageUrl = poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
-    return <Avatar image={imageUrl} shape="square" size="large" className="movie-avatar" />;
-  };
+  const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
+  const imageUrl = poster?.url || movie.posterUrl || "/images/cinetime-logo.png";
+  return (
+    <img
+      src={imageUrl}
+      alt={movie.title}
+      className="movie-poster"
+      style={{
+        width: "80px",
+        height: "120px",
+        objectFit: "cover",
+        display: "block",
+      }}
+    />
+  );
+};
 
-  // Showtime badge column
+
   const showtimeBodyTemplate = (movie) => {
     const hasShowtime = movieIdsWithShowtime.includes(movie.id);
     return hasShowtime ? (
@@ -68,7 +71,6 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
     );
   };
 
-  // Edit action column
   const editBodyTemplate = (movie) => (
     <Button
       icon="pi pi-pencil"
@@ -77,14 +79,23 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
     />
   );
 
-  // Index column
   const indexBodyTemplate = (rowData, options) => options.rowIndex + 1;
+
+  // Rows per page dropdown component for paginatorRight
+  const paginatorRightTemplate = (
+    <Dropdown
+      value={rowsPerPage}
+      onChange={(e) => setRowsPerPage(e.value)}
+      options={ROW_OPTIONS.map((r) => ({ label: `${r} ${tCinemas("perPage")}`, value: r }))}
+      className="w-24 dark-dropdown"
+    />
+  );
 
   return (
     <div className="mt-4">
-      {/* Header + Filter Dropdown */}
-      <div className="d-flex align-items-center gap-3 mb-3">
+      <div className="d-flex align-items-center gap-3 mb-3 flex-wrap">
         <h3 className="fw-bold text-light mb-0">{tCinemas("currentMovies")}</h3>
+
         <Dropdown
           value={filter}
           onChange={(e) => setFilter(e.value)}
@@ -104,10 +115,11 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
         <DataTable
           value={filteredMovies}
           paginator
-          rows={10}
+          rows={rowsPerPage} // dynamic rows per page
           responsiveLayout="scroll"
           rowHover
           className="p-datatable-sm p-datatable-striped dark-table"
+          paginatorRight={paginatorRightTemplate} // dropdown on pagination right
         >
           <Column header="#" body={indexBodyTemplate} style={{ width: "50px" }} />
           <Column header={tCinemas("poster")} body={thumbnailBodyTemplate} style={{ width: "100px" }} />
@@ -118,22 +130,8 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
             body={(movie) => `${movie.duration} ${tCinemas("minutes")}`}
             sortable
           />
-          <Column
-            field="rating"
-            header={tCinemas("rating")}
-            body={(movie) => movie.rating?.toFixed(1) || "-"}
-            sortable
-          />
-          <Column
-            header={tCinemas("showtime")}
-            body={showtimeBodyTemplate}
-            style={{ width: "140px" }}
-          />
-          <Column
-            header={tCinemas("actions")}
-            body={editBodyTemplate}
-            style={{ width: "100px" }}
-          />
+          <Column header={tCinemas("showtime")} body={showtimeBodyTemplate} style={{ width: "140px" }} />
+          <Column header={tCinemas("actions")} body={editBodyTemplate} style={{ width: "100px" }} />
         </DataTable>
       )}
     </div>

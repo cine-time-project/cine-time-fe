@@ -1,48 +1,52 @@
-/* Dark Table */
+/* Dark table with soft rounded corners */
 .dark-table {
-  --surface-a: #121212;
-  --surface-b: #1e1e1e;
-  --text-color: #f0f0f0;
-  --header-bg: #1b1b1b;
-  --row-hover-bg: #272727;
-  --border-color: #333;
-  background-color: var(--surface-a);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden; /* ensures corners are clipped */
+  background-color: #1e1e2f; /* slightly softer dark background */
+  border: none;
+
+  .p-datatable-thead > tr > th {
+    border-bottom: none;
+    background-color: #2a2a3d;
+    color: #f0f0f0;
+  }
+
+  .p-datatable-tbody > tr {
+    transition: background-color 0.2s ease-in-out;
+    border-bottom: 1px solid #2a2a3d;
+    &:hover {
+      background-color: #33334d; /* yumuşak hover */
+    }
+  }
+
+  .p-datatable-tbody > tr > td {
+    border: none;
+    padding: 0.75rem 1rem;
+  }
+
+  .p-paginator {
+    border-top: none;
+    background-color: #2a2a3d;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .p-datatable-sm .p-datatable-tbody > tr > td {
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Dropdown inside table */
+  .dark-dropdown {
+    background-color: #2a2a3d;
+    color: #f0f0f0;
+    border-radius: 8px;
+    border: 1px solid #444459;
+    .p-dropdown-label {
+      color: #f0f0f0;
+    }
+  }
 }
 
-.dark-table .p-datatable-thead > tr > th {
-  background-color: var(--header-bg);
-  color: var(--text-color);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.dark-table .p-datatable-tbody > tr:hover {
-  background-color: var(--row-hover-bg);
-}
-
-.dark-dropdown .p-dropdown-label {
-  background-color: #1e1e1e;
-  color: #f0f0f0;
-}
-
-.dark-dropdown .p-dropdown-panel {
-  background-color: #1e1e1e;
-  color: #f0f0f0;
-}
-
-/* Amber Buttons */
-.p-button-warning {
-  background-color: #ffc107 !important;
-  border-color: #ffc107 !important;
-  color: #111 !important;
-}
-.p-button-warning:hover {
-  background-color: #e0a800 !important;
-  border-color: #e0a800 !important;
-}
-
-/* Avatar border */
-.movie-avatar {
-  border: 2px solid #333;
+/* Poster images soft corners */
+.movie-poster {
+  border-radius: 8px;
 }
