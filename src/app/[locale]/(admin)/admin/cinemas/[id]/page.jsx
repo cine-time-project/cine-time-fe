@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Spinner,
   Container,
   Row,
   Col,
-  OverlayTrigger,
-  Tooltip,
-  Button,
   Card,
 } from "react-bootstrap";
 
@@ -20,9 +17,8 @@ import { useParams } from "next/navigation";
 import { BackButton } from "@/components/common/form-fields/BackButton";
 import { useTranslations } from "next-intl";
 import { useCinemaDetails } from "@/components/cinemas/useCinemaDetails";
-import MovieList from "@/components/dashboard/cinema/detail/MovieList";
 import { useAuth } from "@/lib/auth/useAuth";
-import MovieListDashboard from "@/components/dashboard/cinema/detail/MovieListDashboard";
+import MovieListDashboardTable from "@/components/dashboard/cinema/detail/MovieListDashboardTable";
 
 export default function AdminCinemaDetailPage() {
   // Extract cinema ID from route params (Next.js 15+ uses promise-based params)
@@ -107,7 +103,7 @@ export default function AdminCinemaDetailPage() {
 
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieListDashboard movies={cinema.movies || []} tCinemas={tCinemas} />
+          <MovieListDashboardTable movies={cinema.movies || []} tCinemas={tCinemas} />
         </Col>
 
         <Col xs={12}>
