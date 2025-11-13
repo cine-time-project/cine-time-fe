@@ -456,7 +456,9 @@
     "date": "Datum",
     "start": "Start",
     "end": "Ende",
-    "movie": "Film"
+    "movie": "Film",
+    "withShowtime": "Mit Vorstellung",
+    "withoutShowtime": "Ohne Vorstellung"
   },
 
   "showtimes": {
@@ -868,7 +870,6 @@
     "ctaBtn": "Ticket kaufen",
     "ctaButtonOpen": "Ticket Kaufen",
     "ctaButtonClose": "Bereich Ausblenden"
-
   },
 
   "comingSoon": {

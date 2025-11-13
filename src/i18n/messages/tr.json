@@ -455,7 +455,9 @@
     "date": "Tarih",
     "start": "Başlangıç",
     "end": "Bitiş",
-    "movie": "Film"
+    "movie": "Film",
+    "withShowtime" : "Seansı olan",
+    "withoutShowtime" : "Seansı olmayan"
   },
 
   "showtimes": {
