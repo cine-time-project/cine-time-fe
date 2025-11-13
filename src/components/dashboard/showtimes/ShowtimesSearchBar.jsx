@@ -24,9 +24,6 @@ const selectStyles = {
   }),
 };
 
-const loadHalls = (q) =>
-    form.cinemaId ? searchHallsByName(form.cinemaId, q) : Promise.resolve([]);
-
 export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) {
   const t = useTranslations("showtimes");
   const tCommon = useTranslations("common");
@@ -39,13 +36,13 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
     dateTo: initial.dateTo ?? "",
   });
 
+  // Clear için: select'leri yeniden mount etmekte kullanacağız
+  const [resetKey, setResetKey] = useState(0);
+
   const loadCinemas = (q) => searchCinemasByName(q);
 
-  const loadHalls = (q) => {
-    return form.cinemaId
-      ? searchHallsByName(form.cinemaId, q)
-      : Promise.resolve([]);
-  };
+  const loadHalls = (q) =>
+    form.cinemaId ? searchHallsByName(form.cinemaId, q) : Promise.resolve([]);
 
   const loadMovies = (q) => searchMoviesByTitle(q);
 
@@ -68,6 +65,10 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
       dateFrom: "",
       dateTo: "",
     });
+
+    // 👇 Tüm AsyncSelect bileşenlerini yeniden yarat
+    setResetKey((k) => k + 1);
+
     onClear?.();
   };
 
@@ -82,6 +83,7 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
           {t("filters.cinema", { default: "Cinema" })}
         </label>
         <AsyncSelect
+          key={`cinema-${resetKey}`}
           cacheOptions
           defaultOptions
           isClearable
@@ -94,35 +96,37 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
             setForm((v) => ({
               ...v,
               cinemaId: opt?.value ?? null,
-              hallId: null,
+              hallId: null, // cinema değişince salonu da sıfırla
             }))
           }
         />
       </div>
 
-
-  {/* Hall (dependent) */}
-  <div className="col-12 col-xl-2 col-lg-2">
-    <label className="form-label text-white">
-      {t("filters.hall", { default: "Hall" })}
-    </label>
-    <AsyncSelect
-      key={form.cinemaId || "no-cinema"}   
-      isDisabled={!form.cinemaId}
-      cacheOptions
-      defaultOptions                       
-      isClearable
-      styles={selectStyles}
-      loadOptions={loadHalls}
-      placeholder={
-        form.cinemaId
-          ? t("placeholders.searchHall", { default: "Search hall…" })
-          : t("placeholders.selectCinemaFirst", { default: "Select a cinema first" })
-      }
-      onChange={(opt) => setForm((v) => ({ ...v, hallId: opt?.value ?? null }))}
-    />
-  </div>
-
+      {/* Hall (dependent) */}
+      <div className="col-12 col-xl-2 col-lg-2">
+        <label className="form-label text-white">
+          {t("filters.hall", { default: "Hall" })}
+        </label>
+        <AsyncSelect
+          key={`hall-${resetKey}-${form.cinemaId || "no-cinema"}`}
+          isDisabled={!form.cinemaId}
+          cacheOptions
+          defaultOptions
+          isClearable
+          styles={selectStyles}
+          loadOptions={loadHalls}
+          placeholder={
+            form.cinemaId
+              ? t("placeholders.searchHall", { default: "Search hall…" })
+              : t("placeholders.selectCinemaFirst", {
+                  default: "Select a cinema first",
+                })
+          }
+          onChange={(opt) =>
+            setForm((v) => ({ ...v, hallId: opt?.value ?? null }))
+          }
+        />
+      </div>
 
       {/* Movie */}
       <div className="col-12 col-xl-3 col-lg-3">
@@ -130,6 +134,7 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
           {t("filters.movie", { default: "Movie" })}
         </label>
         <AsyncSelect
+          key={`movie-${resetKey}`}
           cacheOptions
           defaultOptions
           isClearable
@@ -153,7 +158,9 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
           type="date"
           className="form-control"
           value={form.dateFrom}
-          onChange={(e) => setForm((v) => ({ ...v, dateFrom: e.target.value }))}
+          onChange={(e) =>
+            setForm((v) => ({ ...v, dateFrom: e.target.value }))
+          }
         />
       </div>
 
@@ -166,7 +173,9 @@ export default function ShowtimesSearchBar({ initial = {}, onSearch, onClear }) 
           type="date"
           className="form-control"
           value={form.dateTo}
-          onChange={(e) => setForm((v) => ({ ...v, dateTo: e.target.value }))}
+          onChange={(e) =>
+            setForm((v) => ({ ...v, dateTo: e.target.value }))
+          }
         />
       </div>
 

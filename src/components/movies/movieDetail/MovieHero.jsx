@@ -8,7 +8,11 @@ import { useParams } from "next/navigation";
 
 export default function MovieHero({ movie }) {
   const t = useTranslations("movies");
-  const bg = movie.backdropUrl || movie.posterUrl || "/images/demo-backdrop.jpg";
+  const bg =
+  movie.backdropUrl ||      // geniş hero
+  movie.posterUrl ||        // poster (fallback)
+  "/images/demo-backdrop.jpg";
+
 
   const { locale } = useParams();        // [locale] segmenti (tr/en vs.)
   const prefix = locale ? `/${locale}` : "";

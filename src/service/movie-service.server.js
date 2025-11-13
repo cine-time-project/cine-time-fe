@@ -3,7 +3,7 @@
 import { config } from "@/helpers/config";
 
 export const getMovieById = async (id) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.baseUrl;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || config.apiURL;
   if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in .env.local");
   }
