@@ -4,9 +4,8 @@ import ExperienceView from "@/components/experience/ExperienceView";
 import { EXPERIENCES } from "@/config/experiences.config"; // <-- burası değişti
 import "@/styles/experience.scss"; // global stile aldık
 
-
 export default async function ExperiencePage({ params }) {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   const content = EXPERIENCES[slug];
   if (!content) return notFound();
 
@@ -26,5 +25,5 @@ export default async function ExperiencePage({ params }) {
 }
 
 export async function generateStaticParams() {
-  return Object.keys(EXPERIENCES).map(slug => ({ slug }));
+  return Object.keys(EXPERIENCES).map((slug) => ({ slug }));
 }

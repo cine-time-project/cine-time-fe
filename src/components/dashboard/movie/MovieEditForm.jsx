@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { updateMovieAction } from "@/action/movie-actions";
 import { FormContainer } from "@/components/common/form-fields/FormContainer";
 import { TextInput } from "@/components/common/form-fields/TextInput";
@@ -15,6 +16,7 @@ import { ALL_GENRES } from "@/helpers/data/genres";
 import { useRouter } from "next/navigation";
 
 export const MovieEditForm = ({ movie, genres = [] }) => {
+  const t = useTranslations("movie");
   const [state, formAction, isPending] = useActionState(
     updateMovieAction,
     null
@@ -53,14 +55,14 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
         {/* Required fields */}
         <TextInput
           name="title"
-          label="Title *"
+          label={`${t("title")} *`}
           className="mb-3"
           defaultValue={movie.title}
           errorMessage={state?.errors?.title}
         />
         <TextInput
           name="summary"
-          label="Summary *"
+          label={`${t("summary")} *`}
           className="mb-3"
           defaultValue={movie.summary}
           errorMessage={state?.errors?.summary}
@@ -68,21 +70,21 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
 
         <TextInput
           name="slug"
-          label="Slug *"
+          label={`${t("slug")} *`}
           className="mb-3"
           defaultValue={movie.slug}
           errorMessage={state?.errors?.slug}
         />
         <DateInput
           name="releaseDate"
-          label="Release Date *"
+          label={`${t("releaseDate")} *`}
           className="mb-3"
           value={movie.releaseDate}
           errorMessage={state?.errors?.releaseDate}
         />
         <TextInput
           name="duration"
-          label="Duration (minutes) *"
+          label={`${t("duration")} *`}
           className="mb-3"
           defaultValue={movie.duration}
           errorMessage={state?.errors?.duration}
@@ -90,7 +92,7 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
 
         <TextInput
           name="cast"
-          label="Cast members (comma separated)"
+          label={t("cast")}
           className="mb-3"
           defaultValue={movie.cast?.join(", ") || ""}
           errorMessage={state?.errors?.cast}
@@ -159,8 +161,8 @@ export const MovieEditForm = ({ movie, genres = [] }) => {
           className="mb-3"
           defaultValue={movie.trailerUrl}
         />
-        <BackButton className="me-2" />
-        <SubmitButton title="Update" pending={isPending} />
+        <BackButton className="me-2" title={t("backButton")} />
+        <SubmitButton title={t("updateButton")} pending={isPending} />
       </form>
     </FormContainer>
   );

@@ -71,39 +71,39 @@ export const MovieCreateForm = ({ locale }) => {
         {/* Zorunlu Alanlar */}
         <TextInput
           name="title"
-          label="Title *"
+          label={`${t("title")} *`}
           className="mb-3"
           errorMessage={state?.errors?.title}
         />
         <TextInput
           name="summary"
-          label="Summary *"
+          label={`${t("summary")} *`}
           className="mb-3"
           errorMessage={state?.errors?.summary}
         />
 
         <TextInput
           name="slug"
-          label="Slug *"
+          label={`${t("slug")} *`}
           className="mb-3"
           errorMessage={state?.errors?.slug}
         />
         <DateInput
           name="releaseDate"
-          label="Release Date *"
+          label={`${t("releaseDate")} *`}
           className="mb-3"
           errorMessage={state?.errors?.releaseDate}
         />
         <TextInput
           name="duration"
-          label="Duration (minutes) *"
+          label={`${t("duration")} *`}
           className="mb-3"
           errorMessage={state?.errors?.duration}
         />
 
         <TextInput
           name="cast"
-          label="Cast members (comma separated)"
+          label={t("cast")}
           className="mb-3"
           errorMessage={state?.errors?.cast}
         />
@@ -170,8 +170,8 @@ export const MovieCreateForm = ({ locale }) => {
           errorMessage={state?.errors?.trailerUrl}
         />
 
-        <BackButton className="me-2" />
-        <SubmitButton title="Create" pending={isPending} />
+        <BackButton className="me-2" title={t("backButton")} />
+        <SubmitButton title={t("createButton")} pending={isPending} />
       </form>
     </FormContainer>
   );
