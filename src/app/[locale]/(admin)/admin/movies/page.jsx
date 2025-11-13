@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import Spacer from "@/components/common/Spacer";
 import { MovieList } from "@/components/dashboard/movie/MovieList";
@@ -7,6 +8,7 @@ import { getAllMoviesByPage } from "@/service/movie-service";
 
 export default function AdminMoviesPage({ params }) {
   const { locale } = React.use(params);
+  const t = useTranslations("movie");
   const [data, setData] = useState(null);
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState("");
@@ -38,7 +40,7 @@ export default function AdminMoviesPage({ params }) {
 
   return (
     <>
-      <PageHeader title="Movies" />
+      <PageHeader title={t("listTitle")} />
       <Spacer />
       <MovieList
         data={data}

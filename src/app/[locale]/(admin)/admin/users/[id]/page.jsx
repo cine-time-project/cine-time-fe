@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { config } from "@/helpers/config";
+import { useTranslations } from "next-intl";
 
 export default function EditUserPage() {
   const [form, setForm] = useState({
@@ -18,7 +19,8 @@ export default function EditUserPage() {
   const { id } = useParams();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
+  const t = useTranslations("users");
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   useEffect(() => {
     const token =
@@ -35,7 +37,7 @@ export default function EditUserPage() {
         });
 
         if (!res.ok) {
-          throw new Error(`Kullanıcı bulunamadı (Status: ${res.status})`);
+          throw new Error(`${t("errorNotFound")} (Status: ${res.status})`);
         }
 
         const data = await res.json();
@@ -96,12 +98,9 @@ export default function EditUserPage() {
         }),
       });
 
-      if (!res.ok) throw new Error("Güncelleme başarısız.");
+      if (!res.ok) throw new Error(t("errorUpdate"));
 
-      sessionStorage.setItem(
-        "actionMessage",
-        "Kullanıcı başarıyla güncellendi!"
-      );
+      sessionStorage.setItem("actionMessage", t("successUpdate"));
       router.push(`/${locale}/admin/users`);
     } catch (err) {
       alert(err.message);
@@ -110,11 +109,13 @@ export default function EditUserPage() {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">Kullanıcı Düzenle</h1>
+      <h1 className="mb-4" style={{ color: "#cfb314ff" }}>
+        {t("editTitle")}
+      </h1>
 
       <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
         <div className="mb-3">
-          <label className="form-label">Ad</label>
+          <label className="form-label">{t("form.name")}</label>
           <input
             type="text"
             className="form-control"
@@ -126,7 +127,7 @@ export default function EditUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Soyad</label>
+          <label className="form-label">{t("form.surname")}</label>
           <input
             type="text"
             className="form-control"
@@ -138,7 +139,7 @@ export default function EditUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Email</label>
+          <label className="form-label">{t("form.email")}</label>
           <input
             type="email"
             className="form-control"
@@ -150,7 +151,7 @@ export default function EditUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Telefon</label>
+          <label className="form-label">{t("form.phone")}</label>
           <input
             type="text"
             className="form-control"
@@ -162,21 +163,21 @@ export default function EditUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Cinsiyet</label>
+          <label className="form-label">{t("form.gender")}</label>
           <select
             className="form-select"
             name="gender"
             value={form.gender}
             onChange={handleChange}
           >
-            <option value="">Seçiniz</option>
-            <option value="MALE">Erkek</option>
-            <option value="FEMALE">Kadın</option>
+            <option value="">{t("form.selectOption")}</option>
+            <option value="MALE">{t("genders.MALE")}</option>
+            <option value="FEMALE">{t("genders.FEMALE")}</option>
           </select>
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Roller</label>
+          <label className="form-label">{t("form.roles")}</label>
           <div className="d-flex gap-3">
             {["ADMIN", "EMPLOYEE", "MEMBER"].map((role) => (
               <div key={role} className="form-check">
@@ -190,7 +191,7 @@ export default function EditUserPage() {
                   onChange={handleChange}
                 />
                 <label className="form-check-label" htmlFor={`role-${role}`}>
-                  {role}
+                  {t(`roles.${role}`)}
                 </label>
               </div>
             ))}
@@ -198,7 +199,7 @@ export default function EditUserPage() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Doğum Tarihi</label>
+          <label className="form-label">{t("form.birthDate")}</label>
           <input
             type="date"
             className="form-control"
@@ -214,14 +215,14 @@ export default function EditUserPage() {
             className="btn btn-primary"
             style={{ backgroundColor: "#f26522", border: "none" }}
           >
-            Kaydet
+            {t("saveButton")}
           </button>
 
           <Link
             href={`/${locale}/admin/users`}
             className="btn btn-outline-secondary"
           >
-            ← Kullanıcılara Dön
+            {t("backButton")}
           </Link>
         </div>
       </form>

@@ -2,12 +2,14 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/lib/auth/useAuth";
+import { useTranslations } from "next-intl";
 
 export default function AdminDashboardPage() {
   const { roles = [], loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
+  const t = useTranslations("dashboard");
 
   useEffect(() => {
     if (!loading && roles.length === 0) {
@@ -25,49 +27,54 @@ export default function AdminDashboardPage() {
   // Menü kartları
   const cards = [
     {
-      title: "Cinemas",
-      desc: "Şubeler ve salon eşleştirmeleri",
+      title: t("tiles.cinemas.title"),
+      desc: t("tiles.cinemas.desc"),
       link: `/${locale}/admin/cinemas`,
     },
     {
-      title: "Halls",
-      desc: "Salon planları, koltuk şablonları",
+      title: t("tiles.halls.title"),
+      desc: t("tiles.halls.desc"),
       link: `/${locale}/admin/halls`,
     },
     {
-      title: "Showtimes",
-      desc: "Seans planlama ve takvim",
+      title: t("tiles.times.title"),
+      desc: t("tiles.times.desc"),
       link: `/${locale}/admin/showtimes`,
     },
     {
-      title: "Movies",
-      desc: "Filmler ve içerik listesi",
+      title: t("tiles.movies.title"),
+      desc: t("tiles.movies.desc"),
       link: `/${locale}/admin/movies`,
     },
     {
-      title: "Users",
-      desc: "Kullanıcı arama ve yönetimi",
+      title: t("tiles.users.title"),
+      desc: t("tiles.users.desc"),
       link: `/${locale}/admin/users`,
     },
     {
-      title: "Reports",
-      desc: "Özetler ve performans raporları",
+      title: t("tiles.reports.title"),
+      desc: t("tiles.reports.desc"),
       link: `/${locale}/admin/reports`,
     },
     {
-      title: "Payments",
-      desc: "Ödeme kayıtları",
+      title: t("tiles.payments.title"),
+      desc: t("tiles.payments.desc"),
       link: `/${locale}/admin/payments`,
     },
-    { title: "Roles", desc: "Rol ve yetkiler", link: `/${locale}/admin/roles` },
+    {
+      title: t("tiles.roles.title"),
+      desc: t("tiles.roles.desc"),
+      link: `/${locale}/admin/roles`,
+    },
   ];
 
   return (
     <div style={{ padding: "40px" }}>
       <h1
+        key={`dashboard-title-${locale}`}
         style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "30px" }}
       >
-        Dashboard
+        {t("title")}
       </h1>
       <div
         style={{

@@ -11,7 +11,13 @@ import { isAdmin } from "@/lib/utils/http";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslations } from "next-intl";
 
-export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
+export const MovieList = ({
+  data,
+  locale,
+  onPageChange,
+  onSearch,
+  onFilter,
+  onDeleted,
 }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,21 +45,19 @@ export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
 
   const header = (
     <div className="d-flex justify-content-between align-items-center">
-      <h3 className="m-0 fw-semibold text-dark">Movies</h3>
+      <h3 className="m-0 fw-semibold text-dark">{t("listTitle")}</h3>
 
       {admin ? (
         <Link
           href={`/${locale}/admin/movies/new`}
           className="btn btn-warning text-dark fw-semibold"
         >
-          <i className="pi pi-plus me-2" /> New
+          <i className="pi pi-plus me-2" /> {t("newButton")}
         </Link>
       ) : (
         <OverlayTrigger
           placement="top"
-          overlay={
-            <Tooltip id="tooltip-disabled">{t("needAdmin")}</Tooltip>
-          }
+          overlay={<Tooltip id="tooltip-disabled">{t("needAdmin")}</Tooltip>}
         >
           <span
             className="btn btn-warning text-dark fw-semibold d-inline-block"
@@ -63,7 +67,7 @@ export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
               cursor: "not-allowed",
             }}
           >
-            <i className="pi pi-plus me-2" /> New
+            <i className="pi pi-plus me-2" /> {t("newButton")}
           </span>
         </OverlayTrigger>
       )}
@@ -121,7 +125,7 @@ export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
         <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
           <Form.Control
             type="text"
-            placeholder="Search (by title)..."
+            placeholder={t("searchPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={(e) => {
@@ -140,13 +144,14 @@ export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
             onClick={() => onSearchMovie(searchTerm)}
             disabled={searchTerm === "" ? true : false}
           >
-            <i className="pi pi-search me-2"></i>Search
+            <i className="pi pi-search me-2"></i>
+            {t("searchButton")}
           </button>
 
           <Col md="auto">
             {showButton && (
               <Button variant="outline-secondary" onClick={handleClear}>
-                <i className="pi pi-times"></i> Show All Movies
+                <i className="pi pi-times"></i> {t("showAllButton")}
               </Button>
             )}
           </Col>
@@ -165,7 +170,7 @@ export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
           stripedRows
           showGridlines
           header={header}
-          emptyMessage="No movies found."
+          emptyMessage={t("noData")}
           className="p-datatable-sm"
         >
           <Column
@@ -175,49 +180,53 @@ export const MovieList = ({data,locale,onPageChange,onSearch,onFilter,onDeleted,
           />
 
           <Column
-            header="Poster"
+            header={t("poster")}
             body={posterTemplate}
             style={{ width: "80px", textAlign: "center" }}
           />
 
-          <Column field="title" header="Title" style={{ width: "22%" }} />
+          <Column field="title" header={t("title")} style={{ width: "22%" }} />
 
           <Column
             field="status"
-            header="Status"
+            header={t("status")}
             style={{ width: "10%", textAlign: "center" }}
           />
 
           <Column
             field="releaseDate"
-            header="Release Date"
+            header={t("releaseDate")}
             body={releaseDateTemplate}
             style={{ width: "12%", textAlign: "center" }}
           />
 
           <Column
             field="duration"
-            header="Duration (min)"
+            header={t("duration")}
             style={{ width: "10%", textAlign: "center" }}
           />
 
           <Column
             field="rating"
-            header="Rating"
+            header={t("rating")}
             body={ratingTemplate}
             style={{ width: "8%", textAlign: "center" }}
           />
 
-          <Column field="director" header="Director" style={{ width: "12%" }} />
+          <Column
+            field="director"
+            header={t("director")}
+            style={{ width: "12%" }}
+          />
 
           <Column
-            header="Genre"
+            header={t("genre")}
             body={genreTemplate}
             style={{ width: "15%" }}
           />
 
           <Column
-            header="Actions"
+            header={t("actions")}
             body={(row) => (
               <MovieToolbar
                 row={row}

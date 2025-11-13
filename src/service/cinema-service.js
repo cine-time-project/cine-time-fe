@@ -90,7 +90,6 @@ export async function getDetailedCinema(id, token) {
     headers,
   });
 
-  console.log(response?.data?.returnBody);
   return response?.data?.returnBody;
 }
 

@@ -249,8 +249,6 @@ export default function PastTicketsPage() {
         params: { page: p, size: PAGE_SIZE },
       });
 
-      if (DEBUG) console.log("passed-tickets raw:", res.data);
-
       if (res.status === 401)
         throw new Error("Unauthorized. Please sign in again.");
       if (res.status >= 400)
@@ -287,8 +285,6 @@ export default function PastTicketsPage() {
         headers: { Accept: "application/json", ...authHeadersFromAuth(user) },
         params: { page: p, size: PAGE_SIZE }, // fine even if backend ignores it
       });
-
-      if (DEBUG) console.log("current-tickets raw:", res.data);
 
       if (res.status === 401)
         throw new Error("Unauthorized. Please sign in again.");
