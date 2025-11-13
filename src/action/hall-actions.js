@@ -1,9 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createHall, updateHall, deleteHall } from "@/service/hall-service";
-import { swAlert } from "@/helpers/sweetalert";
-import { useTranslations } from "next-intl";
+import { createHall, deleteHall } from "@/service/hall-service";
 import { config } from "@/helpers/config";
 import { HallSchema } from "@/helpers/schemas/hall-schema";
 
