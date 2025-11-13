@@ -154,7 +154,7 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
             style={{ width: "50px" }}
           />
           <Column header={t("cinemas.image")} body={thumbnailBodyTemplate} />
-          <Column field="title" header={t("cinemas.name")} sortable />
+          <Column field="title" header={t("cinemas.movie")} sortable />
           <Column
             field="duration"
             header={t("movies.duration")}
