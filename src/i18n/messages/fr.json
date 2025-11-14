@@ -371,6 +371,25 @@
     }
   },
 
+  "genres": {
+    "action": "Action",
+    "adventure": "Aventure",
+    "animation": "Animation",
+    "comedy": "Comédie",
+    "crime": "Crime",
+    "drama": "Drame",
+    "family": "Famille",
+    "fantasy": "Fantaisie",
+    "history": "Histoire",
+    "horror": "Horreur",
+    "music": "Musique",
+    "mystery": "Mystère",
+    "romance": "Romance",
+    "science_fiction": "Science-fiction",
+    "thriller": "Thriller",
+    "war": "Guerre"
+  },
+
   "cinemas": {
     "listTitle": "Cinémas",
     "address": "Adresse",

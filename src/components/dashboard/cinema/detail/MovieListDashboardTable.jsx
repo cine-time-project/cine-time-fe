@@ -16,39 +16,19 @@ import "./MovieListDashboardTable.scss";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
+export default function MovieListDashboardTable({ movies, cinema }) {
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations();
-  const FILTERS = { ALL: "all", WITH: "with", WITHOUT: "without" };
+  
   const ROW_OPTIONS = [5, 10, 15, 20];
 
-  const [filter, setFilter] = useState(FILTERS.ALL);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   if (!movies?.length) {
-    return <Alert variant="warning">{t("cinema.noMovieForCinema")}</Alert>;
+    return <Alert variant="warning">{t("cinemas.noMovieForCinema")}</Alert>;
   }
 
-  const movieIdsWithShowtime = useMemo(() => {
-    if (!cinema?.halls?.length) return [];
-    return [
-      ...new Set(
-        cinema.halls.flatMap((h) => h.showtimes?.map((s) => s.movieId) || [])
-      ),
-    ];
-  }, [cinema]);
-
-  const filteredMovies = useMemo(() => {
-    switch (filter) {
-      case FILTERS.WITH:
-        return movies.filter((m) => movieIdsWithShowtime.includes(m.id));
-      case FILTERS.WITHOUT:
-        return movies.filter((m) => !movieIdsWithShowtime.includes(m.id));
-      default:
-        return movies;
-    }
-  }, [filter, movies, movieIdsWithShowtime]);
 
   const thumbnailBodyTemplate = (movie) => {
     const poster = movie.images?.find((img) => img.poster) || movie.images?.[0];
@@ -65,25 +45,6 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
           objectFit: "cover",
           display: "block",
         }}
-      />
-    );
-  };
-
-  const showtimeBodyTemplate = (movie) => {
-    const hasShowtime = movieIdsWithShowtime.includes(movie.id);
-    return hasShowtime ? (
-      <Tag
-        value={t("common.yes")}
-        severity="success"
-        icon="pi pi-check"
-        size="large"
-      />
-    ) : (
-      <Tag
-        value={t("common.no")}
-        severity="danger"
-        icon="pi pi-times"
-        size="large"
       />
     );
   };
@@ -115,33 +76,19 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
 
   const handleMovieEdit = (movieId) => {
     router.push(`/${locale}/admin/movies/${movieId}`);
-
-    // burada dilediğin işlemi yapabilirsin (örneğin sayfa yönlendirmesi)
   };
 
   return (
     <div className="mt-4">
       <div className="d-flex align-items-center gap-3 mb-3 flex-wrap">
-        <h3 className="fw-bold text-light mb-0">{tCinemas("currentMovies")}</h3>
-
-        <Dropdown
-          value={filter}
-          onChange={(e) => setFilter(e.value)}
-          options={[
-            { label: t("movies.all"), value: FILTERS.ALL },
-            { label: t("cinemas.withShowtime"), value: FILTERS.WITH },
-            { label: t("cinemas.withoutShowtime"), value: FILTERS.WITHOUT },
-          ]}
-          placeholder={t("search.filters")}
-          className="w-32"
-        />
+        <h3 className="fw-bold text-light mb-0">{t("cinemas.currentMovies")}</h3>
       </div>
 
-      {filteredMovies.length === 0 ? (
+      {movies.length === 0 ? (
         <Alert variant="info">{t("movies.noMovies")}</Alert>
       ) : (
         <DataTable
-          value={filteredMovies}
+          value={movies}
           paginator
           rows={rowsPerPage}
           responsiveLayout="scroll"
@@ -161,11 +108,6 @@ export default function MovieListDashboardTable({ movies, cinema, tCinemas }) {
             header={t("movies.duration")}
             body={(movie) => `${movie.duration} ${t("common.minutes")}`}
             sortable
-          />
-          <Column
-            header={t("tickets.showtime")}
-            body={showtimeBodyTemplate}
-            style={{ width: "140px" }}
           />
           <Column body={editBodyTemplate} style={{ width: "100px" }} />
         </DataTable>

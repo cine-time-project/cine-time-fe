@@ -2,13 +2,11 @@
 
 import React from "react";
 import { Tag } from "primereact/tag";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ShowtimeCard } from "./ShowtimeCard";
-import { Button } from "react-bootstrap";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 
@@ -43,11 +41,6 @@ export function HallCard({
       : true;
     return matchDate && matchMovie;
   });
-
-  const handleEditHall = () => {
-    console.log(hall.id);
-    router.push(`/${locale}/admin/halls/${hall.id}`);
-  }
 
   return (
     <div

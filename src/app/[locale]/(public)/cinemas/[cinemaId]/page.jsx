@@ -17,25 +17,25 @@ export default function CinemaDetailPage() {
   const { cinemaId } = useParams();
   const tCinemas = useTranslations("cinemas");
 
-  // -----------------------------
   // Local state
-  // -----------------------------
   const [selectedMovieID, setSelectedMovieID] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [allDates, setAllDates] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-  // Fetch cinema details and permissions
+  // Fetch cinema details
   const { cinema, loading } = useCinemaDetails(cinemaId);
 
-  // -----------------------------
-  // Extract unique and sorted upcoming showtime dates
-  // -----------------------------
+  // ---------------------------------------
+  // Extract dates + uniq movies from showtimes
+  // ---------------------------------------
   useEffect(() => {
     if (!cinema) return;
 
+    // --- Extract all dates ---
     const allShowtimeDates = [
       ...new Set(
-        cinema.halls?.flatMap((hall) => hall.showtimes?.map((s) => s.date))
+        cinema.halls?.flatMap((hall) => hall.showtimes?.map((s) => s.date)) || []
       ),
     ];
 
@@ -46,28 +46,39 @@ export default function CinemaDetailPage() {
       .map((d) => new Date(d))
       .filter((date) => date >= today)
       .sort((a, b) => a - b)
-      .map((d) => d.toISOString().split("T")[0]); // YYYY-MM-DD
+      .map((d) => d.toISOString().split("T")[0]);
 
     setAllDates(upcomingDates);
 
-    // Automatically pick the first date if none selected
     if (!selectedDate && upcomingDates.length > 0) {
       setSelectedDate(upcomingDates[0]);
     }
-  }, [cinema, selectedDate]);
 
-  // Reset selected movie when date changes
+    // --- Extract uniq movies from showtimes ---
+    const uniqMovies = Object.values(
+      cinema.halls
+        ?.flatMap((hall) => hall.showtimes?.map((s) => s.movie) || [])
+        .reduce((acc, movie) => {
+          if (movie && !acc[movie.id]) acc[movie.id] = movie;
+          return acc;
+        }, {}) || {}
+    );
+
+    setMovies(uniqMovies);
+  }, [cinema]);
+
+  // Reset selected movie if date changes
   useEffect(() => {
     setSelectedMovieID(null);
   }, [selectedDate]);
 
-  // -----------------------------
-  // Movie filtering logic
-  // -----------------------------
+  // ---------------------------------------
+  // FILTER MOVIES
+  // ---------------------------------------
   const filteredMovies = useMemo(() => {
-    if (!cinema) return [];
+    if (!movies.length) return [];
 
-    // Case 1: Filter by selected date (and movie if selected)
+    // Case 1: Filter by selected date (and optionally by selectedMovieID)
     if (selectedDate) {
       const movieIdsForDate = new Set(
         cinema.halls?.flatMap((hall) =>
@@ -76,51 +87,37 @@ export default function CinemaDetailPage() {
             .map((s) => s.movieId)
         )
       );
-      return cinema.movies?.filter((m) => movieIdsForDate.has(m.id)) || [];
+
+      return movies.filter((m) => movieIdsForDate.has(m.id));
     }
 
-    // Case 2: Only selectedMovieID (no date)
+    // Case 2: Filter by movie only (no date)
     if (selectedMovieID) {
-      return cinema.movies?.filter((m) => m.id === selectedMovieID) || [];
+      return movies.filter((m) => m.id === selectedMovieID);
     }
 
-    // Case 3: No filters — show all
-    return cinema.movies || [];
-  }, [cinema, selectedDate, selectedMovieID]);
+    // Case 3: No filters
+    return movies;
+  }, [movies, cinema, selectedDate, selectedMovieID]);
 
-  // -----------------------------
-  // Hall filtering logic
-  // -----------------------------
+  // ---------------------------------------
+  // FILTER HALLS
+  // ---------------------------------------
   const filteredHalls = useMemo(() => {
     if (!cinema) return [];
 
-    // Case 1: Filter by selected date (and movie if selected)
-    if (selectedDate) {
-      return cinema.halls?.filter((hall) =>
-        hall.showtimes?.some((s) => {
-          const matchDate = s.date === selectedDate;
-          const matchMovie = selectedMovieID
-            ? s.movieId === selectedMovieID
-            : true;
-          return matchDate && matchMovie;
-        })
-      );
-    }
-
-    // Case 2: Only selectedMovieID (no date)
-    if (selectedMovieID) {
-      return cinema.halls?.filter((hall) =>
-        hall.showtimes?.some((s) => s.movieId === selectedMovieID)
-      );
-    }
-
-    // Case 3: No filters — show all
-    return cinema.halls || [];
+    return cinema.halls?.filter((hall) =>
+      hall.showtimes?.some((s) => {
+        const matchDate = selectedDate ? s.date === selectedDate : true;
+        const matchMovie = selectedMovieID ? s.movieId === selectedMovieID : true;
+        return matchDate && matchMovie;
+      })
+    );
   }, [cinema, selectedDate, selectedMovieID]);
 
-  // -----------------------------
-  // Loading & empty state handling
-  // -----------------------------
+  // ---------------------------------------
+  // RENDER STATES
+  // ---------------------------------------
   if (loading && !cinema) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -136,13 +133,11 @@ export default function CinemaDetailPage() {
   if (!selectedDate) {
     return (
       <Container className="my-4">
-        {/* Page header with back navigation */}
         <PageHeader
           title={tCinemas("cinemaDetails")}
           leftActions={<BackButton variant="outline-light" icon="angle-left" />}
         />
 
-        {/* Cinema info section */}
         <CinemaHeroCard cinema={cinema} tCinemas={tCinemas} />
 
         <Alert variant="danger" className="text-center fs-3 py-5 my-5">
@@ -152,22 +147,19 @@ export default function CinemaDetailPage() {
     );
   }
 
-  // -----------------------------
-  // Main render
-  // -----------------------------
+  // ---------------------------------------
+  // MAIN RENDER
+  // ---------------------------------------
   return (
     <Container className="my-4">
-      {/* Page header with back navigation */}
       <PageHeader
         title={tCinemas("cinemaDetails")}
         leftActions={<BackButton variant="outline-light" icon="angle-left" />}
       />
 
-      {/* Cinema info section */}
       <CinemaHeroCard cinema={cinema} tCinemas={tCinemas} />
 
       <Row className="mt-5">
-        {/* Movie list section with date selector */}
         <Col xs={12} className="mb-4">
           {allDates.length > 0 ? (
             <div className="d-flex gap-3 align-items-center">
@@ -196,7 +188,6 @@ export default function CinemaDetailPage() {
           />
         </Col>
 
-        {/* Hall list section */}
         <Col xs={12}>
           {filteredHalls?.length > 0 ? (
             <HallList

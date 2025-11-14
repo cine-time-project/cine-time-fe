@@ -13,7 +13,7 @@ const STATUSES = ["COMING_SOON", "IN_THEATERS", "PRESALE"];
 const SPECIAL_HALLS = ["IMAX", "4DX", "VIP", "Standard"];
 
 export default function FiltersSidebar({ filters, onChange }) {
-  const t = useTranslations("movies");
+  const t = useTranslations();
 
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState(filters.genre || []);
@@ -34,7 +34,8 @@ export default function FiltersSidebar({ filters, onChange }) {
     const value = e.target.value;
     setReleaseDate(value);
     const date = new Date(value);
-    if (value && isNaN(date.getTime())) setReleaseDateError(t("invalidDate"));
+    if (value && isNaN(date.getTime()))
+      setReleaseDateError(t("movies.movies.invalidDate"));
     else setReleaseDateError("");
   };
 
@@ -60,13 +61,25 @@ export default function FiltersSidebar({ filters, onChange }) {
     onChange({});
   };
 
+  const isClearDisabled =
+    selectedGenres.length === 0 &&
+    status === "" &&
+    ratingRange[0] === 0 &&
+    ratingRange[1] === 10 &&
+    releaseDate === "" &&
+    specialHall === "";
+
+  const isApplyDisabled = isClearDisabled || !!releaseDateError;
+
   return (
     <Form className={styles.sidebar}>
       {/* 🎭 Genre Selection */}
       <Form.Group className="mb-4">
-        <Form.Label>{t("genres")}</Form.Label>
+        <Form.Label>{t("movies.genres")}</Form.Label>
         <div className={styles.genreButtons}>
           {genres.map((g) => {
+            const genreKey = g.toLowerCase().replace(/\s+/g, "_"); // "Science Fiction" -> "science_fiction"
+            const translated = t(`genres.${genreKey}`); // i18n key’den çeviri al
             const isSelected = selectedGenres.includes(g);
             return (
               <label
@@ -75,7 +88,7 @@ export default function FiltersSidebar({ filters, onChange }) {
                   isSelected ? styles.genreBtnActive : ""
                 }`}
               >
-                {g}
+                {translated || g}
                 <input
                   type="checkbox"
                   value={g}
@@ -97,13 +110,13 @@ export default function FiltersSidebar({ filters, onChange }) {
 
       {/* 🎬 Status */}
       <Form.Group className="mb-4">
-        <Form.Label>{t("statusLabel")}</Form.Label>
+        <Form.Label>{t("movies.statusLabel")}</Form.Label>
         <Form.Select
           className={styles.select}
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
-          <option value="">{t("all")}</option>
+          <option value="">{t("movies.all")}</option>
           {STATUSES.map((s) => (
             <option key={s} value={s}>
               {s.replace("_", " ")}
@@ -115,7 +128,7 @@ export default function FiltersSidebar({ filters, onChange }) {
       {/* ⭐ Rating */}
       <Form.Group className="mb-4">
         <Form.Label>
-          {t("rating")}: {ratingRange[0]} - {ratingRange[1]}
+          {t("movies.rating")}: {ratingRange[0]} - {ratingRange[1]}
         </Form.Label>
         <Slider
           value={ratingRange}
@@ -130,7 +143,7 @@ export default function FiltersSidebar({ filters, onChange }) {
 
       {/* 📅 Release Date */}
       <Form.Group className="mb-4">
-        <Form.Label>{t("releaseDateAfter")}</Form.Label>
+        <Form.Label>{t("movies.releaseDateAfter")}</Form.Label>
         <Form.Control
           type="date"
           value={releaseDate}
@@ -145,13 +158,13 @@ export default function FiltersSidebar({ filters, onChange }) {
 
       {/* 🏛️ Special Halls */}
       <Form.Group className="mb-4">
-        <Form.Label>{t("specialHalls")}</Form.Label>
+        <Form.Label>{t("movies.specialHalls")}</Form.Label>
         <Form.Select
           className={styles.select}
           value={specialHall}
           onChange={(e) => setSpecialHall(e.target.value)}
         >
-          <option value="">{t("all")}</option>
+          <option value="">{t("movies.all")}</option>
           {SPECIAL_HALLS.map((hall) => (
             <option key={hall} value={hall}>
               {hall}
@@ -163,8 +176,13 @@ export default function FiltersSidebar({ filters, onChange }) {
       {/* 🎯 Buttons */}
       <Row className="mt-4">
         <Col>
-          <Button variant="secondary" onClick={handleClear} className={styles.clearBtn}>
-            {t("clear")}
+          <Button
+            variant="secondary"
+            onClick={handleClear}
+            className={styles.clearBtn}
+             disabled={isClearDisabled}
+          >
+            {t("movies.clear")}
           </Button>
         </Col>
         <Col>
@@ -172,9 +190,9 @@ export default function FiltersSidebar({ filters, onChange }) {
             variant="primary"
             onClick={handleApply}
             className={styles.applyBtn}
-            disabled={!!releaseDateError}
+            disabled={isApplyDisabled}
           >
-            {t("apply")}
+            {t("movies.apply")}
           </Button>
         </Col>
       </Row>

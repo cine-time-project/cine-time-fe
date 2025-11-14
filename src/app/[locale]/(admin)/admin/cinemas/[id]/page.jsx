@@ -1,15 +1,8 @@
 "use client";
 
-import React from "react";
-import {
-  Spinner,
-  Container,
-  Row,
-  Col,
-  Card,
-} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Spinner, Container, Row, Col, Card } from "react-bootstrap";
 
-import HallList from "@/components/dashboard/cinema/detail/HallList";
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
 import { CinemaImageUploader } from "@/components/dashboard/cinema/new/CinemaImageUploader";
@@ -30,12 +23,34 @@ export default function AdminCinemaDetailPage() {
   // -----------------------------
   // Local state
   // -----------------------------
+  const [movies, setMovies] = useState([]);
+
   const {
     cinema,
+    setCinema,
     loading,
     canEdit, // Determines if user has edit permissions
     refreshCinema, // Function to refetch & refresh cinema data
   } = useCinemaDetails(id);
+
+  // ---------------------------------------
+  // Extract uniq movies from showtimes
+  // ---------------------------------------
+  useEffect(() => {
+    if (!cinema) return;
+
+    // --- Extract uniq movies from showtimes ---
+    const uniqMovies = Object.values(
+      cinema.halls
+        ?.flatMap((hall) => hall.showtimes?.map((s) => s.movie) || [])
+        .reduce((acc, movie) => {
+          if (movie && !acc[movie.id]) acc[movie.id] = movie;
+          return acc;
+        }, {}) || {}
+    );
+
+    setMovies(uniqMovies);
+  }, [cinema]);
 
   if (loading)
     return (
@@ -46,6 +61,8 @@ export default function AdminCinemaDetailPage() {
 
   if (!cinema)
     return <p className="text-center mt-5">{tCinemas("noCinemaData")}</p>;
+
+  console.log(cinema);
 
   // -----------------------------
   // Main render
@@ -82,8 +99,8 @@ export default function AdminCinemaDetailPage() {
               <CinemaImageUploader
                 tCinemas={tCinemas}
                 cinema={cinema}
-                refreshCinema={refreshCinema}
                 token={token}
+                refreshCinema={refreshCinema}
               />
             </Col>
 
@@ -95,7 +112,7 @@ export default function AdminCinemaDetailPage() {
                 cinema={cinema}
                 locale="en"
                 isEditMode={true}
-                refreshCinema={refreshCinema} // parent state update callback
+                setCinema={setCinema} // parent state update callback
               />
             </Col>
           </Row>
@@ -104,7 +121,7 @@ export default function AdminCinemaDetailPage() {
 
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieListDashboardTable movies={cinema.movies || []} tCinemas={tCinemas} />
+          <MovieListDashboardTable movies={movies || []} />
         </Col>
 
         <Col xs={12}>

@@ -26,7 +26,14 @@ import { Card, Col, Form, Row } from "react-bootstrap";
  *  - isEditMode: Boolean indicating if the form is in edit mode
  *  - setCinema: Callback to update parent state after edit
  */
-export function CinemaForm({ cinema, token, locale, isEditMode, refreshCinema, tCinemas }) {
+export function CinemaForm({
+  cinema,
+  token,
+  locale,
+  isEditMode,
+  setCinema,
+  tCinemas,
+}) {
   const router = useRouter();
 
   // -----------------------------
@@ -56,14 +63,26 @@ export function CinemaForm({ cinema, token, locale, isEditMode, refreshCinema, t
   const handleSubmit = async () => {
     // Validation: token must exist
     if (!token) {
-      return Swal.fire(`${tCinemas("error")}`, `${tCinemas("authTokenMissing")}`, "error");
+      return Swal.fire(
+        `${tCinemas("error")}`,
+        `${tCinemas("authTokenMissing")}`,
+        "error"
+      );
     }
     // Validation: name must be filled
     if (!name.trim())
-      return Swal.fire(`${tCinemas("error")}`, `${tCinemas("cinemaNameRequired")}`, "error");
+      return Swal.fire(
+        `${tCinemas("error")}`,
+        `${tCinemas("cinemaNameRequired")}`,
+        "error"
+      );
     // Validation: city must be selected
     if (!selectedCityId)
-      return Swal.fire(`${tCinemas("error")}`, `${tCinemas("selectCity")}`, "error");
+      return Swal.fire(
+        `${tCinemas("error")}`,
+        `${tCinemas("selectCity")}`,
+        "error"
+      );
 
     setSaving(true); // disable submit button and show spinner
     try {
@@ -79,9 +98,16 @@ export function CinemaForm({ cinema, token, locale, isEditMode, refreshCinema, t
 
         Swal.fire(`${tCinemas("updateSuccessful")}`, "success");
 
-        // Refresh parent state from backend after update
-        await getDetailedCinema(cinema.id, token);
-        refreshCinema();
+        setCinema((prev) => ({
+          ...prev,
+          name,
+          slug,
+          city: {
+            ...prev.city,
+            id: selectedCityId,
+            // city.name gibi başka alanlar da buraya eklenebilir
+          },
+        }));
       } else {
         // -----------------------------
         // Create new cinema
@@ -101,7 +127,11 @@ export function CinemaForm({ cinema, token, locale, isEditMode, refreshCinema, t
         );
       }
     } catch (err) {
-      Swal.fire(`${tCinemas("error")}`, err.response?.data?.message || err.message, "error");
+      Swal.fire(
+        `${tCinemas("error")}`,
+        err.response?.data?.message || err.message,
+        "error"
+      );
     } finally {
       setSaving(false); // re-enable button
     }
