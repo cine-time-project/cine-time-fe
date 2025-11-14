@@ -40,6 +40,8 @@ export default function AdminCinemasPage() {
   if (loading) return <p>{tCinemas("loading")}</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
+  console.log(cinemas);
+
   return (
     <div className="p-3">
       <PageHeader title={tCinemas("listTitle")} leftActions={<BackButton title={tCinemas("back")}/>} />

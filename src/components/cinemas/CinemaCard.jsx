@@ -8,7 +8,7 @@ export default function CinemaCard({ cinema, L, t }) {
   
   if (!cinema) return null;
 
-  const imageUrl = resolveCinemaImage(cinema) || "";
+  const imageUrl = cinema?.cinemaImageUrl || cinema?.imageUrl || "";
   const city = cinema.city?.name || "";
   const detailHref = L(`cinemas/${cinema.id}`);
 

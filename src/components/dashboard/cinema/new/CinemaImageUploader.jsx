@@ -5,19 +5,21 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Spinner, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) => {
+export const CinemaImageUploader = ({ cinema, token, tCinemas }) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [inputKey, setInputKey] = useState(Date.now()); // input reset için
 
+  const imageUrl = cinema?.cinemaImageUrl || cinema?.imageUrl || null;
+
   // 🎬 Eğer edit modundaysak mevcut resmi göster
   useEffect(() => {
-    if (cinema?.cinemaImageUrl) {
+    if (imageUrl) {
       setIsUpdate(true);
     }
-    setPreviewUrl(cinema?.cinemaImageUrl || null);
+    setPreviewUrl(imageUrl);
   }, [cinema]);
 
   const handleFileChange = (e) => {
@@ -33,8 +35,8 @@ export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) 
   const handleCancel = () => {
     setFile(null);
 
-    if (isUpdate && cinema?.cinemaImageUrl) {
-      setPreviewUrl(cinema.cinemaImageUrl);
+    if (isUpdate && imageUrl) {
+      setPreviewUrl(imageUrl);
     } else {
       setPreviewUrl(null);
     }
@@ -62,7 +64,7 @@ export const CinemaImageUploader = ({ cinema, token, refreshCinema, tCinemas }) 
       await uploadImage(cinema.id, file, token);
 
      
-      setPreviewUrl(cinema.cinemaImageUrl);
+      setPreviewUrl(imageUrl);
 
       Swal.fire(`${tCinemas("imageUploadSuccess")}`, "success");
       setFile(null);

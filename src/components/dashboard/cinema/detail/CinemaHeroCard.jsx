@@ -6,7 +6,7 @@ import "./cinema-hero-card.scss";
 export const CinemaHeroCard = ({ cinema, tCinemas }) => {
   if (!cinema) return null;
 
-  const imageUrl = cinema.imageUrl || "";
+  const imageUrl = cinema.cinemaImageUrl || cinema.imageUrl || "";
   const country = cinema.city?.countryMiniResponse?.name || "";
   const city = cinema.city?.name || "";
 

@@ -101,7 +101,7 @@ export const CinemaTable = ({
         <Column header="#" body={indexBody} style={{ width: "4rem" }} />
         <Column
           header={translate("image")}
-          body={(row) => <CinemaImage url={row.imageUrl} />}
+          body={(row) => <CinemaImage url={row?.cinemaImageUrl || row?.imageUrl} />}
         />
         <Column field="id" header="ID" sortable />
         <Column field="name" header={translate("name")} sortable />

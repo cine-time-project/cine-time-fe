@@ -1,13 +1,7 @@
 "use client";
 
-import React from "react";
-import {
-  Spinner,
-  Container,
-  Row,
-  Col,
-  Card,
-} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Spinner, Container, Row, Col, Card } from "react-bootstrap";
 
 import { PageHeader } from "@/components/common/page-header/PageHeader";
 import { CinemaForm } from "@/components/dashboard/cinema/new/CinemaForm";
@@ -29,6 +23,8 @@ export default function AdminCinemaDetailPage() {
   // -----------------------------
   // Local state
   // -----------------------------
+  const [movies, setMovies] = useState([]);
+
   const {
     cinema,
     setCinema,
@@ -36,6 +32,25 @@ export default function AdminCinemaDetailPage() {
     canEdit, // Determines if user has edit permissions
     refreshCinema, // Function to refetch & refresh cinema data
   } = useCinemaDetails(id);
+
+  // ---------------------------------------
+  // Extract uniq movies from showtimes
+  // ---------------------------------------
+  useEffect(() => {
+    if (!cinema) return;
+
+    // --- Extract uniq movies from showtimes ---
+    const uniqMovies = Object.values(
+      cinema.halls
+        ?.flatMap((hall) => hall.showtimes?.map((s) => s.movie) || [])
+        .reduce((acc, movie) => {
+          if (movie && !acc[movie.id]) acc[movie.id] = movie;
+          return acc;
+        }, {}) || {}
+    );
+
+    setMovies(uniqMovies);
+  }, [cinema]);
 
   if (loading)
     return (
@@ -84,7 +99,6 @@ export default function AdminCinemaDetailPage() {
               <CinemaImageUploader
                 tCinemas={tCinemas}
                 cinema={cinema}
-                refreshCinema={refreshCinema}
                 token={token}
               />
             </Col>
@@ -106,7 +120,7 @@ export default function AdminCinemaDetailPage() {
 
       <Row className="mt-4">
         <Col xs={12} className="mb-4">
-          <MovieListDashboardTable movies={cinema.movies || []} />
+          <MovieListDashboardTable movies={movies || []} />
         </Col>
 
         <Col xs={12}>
