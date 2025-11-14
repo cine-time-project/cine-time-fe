@@ -1,10 +1,17 @@
 "use server";
 
-import {response,transformFormDataToJSON,transformYupErrors,YupValidationError,
+import {
+  response,
+  transformFormDataToJSON,
+  transformYupErrors,
+  YupValidationError,
 } from "@/helpers/data/form-validation";
 import { revalidatePath } from "next/cache";
 import { MovieSchema } from "@/helpers/schemas/movie-schema";
-import {updateMovie,deleteMovieServer,createMovie,
+import {
+  updateMovie,
+  deleteMovieServer,
+  createMovie,
 } from "@/service/movie-service.server";
 
 export const deleteMovieAction = async (id, locale, token) => {
@@ -20,7 +27,6 @@ export const deleteMovieAction = async (id, locale, token) => {
     return response(false, error.message, null);
   }
 };
-
 
 export const createMovieAction = async (prevState, formData) => {
   try {
@@ -87,7 +93,6 @@ export const createMovieAction = async (prevState, formData) => {
   }
 };
 
-
 export const updateMovieAction = async (prevState, formData) => {
   if (!formData.get("id")) throw new Error("Movie ID is missing");
   let isSuccess = false;
@@ -130,7 +135,7 @@ export const updateMovieAction = async (prevState, formData) => {
 
       return {
         ok: false,
-        message: "Please fill in the required fields.",
+        message: "Lütfen zorunlu alanları doldurunuz.",
         errors,
       };
     }

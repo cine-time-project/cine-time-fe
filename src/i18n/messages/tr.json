@@ -1272,7 +1272,8 @@
     "successCreateMovie": "Film başarıyla oluşturuldu.",
     "needAdminToEdit": "Düzenlemek için yönetici olmanız gerekiyor",
     "needAdminToDelete": "Silmek için yönetici olmanız gerekiyor",
-    "needAdmin": "Yönetici olmanız gerekiyor"
+    "needAdmin": "Yönetici olmanız gerekiyor",
+    "fillRequiredFields": "Lütfen zorunlu alanları doldurun."
   },
 
   "users": {

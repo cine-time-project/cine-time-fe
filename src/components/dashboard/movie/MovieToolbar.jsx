@@ -23,7 +23,17 @@ export const MovieToolbar = ({ row, locale, onDeleted, isAdmin }) => {
     const token = getToken();
 
     const res = await deleteMovieAction(id, locale, token);
-    swAlert(res.message, res.ok ? "success" : "error").then(() => {
+
+    let translatedMessage = res.message;
+    if (res.message === "Movie deleted successfully") {
+      translatedMessage = t("successDelete");
+    } else if (res.message === "Movie created successfully") {
+      translatedMessage = t("successCreateMovie");
+    } else if (res.message === "Movie updated successfully") {
+      translatedMessage = t("successUpdate");
+    }
+
+    swAlert(translatedMessage, res.ok ? "success" : "error").then(() => {
       if (res.ok && typeof onDeleted === "function") {
         onDeleted(id);
       }
