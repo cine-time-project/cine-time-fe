@@ -370,6 +370,25 @@
     }
   },
 
+  "genres": {
+      "action": "Aksiyon",
+      "adventure": "Macera",
+      "animation": "Animasyon",
+      "comedy": "Komedi",
+      "crime": "Suç",
+      "drama": "Drama",
+      "family": "Aile",
+      "fantasy": "Fantastik",
+      "history": "Tarih",
+      "horror": "Korku",
+      "music": "Müzik",
+      "mystery": "Gizem",
+      "romance": "Romantik",
+      "science_fiction": "Bilim Kurgu",
+      "thriller": "Gerilim",
+      "war": "Savaş"
+    },
+
   "cinemas": {
     "listTitle": "Sinemalar",
     "address": "Adres",
