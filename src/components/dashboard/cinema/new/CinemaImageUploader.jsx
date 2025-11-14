@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Spinner, Image } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export const CinemaImageUploader = ({ cinema, token, tCinemas }) => {
+export const CinemaImageUploader = ({ cinema, token, tCinemas, refreshCinema }) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -62,9 +62,7 @@ export const CinemaImageUploader = ({ cinema, token, tCinemas }) => {
     try {
       // 1️⃣ Upload image
       await uploadImage(cinema.id, file, token);
-
-     
-      setPreviewUrl(imageUrl);
+      refreshCinema();
 
       Swal.fire(`${tCinemas("imageUploadSuccess")}`, "success");
       setFile(null);

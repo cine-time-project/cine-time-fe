@@ -100,6 +100,7 @@ export default function AdminCinemaDetailPage() {
                 tCinemas={tCinemas}
                 cinema={cinema}
                 token={token}
+                refreshCinema={refreshCinema}
               />
             </Col>
 
