@@ -1705,5 +1705,36 @@
       "noShowtimes": "Keine Vorstellungen",
       "selectDateHint": "Bitte ein Datum auswählen."
     }
-  }
+  },
+ "favoritesAdmin": {
+  "title": "Favoriten",
+  "moviesWithCounts": "Filme und Favoritenanzahl",
+  "addNewFavorite": "Neuen Favoriten hinzufügen",
+  "seeUsers": "Benutzer anzeigen",
+  "loading": "Wird geladen...",
+  "error": "Daten konnten nicht geladen werden.",
+  "noFavorites": "Keine Lieblingsfilme gefunden.",
+
+  "usersTitle": "Benutzer, die diesen Film favorisiert haben",
+  "back": "Zurück",
+  "noUsers": "Bisher hat niemand diesen Film favorisiert.",
+  "favorite": "Favorit",
+
+  "table": {
+    "idx": "#",
+    "name": "Name",
+    "email": "E-Mail"
+  },
+
+  "newFavoriteTitle": "Neuen Lieblingsfilm hinzufügen",
+  "searchLabel": "Film suchen",
+  "searchPlaceholder": "Nach Titel suchen (z. B. Matrix)",
+  "selectMovie": "Bitte einen Film auswählen.",
+  "adding": "Wird hinzugefügt…",
+  "success": "Film wurde zu den Favoriten hinzugefügt!",
+  "addButton": "Zu Favoriten hinzufügen",
+  "cancel": "Abbrechen"
+}
+
+
 }
