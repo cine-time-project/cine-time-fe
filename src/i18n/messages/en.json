@@ -1678,5 +1678,36 @@
       "noShowtimes": "No showtimes",
       "selectDateHint": "Please select a date."
     }
-  }
+  },
+ "favoritesAdmin": {
+  "title": "Favorites",
+  "moviesWithCounts": "Movies and Favorite Counts",
+  "addNewFavorite": "Add New Favorite",
+  "seeUsers": "View Users Who Favorited",
+  "loading": "Loading...",
+  "error": "Failed to load data.",
+  "noFavorites": "No favorite movies found.",
+
+  "usersTitle": "Users who favorited this movie",
+  "back": "Back",
+  "noUsers": "No one has favorited this movie yet.",
+  "favorite": "Favorite",
+
+  "table": {
+    "idx": "#",
+    "name": "Name",
+    "email": "Email"
+  },
+
+  "newFavoriteTitle": "Add New Favorite Movie",
+  "searchLabel": "Search Movie",
+  "searchPlaceholder": "Search by title (e.g. Matrix)",
+  "selectMovie": "Please select a movie.",
+  "adding": "Adding…",
+  "success": "Movie added to favorites!",
+  "addButton": "Add to Favorites",
+  "cancel": "Cancel"
+}
+
+
 }

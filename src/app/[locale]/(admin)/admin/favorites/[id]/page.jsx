@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import Link from "next/link";
 import { config } from "@/helpers/config";
+import { useTranslations } from "next-intl";
 
 export default function FavoriteUsersPage() {
   const router = useRouter();
@@ -15,6 +16,9 @@ export default function FavoriteUsersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // ✔ FAVORITES ADMIN çeviri namespace
+  const t = useTranslations("favoritesAdmin");
+
   useEffect(() => {
     fetchUsers();
   }, [id]);
@@ -23,16 +27,17 @@ export default function FavoriteUsersPage() {
     try {
       setLoading(true);
       const token = localStorage.getItem("authToken");
-      if (!token) throw new Error("Oturum geçersiz. Lütfen giriş yapın.");
+      if (!token) throw new Error(t("sessionExpired"));
 
       const res = await fetch(`${API_BASE}/favorites/movies/${id}/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error("Kullanıcı listesi alınamadı");
+      if (!res.ok) throw new Error(t("errorUsers"));
+
       const data = await res.json();
       setUsers(data);
     } catch (e) {
-      setError(e.message);
+      setError(e.message || t("errorGeneric"));
     } finally {
       setLoading(false);
     }
@@ -42,7 +47,7 @@ export default function FavoriteUsersPage() {
     return (
       <div className="container text-center py-5">
         <div className="spinner-border text-warning" role="status"></div>
-        <p className="mt-3">Yükleniyor...</p>
+        <p className="mt-3">{t("loading")}</p>
       </div>
     );
 
@@ -56,24 +61,24 @@ export default function FavoriteUsersPage() {
   return (
     <div className="container py-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="mb-0">👥 Bu filmi favorileyen kullanıcılar</h2>
+        <h2 className="mb-0">👥 {t("usersTitle")}</h2>
         <Link
           href={`/${locale}/admin/favorites`}
           className="btn btn-outline-secondary btn-sm"
         >
-          ← Geri dön
+          ← {t("back")}
         </Link>
       </div>
 
       {users.length === 0 ? (
-        <p className="text-muted">Bu filmi henüz kimse favorilememiş.</p>
+        <p className="text-muted">{t("noUsers")}</p>
       ) : (
         <table className="table table-hover">
           <thead>
             <tr>
               <th>#</th>
-              <th>Ad Soyad</th>
-              <th>Email</th>
+              <th>{t("table.name")}</th>
+              <th>{t("table.email")}</th>
             </tr>
           </thead>
           <tbody>

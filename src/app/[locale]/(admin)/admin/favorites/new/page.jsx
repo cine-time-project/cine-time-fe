@@ -3,12 +3,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { config } from "@/helpers/config";
+import { useTranslations } from "next-intl";
 
 export default function NewFavoritePage() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = pathname.split("/")[1] || "tr";
-   const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || config.apiURL;
 
   const [query, setQuery] = useState("");
   const [options, setOptions] = useState([]);
@@ -19,7 +20,10 @@ export default function NewFavoritePage() {
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const observerRef = useRef(null); // scroll tespiti için
+  const observerRef = useRef(null);
+
+  // ✔ FAVORITES TRANSLATION
+  const t = useTranslations("favoritesAdmin");
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -27,11 +31,10 @@ export default function NewFavoritePage() {
   }, []);
 
   useEffect(() => {
-    fetchMovies(0, true); // ilk sayfa yükle
+    fetchMovies(0, true);
   }, [query]);
 
   useEffect(() => {
-    // scroll tespiti
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !loading) {
@@ -40,6 +43,7 @@ export default function NewFavoritePage() {
       },
       { threshold: 0.8 }
     );
+
     if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
   }, [observerRef.current, hasMore, loading, page]);
@@ -53,7 +57,8 @@ export default function NewFavoritePage() {
       url.searchParams.set("size", "12");
 
       const res = await fetch(url.toString());
-      if (!res.ok) throw new Error("Filmler alınamadı");
+      if (!res.ok) throw new Error(t("moviesError"));
+
       const data = await res.json();
       const pageData = data.returnBody || {};
       const list = Array.isArray(pageData?.content) ? pageData.content : [];
@@ -72,7 +77,7 @@ export default function NewFavoritePage() {
       if (reset) setOptions(mapped);
       else setOptions((prev) => [...prev, ...mapped]);
     } catch (e) {
-      setError(e.message || "Filmler yüklenemedi");
+      setError(e.message || t("moviesError"));
     } finally {
       setLoading(false);
     }
@@ -89,12 +94,9 @@ export default function NewFavoritePage() {
     setSuccess("");
 
     const token = localStorage.getItem("authToken");
-    if (!token) {
-      router.replace(`/${locale}/login`);
-      return;
-    }
+    if (!token) return router.replace(`/${locale}/login`);
     if (!selectedId) {
-      setError("Lütfen bir film seçin.");
+      setError(t("selectMovie"));
       return;
     }
 
@@ -104,15 +106,17 @@ export default function NewFavoritePage() {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
+
       if (!res.ok) {
-        const t = await res.text().catch(() => "");
-        throw new Error(t || "Favori eklenemedi");
+        const text = await res.text().catch(() => "");
+        throw new Error(text || t("addError"));
       }
-      setSuccess("✅ Film favorilere eklendi!");
-      // 2 saniye sonra favoriler sayfasına dön
+
+      setSuccess(t("addSuccess"));
+
       setTimeout(() => router.push(`/${locale}/admin/favorites`), 2000);
     } catch (err) {
-      setError(err.message || "Favori eklenemedi");
+      setError(err.message || t("addError"));
     } finally {
       setAdding(false);
     }
@@ -121,22 +125,22 @@ export default function NewFavoritePage() {
   return (
     <div className="container py-5" style={{ maxWidth: 820 }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="mb-0">➕ Yeni Favori Film Ekle</h2>
+        <h2 className="mb-0">➕ {t("newFavoriteTitle")}</h2>
         <Link
           href={`/${locale}/admin/favorites`}
           className="btn btn-outline-secondary btn-sm"
         >
-          ← Geri dön
+          ← {t("back")}
         </Link>
       </div>
 
       <form onSubmit={addFavorite} className="card p-4 shadow-sm border-0">
         <div className="mb-3">
-          <label className="form-label">Film Ara</label>
+          <label className="form-label">{t("searchLabel")}</label>
           <input
             type="text"
             className="form-control"
-            placeholder="Başlıkla ara (örn. Matrix)"
+            placeholder={t("searchPlaceholder")}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -153,7 +157,7 @@ export default function NewFavoritePage() {
           <ul className="list-group list-group-flush">
             {options.length === 0 && !loading ? (
               <li className="list-group-item text-muted small">
-                Sonuç bulunamadı.
+                {t("noResults")}
               </li>
             ) : (
               options.map((m, idx) => (
@@ -186,9 +190,10 @@ export default function NewFavoritePage() {
               ))
             )}
           </ul>
+
           <div ref={observerRef} className="text-center py-3">
             {loading && (
-              <div className="text-muted small">⏳ Yükleniyor...</div>
+              <div className="text-muted small">⏳ {t("loading")}</div>
             )}
           </div>
         </div>
@@ -223,15 +228,15 @@ export default function NewFavoritePage() {
             type="submit"
             className="btn btn-primary"
             disabled={!selectedId || adding}
-            style={{ backgroundColor: "#0d6efd", border: "none" }}
           >
-            {adding ? "Ekleniyor…" : "Favoriye Ekle"}
+            {adding ? t("adding") : t("addButton")}
           </button>
+
           <Link
             href={`/${locale}/admin/favorites`}
             className="btn btn-outline-secondary"
           >
-            İptal
+            {t("cancel")}
           </Link>
         </div>
       </form>

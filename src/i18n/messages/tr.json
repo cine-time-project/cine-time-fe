@@ -1686,4 +1686,36 @@
     "noShowtimes": "Seans yok",
     "selectDateHint": "Bir tarih seçiniz."
   }
-  }}
+  },
+"favoritesAdmin": {
+  "title": "Favoriler",
+  "moviesWithCounts": "Filmler ve Favori Sayıları",
+  "addNewFavorite": "Yeni Favori Ekle",
+  "seeUsers": "Favorileyenleri Gör",
+  "loading": "⏳ Yükleniyor...",
+  "error": "Veri alınamadı.",
+  "noFavorites": "Henüz favori film bulunmuyor.",
+
+  "usersTitle": "Bu filmi favorileyen kullanıcılar",
+  "back": "Geri dön",
+  "noUsers": "Bu filmi henüz kimse favorilememiş.",
+  "favorite": "Favori",
+
+  "table": {
+    "idx": "#",
+    "name": "Ad Soyad",
+    "email": "Email"
+  },
+
+  "newFavoriteTitle": "Yeni Favori Film Ekle",
+  "searchLabel": "Film Ara",
+  "searchPlaceholder": "Başlıkla ara (örn. Matrix)",
+  "selectMovie": "Lütfen bir film seçin.",
+  "adding": "Ekleniyor…",
+  "success": "Film favorilere eklendi!",
+  "addButton": "Favoriye Ekle",
+  "cancel": "İptal"
+}
+
+
+}
